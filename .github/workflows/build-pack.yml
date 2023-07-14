@@ -8,8 +8,8 @@ on:
 
   workflow_dispatch:
     inputs:
-      nuget_filemanagement:
-        description: "NuGet: file-manage"
+      nuget:
+        description: "NuGet"
         required: true
         type: boolean
         default: false
@@ -56,7 +56,7 @@ jobs:
           dotnet pack --no-build --no-restore -c Release --property:PackageOutputPath=${{github.workspace}}/pack_output file-management.sln
 
       - name: Push package
-        # if: ${{ env.nuget_filemanagement == 'true' }}
+        if: ${{ env.nuget == 'true' }}
         run: dotnet nuget push ./pack_output/*.nupkg --skip-duplicate --api-key ${{secrets.NUGET_TOKEN}} --source https://api.nuget.org/v3/index.json
 
       # - name: Create Release
