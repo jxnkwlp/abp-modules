@@ -2,14 +2,14 @@
 # yarn lockfile v1
 
 
-"@abp/aspnetcore.mvc.ui.theme.leptonxlite@~2.2.1":
-  version "2.2.2"
-  resolved "https://registry.npmmirror.com/@abp/aspnetcore.mvc.ui.theme.leptonxlite/-/aspnetcore.mvc.ui.theme.leptonxlite-2.2.2.tgz#f8865d61620b1b86a79431889357f71a2b5a207a"
-  integrity sha512-eBJrWAYejLVUTjRH6o3jj6SVWVVy3yOAPdMd+9eTXjHJnr97epbOj+8f7cGqqccIM/Hwtk+xNLlBfLGZHdFXLg==
+"@abp/aspnetcore.mvc.ui.theme.basic@~7.2.3":
+  version "7.2.3"
+  resolved "https://registry.npmmirror.com/@abp/aspnetcore.mvc.ui.theme.basic/-/aspnetcore.mvc.ui.theme.basic-7.2.3.tgz#31f2dda74b2bf8f520caf97690e509fd1c1088c4"
+  integrity sha512-7DIwWrkLJSc2kXYcIcZH+EivpwOXzkO4j2yrUilK0OijoOM9Pa/iGStdNTPlYioOKUNti3/1zah+v5SELNdqIw==
   dependencies:
-    "@abp/aspnetcore.mvc.ui.theme.shared" "~7.2.1"
+    "@abp/aspnetcore.mvc.ui.theme.shared" "~7.2.3"
 
-"@abp/aspnetcore.mvc.ui.theme.shared@~7.2.1":
+"@abp/aspnetcore.mvc.ui.theme.shared@~7.2.3":
   version "7.2.3"
   resolved "https://registry.npmmirror.com/@abp/aspnetcore.mvc.ui.theme.shared/-/aspnetcore.mvc.ui.theme.shared-7.2.3.tgz#189dde88792497d29f76a6079dc6db34973ee98d"
   integrity sha512-+G2mM/BJWqgGqZFg6GP28PaCtq+YlRmRfg7r0JQ1wkAN9pc11yKm0LRQjFnkcVBzg0A+N2hZqnFbW7wQhwXOHg==

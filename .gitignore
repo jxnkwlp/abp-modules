@@ -252,14 +252,14 @@ paket-files/
 *.sln.iml
 
 # AbpSample
-src/AbpSample.Web/Logs/*
-src/AbpSample.Web.Host/Logs/*
-src/AbpSample.AuthServer/Logs/*
-src/AbpSample.HttpApi.Host/Logs/*
-src/AbpSample.HttpApi.Host/Logs/*
-src/AbpSample.DbMigrator/Logs/*
-src/AbpSample.Blazor.Server/Logs/*
-src/AbpSample.Blazor.Server.Tiered/Logs/*
+host/src/AbpSample.Web/Logs/*
+host/src/AbpSample.Web.Host/Logs/*
+host/src/AbpSample.AuthServer/Logs/*
+host/src/AbpSample.HttpApi.Host/Logs/*
+host/src/AbpSample.HttpApi.Host/Logs/*
+host/src/AbpSample.DbMigrator/Logs/*
+host/src/AbpSample.Blazor.Server/Logs/*
+host/src/AbpSample.Blazor.Server.Tiered/Logs/*
 
 # Use abp install-libs to restore.
 **/wwwroot/libs/*

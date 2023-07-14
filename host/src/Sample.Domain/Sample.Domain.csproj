@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\modules\file-management\src\Passingwind.Abp.FileManagement.Domain\Passingwind.Abp.FileManagement.Domain.csproj" />
     <ProjectReference Include="..\Sample.Domain.Shared\Sample.Domain.Shared.csproj" />
   </ItemGroup>
 

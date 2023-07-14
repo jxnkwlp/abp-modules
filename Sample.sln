@@ -43,8 +43,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.FileManagem
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.FileManagement.HttpApi.Client", "modules\file-management\src\Passingwind.Abp.FileManagement.HttpApi.Client\Passingwind.Abp.FileManagement.HttpApi.Client.csproj", "{36E2735F-CEAB-44C8-A6D1-2CDAFF399751}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.FileManagement.Installer", "modules\file-management\src\Passingwind.Abp.FileManagement.Installer\Passingwind.Abp.FileManagement.Installer.csproj", "{BE39FD00-745B-4049-8161-FC129817CBE4}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{099118E5-14DC-42A3-AC87-AECAFE06A1A9}"
 EndProject
 Global
@@ -121,10 +119,6 @@ Global
 		{36E2735F-CEAB-44C8-A6D1-2CDAFF399751}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36E2735F-CEAB-44C8-A6D1-2CDAFF399751}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36E2735F-CEAB-44C8-A6D1-2CDAFF399751}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BE39FD00-745B-4049-8161-FC129817CBE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BE39FD00-745B-4049-8161-FC129817CBE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BE39FD00-745B-4049-8161-FC129817CBE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BE39FD00-745B-4049-8161-FC129817CBE4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -148,7 +142,6 @@ Global
 		{F1C58097-4C08-4D88-8976-6B3389391481} = {099118E5-14DC-42A3-AC87-AECAFE06A1A9}
 		{077AA5F8-8B61-420C-A6B5-0150A66FDB34} = {099118E5-14DC-42A3-AC87-AECAFE06A1A9}
 		{36E2735F-CEAB-44C8-A6D1-2CDAFF399751} = {099118E5-14DC-42A3-AC87-AECAFE06A1A9}
-		{BE39FD00-745B-4049-8161-FC129817CBE4} = {099118E5-14DC-42A3-AC87-AECAFE06A1A9}
 		{099118E5-14DC-42A3-AC87-AECAFE06A1A9} = {DB8C2DD9-8574-494D-9C22-28043410E149}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

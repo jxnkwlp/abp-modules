@@ -1,0 +1,21 @@
+﻿using System;
+using Volo.Abp.ExceptionHandling;
+
+namespace Passingwind.Abp.FileManagement.Files;
+
+public class BlobNotFoundException : Exception, IHasHttpStatusCode
+{
+    public BlobNotFoundException() : base()
+    {
+    }
+
+    public BlobNotFoundException(string message) : base(message)
+    {
+    }
+
+    public BlobNotFoundException(string message, Exception innerException) : base(message, innerException)
+    {
+    }
+
+    public int HttpStatusCode => 404;
+}

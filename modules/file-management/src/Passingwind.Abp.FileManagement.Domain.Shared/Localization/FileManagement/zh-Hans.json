@@ -1,0 +1,18 @@
+{
+  "culture": "zh-Hans",
+    "texts": {
+        "FileManagement:ContainerExist": "容器 '{name}' 已存在",
+        "FileManagement:ContainerFileQuantitiesMaximumSurpass": "容器中文件太多",
+        "FileManagement:FileExists": "文件 '{fileName}' 已存在",
+        "FileManagement:FileExtensionNotAllowed": "不允许的文件扩展名 '{ext}'",
+        "FileManagement:FileLengthTooLarge": "文件大小太大",
+        "FileManagement:DownloadNotExistsOrExpired": "下载文件不存在或者链接已过期",
+
+        "Permission:FileManagement": "文件管理",
+        "Permission:FileContainer": "文件容器",
+        "Permission:FileContainer.Update": "更新",
+        "Permission:FileContainer.Delete": "删除",
+        "Permission:File": "文件",
+        "Permission:File.Delete": "删除"
+    }
+}

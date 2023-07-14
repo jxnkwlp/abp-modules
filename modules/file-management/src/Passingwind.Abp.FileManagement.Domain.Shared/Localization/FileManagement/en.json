@@ -1,0 +1,18 @@
+{
+    "culture": "en",
+    "texts": {
+        "FileManagement:ContainerExist": "The container '{name}' already exists",
+        "FileManagement:ContainerFileQuantitiesMaximumSurpass": "Too many file in container",
+        "FileManagement:FileExists": "The file '{fileName}' already exists",
+        "FileManagement:FileExtensionNotAllowed": "The file extension '{ext}' is not allowed",
+        "FileManagement:FileLengthTooLarge": "The file size is too large",
+        "FileManagement:DownloadNotExistsOrExpired": "The download file not exists or link expired",
+
+        "Permission:FileManagement": "File Management",
+        "Permission:FileContainer": "File Containers",
+        "Permission:FileContainer.Update": "Update",
+        "Permission:FileContainer.Delete": "Delete",
+        "Permission:File": "Files",
+        "Permission:File.Delete": "Delete"
+    }
+}

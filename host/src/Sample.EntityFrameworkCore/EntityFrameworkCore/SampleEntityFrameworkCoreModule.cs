@@ -12,6 +12,8 @@ using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using Passingwind.Abp.FileManagement;
+using Passingwind.Abp.FileManagement.EntityFrameworkCore;
 
 namespace Sample.EntityFrameworkCore;
 
@@ -27,6 +29,7 @@ namespace Sample.EntityFrameworkCore;
     typeof(AbpTenantManagementEntityFrameworkCoreModule),
     typeof(AbpFeatureManagementEntityFrameworkCoreModule)
     )]
+[DependsOn(typeof(PassingwindAbpFileManagementEntityFrameworkCoreModule))]
 public class SampleEntityFrameworkCoreModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)

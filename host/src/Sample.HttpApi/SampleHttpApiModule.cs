@@ -1,4 +1,5 @@
-﻿using Localization.Resources.AbpUi;
+using Localization.Resources.AbpUi;
+using Passingwind.Abp.FileManagement;
 using Sample.Localization;
 using Volo.Abp.Account;
 using Volo.Abp.FeatureManagement;
@@ -8,6 +9,7 @@ using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement.HttpApi;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
+using Volo.Abp.BlobStoring.FileSystem;
 
 namespace Sample;
 
@@ -20,7 +22,9 @@ namespace Sample;
     typeof(AbpFeatureManagementHttpApiModule),
     typeof(AbpSettingManagementHttpApiModule)
     )]
-public class SampleHttpApiModule : AbpModule
+[DependsOn(typeof(PassingwindAbpFileManagementHttpApiModule))]
+[DependsOn(typeof(AbpBlobStoringFileSystemModule))]
+    public class SampleHttpApiModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {

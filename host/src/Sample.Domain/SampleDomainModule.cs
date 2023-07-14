@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Passingwind.Abp.FileManagement;
 using Sample.MultiTenancy;
 using Volo.Abp.AuditLogging;
 using Volo.Abp.BackgroundJobs;
@@ -30,6 +31,7 @@ namespace Sample;
     typeof(AbpTenantManagementDomainModule),
     typeof(AbpEmailingModule)
 )]
+[DependsOn(typeof(PassingwindAbpFileManagementDomainModule))]
 public class SampleDomainModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)

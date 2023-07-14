@@ -8,22 +8,24 @@ using Microsoft.AspNetCore.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Sample.EntityFrameworkCore;
-using Sample.MultiTenancy;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Bundling;
 using Microsoft.OpenApi.Models;
 using OpenIddict.Validation.AspNetCore;
+using Passingwind.Abp.FileManagement;
+using Sample.EntityFrameworkCore;
+using Sample.MultiTenancy;
 using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.Account.Web;
 using Volo.Abp.AspNetCore.MultiTenancy;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
-using Volo.Abp.Localization;
+using Volo.Abp.BlobStoring;
+using Volo.Abp.BlobStoring.FileSystem;
 using Volo.Abp.Modularity;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.UI.Navigation.Urls;
@@ -42,6 +44,7 @@ namespace Sample;
     typeof(AbpAspNetCoreSerilogModule),
     typeof(AbpSwashbuckleModule)
 )]
+[DependsOn(typeof(PassingwindAbpFileManagementApplicationModule))]
 public class SampleHttpApiHostModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
@@ -69,6 +72,19 @@ public class SampleHttpApiHostModule : AbpModule
         ConfigureVirtualFileSystem(context);
         ConfigureCors(context, configuration);
         ConfigureSwaggerServices(context, configuration);
+
+        //context.Services.AddAlwaysAllowAuthorization();
+
+        Configure<AbpBlobStoringOptions>(options =>
+        {
+            options.Containers.ConfigureDefault(container =>
+            {
+                container.UseFileSystem(fileSystem =>
+                {
+                    fileSystem.BasePath = "C:\\my-files";
+                });
+            });
+        });
     }
 
     private void ConfigureAuthentication(ServiceConfigurationContext context)
@@ -78,16 +94,16 @@ public class SampleHttpApiHostModule : AbpModule
 
     private void ConfigureBundles()
     {
-        Configure<AbpBundlingOptions>(options =>
-        {
-            options.StyleBundles.Configure(
-                LeptonXLiteThemeBundles.Styles.Global,
-                bundle =>
-                {
-                    bundle.AddFiles("/global-styles.css");
-                }
-            );
-        });
+        //Configure<AbpBundlingOptions>(options =>
+        //{
+        //    options.StyleBundles.Configure(
+        //        LeptonXLiteThemeBundles.Styles.Global,
+        //        bundle =>
+        //        {
+        //            bundle.AddFiles("/global-styles.css");
+        //        }
+        //    );
+        //});
     }
 
     private void ConfigureUrls(IConfiguration configuration)
@@ -210,6 +226,8 @@ public class SampleHttpApiHostModule : AbpModule
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
             c.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
             c.OAuthScopes("Sample");
+            c.DisplayOperationId();
+            c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
         });
 
         app.UseAuditing();

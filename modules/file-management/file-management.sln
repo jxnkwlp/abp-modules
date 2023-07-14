@@ -1,0 +1,79 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33723.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4D237CB9-A9B0-468C-9EA1-C57AAA1E72C7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.FileManagement.Domain.Shared", "src\Passingwind.Abp.FileManagement.Domain.Shared\Passingwind.Abp.FileManagement.Domain.Shared.csproj", "{31A9127C-C471-4F73-8FCA-BDD0519986C8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.FileManagement.Domain", "src\Passingwind.Abp.FileManagement.Domain\Passingwind.Abp.FileManagement.Domain.csproj", "{0D00F944-53B6-42E9-A62D-53F5522C5E5D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.FileManagement.EntityFrameworkCore", "src\Passingwind.Abp.FileManagement.EntityFrameworkCore\Passingwind.Abp.FileManagement.EntityFrameworkCore.csproj", "{3ECA083D-5079-41E8-9E69-F19A825044D5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.FileManagement.MongoDB", "src\Passingwind.Abp.FileManagement.MongoDB\Passingwind.Abp.FileManagement.MongoDB.csproj", "{1BA20FF7-DDC0-4DE1-AD67-A221CE7EFC3A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.FileManagement.Application.Contracts", "src\Passingwind.Abp.FileManagement.Application.Contracts\Passingwind.Abp.FileManagement.Application.Contracts.csproj", "{61845F32-051F-42CC-A8BD-826E5CB5575F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.FileManagement.Application", "src\Passingwind.Abp.FileManagement.Application\Passingwind.Abp.FileManagement.Application.csproj", "{9DAFDB79-0808-40DC-8FFA-CB98E91D1B6D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.FileManagement.HttpApi", "src\Passingwind.Abp.FileManagement.HttpApi\Passingwind.Abp.FileManagement.HttpApi.csproj", "{026DE9E8-AB47-40F3-AF3E-4FBD88E65C7A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.FileManagement.HttpApi.Client", "src\Passingwind.Abp.FileManagement.HttpApi.Client\Passingwind.Abp.FileManagement.HttpApi.Client.csproj", "{1402A0AA-531B-4EF3-ABEB-8CB460FCA961}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{31A9127C-C471-4F73-8FCA-BDD0519986C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31A9127C-C471-4F73-8FCA-BDD0519986C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31A9127C-C471-4F73-8FCA-BDD0519986C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31A9127C-C471-4F73-8FCA-BDD0519986C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D00F944-53B6-42E9-A62D-53F5522C5E5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D00F944-53B6-42E9-A62D-53F5522C5E5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D00F944-53B6-42E9-A62D-53F5522C5E5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D00F944-53B6-42E9-A62D-53F5522C5E5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3ECA083D-5079-41E8-9E69-F19A825044D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3ECA083D-5079-41E8-9E69-F19A825044D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3ECA083D-5079-41E8-9E69-F19A825044D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3ECA083D-5079-41E8-9E69-F19A825044D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BA20FF7-DDC0-4DE1-AD67-A221CE7EFC3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BA20FF7-DDC0-4DE1-AD67-A221CE7EFC3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BA20FF7-DDC0-4DE1-AD67-A221CE7EFC3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BA20FF7-DDC0-4DE1-AD67-A221CE7EFC3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61845F32-051F-42CC-A8BD-826E5CB5575F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61845F32-051F-42CC-A8BD-826E5CB5575F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61845F32-051F-42CC-A8BD-826E5CB5575F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61845F32-051F-42CC-A8BD-826E5CB5575F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DAFDB79-0808-40DC-8FFA-CB98E91D1B6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DAFDB79-0808-40DC-8FFA-CB98E91D1B6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DAFDB79-0808-40DC-8FFA-CB98E91D1B6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DAFDB79-0808-40DC-8FFA-CB98E91D1B6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{026DE9E8-AB47-40F3-AF3E-4FBD88E65C7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{026DE9E8-AB47-40F3-AF3E-4FBD88E65C7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{026DE9E8-AB47-40F3-AF3E-4FBD88E65C7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{026DE9E8-AB47-40F3-AF3E-4FBD88E65C7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1402A0AA-531B-4EF3-ABEB-8CB460FCA961}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1402A0AA-531B-4EF3-ABEB-8CB460FCA961}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1402A0AA-531B-4EF3-ABEB-8CB460FCA961}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1402A0AA-531B-4EF3-ABEB-8CB460FCA961}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{31A9127C-C471-4F73-8FCA-BDD0519986C8} = {4D237CB9-A9B0-468C-9EA1-C57AAA1E72C7}
+		{0D00F944-53B6-42E9-A62D-53F5522C5E5D} = {4D237CB9-A9B0-468C-9EA1-C57AAA1E72C7}
+		{3ECA083D-5079-41E8-9E69-F19A825044D5} = {4D237CB9-A9B0-468C-9EA1-C57AAA1E72C7}
+		{1BA20FF7-DDC0-4DE1-AD67-A221CE7EFC3A} = {4D237CB9-A9B0-468C-9EA1-C57AAA1E72C7}
+		{61845F32-051F-42CC-A8BD-826E5CB5575F} = {4D237CB9-A9B0-468C-9EA1-C57AAA1E72C7}
+		{9DAFDB79-0808-40DC-8FFA-CB98E91D1B6D} = {4D237CB9-A9B0-468C-9EA1-C57AAA1E72C7}
+		{026DE9E8-AB47-40F3-AF3E-4FBD88E65C7A} = {4D237CB9-A9B0-468C-9EA1-C57AAA1E72C7}
+		{1402A0AA-531B-4EF3-ABEB-8CB460FCA961} = {4D237CB9-A9B0-468C-9EA1-C57AAA1E72C7}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}
+	EndGlobalSection
+EndGlobal

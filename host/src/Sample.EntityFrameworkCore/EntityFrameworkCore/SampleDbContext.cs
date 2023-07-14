@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Passingwind.Abp.FileManagement.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -73,6 +74,8 @@ public class SampleDbContext :
         builder.ConfigureOpenIddict();
         builder.ConfigureFeatureManagement();
         builder.ConfigureTenantManagement();
+
+        builder.ConfigureFileManagement();
 
         /* Configure your own tables/entities inside here */
 
