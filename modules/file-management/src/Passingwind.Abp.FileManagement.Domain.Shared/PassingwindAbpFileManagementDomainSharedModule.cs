@@ -2,15 +2,10 @@
 using Volo.Abp.Localization;
 using Volo.Abp.Localization.ExceptionHandling;
 using Volo.Abp.Modularity;
-using Volo.Abp.Validation;
-using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
 
 namespace Passingwind.Abp.FileManagement;
 
-[DependsOn(
-    typeof(AbpValidationModule)
-)]
 public class PassingwindAbpFileManagementDomainSharedModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
@@ -24,7 +19,6 @@ public class PassingwindAbpFileManagementDomainSharedModule : AbpModule
         {
             options.Resources
                 .Add<FileManagementResource>("en")
-                .AddBaseTypes(typeof(AbpValidationResource))
                 .AddVirtualJson("/Localization/FileManagement");
         });
 

@@ -23,7 +23,7 @@ public class FileContainerRepository : MongoDbRepository<FileManagementMongoDbCo
     {
         var query = await GetMongoQueryableAsync();
 
-        return await query.AnyAsync(x => x.Name == fileContainer.Name, cancellationToken);
+        return await query.AnyAsync(x => x.Id != fileContainer.Id && x.Name == fileContainer.Name, cancellationToken);
     }
 
     public virtual async Task<long> GetCountAsync(string? filter, Guid? userId = null, CancellationToken cancellationToken = default)

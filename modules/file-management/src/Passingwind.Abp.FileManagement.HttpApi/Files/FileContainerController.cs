@@ -31,13 +31,13 @@ public class FileContainerController : FileManagementController, IFileContainerA
     }
 
     [HttpPost()]
-    public virtual Task<FileContainerDto> CreateAsync(FileContainerCreateOrUpdateDto input)
+    public virtual Task<FileContainerDto> CreateAsync(FileContainerCreateDto input)
     {
         return _service.CreateAsync(input);
     }
 
     [HttpPut("{id}")]
-    public virtual Task<FileContainerDto> UpdateAsync(Guid id, FileContainerCreateOrUpdateDto input)
+    public virtual Task<FileContainerDto> UpdateAsync(Guid id, FileContainerUpdateDto input)
     {
         return _service.UpdateAsync(id, input);
     }

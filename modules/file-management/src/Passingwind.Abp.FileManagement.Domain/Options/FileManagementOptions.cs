@@ -6,6 +6,8 @@ public class FileManagementOptions
 {
     public string DefaultBlobContainer { get; set; } = "default";
 
+    public bool FileContainerAsBlobContainer { get; set; } = true;
+
     public string BlobDirectorySeparator { get; set; } = "/";
 
     public string FileDownloadUrlFormat { get; set; } = "/api/files/download/{0}";
@@ -40,4 +42,8 @@ public class FileManagementOptions
     /// </summary>
     public string[]? DefaultProhibitedFileExtensions { get; set; }
 
+    public FileManagementOptions()
+    {
+        DefaultAllowedFileExtensions = ".txt,.png,.jpg,.jpeg,.bmp,.gif,.docx,.doc,.xlsx,.xls,.ppt,.pptx,.pdf,.zip,.rar,.7z".Split(',');
+    }
 }

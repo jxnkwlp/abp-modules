@@ -10,7 +10,7 @@ public class FileCreateDto : ExtensibleObject
 {
     public Guid? ParentId { get; set; }
 
-    public bool Override { get; set; }
+    //public bool Override { get; set; }
 
     [Required]
     public IRemoteStreamContent File { get; set; } = null!;

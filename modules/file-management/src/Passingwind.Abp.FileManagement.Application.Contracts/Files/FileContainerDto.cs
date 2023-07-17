@@ -14,5 +14,5 @@ public class FileContainerDto : AuditedEntityDto<Guid>
     public virtual bool AllowAnyFileExtension { get; set; }
     public virtual string? AllowedFileExtensions { get; set; }
     public virtual string? ProhibitedFileExtensions { get; set; }
-    public virtual int FilesCount { get; set; }
+    // public virtual int FilesCount { get; set; }
 }

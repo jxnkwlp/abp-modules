@@ -12,11 +12,13 @@ public class FileInfoCheckProvider : IFileInfoCheckProvider
 {
     private readonly IFileRepository _fileRepository;
     private readonly IFileContainerRepository _fileContainerRepository;
+    private readonly IFileDuplicateDetectionProvider _fileDuplicateDetectionProvider;
 
-    public FileInfoCheckProvider(IFileRepository fileRepository, IFileContainerRepository fileContainerRepository)
+    public FileInfoCheckProvider(IFileRepository fileRepository, IFileContainerRepository fileContainerRepository, IFileDuplicateDetectionProvider fileDuplicateDetectionProvider)
     {
         _fileRepository = fileRepository;
         _fileContainerRepository = fileContainerRepository;
+        _fileDuplicateDetectionProvider = fileDuplicateDetectionProvider;
     }
 
     public async Task CheckAsync(FileContainer container, File entity, CancellationToken cancellationToken = default)
@@ -119,19 +121,11 @@ public class FileInfoCheckProvider : IFileInfoCheckProvider
 
     protected async Task<bool> IsFileExistsAsync(FileContainer container, File file, CancellationToken cancellationToken = default)
     {
-        return await _fileRepository.AnyAsync(x => x.Id != file.Id
-            && x.FileName == file.FileName
-            && x.ParentId == file.ParentId
-            && x.ContainerId == file.ContainerId
-            && !x.IsDirectory);
+        return await _fileDuplicateDetectionProvider.IsExistsAsync(container, file, cancellationToken);
     }
 
     protected async Task<bool> IsDirectoryExistsAsync(FileContainer container, File file, CancellationToken cancellationToken = default)
     {
-        return await _fileRepository.AnyAsync(x => x.Id != file.Id
-            && x.FileName == file.FileName
-            && x.ParentId == file.ParentId
-            && x.ContainerId == file.ContainerId
-            && x.IsDirectory);
+        return await _fileDuplicateDetectionProvider.IsExistsAsync(container, file, cancellationToken);
     }
 }

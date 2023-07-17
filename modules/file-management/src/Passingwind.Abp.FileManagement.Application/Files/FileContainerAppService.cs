@@ -69,24 +69,24 @@ public class FileContainerAppService : FileManagementAppService, IFileContainerA
         return ObjectMapper.Map<FileContainer, FileContainerDto>(entity);
     }
 
-    public virtual async Task<FileContainerDto> CreateAsync(FileContainerCreateOrUpdateDto input)
+    public virtual async Task<FileContainerDto> CreateAsync(FileContainerCreateDto input)
     {
-        var entity = new FileContainer(GuidGenerator.Create(), input.Name, input.AccessMode)
-        {
-            Description = input.Description,
-            MaximumEachFileSize = input.MaximumEachFileSize ?? _options.DefaultMaximumFileSize,
-            MaximumFileQuantity = input.MaximumFileQuantity ?? _options.DefaultContainerMaximumFileQuantity,
-            AllowAnyFileExtension = input.AllowAnyFileExtension,
-            AllowedFileExtensions = input.AllowedFileExtensions ?? string.Join(",", _options.DefaultAllowedFileExtensions ?? new string[0]),
-            ProhibitedFileExtensions = input.ProhibitedFileExtensions ?? string.Join(",", _options.DefaultProhibitedFileExtensions ?? new string[0]),
-            OverrideBehavior = input.OverrideBehavior ?? _options.DefaultOverrideBehavior,
-        };
+        var entity = await _fileContainerManager.CreateAsync(
+            input.Name,
+            input.AccessMode,
+            input.Description,
+            input.MaximumEachFileSize,
+            input.MaximumFileQuantity,
+            input.OverrideBehavior,
+            input.AllowAnyFileExtension,
+            input.AllowedFileExtensions,
+            input.ProhibitedFileExtensions);
 
         input.MapExtraPropertiesTo(entity);
 
         if (await _fileContainerManager.IsExistsAsync(entity))
         {
-            throw new UserFriendlyException($"File container name '{entity.Name}' exists !");
+            throw new BusinessException(FileManagementErrorCodes.FileContainerExist).WithData("name", entity.Name);
         }
 
         await _fileContainerRepository.InsertAsync(entity);
@@ -94,7 +94,7 @@ public class FileContainerAppService : FileManagementAppService, IFileContainerA
         return ObjectMapper.Map<FileContainer, FileContainerDto>(entity);
     }
 
-    public virtual async Task<FileContainerDto> UpdateAsync(Guid id, FileContainerCreateOrUpdateDto input)
+    public virtual async Task<FileContainerDto> UpdateAsync(Guid id, FileContainerUpdateDto input)
     {
         bool isGranted = await AuthorizationService.IsGrantedAsync(FileManagementPermissions.FileContainer.Update);
 
@@ -107,16 +107,17 @@ public class FileContainerAppService : FileManagementAppService, IFileContainerA
         entity.MaximumEachFileSize = input.MaximumEachFileSize ?? 0;
         entity.MaximumFileQuantity = input.MaximumFileQuantity ?? 0;
         entity.OverrideBehavior = input.OverrideBehavior ?? FileOverrideBehavior.None;
-        entity.AllowAnyFileExtension = input.AllowAnyFileExtension;
+        entity.AllowAnyFileExtension = input.AllowAnyFileExtension ?? false;
         entity.AllowedFileExtensions = input.AllowedFileExtensions;
         entity.ProhibitedFileExtensions = input.ProhibitedFileExtensions;
 
-        entity.SetName(input.Name);
-        entity.SetAccessMode(input.AccessMode);
+        entity.SetAccessMode(input.AccessMode ?? _options.DefaultContainerAccessMode);
+
+        input.MapExtraPropertiesTo(entity);
 
         if (await _fileContainerManager.IsExistsAsync(entity))
         {
-            throw new BusinessException(FileManagementErrorCodes.FileContainerExist);
+            throw new BusinessException(FileManagementErrorCodes.FileContainerExist).WithData("name", entity.Name);
         }
 
         await _fileContainerRepository.UpdateAsync(entity);

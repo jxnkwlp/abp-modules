@@ -13,9 +13,9 @@ public interface IFileContainerAppService : IApplicationService
 
     Task<FileContainerDto> GetByNameAsync(string name);
 
-    Task<FileContainerDto> CreateAsync(FileContainerCreateOrUpdateDto input);
+    Task<FileContainerDto> CreateAsync(FileContainerCreateDto input);
 
-    Task<FileContainerDto> UpdateAsync(Guid id, FileContainerCreateOrUpdateDto input);
+    Task<FileContainerDto> UpdateAsync(Guid id, FileContainerUpdateDto input);
 
     Task DeleteAsync(Guid id);
 

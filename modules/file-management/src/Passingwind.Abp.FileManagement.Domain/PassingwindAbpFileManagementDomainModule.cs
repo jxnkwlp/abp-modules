@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Passingwind.Abp.FileManagement.Files;
 using Passingwind.Abp.FileManagement.Options;
 using Volo.Abp.BlobStoring;
 using Volo.Abp.Domain;
@@ -16,5 +17,7 @@ public class PassingwindAbpFileManagementDomainModule : AbpModule
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         context.Services.AddOptions<FileManagementOptions>();
+
+        context.Services.AddTransient<IFileDuplicateDetectionProvider, FileNameDuplicateDetectionProvider>();
     }
 }

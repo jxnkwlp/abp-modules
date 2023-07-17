@@ -22,7 +22,7 @@ public class FileContainerRepository : EfCoreRepository<FileManagementDbContext,
     {
         var dbset = await GetDbSetAsync();
 
-        return await dbset.AnyAsync(x => x.Name == fileContainer.Name, cancellationToken);
+        return await dbset.AnyAsync(x => x.Id != fileContainer.Id && x.Name == fileContainer.Name, cancellationToken);
     }
 
     public virtual async Task<long> GetCountAsync(string? filter, Guid? userId = null, CancellationToken cancellationToken = default)

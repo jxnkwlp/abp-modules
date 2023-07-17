@@ -233,7 +233,7 @@ public class FileAppService : FileManagementAppService, IFileAppService
 
         if (await _fileManager.IsDirectoryExistsAsync(container, entity))
         {
-            throw new BusinessException("FileManagement:DirectoryExists");
+            throw new BusinessException(FileManagementErrorCodes.DirectoryExists);
         }
 
         await _fileRepository.InsertAsync(entity);
