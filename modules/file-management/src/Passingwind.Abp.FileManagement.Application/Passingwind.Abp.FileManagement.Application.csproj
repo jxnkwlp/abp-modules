@@ -5,9 +5,9 @@
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
 		<Nullable>enable</Nullable>
-		<RootNamespace>Passingwind.Abp.FileManagement</RootNamespace> 
+		<RootNamespace>Passingwind.Abp.FileManagement</RootNamespace>
 	</PropertyGroup>
-
+ 
 	<ItemGroup>
 		<PackageReference Include="Volo.Abp.AutoMapper" Version="7.2.3" />
 		<PackageReference Include="Volo.Abp.Ddd.Application" Version="7.2.3" /> 

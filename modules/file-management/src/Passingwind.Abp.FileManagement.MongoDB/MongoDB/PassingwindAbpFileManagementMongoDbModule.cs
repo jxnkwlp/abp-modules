@@ -14,9 +14,9 @@ public class PassingwindAbpFileManagementMongoDbModule : AbpModule
     {
         context.Services.AddMongoDbContext<FileManagementMongoDbContext>(options =>
         {
-                /* Add custom repositories here. Example:
-                 * options.AddRepository<Question, MongoQuestionRepository>();
-                 */
+            /* Add custom repositories here. Example:
+             * options.AddRepository<Question, MongoQuestionRepository>();
+             */
         });
     }
 }
