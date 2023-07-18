@@ -115,10 +115,10 @@ public class FileContainerAppService : FileManagementAppService, IFileContainerA
 
         input.MapExtraPropertiesTo(entity);
 
-        if (await _fileContainerManager.IsExistsAsync(entity))
-        {
-            throw new BusinessException(FileManagementErrorCodes.FileContainerExist).WithData("name", entity.Name);
-        }
+        //if (await _fileContainerManager.IsExistsAsync(entity))
+        //{
+        //    throw new BusinessException(FileManagementErrorCodes.FileContainerExist).WithData("name", entity.Name);
+        //}
 
         await _fileContainerRepository.UpdateAsync(entity);
 

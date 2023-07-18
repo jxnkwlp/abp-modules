@@ -218,6 +218,8 @@ public class FileAppService : FileManagementAppService, IFileAppService
 
         await _fileInfoCheckProvider.CheckAsync(container, entity);
 
+        input.MapExtraPropertiesTo(entity);
+
         await _fileRepository.UpdateAsync(entity);
 
         return ObjectMapper.Map<File, FileDto>(entity);
@@ -230,6 +232,8 @@ public class FileAppService : FileManagementAppService, IFileAppService
         await CheckContainerPermissionAsync(container);
 
         var entity = await _fileManager.CreateDirectoryAsync(container, input.FileName, input.ParentId);
+
+        input.MapExtraPropertiesTo(entity);
 
         if (await _fileManager.IsDirectoryExistsAsync(container, entity))
         {

@@ -3,7 +3,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace Passingwind.Abp.FileManagement.Files;
 
-public class FileContainerDto : AuditedEntityDto<Guid>
+public class FileContainerDto : ExtensibleAuditedEntityDto<Guid>
 {
     public virtual string Name { get; set; } = null!;
     public virtual string? Description { get; set; }
@@ -14,5 +14,5 @@ public class FileContainerDto : AuditedEntityDto<Guid>
     public virtual bool AllowAnyFileExtension { get; set; }
     public virtual string? AllowedFileExtensions { get; set; }
     public virtual string? ProhibitedFileExtensions { get; set; }
-    // public virtual int FilesCount { get; set; }
+    public virtual int FilesCount { get; set; }
 }
