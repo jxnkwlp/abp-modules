@@ -38,10 +38,10 @@ public class File : FullAuditedAggregateRoot<Guid>, IMultiTenant
         Guid containerId,
         bool isDirectory,
         string fileName,
-        string? mimeType,
-        long? length,
         string blobName,
-        string? hash,
+        string? mimeType = null,
+        long? length = null,
+        string? hash = null,
         string? uniqueId = null) : base(id)
     {
         ContainerId = containerId;

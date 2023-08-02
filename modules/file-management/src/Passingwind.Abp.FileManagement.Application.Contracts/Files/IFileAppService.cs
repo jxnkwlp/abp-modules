@@ -28,8 +28,4 @@ public interface IFileAppService : IApplicationService
     Task<FileDto> MoveAsync(string containerName, Guid id, FileMoveRequestDto input);
 
     Task DeleteAsync(string containerName, Guid id);
-
-    Task<FileDownloadInfoResultDto> CreateDownloadInfoAsync(string containerName, Guid id, FileDownloadInfoRequestDto input);
-    Task<IRemoteStreamContent?> DownloadAsync(string token);
-
 }

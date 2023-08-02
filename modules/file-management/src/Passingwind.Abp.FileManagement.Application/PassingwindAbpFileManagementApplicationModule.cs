@@ -16,9 +16,6 @@ public class PassingwindAbpFileManagementApplicationModule : AbpModule
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         context.Services.AddAutoMapperObjectMapper<PassingwindAbpFileManagementApplicationModule>();
-        Configure<AbpAutoMapperOptions>(options =>
-        {
-            options.AddMaps<PassingwindAbpFileManagementApplicationModule>(validate: true);
-        });
+        Configure<AbpAutoMapperOptions>(options => options.AddMaps<PassingwindAbpFileManagementApplicationModule>(validate: true));
     }
 }

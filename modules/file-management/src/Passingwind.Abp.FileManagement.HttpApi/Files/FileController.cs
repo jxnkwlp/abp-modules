@@ -10,7 +10,7 @@ namespace Passingwind.Abp.FileManagement.Files;
 
 [Area(FileManagementRemoteServiceConsts.RemoteServiceName)]
 [RemoteService(Name = FileManagementRemoteServiceConsts.RemoteServiceName)]
-[Route("api/files")]
+[Route("api/file-management")]
 public class FileController : FileManagementController, IFileAppService
 {
     private readonly IFileAppService _service;
@@ -39,14 +39,12 @@ public class FileController : FileManagementController, IFileAppService
     }
 
     [NonAction]
-    // [HttpGet("{containerName}/{id}/blob/streams")]
     public virtual Task<Stream?> GeBlobStreamAsync(string containerName, Guid id)
     {
         return _service.GeBlobStreamAsync(containerName, id);
     }
 
     [NonAction]
-    // [HttpGet("{containerName}/{id}/blob/bytes")]
     public virtual Task<byte[]> GetBlobBytesAsync(string containerName, Guid id)
     {
         return _service.GetBlobBytesAsync(containerName, id);
@@ -60,14 +58,12 @@ public class FileController : FileManagementController, IFileAppService
     }
 
     [NonAction]
-    //[HttpPost("{containerName}/streams")]
     public virtual Task<FileDto> CreateByStreamAsync(string containerName, FileCreateByStreamDto input)
     {
         return _service.CreateByStreamAsync(containerName, input);
     }
 
     [NonAction]
-    //[HttpPost("{containerName}/bytes")]
     public virtual Task<FileDto> CreateByBytesAsync(string containerName, FileCreateByBytesDto input)
     {
         return _service.CreateByBytesAsync(containerName, input);
@@ -96,17 +92,4 @@ public class FileController : FileManagementController, IFileAppService
     {
         return _service.CreateDirectoryAsync(containerName, input);
     }
-
-    [HttpPost("{containerName}/{id}/download-info")]
-    public Task<FileDownloadInfoResultDto> CreateDownloadInfoAsync(string containerName, Guid id, FileDownloadInfoRequestDto input)
-    {
-        return _service.CreateDownloadInfoAsync(containerName, id, input);
-    }
-
-    [HttpGet("download/{token}")]
-    public Task<IRemoteStreamContent?> DownloadAsync(string token)
-    {
-        return _service.DownloadAsync(token);
-    }
-
 }

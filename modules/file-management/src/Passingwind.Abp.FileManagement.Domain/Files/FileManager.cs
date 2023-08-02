@@ -9,6 +9,7 @@ using Volo.Abp;
 using Volo.Abp.BlobStoring;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Domain.Services;
+using Volo.Abp.Uow;
 
 namespace Passingwind.Abp.FileManagement.Files;
 
@@ -226,7 +227,16 @@ public class FileManager : DomainService, IFileManager
         var uniqueId = await _fileUniqueIdGenerator.CreateAsync(container, fileId);
         var blobName = await _fileBlobNameGenerator.CreateAsync(container.Id, fileId, uniqueId, fileName, mimeType, bytes.Length, hash);
 
-        return new File(fileId, container.Id, false, fileName, mimeType, bytes.Length, blobName, hash, uniqueId);
+        return new File(
+            fileId,
+            container.Id,
+            false,
+            fileName,
+            blobName,
+            mimeType,
+            bytes.Length,
+            hash,
+            uniqueId);
     }
 
     public async Task<File> CreateDirectoryAsync(FileContainer container, string name, Guid? parentId, CancellationToken cancellationToken = default)
@@ -245,7 +255,20 @@ public class FileManager : DomainService, IFileManager
         var uniqueId = await _fileUniqueIdGenerator.CreateAsync(container, fileId);
         var blobName = await _fileBlobNameGenerator.CreateAsync(container.Id, fileId, uniqueId, name, string.Empty, 0, string.Empty);
 
-        return new File(fileId, container.Id, true, name, null, 0, blobName, null, uniqueId);
+        var file = new File(
+            fileId,
+            container.Id,
+            true,
+            name,
+            blobName,
+            null,
+            0,
+            null,
+            uniqueId);
+
+        file.ChangeParentId(parentId);
+
+        return file;
     }
 
     public Task<File> UpdateFileAsync(FileContainer container, File file, byte[] bytes, CancellationToken cancellationToken = default)
@@ -372,4 +395,16 @@ public class FileManager : DomainService, IFileManager
         return file;
     }
 
+    [UnitOfWork]
+    public async Task DeleteAsync(FileContainer container, File file, CancellationToken cancellationToken = default)
+    {
+        await _fileRepository.DeleteAsync(file);
+
+        if (container.AutoDeleteBlob)
+        {
+            var blobContainer = await _fileBlobContainerProvider.GetAsync(container);
+
+            await blobContainer.DeleteAsync(file.BlobName, cancellationToken);
+        }
+    }
 }

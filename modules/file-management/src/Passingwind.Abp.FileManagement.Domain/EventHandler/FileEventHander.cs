@@ -7,11 +7,14 @@ using Volo.Abp.Uow;
 
 namespace Passingwind.Abp.FileManagement.EventHandler;
 
-public class FileCreateEventHander : ILocalEventHandler<EntityCreatedEventData<File>>, ITransientDependency
+public class FileEventHander :
+    ILocalEventHandler<EntityCreatedEventData<File>>,
+    ILocalEventHandler<EntityDeletedEventData<File>>,
+    ITransientDependency
 {
     private readonly IFileContainerRepository _fileContainerRepository;
 
-    public FileCreateEventHander(IFileContainerRepository fileContainerRepository)
+    public FileEventHander(IFileContainerRepository fileContainerRepository)
     {
         _fileContainerRepository = fileContainerRepository;
     }
@@ -26,9 +29,20 @@ public class FileCreateEventHander : ILocalEventHandler<EntityCreatedEventData<F
 
         var container = await _fileContainerRepository.FindAsync(entity.ContainerId);
 
-        if (container != null)
-        {
-            container.SetFilesCount(container.FilesCount + 1);
-        }
+        container?.SetFilesCount(container.FilesCount + 1);
+    }
+
+    [UnitOfWork]
+    public async Task HandleEventAsync(EntityDeletedEventData<File> eventData)
+    {
+        var entity = eventData.Entity;
+
+        if (entity.IsDirectory)
+            return;
+
+        var container = await _fileContainerRepository.FindAsync(entity.ContainerId);
+
+        if (container?.FilesCount > 0)
+            container?.SetFilesCount(container.FilesCount - 1);
     }
 }

@@ -42,7 +42,6 @@ public class DefaultFileRenameProvider : IFileRenameProvider, ITransientDependen
             {
                 newFileName = $"{name} - renamed{count + 1}_{loopIndex}{ext}";
             }
-
         } while (exist);
 
         return newFileName;

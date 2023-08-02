@@ -1,6 +1,6 @@
 ﻿namespace Passingwind.Abp.FileManagement.Files;
 
-public class FileDownloadInfoRequestDto
+public class FileShareCreateRequestDto
 {
     /// <summary>
     ///  Expiration time for second

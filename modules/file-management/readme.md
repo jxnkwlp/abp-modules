@@ -2,17 +2,17 @@
 
 ## Feature
 
-- file container
-  - access: public or private
-  - limit file size or quantity
-- file
-  - share link
+-   File container
+    -   Access: public or private
+    -   Limit file size or quantity
+-   File
+    -   share link
 
 ### File Access
 
-- Public: Anonymous user can read & upload & download
-- Private: only owner or has permission user can read & upload & download & delete
-- Authorize: if user authorized can read & upload & download
+-   Public: Anonymous user can read & upload & download
+-   Private: only owner or has permission user can read & upload & download & delete
+-   Authorize: if user authorized can read & upload & download
 
 > Delete file action always need permssion or container owner user.
 

@@ -1,8 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Volo.Abp.Domain.Repositories;
-
-namespace Passingwind.Abp.FileManagement.Files;
+﻿namespace Passingwind.Abp.FileManagement.Files;
 
 //public class FileHashDuplicateDetectionProvider : IFileDuplicateDetectionProvider
 //{

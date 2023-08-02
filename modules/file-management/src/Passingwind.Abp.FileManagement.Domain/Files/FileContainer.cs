@@ -38,6 +38,8 @@ public class FileContainer : FullAuditedAggregateRoot<Guid>, IMultiTenant
 
     public virtual string? ProhibitedFileExtensions { get; set; }
 
+    public virtual bool AutoDeleteBlob { get; set; }
+
     public virtual int FilesCount { get; protected set; }
 
     protected FileContainer()

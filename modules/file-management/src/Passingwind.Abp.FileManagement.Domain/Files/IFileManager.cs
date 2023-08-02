@@ -12,12 +12,21 @@ public interface IFileManager : IDomainService
 
     /// <summary>
     ///  Override an exist file with bytes
-    /// </summary> 
+    /// </summary>
+    /// <param name="container"></param>
+    /// <param name="file"></param>
+    /// <param name="bytes"></param>
+    /// <param name="cancellationToken"></param>
     Task<File> UpdateFileAsync(FileContainer container, File file, byte[] bytes, CancellationToken cancellationToken = default);
 
     /// <summary>
     ///  Create an new file with bytes
-    /// </summary> 
+    /// </summary>
+    /// <param name="container"></param>
+    /// <param name="fileName"></param>
+    /// <param name="mimeType"></param>
+    /// <param name="bytes"></param>
+    /// <param name="cancellationToken"></param>
     Task<File> CreateFileAsync(FileContainer container, string fileName, string mimeType, byte[] bytes, CancellationToken cancellationToken = default);
 
     Task<File> CreateDirectoryAsync(FileContainer container, string name, Guid? parentId, CancellationToken cancellationToken = default);
@@ -33,4 +42,5 @@ public interface IFileManager : IDomainService
     Task SaveBlobAsync(FileContainer container, File file, byte[] bytes, CancellationToken cancellationToken = default);
     Task SaveBlobAsync(FileContainer container, File file, Stream stream, CancellationToken cancellationToken = default);
 
+    Task DeleteAsync(FileContainer container, File file, CancellationToken cancellationToken = default);
 }

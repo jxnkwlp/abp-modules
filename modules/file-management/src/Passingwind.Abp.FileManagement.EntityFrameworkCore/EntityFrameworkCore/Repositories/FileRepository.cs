@@ -17,7 +17,7 @@ public class FileRepository : EfCoreRepository<FileManagementDbContext, File, Gu
     {
     }
 
-    public virtual async Task<long> GetCountAsync(string? filter, Guid? containerId, Guid? parentId, CancellationToken cancellationToken = default)
+    public virtual async Task<long> GetCountAsync(string? filter = null, Guid? containerId = null, Guid? parentId = null, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
         return await dbset
@@ -27,7 +27,7 @@ public class FileRepository : EfCoreRepository<FileManagementDbContext, File, Gu
             .LongCountAsync(cancellationToken);
     }
 
-    public virtual async Task<List<File>> GetListAsync(string? filter, Guid? containerId, Guid? parentId, bool includeDetails = false, CancellationToken cancellationToken = default)
+    public virtual async Task<List<File>> GetListAsync(string? filter = null, Guid? containerId = null, Guid? parentId = null, bool includeDetails = false, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
         return await dbset
@@ -37,7 +37,7 @@ public class FileRepository : EfCoreRepository<FileManagementDbContext, File, Gu
             .ToListAsync(cancellationToken);
     }
 
-    public virtual async Task<List<File>> GetPagedListAsync(int skipCount, int maxResultCount, string? filter, Guid? containerId, Guid? parentId, string sorting, bool includeDetails = false, CancellationToken cancellationToken = default)
+    public virtual async Task<List<File>> GetPagedListAsync(int skipCount, int maxResultCount, string? filter = null, Guid? containerId = null, Guid? parentId = null, string? sorting = null, bool includeDetails = false, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
         return await dbset
@@ -49,7 +49,7 @@ public class FileRepository : EfCoreRepository<FileManagementDbContext, File, Gu
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<bool> IsFileNameExistsAsync(Guid containerId, string fileName, Guid? parentId, CancellationToken cancellationToken = default)
+    public async Task<bool> IsFileNameExistsAsync(Guid containerId, string fileName, Guid? parentId = null, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
         return await dbset

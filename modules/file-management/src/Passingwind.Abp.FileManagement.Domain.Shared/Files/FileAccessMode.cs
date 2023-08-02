@@ -3,15 +3,19 @@
 public enum FileAccessMode
 {
     /// <summary>
-    ///  Anonymous to read & write
+    ///  Anonymous can read & upload
     /// </summary>
-    Public = 0,
+    Anonymous = 0,
     /// <summary>
-    ///  Only create user can read & write
+    ///  Anonymous can read
     /// </summary>
-    Private,
+    Readonly = 1,
     /// <summary>
-    ///  Only authorized user can read & write
+    ///  Only authorized user can read & upload
     /// </summary>
-    Authorize,
+    Authorized = 10,
+    /// <summary>
+    ///  Only created user can read & upload
+    /// </summary>
+    Private = 20,
 }

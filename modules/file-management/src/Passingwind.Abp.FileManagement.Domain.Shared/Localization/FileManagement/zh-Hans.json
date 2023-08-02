@@ -1,19 +1,20 @@
-{
+﻿{
   "culture": "zh-Hans",
-    "texts": {
-        "FileManagement:Error:ContainerExist": "容器 '{name}' 已存在",
-        "FileManagement:Error:ContainerFileQuantitiesMaximumSurpass": "容器中文件太多",
-        "FileManagement:Error:FileExists": "文件 '{fileName}' 已存在",
-        "FileManagement:Error:FileExtensionNotAllowed": "不允许的文件扩展名 '{ext}'",
-        "FileManagement:Error:FileLengthTooLarge": "文件大小太大",
-        "FileManagement:Error:DownloadNotExistsOrExpired": "下载文件不存在或者链接已过期",
-        "FileManagement:Error:FileContainerExist": "文件容器 '{name}' 已经存在",
+  "texts": {
+    "FileManagement:Error:ContainerExist": "容器 '{name}' 已存在",
+    "FileManagement:Error:ContainerFileQuantitiesMaximumSurpass": "容器中文件太多",
+    "FileManagement:Error:FileExists": "文件'{fileName}'已存在",
+    "FileManagement:Error:FileExtensionNotAllowed": "不允许的文件扩展名'{ext}'",
+    "FileManagement:Error:FileLengthTooLarge": "文件大小太大",
+    "FileManagement:Error:DirectoryExists": "文件夹'{name}'已经存在",
+    "FileManagement:Error:DirectoryHasFiles": "文件夹'{name}'内存在文件",
+    "FileManagement:Error:ShareFileNotExistsOrExpired": "下载文件不存在或者访问Token已过期",
 
-        "Permission:FileManagement": "文件管理",
-        "Permission:FileManagement.FileContainer": "文件容器",
-        "Permission:FileManagement.FileContainer.Update": "更新",
-        "Permission:FileManagement.FileContainer.Delete": "删除",
-        "Permission:FileManagement.File": "文件",
-        "Permission:FileManagement.File.Delete": "删除"
-    }
+    "Permission:FileManagement": "文件管理",
+    "Permission:FileManagement.FileContainer": "文件容器",
+    "Permission:FileManagement.FileContainer.Update": "更新",
+    "Permission:FileManagement.FileContainer.Delete": "删除",
+    "Permission:FileManagement.File": "文件",
+    "Permission:FileManagement.File.Delete": "删除"
+  }
 }

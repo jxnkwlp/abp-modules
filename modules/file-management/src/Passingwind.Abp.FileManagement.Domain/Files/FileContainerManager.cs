@@ -30,13 +30,14 @@ public class FileContainerManager : DomainService
     public virtual Task<FileContainer> CreateAsync(
         string name,
         FileAccessMode? accessMode,
-        string? description,
-        long? maximumEachFileSize,
-        int? maximumFileQuantity,
-        FileOverrideBehavior? overrideBehavior,
-        bool? allowAnyFileExtension,
-        string? allowedFileExtensions,
-        string? prohibitedFileExtensions)
+        string? description = null,
+        long? maximumEachFileSize = null,
+        int? maximumFileQuantity = null,
+        FileOverrideBehavior? overrideBehavior = null,
+        bool? allowAnyFileExtension = null,
+        string? allowedFileExtensions = null,
+        string? prohibitedFileExtensions = null,
+        bool? autoDeleteBlob = false)
     {
         var entity = new FileContainer(GuidGenerator.Create(), name, accessMode ?? _options.DefaultContainerAccessMode)
         {
@@ -47,6 +48,7 @@ public class FileContainerManager : DomainService
             AllowedFileExtensions = allowedFileExtensions ?? string.Join(",", _options.DefaultAllowedFileExtensions ?? new string[0]),
             ProhibitedFileExtensions = prohibitedFileExtensions ?? string.Join(",", _options.DefaultProhibitedFileExtensions ?? new string[0]),
             OverrideBehavior = overrideBehavior ?? _options.DefaultOverrideBehavior,
+            AutoDeleteBlob = autoDeleteBlob ?? false,
         };
 
         return Task.FromResult(entity);

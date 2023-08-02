@@ -8,5 +8,4 @@ public class FileUpdateDto : ExtensibleObject
     [Required]
     [MaxLength(128)]
     public string FileName { get; set; } = null!;
-
 }

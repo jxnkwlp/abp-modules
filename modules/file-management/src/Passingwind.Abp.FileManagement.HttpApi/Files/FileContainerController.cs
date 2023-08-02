@@ -8,7 +8,7 @@ namespace Passingwind.Abp.FileManagement.Files;
 
 [Area(FileManagementRemoteServiceConsts.RemoteServiceName)]
 [RemoteService(Name = FileManagementRemoteServiceConsts.RemoteServiceName)]
-[Route("api/files/containers")]
+[Route("api/file-management/containers")]
 public class FileContainerController : FileManagementController, IFileContainerAppService
 {
     private readonly IFileContainerAppService _service;
@@ -18,7 +18,7 @@ public class FileContainerController : FileManagementController, IFileContainerA
         _service = service;
     }
 
-    [HttpGet()]
+    [HttpGet]
     public virtual Task<PagedResultDto<FileContainerDto>> GetListAsync(FileContainerListRequestDto input)
     {
         return _service.GetListAsync(input);
@@ -30,7 +30,7 @@ public class FileContainerController : FileManagementController, IFileContainerA
         return _service.GetAsync(id);
     }
 
-    [HttpPost()]
+    [HttpPost]
     public virtual Task<FileContainerDto> CreateAsync(FileContainerCreateDto input)
     {
         return _service.CreateAsync(input);

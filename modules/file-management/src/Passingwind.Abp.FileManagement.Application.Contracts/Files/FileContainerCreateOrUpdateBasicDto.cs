@@ -12,4 +12,5 @@ public class FileContainerCreateOrUpdateBasicDto : ExtensibleObject
     public virtual bool? AllowAnyFileExtension { get; set; }
     public virtual string? AllowedFileExtensions { get; set; }
     public virtual string? ProhibitedFileExtensions { get; set; }
+    public virtual bool AutoDeleteBlob { get; set; }
 }

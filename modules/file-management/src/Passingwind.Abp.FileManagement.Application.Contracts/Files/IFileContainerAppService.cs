@@ -18,5 +18,4 @@ public interface IFileContainerAppService : IApplicationService
     Task<FileContainerDto> UpdateAsync(Guid id, FileContainerUpdateDto input);
 
     Task DeleteAsync(Guid id);
-
 }

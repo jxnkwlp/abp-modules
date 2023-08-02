@@ -1,19 +1,20 @@
-{
+﻿{
     "culture": "en",
-    "texts": {
-        "FileManagement:Error:ContainerExist": "The container '{name}' already exists",
-        "FileManagement:Error:ContainerFileQuantitiesMaximumSurpass": "Too many file in container",
-        "FileManagement:Error:FileExists": "The file '{fileName}' already exists",
-        "FileManagement:Error:FileExtensionNotAllowed": "The file extension '{ext}' is not allowed",
-        "FileManagement:Error:FileLengthTooLarge": "The file size is too large",
-        "FileManagement:Error:DownloadNotExistsOrExpired": "The download file not exists or link expired",
-        "FileManagement:Error:FileContainerExist": "The file container '{name}' already exists",
+  "texts": {
+    "FileManagement:Error:ContainerExist": "The container '{name}' already exists",
+    "FileManagement:Error:ContainerFileQuantitiesMaximumSurpass": "Too many file in container",
+    "FileManagement:Error:FileExists": "The file '{fileName}' already exists",
+    "FileManagement:Error:FileExtensionNotAllowed": "The file extension '{ext}' is not allowed",
+    "FileManagement:Error:FileLengthTooLarge": "The file size is too large",
+    "FileManagement:Error:DirectoryExists": "The file directory '{name}' already exists",
+    "FileManagement:Error:DirectoryHasFiles": "The file directory '{name}' has files",
+    "FileManagement:Error:ShareFileNotExistsOrExpired": "The file not exists or token expired",
 
-        "Permission:FileManagement": "File Management",
-        "Permission:FileManagement.FileContainer": "File Containers",
-        "Permission:FileManagement.FileContainer.Update": "Update",
-        "Permission:FileManagement.FileContainer.Delete": "Delete",
-        "Permission:FileManagement.File": "Files",
-        "Permission:FileManagement.File.Delete": "Delete"
-    }
+    "Permission:FileManagement": "File Management",
+    "Permission:FileManagement.FileContainer": "File Containers",
+    "Permission:FileManagement.FileContainer.Update": "Update",
+    "Permission:FileManagement.FileContainer.Delete": "Delete",
+    "Permission:FileManagement.File": "Files",
+    "Permission:FileManagement.File.Delete": "Delete"
+  }
 }

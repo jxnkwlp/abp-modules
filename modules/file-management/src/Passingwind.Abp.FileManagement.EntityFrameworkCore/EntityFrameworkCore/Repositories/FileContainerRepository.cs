@@ -25,7 +25,7 @@ public class FileContainerRepository : EfCoreRepository<FileManagementDbContext,
         return await dbset.AnyAsync(x => x.Id != fileContainer.Id && x.Name == fileContainer.Name, cancellationToken);
     }
 
-    public virtual async Task<long> GetCountAsync(string? filter, Guid? userId = null, CancellationToken cancellationToken = default)
+    public virtual async Task<long> GetCountAsync(string? filter = null, Guid? userId = null, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
 
@@ -51,7 +51,7 @@ public class FileContainerRepository : EfCoreRepository<FileManagementDbContext,
         return entity ?? throw new EntityNotFoundException();
     }
 
-    public virtual async Task<List<FileContainer>> GetListAsync(string? filter, Guid? userId = null, bool includeDetails = false, CancellationToken cancellationToken = default)
+    public virtual async Task<List<FileContainer>> GetListAsync(string? filter = null, Guid? userId = null, bool includeDetails = false, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
 
@@ -61,7 +61,7 @@ public class FileContainerRepository : EfCoreRepository<FileManagementDbContext,
             .ToListAsync(cancellationToken);
     }
 
-    public virtual async Task<List<FileContainer>> GetPagedListAsync(int skipCount, int maxResultCount, string? filter, Guid? userId = null, string? sorting = null, bool includeDetails = false, CancellationToken cancellationToken = default)
+    public virtual async Task<List<FileContainer>> GetPagedListAsync(int skipCount, int maxResultCount, string? filter = null, Guid? userId = null, string? sorting = null, bool includeDetails = false, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
 

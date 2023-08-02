@@ -11,5 +11,4 @@ namespace Passingwind.Abp.FileManagement;
     )]
 public class PassingwindAbpFileManagementApplicationContractsModule : AbpModule
 {
-
 }

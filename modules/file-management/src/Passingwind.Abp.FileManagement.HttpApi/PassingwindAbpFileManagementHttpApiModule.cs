@@ -14,10 +14,7 @@ public class PassingwindAbpFileManagementHttpApiModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
-        PreConfigure<IMvcBuilder>(mvcBuilder =>
-        {
-            mvcBuilder.AddApplicationPartIfNotExists(typeof(PassingwindAbpFileManagementHttpApiModule).Assembly);
-        });
+        PreConfigure<IMvcBuilder>(mvcBuilder => mvcBuilder.AddApplicationPartIfNotExists(typeof(PassingwindAbpFileManagementHttpApiModule).Assembly));
     }
 
     public override void ConfigureServices(ServiceConfigurationContext context)

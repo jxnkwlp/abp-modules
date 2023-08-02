@@ -5,7 +5,7 @@ namespace Passingwind.Abp.FileManagement.Files;
 
 public class BlobNotFoundException : Exception, IHasHttpStatusCode
 {
-    public BlobNotFoundException() : base()
+    public BlobNotFoundException()
     {
     }
 

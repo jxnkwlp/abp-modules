@@ -10,10 +10,7 @@ public class PassingwindAbpFileManagementDomainSharedModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        Configure<AbpVirtualFileSystemOptions>(options =>
-        {
-            options.FileSets.AddEmbedded<PassingwindAbpFileManagementDomainSharedModule>();
-        });
+        Configure<AbpVirtualFileSystemOptions>(options => options.FileSets.AddEmbedded<PassingwindAbpFileManagementDomainSharedModule>());
 
         Configure<AbpLocalizationOptions>(options =>
         {
@@ -22,9 +19,6 @@ public class PassingwindAbpFileManagementDomainSharedModule : AbpModule
                 .AddVirtualJson("/Localization/FileManagement");
         });
 
-        Configure<AbpExceptionLocalizationOptions>(options =>
-        {
-            options.MapCodeNamespace("FileManagement", typeof(FileManagementResource));
-        });
+        Configure<AbpExceptionLocalizationOptions>(options => options.MapCodeNamespace("FileManagement", typeof(FileManagementResource)));
     }
 }

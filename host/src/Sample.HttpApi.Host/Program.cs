@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Sample.Data;
 using Serilog;
 using Serilog.Events;
 
@@ -35,6 +36,9 @@ public class Program
             await builder.AddApplicationAsync<SampleHttpApiHostModule>();
             var app = builder.Build();
             await app.InitializeApplicationAsync();
+
+            await app.Services.CreateScope().ServiceProvider.GetRequiredService<SampleDbMigrationService>().MigrateAsync();
+
             await app.RunAsync();
             return 0;
         }

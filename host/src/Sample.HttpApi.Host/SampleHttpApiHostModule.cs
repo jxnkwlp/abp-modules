@@ -1,7 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Hangfire;
+using Hangfire.MemoryStorage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Extensions.DependencyInjection;
@@ -23,6 +25,8 @@ using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
+using Volo.Abp.BackgroundJobs.Hangfire;
+using Volo.Abp.BackgroundWorkers.Hangfire;
 using Volo.Abp.BlobStoring;
 using Volo.Abp.BlobStoring.FileSystem;
 using Volo.Abp.Modularity;
@@ -40,6 +44,8 @@ namespace Sample;
     typeof(SampleEntityFrameworkCoreModule),
     typeof(AbpAspNetCoreMvcUiLeptonXLiteThemeModule),
     typeof(AbpAccountWebOpenIddictModule),
+    typeof(AbpBackgroundJobsHangfireModule),
+    typeof(AbpBackgroundWorkersHangfireModule),
     typeof(AbpAspNetCoreSerilogModule),
     typeof(AbpSwashbuckleModule)
 )]
@@ -74,19 +80,22 @@ public class SampleHttpApiHostModule : AbpModule
 
         //context.Services.AddAlwaysAllowAuthorization();
 
-        Configure<AbpBlobStoringOptions>(options =>
-        {
-            options.Containers.ConfigureDefault(container =>
-            {
-                container.UseFileSystem(fileSystem =>
-                {
-                    fileSystem.BasePath = "C:\\my-files";
-                });
-            });
-        });
+        Configure<AbpBlobStoringOptions>(options => options.Containers.ConfigureDefault(container => container.UseFileSystem(fileSystem => fileSystem.BasePath = "C:\\my-files")));
 
         Configure<FileManagementOptions>(options =>
         {
+            options.DefaultOverrideBehavior = Passingwind.Abp.FileManagement.Files.FileOverrideBehavior.Rename;
+            options.DefaultContainerAccessMode = Passingwind.Abp.FileManagement.Files.FileAccessMode.Readonly;
+        });
+
+        context.Services.AddHangfire(config =>
+        {
+            config.UseMemoryStorage();
+
+            config
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseRecommendedSerializerSettings()
+                .UseColouredConsoleLogProvider();
         });
     }
 
@@ -147,10 +156,7 @@ public class SampleHttpApiHostModule : AbpModule
 
     private void ConfigureConventionalControllers()
     {
-        Configure<AbpAspNetCoreMvcOptions>(options =>
-        {
-            options.ConventionalControllers.Create(typeof(SampleApplicationModule).Assembly);
-        });
+        Configure<AbpAspNetCoreMvcOptions>(options => options.ConventionalControllers.Create(typeof(SampleApplicationModule).Assembly));
     }
 
     private static void ConfigureSwaggerServices(ServiceConfigurationContext context, IConfiguration configuration)
@@ -218,7 +224,9 @@ public class SampleHttpApiHostModule : AbpModule
             app.UseMultiTenancy();
         }
 
-        app.UseUnitOfWork();
+        app.UseHangfireDashboard();
+
+        //app.UseUnitOfWork();
         app.UseAuthorization();
 
         app.UseSwagger();
