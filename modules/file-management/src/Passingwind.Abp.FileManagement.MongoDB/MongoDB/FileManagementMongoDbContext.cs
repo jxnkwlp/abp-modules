@@ -10,6 +10,7 @@ public class FileManagementMongoDbContext : AbpMongoDbContext, IFileManagementMo
 {
     public IMongoCollection<FileContainer> FileContainers => Collection<FileContainer>();
     public IMongoCollection<File> Files => Collection<File>();
+    public IMongoCollection<FileAccessToken> FileAccessTokens => Collection<FileAccessToken>();
 
     protected override void CreateModel(IMongoModelBuilder modelBuilder)
     {

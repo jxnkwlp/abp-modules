@@ -10,4 +10,5 @@ public interface IFileManagementMongoDbContext : IAbpMongoDbContext
 {
     IMongoCollection<FileContainer> FileContainers { get; }
     IMongoCollection<File> Files { get; }
+    IMongoCollection<FileAccessToken> FileAccessTokens { get; }
 }
