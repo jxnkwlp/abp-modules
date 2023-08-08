@@ -31,7 +31,7 @@ namespace Sample;
     typeof(AbpTenantManagementDomainModule),
     typeof(AbpEmailingModule)
 )]
-[DependsOn(typeof(PassingwindAbpFileManagementDomainModule))]
+[DependsOn(typeof(FileManagementDomainModule))]
 public class SampleDomainModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)

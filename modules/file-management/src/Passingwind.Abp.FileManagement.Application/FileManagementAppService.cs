@@ -14,7 +14,7 @@ public abstract class FileManagementAppService : ApplicationService
     protected FileManagementAppService()
     {
         LocalizationResource = typeof(FileManagementResource);
-        ObjectMapperContext = typeof(PassingwindAbpFileManagementApplicationModule);
+        ObjectMapperContext = typeof(FileManagementApplicationModule);
     }
 
     /// <summary>

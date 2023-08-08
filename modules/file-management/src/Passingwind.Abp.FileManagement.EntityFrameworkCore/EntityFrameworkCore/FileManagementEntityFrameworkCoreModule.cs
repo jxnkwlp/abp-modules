@@ -5,10 +5,10 @@ using Volo.Abp.Modularity;
 namespace Passingwind.Abp.FileManagement.EntityFrameworkCore;
 
 [DependsOn(
-    typeof(PassingwindAbpFileManagementDomainModule),
+    typeof(FileManagementDomainModule),
     typeof(AbpEntityFrameworkCoreModule)
 )]
-public class PassingwindAbpFileManagementEntityFrameworkCoreModule : AbpModule
+public class FileManagementEntityFrameworkCoreModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {

@@ -22,7 +22,7 @@ namespace Sample;
     typeof(AbpFeatureManagementHttpApiModule),
     typeof(AbpSettingManagementHttpApiModule)
     )]
-[DependsOn(typeof(PassingwindAbpFileManagementHttpApiModule))]
+[DependsOn(typeof(FileManagementHttpApiModule))]
 [DependsOn(typeof(AbpBlobStoringFileSystemModule))]
     public class SampleHttpApiModule : AbpModule
 {

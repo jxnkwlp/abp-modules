@@ -6,20 +6,20 @@ using Volo.Abp.VirtualFileSystem;
 namespace Passingwind.Abp.FileManagement;
 
 [DependsOn(
-    typeof(PassingwindAbpFileManagementApplicationContractsModule),
+    typeof(FileManagementApplicationContractsModule),
     typeof(AbpHttpClientModule))]
-public class PassingwindAbpFileManagementHttpApiClientModule : AbpModule
+public class FileManagementHttpApiClientModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         context.Services.AddHttpClientProxies(
-            typeof(PassingwindAbpFileManagementApplicationContractsModule).Assembly,
+            typeof(FileManagementApplicationContractsModule).Assembly,
             FileManagementRemoteServiceConsts.RemoteServiceName
         );
 
         Configure<AbpVirtualFileSystemOptions>(options =>
         {
-            options.FileSets.AddEmbedded<PassingwindAbpFileManagementHttpApiClientModule>();
+            options.FileSets.AddEmbedded<FileManagementHttpApiClientModule>();
         });
 
     }

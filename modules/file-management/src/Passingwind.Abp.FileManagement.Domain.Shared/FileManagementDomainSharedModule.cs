@@ -6,11 +6,11 @@ using Volo.Abp.VirtualFileSystem;
 
 namespace Passingwind.Abp.FileManagement;
 
-public class PassingwindAbpFileManagementDomainSharedModule : AbpModule
+public class FileManagementDomainSharedModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        Configure<AbpVirtualFileSystemOptions>(options => options.FileSets.AddEmbedded<PassingwindAbpFileManagementDomainSharedModule>());
+        Configure<AbpVirtualFileSystemOptions>(options => options.FileSets.AddEmbedded<FileManagementDomainSharedModule>());
 
         Configure<AbpLocalizationOptions>(options =>
         {

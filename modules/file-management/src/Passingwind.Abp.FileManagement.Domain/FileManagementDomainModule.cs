@@ -13,10 +13,10 @@ namespace Passingwind.Abp.FileManagement;
 
 [DependsOn(
     typeof(AbpDddDomainModule),
-    typeof(PassingwindAbpFileManagementDomainSharedModule),
+    typeof(FileManagementDomainSharedModule),
     typeof(AbpBlobStoringModule)
 )]
-public class PassingwindAbpFileManagementDomainModule : AbpModule
+public class FileManagementDomainModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {

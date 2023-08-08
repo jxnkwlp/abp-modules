@@ -5,10 +5,10 @@ using Volo.Abp.MongoDB;
 namespace Passingwind.Abp.FileManagement.MongoDB;
 
 [DependsOn(
-    typeof(PassingwindAbpFileManagementDomainModule),
+    typeof(FileManagementDomainModule),
     typeof(AbpMongoDbModule)
     )]
-public class PassingwindAbpFileManagementMongoDbModule : AbpModule
+public class FileManagementMongoDbModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {

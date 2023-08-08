@@ -20,7 +20,7 @@ namespace Sample;
     typeof(AbpFeatureManagementApplicationModule),
     typeof(AbpSettingManagementApplicationModule)
     )]
-[DependsOn(typeof(PassingwindAbpFileManagementApplicationModule))]
+[DependsOn(typeof(FileManagementApplicationModule))]
 public class SampleApplicationModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)

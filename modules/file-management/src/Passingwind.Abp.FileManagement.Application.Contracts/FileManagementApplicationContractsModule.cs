@@ -5,10 +5,10 @@ using Volo.Abp.Modularity;
 namespace Passingwind.Abp.FileManagement;
 
 [DependsOn(
-    typeof(PassingwindAbpFileManagementDomainSharedModule),
+    typeof(FileManagementDomainSharedModule),
     typeof(AbpDddApplicationContractsModule),
     typeof(AbpAuthorizationModule)
     )]
-public class PassingwindAbpFileManagementApplicationContractsModule : AbpModule
+public class FileManagementApplicationContractsModule : AbpModule
 {
 }

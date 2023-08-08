@@ -49,7 +49,7 @@ namespace Sample;
     typeof(AbpAspNetCoreSerilogModule),
     typeof(AbpSwashbuckleModule)
 )]
-[DependsOn(typeof(PassingwindAbpFileManagementApplicationModule))]
+[DependsOn(typeof(FileManagementApplicationModule))]
 public class SampleHttpApiHostModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)

@@ -8,13 +8,13 @@ using Volo.Abp.Modularity;
 namespace Passingwind.Abp.FileManagement;
 
 [DependsOn(
-    typeof(PassingwindAbpFileManagementApplicationContractsModule),
+    typeof(FileManagementApplicationContractsModule),
     typeof(AbpAspNetCoreMvcModule))]
-public class PassingwindAbpFileManagementHttpApiModule : AbpModule
+public class FileManagementHttpApiModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
-        PreConfigure<IMvcBuilder>(mvcBuilder => mvcBuilder.AddApplicationPartIfNotExists(typeof(PassingwindAbpFileManagementHttpApiModule).Assembly));
+        PreConfigure<IMvcBuilder>(mvcBuilder => mvcBuilder.AddApplicationPartIfNotExists(typeof(FileManagementHttpApiModule).Assembly));
     }
 
     public override void ConfigureServices(ServiceConfigurationContext context)

@@ -29,7 +29,7 @@ namespace Sample.EntityFrameworkCore;
     typeof(AbpTenantManagementEntityFrameworkCoreModule),
     typeof(AbpFeatureManagementEntityFrameworkCoreModule)
     )]
-[DependsOn(typeof(PassingwindAbpFileManagementEntityFrameworkCoreModule))]
+[DependsOn(typeof(FileManagementEntityFrameworkCoreModule))]
 public class SampleEntityFrameworkCoreModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
