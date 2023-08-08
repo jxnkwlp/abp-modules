@@ -9,7 +9,7 @@ namespace Passingwind.Abp.FileManagement.Files;
 
 public interface IFileAppService : IApplicationService
 {
-    Task<PagedResultDto<FileDto>> GetListAsync(string containerName, FileListRequestDto input);
+    Task<PagedResultDto<FileDto>> GetListAsync(string containerName, FilePagedListRequestDto input);
 
     Task<FileDto> GetAsync(string containerName, Guid id);
 

@@ -10,7 +10,7 @@ public class File : FullAuditedAggregateRoot<Guid>, IMultiTenant
 
     public virtual Guid ContainerId { get; protected set; }
 
-    public virtual Guid? ParentId { get; protected set; }
+    public virtual Guid ParentId { get; protected set; }
 
     public virtual bool IsDirectory { get; protected set; }
 
@@ -62,7 +62,7 @@ public class File : FullAuditedAggregateRoot<Guid>, IMultiTenant
         FileName = fileName;
     }
 
-    public void ChangeParentId(Guid? parentId)
+    public void ChangeParentId(Guid parentId)
     {
         ParentId = parentId;
     }

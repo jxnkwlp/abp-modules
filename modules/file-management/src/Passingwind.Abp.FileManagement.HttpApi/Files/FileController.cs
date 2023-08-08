@@ -21,7 +21,7 @@ public class FileController : FileManagementController, IFileAppService
     }
 
     [HttpGet("{containerName}")]
-    public virtual Task<PagedResultDto<FileDto>> GetListAsync(string containerName, FileListRequestDto input)
+    public virtual Task<PagedResultDto<FileDto>> GetListAsync(string containerName, FilePagedListRequestDto input)
     {
         return _service.GetListAsync(containerName, input);
     }

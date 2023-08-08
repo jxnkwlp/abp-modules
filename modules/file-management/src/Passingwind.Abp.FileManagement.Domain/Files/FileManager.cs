@@ -204,7 +204,7 @@ public class FileManager : DomainService, IFileManager
         }
     }
 
-    public virtual async Task<File> CreateFileAsync(FileContainer container, string fileName, string mimeType, byte[] bytes, CancellationToken cancellationToken = default)
+    public virtual async Task<File> CreateFileAsync(FileContainer container, string fileName, string mimeType, byte[] bytes, Guid? parentId = null, CancellationToken cancellationToken = default)
     {
         if (container is null)
         {
@@ -227,16 +227,20 @@ public class FileManager : DomainService, IFileManager
         var uniqueId = await _fileUniqueIdGenerator.CreateAsync(container, fileId);
         var blobName = await _fileBlobNameGenerator.CreateAsync(container.Id, fileId, uniqueId, fileName, mimeType, bytes.Length, hash);
 
-        return new File(
+        var file = new File(
             fileId,
             container.Id,
-            false,
-            fileName,
-            blobName,
-            mimeType,
-            bytes.Length,
-            hash,
-            uniqueId);
+            isDirectory: false,
+            fileName: fileName,
+            blobName: blobName,
+            mimeType: mimeType,
+            length: bytes.Length,
+            hash: hash,
+            uniqueId: uniqueId);
+
+        file.ChangeParentId(parentId ?? Guid.Empty);
+
+        return file;
     }
 
     public async Task<File> CreateDirectoryAsync(FileContainer container, string name, Guid? parentId, CancellationToken cancellationToken = default)
@@ -258,15 +262,15 @@ public class FileManager : DomainService, IFileManager
         var file = new File(
             fileId,
             container.Id,
-            true,
-            name,
-            blobName,
-            null,
-            0,
-            null,
-            uniqueId);
+            isDirectory: true,
+            fileName: name,
+            blobName: blobName,
+            mimeType: null,
+            length: 0,
+            hash: null,
+            uniqueId: uniqueId);
 
-        file.ChangeParentId(parentId);
+        file.ChangeParentId(parentId ?? Guid.Empty);
 
         return file;
     }
@@ -384,7 +388,7 @@ public class FileManager : DomainService, IFileManager
             throw new ArgumentException($"'{nameof(newName)}' cannot be null or whitespace.", nameof(newName));
         }
 
-        file.ChangeParentId(parentId);
+        file.ChangeParentId(parentId ?? Guid.Empty);
         file.SetFileName(newName);
 
         if (!file.IsDirectory)
@@ -400,11 +404,31 @@ public class FileManager : DomainService, IFileManager
     {
         await _fileRepository.DeleteAsync(file);
 
-        if (container.AutoDeleteBlob)
+        if (container.AutoDeleteBlob && !file.IsDirectory)
         {
-            var blobContainer = await _fileBlobContainerProvider.GetAsync(container);
+            var blobContainer = await _fileBlobContainerProvider.GetAsync(container, cancellationToken: cancellationToken);
 
             await blobContainer.DeleteAsync(file.BlobName, cancellationToken);
+        }
+    }
+
+    [UnitOfWork]
+    public async Task ClearContainerFilesAsync(FileContainer container, CancellationToken cancellationToken = default)
+    {
+        // TODO: performance
+
+        var files = await _fileRepository.GetListAsync(containerId: container.Id, cancellationToken: cancellationToken);
+
+        foreach (var file in files)
+        {
+            await _fileRepository.DeleteAsync(file);
+
+            if (container.AutoDeleteBlob && !file.IsDirectory)
+            {
+                var blobContainer = await _fileBlobContainerProvider.GetAsync(container, cancellationToken: cancellationToken);
+
+                await blobContainer.DeleteAsync(file.BlobName, cancellationToken);
+            }
         }
     }
 }

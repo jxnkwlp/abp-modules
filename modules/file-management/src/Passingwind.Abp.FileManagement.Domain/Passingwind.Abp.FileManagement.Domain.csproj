@@ -16,7 +16,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="MimeTypesMap" Version="1.0.8" />
-		<PackageReference Include="Nanoid" Version="2.1.0" />
+		<!--<PackageReference Include="Nanoid" Version="2.1.0" />-->
 	</ItemGroup>
 
 </Project>

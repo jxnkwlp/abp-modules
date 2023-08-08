@@ -17,33 +17,36 @@ public class FileRepository : EfCoreRepository<FileManagementDbContext, File, Gu
     {
     }
 
-    public virtual async Task<long> GetCountAsync(string? filter = null, Guid? containerId = null, Guid? parentId = null, CancellationToken cancellationToken = default)
+    public virtual async Task<long> GetCountAsync(string? filter = null, Guid? containerId = null, Guid? parentId = null, bool? isDirectory = null, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
         return await dbset
             .WhereIf(!string.IsNullOrEmpty(filter), x => x.FileName.Contains(filter!))
             .WhereIf(containerId.HasValue, x => x.ContainerId == containerId)
             .WhereIf(parentId.HasValue, x => x.ParentId == parentId)
+            .WhereIf(isDirectory.HasValue, x => x.IsDirectory == isDirectory)
             .LongCountAsync(cancellationToken);
     }
 
-    public virtual async Task<List<File>> GetListAsync(string? filter = null, Guid? containerId = null, Guid? parentId = null, bool includeDetails = false, CancellationToken cancellationToken = default)
+    public virtual async Task<List<File>> GetListAsync(string? filter = null, Guid? containerId = null, Guid? parentId = null, bool? isDirectory = null, bool includeDetails = false, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
         return await dbset
             .WhereIf(!string.IsNullOrEmpty(filter), x => x.FileName.Contains(filter!))
             .WhereIf(containerId.HasValue, x => x.ContainerId == containerId)
             .WhereIf(parentId.HasValue, x => x.ParentId == parentId)
+            .WhereIf(isDirectory.HasValue, x => x.IsDirectory == isDirectory)
             .ToListAsync(cancellationToken);
     }
 
-    public virtual async Task<List<File>> GetPagedListAsync(int skipCount, int maxResultCount, string? filter = null, Guid? containerId = null, Guid? parentId = null, string? sorting = null, bool includeDetails = false, CancellationToken cancellationToken = default)
+    public virtual async Task<List<File>> GetPagedListAsync(int skipCount, int maxResultCount, string? filter = null, Guid? containerId = null, Guid? parentId = null, bool? isDirectory = null, string? sorting = null, bool includeDetails = false, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
         return await dbset
             .WhereIf(!string.IsNullOrEmpty(filter), x => x.FileName.Contains(filter!))
             .WhereIf(containerId.HasValue, x => x.ContainerId == containerId)
             .WhereIf(parentId.HasValue, x => x.ParentId == parentId)
+            .WhereIf(isDirectory.HasValue, x => x.IsDirectory == isDirectory)
             .PageBy(skipCount, maxResultCount)
             .OrderBy(sorting ?? nameof(File.CreationTime) + " desc")
             .ToListAsync(cancellationToken);
@@ -53,8 +56,7 @@ public class FileRepository : EfCoreRepository<FileManagementDbContext, File, Gu
     {
         var dbset = await GetDbSetAsync();
         return await dbset
-            .WhereIf(parentId.HasValue, x => x.ParentId == parentId)
-            .Where(x => x.ContainerId == containerId && x.FileName == fileName)
+            .Where(x => x.ContainerId == containerId && x.FileName == fileName && x.ParentId == parentId)
             .AnyAsync(cancellationToken);
     }
 }

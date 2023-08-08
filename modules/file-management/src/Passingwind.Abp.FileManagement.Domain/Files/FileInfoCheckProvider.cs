@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Volo.Abp;
-using Volo.Abp.Domain.Repositories;
 
 namespace Passingwind.Abp.FileManagement.Files;
 
@@ -21,25 +20,25 @@ public class FileInfoCheckProvider : IFileInfoCheckProvider
         _fileDuplicateDetectionProvider = fileDuplicateDetectionProvider;
     }
 
-    public async Task CheckAsync(FileContainer container, File entity, CancellationToken cancellationToken = default)
+    public async Task CheckAsync(FileContainer container, File file, CancellationToken cancellationToken = default)
     {
-        if (!entity.IsDirectory)
+        if (!file.IsDirectory)
         {
             // check file extensions
-            await CheckFileExtensionAsync(container, entity, cancellationToken);
+            await CheckFileExtensionAsync(container, file, cancellationToken);
 
             // check file extensions
-            await CheckFileSizeAsync(container, entity, cancellationToken);
+            await CheckFileSizeAsync(container, file, cancellationToken);
 
             // check file exists
-            await CheckFileExistsAsync(container, entity, cancellationToken);
+            await CheckFileExistsAsync(container, file, cancellationToken);
 
             // check container file quantity
-            await CheckContainerFileTotalQuantitiesAsync(container, entity, cancellationToken);
+            await CheckContainerFileTotalQuantitiesAsync(container, file, cancellationToken);
         }
         else
         {
-            await CheckDirectoryExistsAsync(container, entity, cancellationToken);
+            await CheckDirectoryExistsAsync(container, file, cancellationToken);
         }
     }
 
@@ -111,9 +110,9 @@ public class FileInfoCheckProvider : IFileInfoCheckProvider
 
     protected virtual async Task CheckContainerFileTotalQuantitiesAsync(FileContainer container, File entity, CancellationToken cancellationToken = default)
     {
-        var filesCount = await _fileRepository.LongCountAsync(x => x.ContainerId == container.Id && !x.IsDirectory);
+        var filesCount = await _fileRepository.GetCountAsync(containerId: container.Id, isDirectory: false);
 
-        if (container.MaximumFileQuantity < filesCount)
+        if (container.MaximumFileQuantity <= filesCount)
         {
             throw new BusinessException(FileManagementErrorCodes.ContainerFileQuantitiesMaximumSurpass).WithData("fileName", entity.FileName);
         }

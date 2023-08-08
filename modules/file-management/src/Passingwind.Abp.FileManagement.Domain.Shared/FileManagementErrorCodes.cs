@@ -6,6 +6,7 @@ public static class FileManagementErrorCodes
 
     public const string ContainerExist = "FileManagement:Error:ContainerExist";
     public const string ContainerFileQuantitiesMaximumSurpass = "FileManagement:Error:ContainerFileQuantitiesMaximumSurpass";
+    public const string ContainerNotAllowForceDelete = "FileManagement:Error:ContainerNotAllowForceDelete";
     public const string FileExists = "FileManagement:Error:FileExists";
     public const string FileExtensionNotAllowed = "FileManagement:Error:FileExtensionNotAllowed";
     public const string FileLengthTooLarge = "FileManagement:Error:FileLengthTooLarge";

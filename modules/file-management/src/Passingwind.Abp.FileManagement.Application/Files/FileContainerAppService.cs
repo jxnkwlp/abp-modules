@@ -15,18 +15,24 @@ namespace Passingwind.Abp.FileManagement.Files;
 [Authorize]
 public class FileContainerAppService : FileManagementAppService, IFileContainerAppService
 {
+    private readonly FileManagementOptions _fileManagementOptions;
     private readonly FileContainerManager _fileContainerManager;
     private readonly IFileContainerRepository _fileContainerRepository;
-    private readonly FileManagementOptions _options;
+    private readonly IFileRepository _fileRepository;
+    private readonly IFileManager _fileManager;
 
     public FileContainerAppService(
+        IOptions<FileManagementOptions> fileManagementOptions,
         FileContainerManager fileContainerManager,
         IFileContainerRepository fileContainerRepository,
-        IOptions<FileManagementOptions> options)
+        IFileRepository fileRepository,
+        IFileManager fileManager)
     {
+        _fileManagementOptions = fileManagementOptions.Value;
         _fileContainerManager = fileContainerManager;
         _fileContainerRepository = fileContainerRepository;
-        _options = options.Value;
+        _fileRepository = fileRepository;
+        _fileManager = fileManager;
     }
 
     public virtual async Task<PagedResultDto<FileContainerDto>> GetListAsync(FileContainerListRequestDto input)
@@ -124,7 +130,7 @@ public class FileContainerAppService : FileManagementAppService, IFileContainerA
         entity.ProhibitedFileExtensions = input.ProhibitedFileExtensions;
         entity.AutoDeleteBlob = input.AutoDeleteBlob;
 
-        entity.SetAccessMode(input.AccessMode ?? _options.DefaultContainerAccessMode);
+        entity.SetAccessMode(input.AccessMode ?? _fileManagementOptions.DefaultContainerAccessMode);
 
         input.MapExtraPropertiesTo(entity);
 
@@ -144,6 +150,17 @@ public class FileContainerAppService : FileManagementAppService, IFileContainerA
         if (!isManager && CurrentUser.Id != entity.CreatorId)
             return;
 
+        var fileCount = await _fileRepository.GetCountAsync(containerId: id);
+
+        if (fileCount > 0 && !_fileManagementOptions.AllowForceDeleteContainer)
+        {
+            throw new BusinessException(FileManagementErrorCodes.ContainerNotAllowForceDelete);
+        }
+
+        // 1. delete file
+        await _fileManager.ClearContainerFilesAsync(entity);
+
+        // 2. delete container 
         await _fileContainerRepository.DeleteAsync(id);
     }
 }

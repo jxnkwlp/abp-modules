@@ -3,6 +3,7 @@
   "texts": {
     "FileManagement:Error:ContainerExist": "The container '{name}' already exists",
     "FileManagement:Error:ContainerFileQuantitiesMaximumSurpass": "Too many file in container",
+    "FileManagement:Error:ContainerNotAllowForceDelete": "Prohibit deletion of container when there are files",
     "FileManagement:Error:FileExists": "The file '{fileName}' already exists",
     "FileManagement:Error:FileExtensionNotAllowed": "The file extension '{ext}' is not allowed",
     "FileManagement:Error:FileLengthTooLarge": "The file size is too large",

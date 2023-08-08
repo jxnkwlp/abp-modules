@@ -11,4 +11,5 @@ public class FileDto : ExtensibleAuditedEntityDto<Guid>
     public virtual long Length { get; set; }
     public virtual string? Hash { get; set; }
     public virtual string UniqueId { get; set; } = null!;
+    public virtual Guid? ParentId { get; set; }
 }

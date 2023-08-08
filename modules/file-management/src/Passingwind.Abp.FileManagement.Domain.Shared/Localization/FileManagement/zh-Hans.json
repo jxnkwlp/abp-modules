@@ -3,6 +3,7 @@
   "texts": {
     "FileManagement:Error:ContainerExist": "容器 '{name}' 已存在",
     "FileManagement:Error:ContainerFileQuantitiesMaximumSurpass": "容器中文件太多",
+    "FileManagement:Error:ContainerNotAllowForceDelete": "容器下还有文件，禁止删除",
     "FileManagement:Error:FileExists": "文件'{fileName}'已存在",
     "FileManagement:Error:FileExtensionNotAllowed": "不允许的文件扩展名'{ext}'",
     "FileManagement:Error:FileLengthTooLarge": "文件大小太大",

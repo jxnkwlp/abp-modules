@@ -18,38 +18,41 @@ public class FileRepository : MongoDbRepository<FileManagementMongoDbContext, Fi
     {
     }
 
-    public async Task<long> GetCountAsync(string? filter = null, Guid? containerId = null, Guid? parentId = null, CancellationToken cancellationToken = default)
+    public async Task<long> GetCountAsync(string? filter = null, Guid? containerId = null, Guid? parentId = null, bool? isDirectory = null, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 
         return await query
-            .WhereIf(!string.IsNullOrEmpty(filter), x => x.FileName.Contains(filter))
+            .WhereIf(!string.IsNullOrEmpty(filter), x => x.FileName.Contains(filter!))
             .WhereIf(containerId.HasValue, x => x.ContainerId == containerId)
             .WhereIf(parentId.HasValue, x => x.ParentId == parentId)
+            .WhereIf(isDirectory.HasValue, x => x.IsDirectory == isDirectory)
             .As<IMongoQueryable<File>>()
             .LongCountAsync(cancellationToken);
     }
 
-    public async Task<List<File>> GetListAsync(string? filter = null, Guid? containerId = null, Guid? parentId = null, bool includeDetails = false, CancellationToken cancellationToken = default)
+    public async Task<List<File>> GetListAsync(string? filter = null, Guid? containerId = null, Guid? parentId = null, bool? isDirectory = null, bool includeDetails = false, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 
         return await query
-            .WhereIf(!string.IsNullOrEmpty(filter), x => x.FileName.Contains(filter))
+            .WhereIf(!string.IsNullOrEmpty(filter), x => x.FileName.Contains(filter!))
             .WhereIf(containerId.HasValue, x => x.ContainerId == containerId)
             .WhereIf(parentId.HasValue, x => x.ParentId == parentId)
+            .WhereIf(isDirectory.HasValue, x => x.IsDirectory == isDirectory)
             .As<IMongoQueryable<File>>()
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<List<File>> GetPagedListAsync(int skipCount, int maxResultCount, string? filter = null, Guid? containerId = null, Guid? parentId = null, string? sorting = null, bool includeDetails = false, CancellationToken cancellationToken = default)
+    public async Task<List<File>> GetPagedListAsync(int skipCount, int maxResultCount, string? filter = null, Guid? containerId = null, Guid? parentId = null, bool? isDirectory = null, string? sorting = null, bool includeDetails = false, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 
         return await query
-            .WhereIf(!string.IsNullOrEmpty(filter), x => x.FileName.Contains(filter))
+            .WhereIf(!string.IsNullOrEmpty(filter), x => x.FileName.Contains(filter!))
             .WhereIf(containerId.HasValue, x => x.ContainerId == containerId)
             .WhereIf(parentId.HasValue, x => x.ParentId == parentId)
+            .WhereIf(isDirectory.HasValue, x => x.IsDirectory == isDirectory)
             .PageBy(skipCount, maxResultCount)
             .OrderBy(sorting ?? nameof(File.CreationTime) + " desc")
             .As<IMongoQueryable<File>>()

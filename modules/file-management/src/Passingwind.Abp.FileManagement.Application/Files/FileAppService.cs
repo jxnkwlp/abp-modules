@@ -49,20 +49,25 @@ public class FileAppService : FileManagementAppService, IFileAppService
         _options = options.Value;
     }
 
-    public virtual async Task<PagedResultDto<FileDto>> GetListAsync(string containerName, FileListRequestDto input)
+    public virtual async Task<PagedResultDto<FileDto>> GetListAsync(string containerName, FilePagedListRequestDto input)
     {
         var container = await _fileContainerRepository.GetByNameAsync(containerName);
 
         await CheckContainerPermissionAsync(container);
 
-        var count = await _fileRepository.GetCountAsync(filter: input.Filter, containerId: container.Id, parentId: input.ParentId);
+        var count = await _fileRepository.GetCountAsync(
+            filter: input.Filter,
+            containerId: container.Id,
+            parentId: input.ParentId ?? Guid.Empty,
+            isDirectory: input.IsDirectory);
         var list = await _fileRepository.GetPagedListAsync(
             input.SkipCount,
             input.MaxResultCount,
             input.Filter,
-            container.Id,
-            input.ParentId,
-            nameof(File.FileName));
+            containerId: container.Id,
+            parentId: input.ParentId ?? Guid.Empty,
+            isDirectory: input.IsDirectory,
+            sorting: input.Sorting ?? nameof(File.FileName));
 
         return new PagedResultDto<FileDto>()
         {
@@ -99,7 +104,7 @@ public class FileAppService : FileManagementAppService, IFileAppService
         if (entity.IsDirectory)
         {
             // if an directory has files, can't be delete
-            var fileCount = await _fileRepository.GetCountAsync(parentId: entity.Id);
+            var fileCount = await _fileRepository.GetCountAsync(containerId: container.Id, parentId: entity.Id);
             if (fileCount > 0)
             {
                 throw new BusinessException(FileManagementErrorCodes.DirectoryHasFiles).WithData("name", entity.FileName);
@@ -167,7 +172,7 @@ public class FileAppService : FileManagementAppService, IFileAppService
 
         var fileBytes = await input.File.GetStream().GetAllBytesAsync();
 
-        var entity = await CreateFileAsync(container, input.File.FileName, null, fileBytes, input);
+        var entity = await CreateFileAsync(container, input.File.FileName, input.ParentId, null, fileBytes, input);
 
         return ObjectMapper.Map<File, FileDto>(entity);
     }
@@ -180,7 +185,7 @@ public class FileAppService : FileManagementAppService, IFileAppService
 
         var bytes = await input.FileStream.GetAllBytesAsync();
 
-        var entity = await CreateFileAsync(container, input.FileName, input.MimeType, bytes, input);
+        var entity = await CreateFileAsync(container, input.FileName, input.ParentId, input.MimeType, bytes, input);
 
         return ObjectMapper.Map<File, FileDto>(entity);
     }
@@ -193,7 +198,7 @@ public class FileAppService : FileManagementAppService, IFileAppService
 
         var bytes = input.FileData;
 
-        var entity = await CreateFileAsync(container, input.FileName, input.MimeType, bytes, input);
+        var entity = await CreateFileAsync(container, input.FileName, input.ParentId, input.MimeType, bytes, input);
 
         return ObjectMapper.Map<File, FileDto>(entity);
     }
@@ -258,11 +263,11 @@ public class FileAppService : FileManagementAppService, IFileAppService
         return ObjectMapper.Map<File, FileDto>(entity);
     }
 
-    protected async Task<File> CreateFileAsync(FileContainer container, string fileName, string? mimeType, byte[] fileBytes, ExtensibleObject extensibleObject)
+    protected async Task<File> CreateFileAsync(FileContainer container, string fileName, Guid? parentId, string? mimeType, byte[] fileBytes, ExtensibleObject extensibleObject)
     {
         mimeType ??= _fileMimeTypeProvider.Get(fileName);
 
-        var entity = await _fileManager.CreateFileAsync(container, fileName, mimeType, fileBytes);
+        var entity = await _fileManager.CreateFileAsync(container, fileName, mimeType, fileBytes, parentId);
 
         extensibleObject.MapExtraPropertiesTo(entity);
 

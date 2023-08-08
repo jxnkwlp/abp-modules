@@ -23,6 +23,11 @@ public class FileManagementOptions
     public string BlobDirectorySeparator { get; set; } = "/";
 
     /// <summary>
+    ///  Whether to allow deleting containers even if there are files. Default: false
+    /// </summary>
+    public bool AllowForceDeleteContainer { get; set; }
+
+    /// <summary>
     ///  The file share url format. Default '/files/download/{0}'
     /// </summary>
     public string FileShareDownloadUrlFormat { get; set; } = "/files/download/{0}";

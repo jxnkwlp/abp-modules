@@ -26,8 +26,9 @@ public interface IFileManager : IDomainService
     /// <param name="fileName"></param>
     /// <param name="mimeType"></param>
     /// <param name="bytes"></param>
+    /// <param name="parentId"></param>
     /// <param name="cancellationToken"></param>
-    Task<File> CreateFileAsync(FileContainer container, string fileName, string mimeType, byte[] bytes, CancellationToken cancellationToken = default);
+    Task<File> CreateFileAsync(FileContainer container, string fileName, string mimeType, byte[] bytes, Guid? parentId = null, CancellationToken cancellationToken = default);
 
     Task<File> CreateDirectoryAsync(FileContainer container, string name, Guid? parentId, CancellationToken cancellationToken = default);
 
@@ -42,5 +43,18 @@ public interface IFileManager : IDomainService
     Task SaveBlobAsync(FileContainer container, File file, byte[] bytes, CancellationToken cancellationToken = default);
     Task SaveBlobAsync(FileContainer container, File file, Stream stream, CancellationToken cancellationToken = default);
 
+    /// <summary>
+    ///  Delete an file
+    /// </summary>
+    /// <param name="container"></param>
+    /// <param name="file"></param>
+    /// <param name="cancellationToken"></param>
     Task DeleteAsync(FileContainer container, File file, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    ///  Delete all files
+    /// </summary>
+    /// <param name="container"></param>
+    /// <param name="cancellationToken"></param>
+    Task ClearContainerFilesAsync(FileContainer container, CancellationToken cancellationToken = default);
 }
