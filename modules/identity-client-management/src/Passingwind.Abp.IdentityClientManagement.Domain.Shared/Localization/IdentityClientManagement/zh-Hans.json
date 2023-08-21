@@ -1,0 +1,12 @@
+﻿{
+  "culture": "zh-Hans",
+  "texts": {
+    "IdentityClientManagement:Error:IdentityClientNameExists": "名称'{name}'已经存在",
+
+    "Permission:IdentityClientManagement": "认证客户端管理",
+    "Permission:IdentityClientManagement:IdentityClient": "客户端",
+    "Permission:Create": "添加",
+    "Permission:Update": "修改",
+    "Permission:Delete": "删除"
+  }
+}

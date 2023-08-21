@@ -1,0 +1,79 @@
+{
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {},
+      "host": {}
+    }
+  },
+  "packages": {
+    "Passingwind.Abp.IdentityClientManagement.Domain.Shared": {
+      "path": "src/Passingwind.Abp.IdentityClientManagement.Domain.Shared/Passingwind.Abp.IdentityClientManagement.Domain.Shared.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.IdentityClientManagement.Domain": {
+      "path": "src/Passingwind.Abp.IdentityClientManagement.Domain/Passingwind.Abp.IdentityClientManagement.Domain.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.IdentityClientManagement.Application.Contracts": {
+      "path": "src/Passingwind.Abp.IdentityClientManagement.Application.Contracts/Passingwind.Abp.IdentityClientManagement.Application.Contracts.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.IdentityClientManagement.Application": {
+      "path": "src/Passingwind.Abp.IdentityClientManagement.Application/Passingwind.Abp.IdentityClientManagement.Application.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.IdentityClientManagement.EntityFrameworkCore": {
+      "path": "src/Passingwind.Abp.IdentityClientManagement.EntityFrameworkCore/Passingwind.Abp.IdentityClientManagement.EntityFrameworkCore.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.IdentityClientManagement.MongoDB": {
+      "path": "src/Passingwind.Abp.IdentityClientManagement.MongoDB/Passingwind.Abp.IdentityClientManagement.MongoDB.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.IdentityClientManagement.HttpApi": {
+      "path": "src/Passingwind.Abp.IdentityClientManagement.HttpApi/Passingwind.Abp.IdentityClientManagement.HttpApi.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.IdentityClientManagement.HttpApi.Client": {
+      "path": "src/Passingwind.Abp.IdentityClientManagement.HttpApi.Client/Passingwind.Abp.IdentityClientManagement.HttpApi.Client.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.IdentityClientManagement.TestBase": {
+      "path": "test/Passingwind.Abp.IdentityClientManagement.TestBase/Passingwind.Abp.IdentityClientManagement.TestBase.abppkg.json",
+      "folder": "test"
+    },
+    "Passingwind.Abp.IdentityClientManagement.EntityFrameworkCore.Tests": {
+      "path": "test/Passingwind.Abp.IdentityClientManagement.EntityFrameworkCore.Tests/Passingwind.Abp.IdentityClientManagement.EntityFrameworkCore.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "Passingwind.Abp.IdentityClientManagement.MongoDB.Tests": {
+      "path": "test/Passingwind.Abp.IdentityClientManagement.MongoDB.Tests/Passingwind.Abp.IdentityClientManagement.MongoDB.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "Passingwind.Abp.IdentityClientManagement.Domain.Tests": {
+      "path": "test/Passingwind.Abp.IdentityClientManagement.Domain.Tests/Passingwind.Abp.IdentityClientManagement.Domain.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "Passingwind.Abp.IdentityClientManagement.Application.Tests": {
+      "path": "test/Passingwind.Abp.IdentityClientManagement.Application.Tests/Passingwind.Abp.IdentityClientManagement.Application.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "Passingwind.Abp.IdentityClientManagement.HttpApi.Host": {
+      "path": "host/Passingwind.Abp.IdentityClientManagement.HttpApi.Host/Passingwind.Abp.IdentityClientManagement.HttpApi.Host.abppkg.json",
+      "folder": "host"
+    },
+    "Passingwind.Abp.IdentityClientManagement.HttpApi.Client.ConsoleTestApp": {
+      "path": "test/Passingwind.Abp.IdentityClientManagement.HttpApi.Client.ConsoleTestApp/Passingwind.Abp.IdentityClientManagement.HttpApi.Client.ConsoleTestApp.abppkg.json",
+      "folder": "test"
+    },
+    "Passingwind.Abp.IdentityClientManagement.AuthServer": {
+      "path": "host/Passingwind.Abp.IdentityClientManagement.AuthServer/Passingwind.Abp.IdentityClientManagement.AuthServer.abppkg.json",
+      "folder": "host"
+    },
+    "Passingwind.Abp.IdentityClientManagement.Host.Shared": {
+      "path": "host/Passingwind.Abp.IdentityClientManagement.Host.Shared/Passingwind.Abp.IdentityClientManagement.Host.Shared.abppkg.json",
+      "folder": "host"
+    }
+  }
+}

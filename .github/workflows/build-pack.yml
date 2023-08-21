@@ -1,4 +1,4 @@
-name: build and pack
+﻿name: build and pack
 
 on:
   push:
@@ -57,9 +57,9 @@ jobs:
         run: dotnet build --no-restore -c Release
 
       - name: Pack
-        run: |
-          cd  ./modules/file-management
-          dotnet pack --no-build --no-restore -c Release --property:PackageOutputPath=${{github.workspace}}/pack_output file-management.sln
+        run: | 
+          dotnet pack --include-symbols -c Release --property:PackageOutputPath=${{github.workspace}}/pack_output ./modules/file-management/file-management.sln
+          dotnet pack --include-symbols -c Release --property:PackageOutputPath=${{github.workspace}}/pack_output ./modules/identity-client-management/Passingwind.Abp.IdentityClientManagement.sln
 
       - name: Push package
         if: ${{ env.PUSH_NUGET == 'true' }}

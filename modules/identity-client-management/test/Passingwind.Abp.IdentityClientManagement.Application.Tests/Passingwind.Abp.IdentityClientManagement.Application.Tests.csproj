@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Passingwind.Abp.IdentityClientManagement</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Passingwind.Abp.IdentityClientManagement.Application\Passingwind.Abp.IdentityClientManagement.Application.csproj" />
+    <ProjectReference Include="..\Passingwind.Abp.IdentityClientManagement.Domain.Tests\Passingwind.Abp.IdentityClientManagement.Domain.Tests.csproj" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
+  </ItemGroup>
+
+</Project>

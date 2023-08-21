@@ -97,7 +97,7 @@ namespace Sample.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
 
-                    b.Property<Guid?>("ParentId")
+                    b.Property<Guid>("ParentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("TenantId")
@@ -262,6 +262,141 @@ namespace Sample.Migrations
                     b.HasIndex("Name");
 
                     b.ToTable("FileManagementFileContainers", (string)null);
+                });
+
+            modelBuilder.Entity("Passingwind.Abp.IdentityClientManagement.IdentityClients.IdentityClient", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<Guid?>("DeleterId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("DeleterId");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DeletionTime");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<int>("DisplayOrder")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ExtraProperties")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<bool>("IsDebugMode")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false)
+                        .HasColumnName("IsDeleted");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<string>("ProviderName")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<int>("ProviderType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RequiredClaimTypes")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TenantId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreationTime")
+                        .IsDescending();
+
+                    b.HasIndex("Name");
+
+                    b.HasIndex("ProviderName");
+
+                    b.ToTable("PassingwindIdentityClients", (string)null);
+                });
+
+            modelBuilder.Entity("Passingwind.Abp.IdentityClientManagement.IdentityClients.IdentityClientClaimMap", b =>
+                {
+                    b.Property<Guid>("IdentityClientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ClaimType")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<int>("Action")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RawValue")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("ValueFromType")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.HasKey("IdentityClientId", "ClaimType");
+
+                    b.ToTable("PassingwindIdentityClientClaimMaps", (string)null);
+                });
+
+            modelBuilder.Entity("Passingwind.Abp.IdentityClientManagement.IdentityClients.IdentityClientConfiguration", b =>
+                {
+                    b.Property<Guid>("IdentityClientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdentityClientId", "Name");
+
+                    b.ToTable("PassingwindIdentityClientConfigurations", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>
@@ -1920,6 +2055,24 @@ namespace Sample.Migrations
                     b.ToTable("AbpTenantConnectionStrings", (string)null);
                 });
 
+            modelBuilder.Entity("Passingwind.Abp.IdentityClientManagement.IdentityClients.IdentityClientClaimMap", b =>
+                {
+                    b.HasOne("Passingwind.Abp.IdentityClientManagement.IdentityClients.IdentityClient", null)
+                        .WithMany("ClaimMaps")
+                        .HasForeignKey("IdentityClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Passingwind.Abp.IdentityClientManagement.IdentityClients.IdentityClientConfiguration", b =>
+                {
+                    b.HasOne("Passingwind.Abp.IdentityClientManagement.IdentityClients.IdentityClient", null)
+                        .WithMany("Configurations")
+                        .HasForeignKey("IdentityClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLogAction", b =>
                 {
                     b.HasOne("Volo.Abp.AuditLogging.AuditLog", null)
@@ -2060,6 +2213,13 @@ namespace Sample.Migrations
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Passingwind.Abp.IdentityClientManagement.IdentityClients.IdentityClient", b =>
+                {
+                    b.Navigation("ClaimMaps");
+
+                    b.Navigation("Configurations");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>

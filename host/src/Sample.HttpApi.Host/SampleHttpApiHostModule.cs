@@ -2,8 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
 using Hangfire;
 using Hangfire.MemoryStorage;
+using ITfoxtec.Identity.Saml2.Schemas.Metadata;
+using ITfoxtec.Identity.Saml2.Util;
+using ITfoxtec.Identity.Saml2;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Extensions.DependencyInjection;
@@ -14,6 +19,8 @@ using Microsoft.OpenApi.Models;
 using OpenIddict.Validation.AspNetCore;
 using Passingwind.Abp.FileManagement;
 using Passingwind.Abp.FileManagement.Options;
+using Passingwind.Abp.IdentityClientManagement;
+using Passingwind.Authentication.Saml2;
 using Sample.EntityFrameworkCore;
 using Sample.MultiTenancy;
 using Volo.Abp;
@@ -50,6 +57,7 @@ namespace Sample;
     typeof(AbpSwashbuckleModule)
 )]
 [DependsOn(typeof(FileManagementApplicationModule))]
+[DependsOn(typeof(IdentityClientManagementAspNetCoreModule))]
 public class SampleHttpApiHostModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
@@ -102,6 +110,52 @@ public class SampleHttpApiHostModule : AbpModule
     private void ConfigureAuthentication(ServiceConfigurationContext context)
     {
         context.Services.ForwardIdentityAuthenticationForBearer(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
+
+        //context.Services.AddAuthentication().AddSaml2("adfs", "adfs", config=> {
+        //    var configuration = new Saml2Configuration()
+        //    {
+        //        Issuer = "test02",
+        //        CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.None,
+        //    };
+
+        //    configuration.SigningCertificate = CertificateUtil.Load(@"e:\\mycert.pfx", "P@ss123456", X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.PersistKeySet);
+
+        //    //Alternatively load the certificate by thumbprint from the machines Certificate Store.
+        //    //saml2Configuration.SigningCertificate = CertificateUtil.Load(StoreName.My, StoreLocation.LocalMachine, X509FindType.FindByThumbprint, Configuration["Saml2:SigningCertificateThumbprint"]);
+
+        //    //saml2Configuration.SignatureValidationCertificates.Add(CertificateUtil.Load(AppEnvironment.MapToPhysicalFilePath(Configuration["Saml2:SignatureValidationCertificateFile"])));
+        //    configuration.AllowedAudienceUris.Add(configuration.Issuer);
+
+        //    var entityDescriptor = new EntityDescriptor();
+        //    entityDescriptor.ReadIdPSsoDescriptorFromUrl(new Uri("https://keycloak.dev.azaas.online/realms/master/protocol/saml/descriptor"));
+
+        //    if (entityDescriptor.IdPSsoDescriptor != null)
+        //    {
+        //        configuration.AllowedIssuer = entityDescriptor.EntityId;
+        //        configuration.SingleSignOnDestination = entityDescriptor.IdPSsoDescriptor.SingleSignOnServices.First().Location;
+        //        configuration.SingleLogoutDestination = entityDescriptor.IdPSsoDescriptor.SingleLogoutServices.First().Location;
+        //        foreach (var signingCertificate in entityDescriptor.IdPSsoDescriptor.SigningCertificates)
+        //        {
+        //            if (signingCertificate.IsValidLocalTime())
+        //            {
+        //                configuration.SignatureValidationCertificates.Add(signingCertificate);
+        //            }
+        //        }
+        //        if (configuration.SignatureValidationCertificates.Count == 0)
+        //        {
+        //            throw new Exception("The IdP signing certificates has expired.");
+        //        }
+        //        if (entityDescriptor.IdPSsoDescriptor.WantAuthnRequestsSigned.HasValue)
+        //        {
+        //            configuration.SignAuthnRequest = entityDescriptor.IdPSsoDescriptor.WantAuthnRequestsSigned.Value;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        throw new Exception("IdPSsoDescriptor not loaded from metadata.");
+        //    }
+        //    config.Configuration = configuration;
+        //});
     }
 
     private void ConfigureBundles()

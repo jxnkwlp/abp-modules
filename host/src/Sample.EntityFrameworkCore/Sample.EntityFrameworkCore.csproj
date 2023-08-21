@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\modules\file-management\src\Passingwind.Abp.FileManagement.EntityFrameworkCore\Passingwind.Abp.FileManagement.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\..\..\modules\identity-client-management\src\Passingwind.Abp.IdentityClientManagement.EntityFrameworkCore\Passingwind.Abp.IdentityClientManagement.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\Sample.Domain\Sample.Domain.csproj" />
     <PackageReference Include="Volo.Abp.EntityFrameworkCore.SqlServer" Version="7.2.3" />
     <PackageReference Include="Volo.Abp.PermissionManagement.EntityFrameworkCore" Version="7.2.3" />

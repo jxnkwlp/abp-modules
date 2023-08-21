@@ -1,4 +1,5 @@
 ﻿using Passingwind.Abp.FileManagement;
+using Passingwind.Abp.IdentityClientManagement;
 using Volo.Abp.Account;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.FeatureManagement;
@@ -21,6 +22,7 @@ namespace Sample;
     typeof(AbpSettingManagementApplicationModule)
     )]
 [DependsOn(typeof(FileManagementApplicationModule))]
+[DependsOn(typeof(IdentityClientManagementApplicationModule))]
 public class SampleApplicationModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)

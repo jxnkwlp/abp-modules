@@ -35,9 +35,10 @@ public class Program
                 .UseSerilog();
             await builder.AddApplicationAsync<SampleHttpApiHostModule>();
             var app = builder.Build();
-            await app.InitializeApplicationAsync();
 
             await app.Services.CreateScope().ServiceProvider.GetRequiredService<SampleDbMigrationService>().MigrateAsync();
+
+            await app.InitializeApplicationAsync();
 
             await app.RunAsync();
             return 0;

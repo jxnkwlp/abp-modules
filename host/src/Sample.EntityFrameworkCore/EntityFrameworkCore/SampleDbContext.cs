@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Passingwind.Abp.FileManagement.EntityFrameworkCore;
+using Passingwind.Abp.IdentityClientManagement.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -39,7 +40,9 @@ public class SampleDbContext :
      * uses this DbContext on runtime. Otherwise, it will use its own DbContext class.
      */
 
-    //Identity
+    /// <summary>
+    /// Identity
+    /// </summary>
     public DbSet<IdentityUser> Users { get; set; }
     public DbSet<IdentityRole> Roles { get; set; }
     public DbSet<IdentityClaimType> ClaimTypes { get; set; }
@@ -48,34 +51,36 @@ public class SampleDbContext :
     public DbSet<IdentityLinkUser> LinkUsers { get; set; }
     public DbSet<IdentityUserDelegation> UserDelegations { get; set; }
 
-    // Tenant Management
+    /// <summary>
+    /// Tenant Management
+    /// </summary>
     public DbSet<Tenant> Tenants { get; set; }
     public DbSet<TenantConnectionString> TenantConnectionStrings { get; set; }
 
-    #endregion
+    #endregion Entities from the modules
 
     public SampleDbContext(DbContextOptions<SampleDbContext> options)
         : base(options)
     {
-
     }
 
-    protected override void OnModelCreating(ModelBuilder builder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(builder);
+        base.OnModelCreating(modelBuilder);
 
         /* Include modules to your migration db context */
 
-        builder.ConfigurePermissionManagement();
-        builder.ConfigureSettingManagement();
-        builder.ConfigureBackgroundJobs();
-        builder.ConfigureAuditLogging();
-        builder.ConfigureIdentity();
-        builder.ConfigureOpenIddict();
-        builder.ConfigureFeatureManagement();
-        builder.ConfigureTenantManagement();
+        modelBuilder.ConfigurePermissionManagement();
+        modelBuilder.ConfigureSettingManagement();
+        modelBuilder.ConfigureBackgroundJobs();
+        modelBuilder.ConfigureAuditLogging();
+        modelBuilder.ConfigureIdentity();
+        modelBuilder.ConfigureOpenIddict();
+        modelBuilder.ConfigureFeatureManagement();
+        modelBuilder.ConfigureTenantManagement();
 
-        builder.ConfigureFileManagement();
+        modelBuilder.ConfigureFileManagement();
+        modelBuilder.ConfigureIdentityClientManagement();
 
         /* Configure your own tables/entities inside here */
 

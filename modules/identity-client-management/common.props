@@ -1,0 +1,13 @@
+﻿<Project>
+
+  <Import Project="..\common.props" />
+
+  <PropertyGroup>
+    <Version>0.1.0</Version>
+
+    <Product>Passingwind.Abp.IdentityClientManagement</Product>
+    <Description>an abp module that provider dynamic identity provider, support oidc, saml2</Description>
+    <PackageTags>abp, abp-module, OIDC, SAML2</PackageTags>
+  </PropertyGroup>
+
+</Project>

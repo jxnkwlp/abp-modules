@@ -14,6 +14,7 @@ using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 using Passingwind.Abp.FileManagement;
 using Passingwind.Abp.FileManagement.EntityFrameworkCore;
+using Passingwind.Abp.IdentityClientManagement.EntityFrameworkCore;
 
 namespace Sample.EntityFrameworkCore;
 
@@ -30,6 +31,7 @@ namespace Sample.EntityFrameworkCore;
     typeof(AbpFeatureManagementEntityFrameworkCoreModule)
     )]
 [DependsOn(typeof(FileManagementEntityFrameworkCoreModule))]
+[DependsOn(typeof(IdentityClientManagementEntityFrameworkCoreModule))]
 public class SampleEntityFrameworkCoreModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)

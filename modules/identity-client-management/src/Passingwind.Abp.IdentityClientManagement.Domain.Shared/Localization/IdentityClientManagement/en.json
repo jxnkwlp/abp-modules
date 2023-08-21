@@ -1,0 +1,12 @@
+﻿{
+  "culture": "en",
+  "texts": {
+    "IdentityClientManagement:Error:IdentityClientNameExists": "The name '{name}' already exists",
+
+    "Permission:IdentityClientManagement": "Identity Client Management",
+    "Permission:IdentityClientManagement:IdentityClient": "Identity Clients",
+    "Permission:Create": "Create",
+    "Permission:Update": "Update",
+    "Permission:Delete": "Delete"
+  }
+}

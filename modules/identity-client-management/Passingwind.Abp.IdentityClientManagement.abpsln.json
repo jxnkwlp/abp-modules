@@ -1,0 +1,7 @@
+{
+  "modules": {
+    "Passingwind.Abp.IdentityClientManagement": {
+      "path": "Passingwind.Abp.IdentityClientManagement.abpmdl.json"
+    }
+  }
+}
