@@ -7,6 +7,7 @@ using Passingwind.Abp.IdentityClientManagement.Identity;
 using Passingwind.Abp.IdentityClientManagement.Permissions;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.ObjectExtending;
 
 namespace Passingwind.Abp.IdentityClientManagement.IdentityClients;
 
@@ -87,6 +88,8 @@ public class IdentityClientAppService : IdentityClientManagementAppService, IIde
             }) ?? new List<IdentityClientClaimMap>()
         };
 
+        input.MapExtraPropertiesTo(entity);
+
         entity.ProviderName = await _identityClientProviderNameProvider.CreateAsync(entity);
 
         if (input.OpenIdConnectConfiguration != null)
@@ -122,6 +125,8 @@ public class IdentityClientAppService : IdentityClientManagementAppService, IIde
             RawValue = x.RawValue,
         }) ?? new List<IdentityClientClaimMap>();
 
+        input.MapExtraPropertiesTo(entity);
+
         if (input.ProviderType == IdentityProviderType.OpenIdConnect && input.OpenIdConnectConfiguration != null)
         {
             entity.Configurations = IdentityClientConfigurationHelper.ToConfigurations(ObjectMapper.Map<IdentityClientOpenIdConnectConfigurationDto, IdentityClientOpenIdConnectConfiguration>(input.OpenIdConnectConfiguration)).ToList();
@@ -151,7 +156,7 @@ public class IdentityClientAppService : IdentityClientManagementAppService, IIde
         }
         catch (Exception ex)
         {
-            throw new UserFriendlyException("Some configuration is incorrect", details: ex.Message, innerException: ex);
+            throw new BusinessException(IdentityClientManagementErrorCodes.IdentityClientConfigurationIncorrect, details: ex.Message, innerException: ex);
         }
     }
 }

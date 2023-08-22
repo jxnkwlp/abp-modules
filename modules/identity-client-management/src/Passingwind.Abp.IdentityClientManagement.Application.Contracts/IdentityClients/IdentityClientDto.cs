@@ -4,7 +4,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace Passingwind.Abp.IdentityClientManagement.IdentityClients;
 
-public class IdentityClientDto : AuditedEntityDto<Guid>
+public class IdentityClientDto : ExtensibleAuditedEntityDto<Guid>
 {
     public virtual string Name { get; set; } = null!;
     public virtual string DisplayName { get; set; } = null!;

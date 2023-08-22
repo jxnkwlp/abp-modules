@@ -1,10 +1,16 @@
-﻿namespace Passingwind.Abp.IdentityClientManagement.IdentityClients;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Passingwind.Abp.IdentityClientManagement.IdentityClients;
 
 public class IdentityClientOpenIdConnectConfigurationDto
 {
-    public string? Authority { get; set; }
+    [Required]
+    [MaxLength(256)]
+    public string Authority { get; set; } = null!;
     public string? ClientId { get; set; }
     public string? ClientSecret { get; set; }
+    [Required]
+    [MaxLength(256)]
     public string? MetadataAddress { get; set; }
     public bool RequireHttpsMetadata { get; set; }
     public string? ResponseMode { get; set; }

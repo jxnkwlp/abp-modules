@@ -23,12 +23,15 @@ public class IdentityProviderAppService : IdentityClientManagementAppService, II
             .Where(x => x.IsEnabled)
             .OrderBy(x => x.DisplayOrder)
             .ThenBy(x => x.Name)
-            .Select(x => new IdentityProviderDto()
+            .Select(x =>
             {
-                Name = x.Name,
-                DisplayName = x.DisplayName,
-                ProviderType = x.ProviderType,
-                AuthenticationUrl = $"/auth/external/{x.Name}/login",
+                return new IdentityProviderDto()
+                {
+                    Name = x.Name,
+                    DisplayName = x.DisplayName,
+                    ProviderType = x.ProviderType,
+                    AuthenticationUrl = $"/auth/external/{x.Name}/login",
+                };
             })
             .ToList();
 
