@@ -53,8 +53,8 @@ public class FileRepository : MongoDbRepository<FileManagementMongoDbContext, Fi
             .WhereIf(containerId.HasValue, x => x.ContainerId == containerId)
             .WhereIf(parentId.HasValue, x => x.ParentId == parentId)
             .WhereIf(isDirectory.HasValue, x => x.IsDirectory == isDirectory)
-            .PageBy(skipCount, maxResultCount)
             .OrderBy(sorting ?? nameof(File.CreationTime) + " desc")
+            .PageBy(skipCount, maxResultCount)
             .As<IMongoQueryable<File>>()
             .ToListAsync(cancellationToken);
     }

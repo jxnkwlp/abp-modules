@@ -68,8 +68,8 @@ public class FileContainerRepository : EfCoreRepository<FileManagementDbContext,
         return await dbset
             .WhereIf(!string.IsNullOrEmpty(filter), x => x.Name.Contains(filter!))
             .WhereIf(userId.HasValue, x => x.CreatorId == userId)
-            .PageBy(skipCount, maxResultCount)
             .OrderBy(sorting ?? nameof(FileContainer.CreationTime) + " desc")
+            .PageBy(skipCount, maxResultCount)
             .ToListAsync(cancellationToken);
     }
 }
