@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <Import Project="..\..\common.props" />
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Passingwind.Abp.DynamicPermissionManagement</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Volo.Abp.MongoDB" Version="$(AbpVersion)" />
+        <PackageReference Include="Volo.Abp.PermissionManagement.MongoDB" Version="$(AbpVersion)" />
+        <ProjectReference Include="..\Passingwind.Abp.DynamicPermissionManagement.Domain\Passingwind.Abp.DynamicPermissionManagement.Domain.csproj" />
+    </ItemGroup>
+
+</Project>

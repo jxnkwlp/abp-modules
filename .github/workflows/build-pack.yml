@@ -58,9 +58,7 @@ jobs:
 
       - name: Pack
         run: | 
-          dotnet pack --include-symbols -c Release --property:PackageOutputPath=${{github.workspace}}/pack_output ./modules/file-management/file-management.sln
-          dotnet pack --include-symbols -c Release --property:PackageOutputPath=${{github.workspace}}/pack_output ./modules/identity-client-management/Passingwind.Abp.IdentityClientManagement.sln
-          dotnet pack --include-symbols -c Release --property:PackageOutputPath=${{github.workspace}}/pack_output ./modules/dictionary-management/Passingwind.Abp.DictionaryManagement.sln
+          dotnet pack --include-symbols -c Release --property:PackageOutputPath=${{github.workspace}}/pack_output ./Sample.sln
 
       - name: Push package
         if: ${{ env.PUSH_NUGET == 'true' }}

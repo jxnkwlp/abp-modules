@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Passingwind.Abp.DynamicPermissionManagement</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Passingwind.Abp.DynamicPermissionManagement.Application\Passingwind.Abp.DynamicPermissionManagement.Application.csproj" />
+    <ProjectReference Include="..\Passingwind.Abp.DynamicPermissionManagement.Domain.Tests\Passingwind.Abp.DynamicPermissionManagement.Domain.Tests.csproj" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
+  </ItemGroup>
+
+</Project>
