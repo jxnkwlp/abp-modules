@@ -107,7 +107,7 @@ public class ExternalUserProvider : IExternalUserProvider, ITransientDependency,
 
         if (user != null) return user;
 
-        if (!string.IsNullOrWhiteSpace(emailAddress))
+        if (IdentityOptions.Value.User.RequireUniqueEmail && !string.IsNullOrWhiteSpace(emailAddress))
             user = await UserManager.FindByEmailAsync(emailAddress);
 
         return user;
