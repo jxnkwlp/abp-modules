@@ -2,6 +2,7 @@
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
     <Version>0.1.0</Version>
+    <AbpVersion>7.2.3</AbpVersion>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
 
     <Authors>Passingwind</Authors>
@@ -15,6 +16,10 @@
     <PackageTags>abp, abp-module</PackageTags>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="ConfigureAwait.Fody" Version="3.3.1" PrivateAssets="All" />
     <PackageReference Include="Fody" Version="6.5.3">
@@ -25,7 +30,7 @@
 
   <ItemGroup>
     <PackageReference Include="SourceLink.Create.CommandLine" Version="2.8.3"
-        PrivateAssets="All" />
+      PrivateAssets="All" />
   </ItemGroup>
 
   <Target Name="NoWarnOnRazorViewImportedTypeConflicts" BeforeTargets="RazorCoreCompile">

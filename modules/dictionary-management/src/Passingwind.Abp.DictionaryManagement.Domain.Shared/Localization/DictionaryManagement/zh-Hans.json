@@ -1,0 +1,14 @@
+﻿{
+  "culture": "zh-Hans",
+  "texts": {
+    "DictionaryManagement:Error:NameExists": "名称'{name}'已存在",
+    "DictionaryManagement:Error:GroupNotExists": "分组'{name}'不存在",
+    "DictionaryManagement:Error:ItemNotFound": "项不存在或未启用",
+    "Permission:DictionaryManagement": "字典数据管理",
+    "Permission:DictionaryManagement.DictionaryGroups": "字典组",
+    "Permission:DictionaryManagement.DictionaryItems": "字典项",
+    "Permission:Create": "创建",
+    "Permission:Update": "编辑",
+    "Permission:Delete": "删除"
+  }
+}

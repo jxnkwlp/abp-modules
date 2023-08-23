@@ -1,0 +1,79 @@
+{
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {},
+      "host": {}
+    }
+  },
+  "packages": {
+    "Passingwind.Abp.DictionaryManagement.Domain.Shared": {
+      "path": "src/Passingwind.Abp.DictionaryManagement.Domain.Shared/Passingwind.Abp.DictionaryManagement.Domain.Shared.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.DictionaryManagement.Domain": {
+      "path": "src/Passingwind.Abp.DictionaryManagement.Domain/Passingwind.Abp.DictionaryManagement.Domain.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.DictionaryManagement.Application.Contracts": {
+      "path": "src/Passingwind.Abp.DictionaryManagement.Application.Contracts/Passingwind.Abp.DictionaryManagement.Application.Contracts.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.DictionaryManagement.Application": {
+      "path": "src/Passingwind.Abp.DictionaryManagement.Application/Passingwind.Abp.DictionaryManagement.Application.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.DictionaryManagement.EntityFrameworkCore": {
+      "path": "src/Passingwind.Abp.DictionaryManagement.EntityFrameworkCore/Passingwind.Abp.DictionaryManagement.EntityFrameworkCore.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.DictionaryManagement.MongoDB": {
+      "path": "src/Passingwind.Abp.DictionaryManagement.MongoDB/Passingwind.Abp.DictionaryManagement.MongoDB.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.DictionaryManagement.HttpApi": {
+      "path": "src/Passingwind.Abp.DictionaryManagement.HttpApi/Passingwind.Abp.DictionaryManagement.HttpApi.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.DictionaryManagement.HttpApi.Client": {
+      "path": "src/Passingwind.Abp.DictionaryManagement.HttpApi.Client/Passingwind.Abp.DictionaryManagement.HttpApi.Client.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.DictionaryManagement.TestBase": {
+      "path": "test/Passingwind.Abp.DictionaryManagement.TestBase/Passingwind.Abp.DictionaryManagement.TestBase.abppkg.json",
+      "folder": "test"
+    },
+    "Passingwind.Abp.DictionaryManagement.EntityFrameworkCore.Tests": {
+      "path": "test/Passingwind.Abp.DictionaryManagement.EntityFrameworkCore.Tests/Passingwind.Abp.DictionaryManagement.EntityFrameworkCore.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "Passingwind.Abp.DictionaryManagement.MongoDB.Tests": {
+      "path": "test/Passingwind.Abp.DictionaryManagement.MongoDB.Tests/Passingwind.Abp.DictionaryManagement.MongoDB.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "Passingwind.Abp.DictionaryManagement.Domain.Tests": {
+      "path": "test/Passingwind.Abp.DictionaryManagement.Domain.Tests/Passingwind.Abp.DictionaryManagement.Domain.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "Passingwind.Abp.DictionaryManagement.Application.Tests": {
+      "path": "test/Passingwind.Abp.DictionaryManagement.Application.Tests/Passingwind.Abp.DictionaryManagement.Application.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "Passingwind.Abp.DictionaryManagement.HttpApi.Host": {
+      "path": "host/Passingwind.Abp.DictionaryManagement.HttpApi.Host/Passingwind.Abp.DictionaryManagement.HttpApi.Host.abppkg.json",
+      "folder": "host"
+    },
+    "Passingwind.Abp.DictionaryManagement.HttpApi.Client.ConsoleTestApp": {
+      "path": "test/Passingwind.Abp.DictionaryManagement.HttpApi.Client.ConsoleTestApp/Passingwind.Abp.DictionaryManagement.HttpApi.Client.ConsoleTestApp.abppkg.json",
+      "folder": "test"
+    },
+    "Passingwind.Abp.DictionaryManagement.AuthServer": {
+      "path": "host/Passingwind.Abp.DictionaryManagement.AuthServer/Passingwind.Abp.DictionaryManagement.AuthServer.abppkg.json",
+      "folder": "host"
+    },
+    "Passingwind.Abp.DictionaryManagement.Host.Shared": {
+      "path": "host/Passingwind.Abp.DictionaryManagement.Host.Shared/Passingwind.Abp.DictionaryManagement.Host.Shared.abppkg.json",
+      "folder": "host"
+    }
+  }
+}

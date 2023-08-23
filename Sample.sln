@@ -69,6 +69,26 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.IdentityCli
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "framework", "framework", "{AB54C52B-9250-4939-93E2-CCBBEC172AAA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dictionary-management", "dictionary-management", "{A372DE5B-C4BB-4842-8A2C-28F0A37551B1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{320EB9D6-2CBF-4FF9-ACE3-DB0E56CCB6CB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.DictionaryManagement.Domain.Shared", "modules\dictionary-management\src\Passingwind.Abp.DictionaryManagement.Domain.Shared\Passingwind.Abp.DictionaryManagement.Domain.Shared.csproj", "{4B4AFFCD-70D4-40ED-8A91-6136C3C7A2AD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.DictionaryManagement.Domain", "modules\dictionary-management\src\Passingwind.Abp.DictionaryManagement.Domain\Passingwind.Abp.DictionaryManagement.Domain.csproj", "{D1EF78F6-BC44-4447-BBC9-394ECD42F451}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.DictionaryManagement.Application.Contracts", "modules\dictionary-management\src\Passingwind.Abp.DictionaryManagement.Application.Contracts\Passingwind.Abp.DictionaryManagement.Application.Contracts.csproj", "{A132CBF8-8D34-4ACC-9E8E-E5A90405B504}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.DictionaryManagement.Application", "modules\dictionary-management\src\Passingwind.Abp.DictionaryManagement.Application\Passingwind.Abp.DictionaryManagement.Application.csproj", "{40A89641-6445-48B4-8325-068D15CF69B0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.DictionaryManagement.HttpApi.Client", "modules\dictionary-management\src\Passingwind.Abp.DictionaryManagement.HttpApi.Client\Passingwind.Abp.DictionaryManagement.HttpApi.Client.csproj", "{DD5ACB86-0792-4B0B-A8BF-54CE12B77EE0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.DictionaryManagement.HttpApi", "modules\dictionary-management\src\Passingwind.Abp.DictionaryManagement.HttpApi\Passingwind.Abp.DictionaryManagement.HttpApi.csproj", "{0EE79A7A-3314-40EC-B8D7-63CE4942FFC2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.DictionaryManagement.MongoDB", "modules\dictionary-management\src\Passingwind.Abp.DictionaryManagement.MongoDB\Passingwind.Abp.DictionaryManagement.MongoDB.csproj", "{735608B4-2DEA-4486-9A2C-D4C107680025}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.DictionaryManagement.EntityFrameworkCore", "modules\dictionary-management\src\Passingwind.Abp.DictionaryManagement.EntityFrameworkCore\Passingwind.Abp.DictionaryManagement.EntityFrameworkCore.csproj", "{2DB157B1-1EF2-4548-A154-3F05263C338B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -179,6 +199,38 @@ Global
 		{C344B1E9-F358-4D3A-9BC5-FB82FF2E63EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C344B1E9-F358-4D3A-9BC5-FB82FF2E63EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C344B1E9-F358-4D3A-9BC5-FB82FF2E63EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B4AFFCD-70D4-40ED-8A91-6136C3C7A2AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B4AFFCD-70D4-40ED-8A91-6136C3C7A2AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B4AFFCD-70D4-40ED-8A91-6136C3C7A2AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B4AFFCD-70D4-40ED-8A91-6136C3C7A2AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1EF78F6-BC44-4447-BBC9-394ECD42F451}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1EF78F6-BC44-4447-BBC9-394ECD42F451}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1EF78F6-BC44-4447-BBC9-394ECD42F451}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1EF78F6-BC44-4447-BBC9-394ECD42F451}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A132CBF8-8D34-4ACC-9E8E-E5A90405B504}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A132CBF8-8D34-4ACC-9E8E-E5A90405B504}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A132CBF8-8D34-4ACC-9E8E-E5A90405B504}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A132CBF8-8D34-4ACC-9E8E-E5A90405B504}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40A89641-6445-48B4-8325-068D15CF69B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40A89641-6445-48B4-8325-068D15CF69B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40A89641-6445-48B4-8325-068D15CF69B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40A89641-6445-48B4-8325-068D15CF69B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD5ACB86-0792-4B0B-A8BF-54CE12B77EE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD5ACB86-0792-4B0B-A8BF-54CE12B77EE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD5ACB86-0792-4B0B-A8BF-54CE12B77EE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD5ACB86-0792-4B0B-A8BF-54CE12B77EE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EE79A7A-3314-40EC-B8D7-63CE4942FFC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EE79A7A-3314-40EC-B8D7-63CE4942FFC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EE79A7A-3314-40EC-B8D7-63CE4942FFC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EE79A7A-3314-40EC-B8D7-63CE4942FFC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{735608B4-2DEA-4486-9A2C-D4C107680025}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{735608B4-2DEA-4486-9A2C-D4C107680025}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{735608B4-2DEA-4486-9A2C-D4C107680025}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{735608B4-2DEA-4486-9A2C-D4C107680025}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DB157B1-1EF2-4548-A154-3F05263C338B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DB157B1-1EF2-4548-A154-3F05263C338B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DB157B1-1EF2-4548-A154-3F05263C338B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DB157B1-1EF2-4548-A154-3F05263C338B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -214,6 +266,16 @@ Global
 		{B9BE0182-7CBC-4156-ABF0-60B0347D9276} = {112F3706-27EE-420A-A092-8C5AC2D922D0}
 		{AE1805E3-6186-44A2-835B-E6964C2BF94D} = {112F3706-27EE-420A-A092-8C5AC2D922D0}
 		{C344B1E9-F358-4D3A-9BC5-FB82FF2E63EB} = {112F3706-27EE-420A-A092-8C5AC2D922D0}
+		{A372DE5B-C4BB-4842-8A2C-28F0A37551B1} = {9EAC2FB6-A28A-4851-B809-BF8216AAAFE0}
+		{320EB9D6-2CBF-4FF9-ACE3-DB0E56CCB6CB} = {A372DE5B-C4BB-4842-8A2C-28F0A37551B1}
+		{4B4AFFCD-70D4-40ED-8A91-6136C3C7A2AD} = {320EB9D6-2CBF-4FF9-ACE3-DB0E56CCB6CB}
+		{D1EF78F6-BC44-4447-BBC9-394ECD42F451} = {320EB9D6-2CBF-4FF9-ACE3-DB0E56CCB6CB}
+		{A132CBF8-8D34-4ACC-9E8E-E5A90405B504} = {320EB9D6-2CBF-4FF9-ACE3-DB0E56CCB6CB}
+		{40A89641-6445-48B4-8325-068D15CF69B0} = {320EB9D6-2CBF-4FF9-ACE3-DB0E56CCB6CB}
+		{DD5ACB86-0792-4B0B-A8BF-54CE12B77EE0} = {320EB9D6-2CBF-4FF9-ACE3-DB0E56CCB6CB}
+		{0EE79A7A-3314-40EC-B8D7-63CE4942FFC2} = {320EB9D6-2CBF-4FF9-ACE3-DB0E56CCB6CB}
+		{735608B4-2DEA-4486-9A2C-D4C107680025} = {320EB9D6-2CBF-4FF9-ACE3-DB0E56CCB6CB}
+		{2DB157B1-1EF2-4548-A154-3F05263C338B} = {320EB9D6-2CBF-4FF9-ACE3-DB0E56CCB6CB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}

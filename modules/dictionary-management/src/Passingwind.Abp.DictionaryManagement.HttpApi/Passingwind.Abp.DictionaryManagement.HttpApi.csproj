@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Passingwind.Abp.DictionaryManagement</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="$(AbpVersion)" />
+    <ProjectReference Include="..\Passingwind.Abp.DictionaryManagement.Application.Contracts\Passingwind.Abp.DictionaryManagement.Application.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

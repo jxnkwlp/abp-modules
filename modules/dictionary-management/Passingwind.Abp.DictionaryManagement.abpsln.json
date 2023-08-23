@@ -1,0 +1,7 @@
+{
+  "modules": {
+    "Passingwind.Abp.DictionaryManagement": {
+      "path": "Passingwind.Abp.DictionaryManagement.abpmdl.json"
+    }
+  }
+}

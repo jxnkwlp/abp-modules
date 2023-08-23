@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Passingwind.Abp.DictionaryManagement</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="$(AbpVersion)" />
+    <ProjectReference Include="..\Passingwind.Abp.DictionaryManagement.Domain.Shared\Passingwind.Abp.DictionaryManagement.Domain.Shared.csproj" />
+  </ItemGroup>
+
+</Project>
