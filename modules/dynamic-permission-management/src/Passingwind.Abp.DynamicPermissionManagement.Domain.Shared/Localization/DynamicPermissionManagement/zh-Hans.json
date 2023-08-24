@@ -3,6 +3,10 @@
   "texts": {
     "DynamicPermissionManagement:Error:PermissionGroupNameExists": "权限组定义名称“{name}”已存在。",
     "DynamicPermissionManagement:Error:PermissionGroupHasPermissions": "权限组定义下有其他权限定义。",
-    "DynamicPermissionManagement:Error:PermissionNameExists": "权限定义名称“{name}”已存在。"
+    "DynamicPermissionManagement:Error:PermissionNameExists": "权限定义名称“{name}”已存在。",
+
+    "Permission:DynamicPermissionManagement": "Dynamic permission management",
+    "Permission:DynamicPermissionManagement.PermissionDefinition": "Permission definitions",
+    "Permission:DynamicPermissionManagement.PermissionDefinition.Manage": "Manage"
   }
 }
