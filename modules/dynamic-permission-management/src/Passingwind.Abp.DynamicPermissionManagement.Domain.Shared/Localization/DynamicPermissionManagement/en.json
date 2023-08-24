@@ -5,8 +5,8 @@
     "DynamicPermissionManagement:Error:PermissionGroupHasPermissions": "The permission group definition has associate defintion records.",
     "DynamicPermissionManagement:Error:PermissionNameExists": "The permission definition name '{name}' already exists.",
 
-    "Permission:DynamicPermissionManagement": "动态权限管理",
-    "Permission:DynamicPermissionManagement.PermissionDefinition": "权限定义",
-    "Permission:DynamicPermissionManagement.PermissionDefinition.Manage": "管理"
+    "Permission:DynamicPermissionManagement": "Dynamic permission management",
+    "Permission:DynamicPermissionManagement.PermissionDefinition": "Permission definitions",
+    "Permission:DynamicPermissionManagement.PermissionDefinition.Manage": "Manage"
   }
 }

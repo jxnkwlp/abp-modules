@@ -21,7 +21,6 @@ public class DictionaryManagementDomainSharedModule : AbpModule
         {
             options.Resources
                 .Add<DictionaryManagementResource>("en")
-                .AddBaseTypes(typeof(AbpValidationResource))
                 .AddVirtualJson("/Localization/DictionaryManagement");
         });
 

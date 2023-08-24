@@ -4,9 +4,10 @@
     "DictionaryManagement:Error:NameExists": "The name '{name}' already exist",
     "DictionaryManagement:Error:GroupNotExists": "The group '{name}' does not exist",
     "DictionaryManagement:Error:ItemNotFound": "The item not found or disabled",
-    "Permission:DictionaryManagement": "Dictionary Management",
-    "Permission:DictionaryManagement.DictionaryGroups": "Dictionary Groups",
-    "Permission:DictionaryManagement.DictionaryItems": "Dictionary Items",
+
+    "Permission:DictionaryManagement": "Dictionary management",
+    "Permission:DictionaryManagement.DictionaryGroups": "Dictionary groups",
+    "Permission:DictionaryManagement.DictionaryItems": "Dictionary items",
     "Permission:Create": "Create",
     "Permission:Update": "Edit",
     "Permission:Delete": "Delete"

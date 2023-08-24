@@ -4,8 +4,8 @@
     "IdentityClientManagement:Error:IdentityClientNameExists": "The name '{name}' already exists",
     "IdentityClientManagement:Error:IdentityClientConfigurationIncorrect": "The configuration is incorrect, please check",
 
-    "Permission:IdentityClientManagement": "Identity Client Management",
-    "Permission:IdentityClientManagement:IdentityClient": "Identity Clients",
+    "Permission:IdentityClientManagement": "Identity client management",
+    "Permission:IdentityClientManagement.IdentityClient": "Identity clients",
     "Permission:Create": "Create",
     "Permission:Update": "Update",
     "Permission:Delete": "Delete"

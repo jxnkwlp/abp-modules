@@ -11,8 +11,8 @@
     "FileManagement:Error:DirectoryHasFiles": "The file directory '{name}' has files",
     "FileManagement:Error:ShareFileNotExistsOrExpired": "The file not exists or token expired",
 
-    "Permission:FileManagement": "File Management",
-    "Permission:FileManagement.FileContainer": "File Containers",
+    "Permission:FileManagement": "File management",
+    "Permission:FileManagement.FileContainer": "File containers",
     "Permission:FileManagement.FileContainer.Update": "Update",
     "Permission:FileManagement.FileContainer.Delete": "Delete",
     "Permission:FileManagement.File": "Files",

@@ -21,7 +21,6 @@ public class DynamicPermissionManagementDomainSharedModule : AbpModule
         {
             options.Resources
                 .Add<DynamicPermissionManagementResource>("en")
-                .AddBaseTypes(typeof(AbpValidationResource))
                 .AddVirtualJson("/Localization/DynamicPermissionManagement");
         });
 
