@@ -18,9 +18,8 @@ public static class FileManagementDbContextModelCreatingExtensions
                 b.ToTable(FileManagementDbProperties.DbTablePrefix + "FileContainers", FileManagementDbProperties.DbSchema);
                 b.ConfigureByConvention();
 
-                b.Property(q => q.Name).IsRequired().HasMaxLength(64);
-                //b.Property(q => q.ProhibitedFileExtensions).HasMaxLength(512);
-                //b.Property(q => q.AllowedFileExtensions).HasMaxLength(512);
+                b.Property(q => q.Name).IsRequired().HasMaxLength(FileManagementConsts.MaxFileContainerNameLength);
+                b.Property(q => q.Description).HasMaxLength(FileManagementConsts.MaxFileContainerDescriptionLength);
 
                 b.HasIndex(q => q.Name);
             })
@@ -29,11 +28,11 @@ public static class FileManagementDbContextModelCreatingExtensions
                 b.ToTable(FileManagementDbProperties.DbTablePrefix + "Files", FileManagementDbProperties.DbSchema);
                 b.ConfigureByConvention();
 
-                b.Property(q => q.FileName).IsRequired().HasMaxLength(256);
-                b.Property(q => q.MimeType).HasMaxLength(64);
-                b.Property(q => q.BlobName).IsRequired().HasMaxLength(256);
-                b.Property(q => q.Hash).HasMaxLength(64);
-                b.Property(q => q.UniqueId).IsRequired().HasMaxLength(32);
+                b.Property(q => q.FileName).IsRequired().HasMaxLength(FileManagementConsts.MaxFileItemFileNameLength);
+                b.Property(q => q.MimeType).HasMaxLength(FileManagementConsts.MaxFileItemMimeTypeLength);
+                b.Property(q => q.BlobName).IsRequired().HasMaxLength(FileManagementConsts.MaxFileItemBlobNameLength);
+                b.Property(q => q.Hash).HasMaxLength(FileManagementConsts.MaxFileItemHashLength);
+                b.Property(q => q.UniqueId).IsRequired().HasMaxLength(FileManagementConsts.MaxFileItemUniqueIdLength);
 
                 b.HasIndex(q => q.ContainerId);
                 b.HasIndex(q => q.FileName);
@@ -46,7 +45,7 @@ public static class FileManagementDbContextModelCreatingExtensions
                 b.ToTable(FileManagementDbProperties.DbTablePrefix + "FileAccessTokens", FileManagementDbProperties.DbSchema);
                 b.ConfigureByConvention();
 
-                b.Property(q => q.Token).IsRequired().HasMaxLength(256);
+                b.Property(q => q.Token).IsRequired().HasMaxLength(FileManagementConsts.MaxFileAccessTokenTokenLength);
 
                 b.HasIndex(q => q.Token);
                 b.HasIndex(q => q.FileId);
