@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <Import Project="..\..\common.props" />
 
@@ -9,15 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\modules\account\src\Passingwind.Abp.Account.HttpApi\Passingwind.Abp.Account.HttpApi.csproj" />
     <ProjectReference Include="..\..\..\modules\file-management\src\Passingwind.Abp.FileManagement.HttpApi\Passingwind.Abp.FileManagement.HttpApi.csproj" />
     <ProjectReference Include="..\..\..\modules\identity-client-management\src\Passingwind.Abp.IdentityClientManagement.HttpApi\Passingwind.Abp.IdentityClientManagement.HttpApi.csproj" />
+    <ProjectReference Include="..\..\..\modules\identity\src\Passingwind.Abp.Identity.HttpApi\Passingwind.Abp.Identity.HttpApi.csproj" />
     <ProjectReference Include="..\Sample.Application.Contracts\Sample.Application.Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Account.HttpApi" Version="7.2.3" />
+    <!--<PackageReference Include="Volo.Abp.Account.HttpApi" Version="7.2.3" />-->
     <PackageReference Include="Volo.Abp.BlobStoring.FileSystem" Version="7.2.3" />
-    <PackageReference Include="Volo.Abp.Identity.HttpApi" Version="7.2.3" />
+    <!--<PackageReference Include="Volo.Abp.Identity.HttpApi" Version="7.2.3" />-->
     <PackageReference Include="Volo.Abp.PermissionManagement.HttpApi" Version="7.2.3" />
     <PackageReference Include="Volo.Abp.TenantManagement.HttpApi" Version="7.2.3" />
     <PackageReference Include="Volo.Abp.FeatureManagement.HttpApi" Version="7.2.3" />

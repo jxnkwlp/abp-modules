@@ -1,0 +1,29 @@
+﻿{
+  "culture": "zh-Hans",
+  "texts": {
+    "DisplayName:Abp.Identity.User.RequireUniqueEmail": "需要唯一的电子邮件地址",
+
+    "Permission:Create": "创建",
+    "Permission:Update": "编辑",
+    "Permission:Delete": "删除",
+    "Permission.Import": "导入",
+    "Permission.Export": "导出",
+    "Permission:ChangeHistories": "查看变更记录",
+
+    "Permission:ManageUsers": "管理用户",
+    "Permission:ManageRoles": "管理角色",
+    "Permission:ManageOrganizations": "管理组织机构树",
+    "Permission:ManageClaims": "管理声明",
+
+    "Permission:Users.Impersonation": "用户冒充",
+
+    "Permission:OrganizationUnitManagement": "组织机构管理",
+    "Permission:OrganizationUnitManagement.Manage": "管理组织机构树",
+
+    "Permission:ClaimTypeManagement": "声明类型管理",
+
+    "Permission:SecurityLogManagement": "安全日志管理",
+
+    "Permission:SettingManagement": "设置管理"
+  }
+}

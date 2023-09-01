@@ -1,0 +1,7 @@
+{
+  "modules": {
+    "Passingwind.Abp.Account": {
+      "path": "Passingwind.Abp.Account.abpmdl.json"
+    }
+  }
+}

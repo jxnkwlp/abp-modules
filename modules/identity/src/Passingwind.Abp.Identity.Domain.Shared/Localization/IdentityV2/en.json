@@ -1,0 +1,29 @@
+﻿{
+  "culture": "en",
+  "texts": {
+    "DisplayName:Abp.Identity.User.RequireUniqueEmail": "Required unique email address",
+
+    "Permission:Create": "Create",
+    "Permission:Update": "Edit",
+    "Permission:Delete": "Delete",
+    "Permission:Import": "Import",
+    "Permission:Export": "Export",
+    "Permission:ChangeHistories": "View change history",
+
+    "Permission:ManageUsers": "Managing users",
+    "Permission:ManageRoles": "Managing roles",
+    "Permission:ManageOrganizations": "Managing organization tree",
+    "Permission:ManageClaims": "Managing claims",
+
+    "Permission:Users.Impersonation": "Impersonation",
+
+    "Permission:OrganizationUnitManagement": "Organizations management",
+    "Permission:OrganizationUnitManagement.Manage": "Managing organization tree",
+
+    "Permission:ClaimTypeManagement": "Claim types management",
+
+    "Permission:SecurityLogManagement": "Security log management",
+
+    "Permission:SettingManagement": "Setting management"
+  }
+}

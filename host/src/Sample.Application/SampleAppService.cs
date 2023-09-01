@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Sample.Localization;
+﻿using Sample.Localization;
 using Volo.Abp.Application.Services;
 
 namespace Sample;

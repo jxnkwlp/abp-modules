@@ -1,14 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <Import Project="..\..\common.props" />
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <Nullable>enable</Nullable>
     <RootNamespace>Sample</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\modules\account\src\Passingwind.Abp.Account.HttpApi.Client\Passingwind.Abp.Account.HttpApi.Client.csproj" />
+    <ProjectReference Include="..\..\..\modules\identity-client-management\src\Passingwind.Abp.IdentityClientManagement.HttpApi.Client\Passingwind.Abp.IdentityClientManagement.HttpApi.Client.csproj" />
     <ProjectReference Include="..\Sample.Application.Contracts\Sample.Application.Contracts.csproj" />
   </ItemGroup>
 

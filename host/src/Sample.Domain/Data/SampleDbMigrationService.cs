@@ -52,7 +52,7 @@ public class SampleDbMigrationService : ITransientDependency
         await MigrateDatabaseSchemaAsync();
         await SeedDataAsync();
 
-        Logger.LogInformation($"Successfully completed host database migrations.");
+        Logger.LogInformation("Successfully completed host database migrations.");
 
         var tenants = await _tenantRepository.GetListAsync(includeDetails: true);
 
@@ -64,8 +64,8 @@ public class SampleDbMigrationService : ITransientDependency
                 if (tenant.ConnectionStrings.Any())
                 {
                     var tenantConnectionStrings = tenant.ConnectionStrings
-                        .Select(x => x.Value)
-                        .ToList();
+                        .ConvertAll(x => x.Value)
+;
 
                     if (!migratedDatabaseSchemas.IsSupersetOf(tenantConnectionStrings))
                     {
@@ -127,10 +127,8 @@ public class SampleDbMigrationService : ITransientDependency
                 AddInitialMigration();
                 return true;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
         catch (Exception e)
         {
@@ -195,8 +193,7 @@ public class SampleDbMigrationService : ITransientDependency
 
         var srcDirectoryPath = Path.Combine(slnDirectoryPath, "src");
 
-        return Directory.GetDirectories(srcDirectoryPath)
-            .FirstOrDefault(d => d.EndsWith(".EntityFrameworkCore"));
+        return Array.Find(Directory.GetDirectories(srcDirectoryPath), d => d.EndsWith(".EntityFrameworkCore"));
     }
 
     private string? GetSolutionDirectoryPath()
@@ -207,7 +204,7 @@ public class SampleDbMigrationService : ITransientDependency
         {
             currentDirectory = Directory.GetParent(currentDirectory.FullName);
 
-            if (currentDirectory != null && Directory.GetFiles(currentDirectory.FullName).FirstOrDefault(f => f.EndsWith(".sln")) != null)
+            if (currentDirectory != null && Array.Find(Directory.GetFiles(currentDirectory.FullName), f => f.EndsWith(".sln")) != null)
             {
                 return currentDirectory.FullName;
             }

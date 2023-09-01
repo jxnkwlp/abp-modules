@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <Import Project="..\..\common.props" />
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Passingwind.Abp.Account</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Volo.Abp.Identity.AspNetCore" Version="$(AbpVersion)" /> 
+        <ProjectReference Include="..\Passingwind.Abp.Account.Application.Contracts\Passingwind.Abp.Account.Application.Contracts.csproj" />
+        <ProjectReference Include="..\Passingwind.Abp.Account.Domain\Passingwind.Abp.Account.Domain.csproj" />
+    </ItemGroup>
+
+</Project>

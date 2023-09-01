@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <Import Project="..\..\common.props" />
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Passingwind.Abp.Account</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Volo.Abp.AutoMapper" Version="$(AbpVersion)" />
+        <PackageReference Include="Volo.Abp.Ddd.Application" Version="$(AbpVersion)" />
+        <PackageReference Include="Volo.Abp.Account.Application" Version="$(AbpVersion)" />
+        <PackageReference Include="Volo.Abp.Identity.AspNetCore" Version="$(AbpVersion)" />
+        <ProjectReference Include="..\..\..\identity\src\Passingwind.Abp.Identity.AspNetCore\Passingwind.Abp.Identity.AspNetCore.csproj" />
+        <ProjectReference Include="..\..\..\identity\src\Passingwind.Abp.Identity.Domain\Passingwind.Abp.Identity.Domain.csproj" />
+        <ProjectReference Include="..\Passingwind.Abp.Account.Application.Contracts\Passingwind.Abp.Account.Application.Contracts.csproj" />
+        <ProjectReference Include="..\Passingwind.Abp.Account.Domain\Passingwind.Abp.Account.Domain.csproj" />
+    </ItemGroup>
+
+</Project>
