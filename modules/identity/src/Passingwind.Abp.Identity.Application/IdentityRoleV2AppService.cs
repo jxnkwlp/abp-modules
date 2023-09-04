@@ -28,7 +28,7 @@ public class IdentityRoleV2AppService : IdentityRoleAppService, IIdentityRoleV2A
         UserRepository = userRepository;
         IdentityClaimTypeRepository = identityClaimTypeRepository;
     }
-     
+
     public virtual async Task<ListResultDto<IdentityClaimDto>> GetClaimsAsync(Guid id)
     {
         var entity = await RoleRepository.GetAsync(id);

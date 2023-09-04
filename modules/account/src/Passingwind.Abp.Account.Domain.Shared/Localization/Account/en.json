@@ -1,6 +1,22 @@
 ﻿{
   "culture": "en",
   "texts": {
-    
+    "Account:Error:01": "Local login is disabled",
+
+    "Permission:Create": "Create",
+    "Permission:Update": "Edit",
+    "Permission:Delete": "Delete",
+
+    "Permission:AccountManagement": "Account",
+    "Permission:SettingManagement": "Setting management",
+
+    "DisplayName:Account.Captcha.EnableOnLogin": "Enable on login",
+    "DisplayName:Account.Captcha.EnableOnRegistration": "Enable on registration",
+
+    "DisplayName:Account.Recaptcha.Score": "Score",
+    "DisplayName:Account.Recaptcha.SiteKey": "Site key",
+    "DisplayName:Account.Recaptcha.SiteSecret": "Site decret",
+    "DisplayName:Account.Recaptcha.VerifyBaseUrl": "Verify baseUrl",
+    "DisplayName:Account.Recaptcha.Version": "version"
   }
 }

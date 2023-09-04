@@ -1,10 +1,22 @@
 ﻿namespace Passingwind.Abp.Account.Settings;
 
-public static class AccountSettings
+public class AccountGeneralSettings
 {
-    public const string GroupName = "Account";
+    public bool IsSelfRegistrationEnabled { get; set; }
+    public bool EnableLocalLogin { get; set; }
+}
 
-    /* Add constants for setting names. Example:
-     * public const string MySettingName = GroupName + ".MySettingName";
-     */
+public class AccountCaptchaSettings
+{
+    public bool EnableOnLogin { get; set; }
+    public bool EnableOnRegistration { get; set; }
+}
+
+public class AccountRecaptchaSettings
+{
+    public double Score { get; set; }
+    public string? SiteKey { get; set; }
+    public string? SiteSecret { get; set; }
+    public string? VerifyBaseUrl { get; set; }
+    public int Version { get; set; }
 }

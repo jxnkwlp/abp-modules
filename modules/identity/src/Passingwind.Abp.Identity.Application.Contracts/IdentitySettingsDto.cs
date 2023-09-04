@@ -1,11 +1,20 @@
-﻿namespace Passingwind.Abp.Identity;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Passingwind.Abp.Identity;
 
 public class IdentitySettingsDto
 {
+    [Required]
     public IdentityUserSettingsDto User { get; set; } = null!;
+    [Required]
     public IdentityPasswordSettingsDto Password { get; set; } = null!;
+    [Required]
     public IdentityLockoutSettingsDto Lockout { get; set; } = null!;
+    [Required]
     public IdentitySignInSettingsDto SignIn { get; set; } = null!;
+    [Required]
+    public IdentityTwofactorSettingsDto Twofactor { get; set; } = null!;
+    [Required]
     public OrganizationUnitSettingsDto OrganizationUnit { get; set; } = null!;
 }
 
@@ -40,6 +49,14 @@ public class IdentitySignInSettingsDto
     public bool EnablePhoneNumberConfirmation { get; set; }
     public bool RequireConfirmedEmail { get; set; }
     public bool RequireConfirmedPhoneNumber { get; set; }
+}
+
+public class IdentityTwofactorSettingsDto
+{
+    public bool IsRememberBrowserEnabled { get; set; }
+    public IdentityTwofactoryBehaviour TwoFactorBehaviour { get; set; }
+    public bool UsersCanChange { get; set; }
+    public string TwoFactorBehaviourDescription => TwoFactorBehaviour.ToString();
 }
 
 public class OrganizationUnitSettingsDto

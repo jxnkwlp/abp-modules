@@ -215,6 +215,17 @@ public class IdentityUserV2AppService : IdentityUserAppService, IIdentityUserV2A
     }
 
     [Authorize(IdentityPermissions.Users.Update)]
+    public async Task ClearPasswordAsync(Guid id)
+    {
+        var entity = await UserRepository.GetAsync(id);
+
+        if (await UserManager.HasPasswordAsync(entity))
+        {
+            (await UserManager.RemovePasswordAsync(entity)).CheckErrors();
+        }
+    }
+
+    [Authorize(IdentityPermissions.Users.Update)]
     public virtual async Task UpdateTwoFactorEnabledAsync(Guid id, IdentityUserTwoFactorEnabledDto input)
     {
         var entity = await UserRepository.GetAsync(id);

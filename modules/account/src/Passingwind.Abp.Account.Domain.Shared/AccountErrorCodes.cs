@@ -2,5 +2,5 @@
 
 public static class AccountErrorCodes
 {
-    public const string LocalLoginDisabled = "LocalLoginDisabledMessage";
+    public const string LocalLoginDisabled = "Account:Error:01";
 }

@@ -3,6 +3,10 @@
   "texts": {
     "DisplayName:Abp.Identity.User.RequireUniqueEmail": "Required unique email address",
 
+    "DisplayName:Identity.Twofactor.IsRememberBrowserEnabled": "Enable whether to remember the browser",
+    "DisplayName:Identity.Twofactor.TwoFactorBehaviour": "Two factor behaviour",
+    "DisplayName:Identity.Twofactor.UsersCanChange": "Allow users to change their Two Factor",
+
     "Permission:Create": "Create",
     "Permission:Update": "Edit",
     "Permission:Delete": "Delete",

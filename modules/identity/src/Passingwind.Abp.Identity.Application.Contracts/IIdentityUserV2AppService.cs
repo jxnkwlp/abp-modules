@@ -30,6 +30,8 @@ public interface IIdentityUserV2AppService : ICrudAppService<IdentityUserV2Dto, 
 
     Task UpdatePasswordAsync(Guid id, IdentityUserUpdatePasswordDto input);
 
+    Task ClearPasswordAsync(Guid id);
+
     Task<IdentityUserTwoFactorEnabledDto> GetTwoFactorEnabledAsync(Guid id);
 
     Task UpdateTwoFactorEnabledAsync(Guid id, IdentityUserTwoFactorEnabledDto input);

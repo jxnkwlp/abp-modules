@@ -1,14 +1,5 @@
 ﻿namespace Passingwind.Abp.Identity;
 
-//public class IdentitySettings
-//{
-//    public IdentityUserSettings User { get; set; } = null!;
-//    public IdentityPasswordSettings Password { get; set; } = null!;
-//    public IdentityLockoutSettings Lockout { get; set; } = null!;
-//    public IdentitySignInSettings SignIn { get; set; } = null!;
-//    public OrganizationUnitSettings OrganizationUnit { get; set; } = null!;
-//}
-
 public class IdentityUserSettings
 {
     public bool IsEmailUpdateEnabled { get; set; }
@@ -46,4 +37,11 @@ public class IdentitySignInSettings
 public class OrganizationUnitSettings
 {
     public int MaxUserMembershipCount { get; set; }
+}
+
+public class IdentityTwofactorSettings
+{
+    public bool IsRememberBrowserEnabled { get; set; }
+    public IdentityTwofactoryBehaviour TwoFactorBehaviour { get; set; }
+    public bool UsersCanChange { get; set; }
 }

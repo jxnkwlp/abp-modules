@@ -144,4 +144,10 @@ public class IdentityUserV2Controller : IdentityBaseController, IIdentityUserV2A
     {
         return _service.GetAsync(id);
     }
+
+    [HttpPut("{id}/clear-password")]
+    public Task ClearPasswordAsync(Guid id)
+    {
+        return _service.ClearPasswordAsync(id);
+    }
 }

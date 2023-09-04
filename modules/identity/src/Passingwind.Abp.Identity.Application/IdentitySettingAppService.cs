@@ -21,6 +21,7 @@ public class IdentitySettingAppService : IdentityAppBaseService, IIdentitySettin
             Lockout = ObjectMapper.Map<IdentityLockoutSettings, IdentityLockoutSettingsDto>(await IdentitySettingsManager.GetLockoutSettingsAsync()),
             Password = ObjectMapper.Map<IdentityPasswordSettings, IdentityPasswordSettingsDto>(await IdentitySettingsManager.GetPasswordSettingsAsync()),
             User = ObjectMapper.Map<IdentityUserSettings, IdentityUserSettingsDto>(await IdentitySettingsManager.GetUserSettingsAsync()),
+            Twofactor = ObjectMapper.Map<IdentityTwofactorSettings, IdentityTwofactorSettingsDto>(await IdentitySettingsManager.GetTwoFactorSettingsAsync()),
             OrganizationUnit = ObjectMapper.Map<OrganizationUnitSettings, OrganizationUnitSettingsDto>(await IdentitySettingsManager.GetOrganizationUnitSettingsAsync()),
         };
     }
@@ -32,6 +33,7 @@ public class IdentitySettingAppService : IdentityAppBaseService, IIdentitySettin
         await IdentitySettingsManager.SetLockoutSettingsAsync(ObjectMapper.Map<IdentityLockoutSettingsDto, IdentityLockoutSettings>(input.Lockout));
         await IdentitySettingsManager.SetPasswordSettingsAsync(ObjectMapper.Map<IdentityPasswordSettingsDto, IdentityPasswordSettings>(input.Password));
         await IdentitySettingsManager.SetUserSettingsAsync(ObjectMapper.Map<IdentityUserSettingsDto, IdentityUserSettings>(input.User));
+        await IdentitySettingsManager.SetTwofactorSettingsAsync(ObjectMapper.Map<IdentityTwofactorSettingsDto, IdentityTwofactorSettings>(input.Twofactor));
         await IdentitySettingsManager.SetOrganizationUnitSettingsAsync(ObjectMapper.Map<OrganizationUnitSettingsDto, OrganizationUnitSettings>(input.OrganizationUnit));
     }
 }

@@ -1,6 +1,22 @@
 ﻿{
   "culture": "zh-Hans",
   "texts": {
-    
+    "Account:Error:01": "本地登录已禁止使用",
+
+    "Permission:Create": "创建",
+    "Permission:Update": "编辑",
+    "Permission:Delete": "删除",
+
+    "Permission:AccountManagement": "账户",
+    "Permission:SettingManagement": "设置管理",
+
+    "DisplayName:Account.Captcha.EnableOnLogin": "登录时启用",
+    "DisplayName:Account.Captcha.EnableOnRegistration": "注册时启用",
+
+    "DisplayName:Account.Recaptcha.Score": "分数",
+    "DisplayName:Account.Recaptcha.SiteKey": "站点密钥",
+    "DisplayName:Account.Recaptcha.SiteSecret": "站点秘密",
+    "DisplayName:Account.Recaptcha.VerifyBaseUrl": "验证基本Url",
+    "DisplayName:Account.Recaptcha.Version": "版本"
   }
 }

@@ -14,6 +14,10 @@ public class IdentitySettingDefinitionProvider : SettingDefinitionProvider
                true.ToString(),
                L("DisplayName:Abp.Identity.User.RequireUniqueEmail"))
         );
+
+        context.Add(new SettingDefinition(IdentitySettingNamesV2.Twofactor.IsRememberBrowserEnabled, true.ToString(), L("DisplayName:Identity.Twofactor.IsRememberBrowserEnabled"), isVisibleToClients: true));
+        context.Add(new SettingDefinition(IdentitySettingNamesV2.Twofactor.TwoFactorBehaviour, "0", L("DisplayName:Identity.Twofactor.TwoFactorBehaviour")));
+        context.Add(new SettingDefinition(IdentitySettingNamesV2.Twofactor.UsersCanChange, true.ToString(), L("DisplayName:Identity.Twofactor.UsersCanChange")));
     }
 
     private static LocalizableString L(string name)

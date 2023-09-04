@@ -3,6 +3,10 @@
   "texts": {
     "DisplayName:Abp.Identity.User.RequireUniqueEmail": "需要唯一的电子邮件地址",
 
+    "DisplayName:Identity.Twofactor.IsRememberBrowserEnabled": "启用是否记住浏览器",
+    "DisplayName:Identity.Twofactor.TwoFactorBehaviour": "双因素行为",
+    "DisplayName:Identity.Twofactor.UsersCanChange": "允许用户更改他们的两个因素",
+
     "Permission:Create": "创建",
     "Permission:Update": "编辑",
     "Permission:Delete": "删除",

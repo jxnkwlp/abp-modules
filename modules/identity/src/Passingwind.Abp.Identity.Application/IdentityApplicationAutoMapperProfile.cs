@@ -24,12 +24,11 @@ public class IdentityApplicationAutoMapperProfile : Profile
 
         CreateMap<IdentitySecurityLog, IdentitySecurityLogDto>();
 
-        CreateMap<IdentitySignInSettings, IdentitySignInSettingsDto>();
-
         CreateMap<IdentityUserSettings, IdentityUserSettingsDto>().ReverseMap();
         CreateMap<IdentityPasswordSettings, IdentityPasswordSettingsDto>().ReverseMap();
         CreateMap<IdentityLockoutSettings, IdentityLockoutSettingsDto>().ReverseMap();
         CreateMap<IdentitySignInSettings, IdentitySignInSettingsDto>().ReverseMap();
+        CreateMap<IdentityTwofactorSettings, IdentityTwofactorSettingsDto>().ReverseMap();
         CreateMap<OrganizationUnitSettings, OrganizationUnitSettingsDto>().ReverseMap();
     }
 }

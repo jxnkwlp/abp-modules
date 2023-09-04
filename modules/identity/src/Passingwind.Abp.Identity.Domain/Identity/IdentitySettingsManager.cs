@@ -29,7 +29,15 @@ public class IdentitySettingsManager : IIdentitySettingsManager, ITransientDepen
         if (string.IsNullOrWhiteSpace(value))
             return default;
 
+        if (typeof(T).IsEnum)
+            return (T)Enum.Parse(typeof(T), value);
+
         return value.To<T>();
+    }
+
+    protected virtual async Task SetSettingValueAsync(string name, string? value)
+    {
+        await SettingManager.SetForCurrentTenantAsync(name, value);
     }
 
     protected virtual async Task SetSettingValueAsync<T>(string name, T value) where T : struct
@@ -126,5 +134,22 @@ public class IdentitySettingsManager : IIdentitySettingsManager, ITransientDepen
     public virtual async Task SetOrganizationUnitSettingsAsync(OrganizationUnitSettings settings, CancellationToken cancellationToken = default)
     {
         await SetSettingValueAsync(IdentitySettingNames.OrganizationUnit.MaxUserMembershipCount, settings.MaxUserMembershipCount);
+    }
+
+    public async Task<IdentityTwofactorSettings> GetTwoFactorSettingsAsync(CancellationToken cancellationToken = default)
+    {
+        return new IdentityTwofactorSettings
+        {
+            IsRememberBrowserEnabled = await GetSettingValueAsync<bool>(IdentitySettingNamesV2.Twofactor.IsRememberBrowserEnabled),
+            TwoFactorBehaviour = await GetSettingValueAsync<IdentityTwofactoryBehaviour>(IdentitySettingNamesV2.Twofactor.TwoFactorBehaviour),
+            UsersCanChange = await GetSettingValueAsync<bool>(IdentitySettingNamesV2.Twofactor.UsersCanChange),
+        };
+    }
+
+    public async Task SetTwofactorSettingsAsync(IdentityTwofactorSettings settings, CancellationToken cancellationToken = default)
+    {
+        await SetSettingValueAsync(IdentitySettingNamesV2.Twofactor.IsRememberBrowserEnabled, settings.IsRememberBrowserEnabled);
+        await SetSettingValueAsync(IdentitySettingNamesV2.Twofactor.TwoFactorBehaviour, settings.TwoFactorBehaviour);
+        await SetSettingValueAsync(IdentitySettingNamesV2.Twofactor.UsersCanChange, settings.UsersCanChange);
     }
 }
