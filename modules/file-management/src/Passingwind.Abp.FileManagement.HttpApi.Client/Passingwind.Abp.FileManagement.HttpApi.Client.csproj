@@ -1,21 +1,21 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<Import Project="..\..\..\common.props" />
+  <Import Project="..\..\common.props" />
 
-	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
-		<Nullable>enable</Nullable>
-		<RootNamespace>Passingwind.Abp.FileManagement</RootNamespace>
-	</PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Passingwind.Abp.FileManagement</RootNamespace>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Volo.Abp.Http.Client" Version="7.2.3" />
-		<ProjectReference Include="..\Passingwind.Abp.FileManagement.Application.Contracts\Passingwind.Abp.FileManagement.Application.Contracts.csproj" />
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Http.Client" Version="7.2.3" />
+    <ProjectReference Include="..\Passingwind.Abp.FileManagement.Application.Contracts\Passingwind.Abp.FileManagement.Application.Contracts.csproj" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<EmbeddedResource Include="**\*generate-proxy.json" />
-		<Content Remove="**\*generate-proxy.json" />
-	</ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="**\*generate-proxy.json" />
+    <Content Remove="**\*generate-proxy.json" />
+  </ItemGroup>
 
 </Project>

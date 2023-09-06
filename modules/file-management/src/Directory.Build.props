@@ -1,17 +1,17 @@
 ﻿<Project>
-	<PropertyGroup>
-		<Product>Passingwind.Abp.FileManagement</Product>
-		<Description>an abp module that provider file and file container management </Description>
-		<Version>0.1.0</Version>
+  <PropertyGroup>
+    <Product>Passingwind.Abp.FileManagement</Product>
+    <Description>an abp module that provider file and file container management </Description>
+    <Version>0.1.0</Version>
     <PackageVersion>0.1.7</PackageVersion>
-		<PackageReadmeFile>readme.md</PackageReadmeFile>
-	</PropertyGroup>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<None Include="..\..\readme.md">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
-	</ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>

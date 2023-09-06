@@ -1,22 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<Import Project="..\..\..\common.props" />
+  <Import Project="..\..\common.props" />
 
-	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
-		<Nullable>enable</Nullable>
-		<RootNamespace>Passingwind.Abp.FileManagement</RootNamespace>
-	</PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Passingwind.Abp.FileManagement</RootNamespace>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Volo.Abp.Ddd.Domain" Version="7.2.3" />
-		<PackageReference Include="Volo.Abp.BlobStoring" Version="7.2.3" />
-		<ProjectReference Include="..\Passingwind.Abp.FileManagement.Domain.Shared\Passingwind.Abp.FileManagement.Domain.Shared.csproj" />
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="7.2.3" />
+    <PackageReference Include="Volo.Abp.BlobStoring" Version="7.2.3" />
+    <ProjectReference Include="..\Passingwind.Abp.FileManagement.Domain.Shared\Passingwind.Abp.FileManagement.Domain.Shared.csproj" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="MimeTypesMap" Version="1.0.8" />
-		<!--<PackageReference Include="Nanoid" Version="2.1.0" />-->
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MimeTypesMap" Version="1.0.8" />
+    <!--<PackageReference Include="Nanoid" Version="2.1.0" />-->
+  </ItemGroup>
 
 </Project>
