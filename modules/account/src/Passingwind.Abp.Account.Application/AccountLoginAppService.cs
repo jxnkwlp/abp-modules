@@ -1,9 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Passingwind.Abp.Identity.AspNetCore;
+using Passingwind.Abp.Identity.Settings;
 using Volo.Abp;
 using Volo.Abp.Account.Settings;
 using Volo.Abp.Authorization;
@@ -46,7 +49,7 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
 
         if (identityUser == null)
         {
-            return new AccountLoginResultDto(AccountLoginResultType.InvalidUserNameOrPassword);
+            return new AccountLoginResultDto(AccountLoginResultType.InvalidUserNameOrPasswordOrToken);
         }
 
         return GetAccountLoginResult(await SignInManager.CheckPasswordSignInAsync(identityUser, input.Password, true));
@@ -63,7 +66,7 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
 
         if (user == null)
         {
-            return new AccountLoginResultDto(AccountLoginResultType.InvalidUserNameOrPassword);
+            return new AccountLoginResultDto(AccountLoginResultType.InvalidUserNameOrPasswordOrToken);
         }
 
         var signInResult = await SignInManager.PasswordSignInAsync(
@@ -84,7 +87,7 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
     }
 
     /// <inheritdoc/>
-    public async Task<AccountLoginResultDto> LoginWith2faAsync(AccountLoginWith2FaRequestDto input)
+    public virtual async Task<AccountLoginResultDto> LoginWith2faAsync(AccountLoginWith2FaRequestDto input)
     {
         await IdentityOptions.SetAsync();
 
@@ -92,7 +95,9 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
 
         var authenticatorCode = input.Code.Replace(" ", string.Empty).Replace("-", string.Empty);
 
-        var signInResult = await SignInManager.TwoFactorAuthenticatorSignInAsync(authenticatorCode, input.RememberMe, input.RememberMachine);
+        var isRememberBrowserEnabled = await SettingProvider.IsTrueAsync(IdentitySettingNamesV2.Twofactor.IsRememberBrowserEnabled);
+
+        var signInResult = await SignInManager.TwoFactorAuthenticatorSignInAsync(authenticatorCode, input.RememberMe, input.RememberMachine && isRememberBrowserEnabled);
 
         await UserManager.GetUserIdAsync(user);
 
@@ -107,7 +112,7 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
     }
 
     /// <inheritdoc/>
-    public async Task<AccountLoginResultDto> LoginWithRecoveryCodeAsync(AccountLoginWithRecoveryCodeRequestDto input)
+    public virtual async Task<AccountLoginResultDto> LoginWithRecoveryCodeAsync(AccountLoginWithRecoveryCodeRequestDto input)
     {
         await IdentityOptions.SetAsync();
 
@@ -144,11 +149,11 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
         await SignInManager.SignOutAsync();
     }
 
-    public async Task ChangePasswordAsync(AccountRequiredChangePasswordRequestDto input)
+    public virtual async Task ChangePasswordAsync(AccountRequiredChangePasswordRequestDto input)
     {
         await IdentityOptions.SetAsync();
 
-        var user = await SignInManager.GetPartialAuthenticationUserAsync();
+        var user = await SignInManager.GetRequiresChangePasswordUserAsync();
 
         if (user == null)
             throw new AbpAuthorizationException();
@@ -163,6 +168,104 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
         user.SetShouldChangePasswordOnNextLogin(false);
 
         (await UserManager.UpdateAsync(user)).CheckErrors();
+    }
+
+    public virtual async Task<AccountAuthenticatorRecoveryCodesResultDto> VerifyAuthenticatorToken(AccountAuthenticatorCodeVerifyRequestDto input)
+    {
+        await IdentityOptions.SetAsync();
+
+        var user = await SignInManager.GetTwoFactorAuthenticationUserAsync();
+
+        if (user == null)
+            throw new AbpAuthorizationException();
+
+        var verificationCode = input.Code.Replace(" ", string.Empty).Replace("-", string.Empty);
+
+        var is2faTokenValid = await UserManager.VerifyTwoFactorTokenAsync(user, UserManager.Options.Tokens.AuthenticatorTokenProvider, verificationCode);
+
+        if (is2faTokenValid)
+        {
+            await UserManager.SetTwoFactorEnabledAsync(user, true);
+
+            await UserManager.GetUserIdAsync(user);
+
+            Logger.LogInformation("User with id '{id}' has enabled 2FA with an authenticator app.", user.Id);
+
+            await SecurityLogManager.SaveAsync(new IdentitySecurityLogContext()
+            {
+                Identity = IdentitySecurityLogIdentityConsts.IdentityTwoFactor,
+                Action = "AuthenticatorEnabled",
+                UserName = user.UserName,
+            });
+
+            var recoveryCodes = await UserManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10);
+
+            return new AccountAuthenticatorRecoveryCodesResultDto
+            {
+                RecoveryCodes = recoveryCodes!.ToArray(),
+            };
+        }
+
+        throw new BusinessException(AccountErrorCodes.TwoFactorCodeValidFailed);
+    }
+
+    public virtual async Task<AccountHasAuthenticatorResultDto> HasAuthenticatorAsync()
+    {
+        await IdentityOptions.SetAsync();
+
+        var user = await SignInManager.GetTwoFactorAuthenticationUserAsync();
+
+        if (user == null)
+            throw new AbpAuthorizationException();
+
+        var enabled = await UserManager.GetTwoFactorEnabledAsync(user);
+
+        var unformattedKey = await UserManager.GetAuthenticatorKeyAsync(user);
+
+        return new AccountHasAuthenticatorResultDto
+        {
+            Enabled = !string.IsNullOrEmpty(unformattedKey) && enabled,
+        };
+    }
+
+    public virtual async Task<AccountAuthenticatorInfoDto> GetAuthenticatorInfoAsync()
+    {
+        await IdentityOptions.SetAsync();
+
+        var user = await SignInManager.GetTwoFactorAuthenticationUserAsync();
+
+        if (user == null)
+            throw new AbpAuthorizationException();
+
+        var enabled = await UserManager.GetTwoFactorEnabledAsync(user);
+
+        var unformattedKey = await UserManager.GetAuthenticatorKeyAsync(user);
+
+        if (string.IsNullOrEmpty(unformattedKey))
+        {
+            await UserManager.ResetAuthenticatorKeyAsync(user);
+            unformattedKey = await UserManager.GetAuthenticatorKeyAsync(user);
+        }
+
+        var sharedKey = FormatKey(unformattedKey!);
+
+        var userName = await UserManager.GetUserNameAsync(user);
+        var authenticatorUri = await GenerateAuthenticatorQrCodeUri(userName!, unformattedKey!);
+
+        enabled = !string.IsNullOrEmpty(unformattedKey) && enabled;
+
+        if (enabled)
+        {
+            return new AccountAuthenticatorInfoDto { Enabled = true };
+        }
+
+        return new AccountAuthenticatorInfoDto
+        {
+            Enabled = enabled,
+            Key = unformattedKey,
+            FormatKey = sharedKey,
+            Uri = authenticatorUri,
+        };
     }
 
     protected virtual async Task<IdentityUser?> FindUserAsync(string userNameOrEmailAddress)
@@ -180,6 +283,8 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
         {
             return await UserManager.FindByEmailAsync(userNameOrEmailAddress);
         }
+        // TODO: can select account to login ?
+        //
 
         return null;
     }
@@ -211,7 +316,7 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
             return new AccountLoginResultDto(AccountLoginResultType.RequiresChangePassword);
         }
 
-        return new AccountLoginResultDto(AccountLoginResultType.InvalidUserNameOrPassword);
+        return new AccountLoginResultDto(AccountLoginResultType.InvalidUserNameOrPasswordOrToken);
     }
 
     protected virtual async Task CheckLocalLoginAsync()

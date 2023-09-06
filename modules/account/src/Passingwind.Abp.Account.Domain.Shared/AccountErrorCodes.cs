@@ -2,5 +2,9 @@
 
 public static class AccountErrorCodes
 {
-    public const string LocalLoginDisabled = "Account:Error:01";
+    public const string LocalLoginDisabled = "Account:Error:0101";
+
+    public const string TwoFactorDisabled = "Account:Error:0200";
+    public const string TwoFactorCannotDisabled = "Account:Error:0201";
+    public const string TwoFactorCodeValidFailed = "Account:Error:0202";
 }

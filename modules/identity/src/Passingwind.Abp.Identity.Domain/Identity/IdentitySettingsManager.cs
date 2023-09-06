@@ -143,6 +143,7 @@ public class IdentitySettingsManager : IIdentitySettingsManager, ITransientDepen
             IsRememberBrowserEnabled = await GetSettingValueAsync<bool>(IdentitySettingNamesV2.Twofactor.IsRememberBrowserEnabled),
             TwoFactorBehaviour = await GetSettingValueAsync<IdentityTwofactoryBehaviour>(IdentitySettingNamesV2.Twofactor.TwoFactorBehaviour),
             UsersCanChange = await GetSettingValueAsync<bool>(IdentitySettingNamesV2.Twofactor.UsersCanChange),
+            AuthenticatorIssuer = await GetSettingValueAsync(IdentitySettingNamesV2.Twofactor.AuthenticatorIssuer),
         };
     }
 
@@ -151,5 +152,6 @@ public class IdentitySettingsManager : IIdentitySettingsManager, ITransientDepen
         await SetSettingValueAsync(IdentitySettingNamesV2.Twofactor.IsRememberBrowserEnabled, settings.IsRememberBrowserEnabled);
         await SetSettingValueAsync(IdentitySettingNamesV2.Twofactor.TwoFactorBehaviour, settings.TwoFactorBehaviour);
         await SetSettingValueAsync(IdentitySettingNamesV2.Twofactor.UsersCanChange, settings.UsersCanChange);
+        await SetSettingValueAsync(IdentitySettingNamesV2.Twofactor.AuthenticatorIssuer, settings.AuthenticatorIssuer);
     }
 }

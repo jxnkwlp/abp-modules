@@ -24,8 +24,8 @@ public class AccountSettingDefinitionProvider : SettingDefinitionProvider
         //        L("Description:Abp.Account.EnableLocalLogin"), isVisibleToClients: true)
         //);
 
-        context.Add(new SettingDefinition(AccountSettingNames.Captcha.EnableOnLogin, false.ToString(), L("DisplayName:Account.Captcha.EnableOnLogin"), isVisibleToClients: true));
-        context.Add(new SettingDefinition(AccountSettingNames.Captcha.EnableOnRegistration, false.ToString(), L("DisplayName:Account.Captcha.EnableOnRegistration"), isVisibleToClients: true));
+        context.Add(new SettingDefinition(AccountSettingNames.Captcha.EnableOnLogin, "false", L("DisplayName:Account.Captcha.EnableOnLogin"), isVisibleToClients: true));
+        context.Add(new SettingDefinition(AccountSettingNames.Captcha.EnableOnRegistration, "false", L("DisplayName:Account.Captcha.EnableOnRegistration"), isVisibleToClients: true));
 
         context.Add(new SettingDefinition(AccountSettingNames.Recaptcha.Score, "0.5", L("DisplayName:Account.Recaptcha.Score"), isVisibleToClients: true));
         context.Add(new SettingDefinition(AccountSettingNames.Recaptcha.SiteKey, null, L("DisplayName:Account.Recaptcha.SiteKey"), isVisibleToClients: true));

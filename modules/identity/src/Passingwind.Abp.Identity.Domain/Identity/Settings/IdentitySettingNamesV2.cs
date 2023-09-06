@@ -18,5 +18,6 @@ public static class IdentitySettingNamesV2
         public const string IsRememberBrowserEnabled = Prefix + ".IsRememberBrowserEnabled";
         public const string TwoFactorBehaviour = Prefix + ".TwoFactorBehaviour";
         public const string UsersCanChange = Prefix + ".UsersCanChange";
+        public const string AuthenticatorIssuer = Prefix + ".AuthenticatorIssuer";
     }
 }

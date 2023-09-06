@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Passingwind.Abp.Identity.Settings;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Identity;
 using Volo.Abp.Identity.AspNetCore;
@@ -65,39 +66,81 @@ public class SignInManager : AbpSignInManager, IScopedDependency
         return signInResult;
     }
 
+    // TODO
+    // will be override on net8 and review this code
+    public virtual async Task<bool> IsTwoFactorEnabledAsync(IdentityUser user)
+    {
+        var behaviour = await SettingProvider.GetEnumValueAsync<IdentityTwofactoryBehaviour>(IdentitySettingNamesV2.Twofactor.TwoFactorBehaviour);
+
+        if (behaviour == IdentityTwofactoryBehaviour.Disabled)
+            return false;
+
+        if (behaviour == IdentityTwofactoryBehaviour.Forced && UserManager.SupportsUserTwoFactor)
+            return true;
+
+        return UserManager.SupportsUserTwoFactor
+            && await UserManager.GetTwoFactorEnabledAsync(user)
+            && (await UserManager.GetValidTwoFactorProvidersAsync(user)).Count > 0;
+    }
+
+    public virtual async Task<bool> ShouldChangePasswordAsync(IdentityUser user)
+    {
+        return await IdentityUserManager.ShouldChangePasswordAsync(user);
+    }
+
+    // TODO
+    // review this when upgrade to .net8
     protected override async Task<SignInResult> SignInOrTwoFactorAsync(IdentityUser user, bool isPersistent, string? loginProvider = null, bool bypassTwoFactor = false)
     {
-        if (await IdentityUserManager.ShouldChangePasswordAsync(user))
+        if (await ShouldChangePasswordAsync(user))
         {
-            Logger.LogWarning("The user should change password! (username: \"{0}\", id:\"{1}\")", user.UserName, user.Id);
-
-            var claimIdentity = new ClaimsIdentity(MyIdentityConstants.ApplicationPartialScheme);
-
             var userId = await UserManager.GetUserIdAsync(user);
 
-            claimIdentity.AddClaim(new Claim(ClaimTypes.Name, userId));
-            if (loginProvider != null)
-            {
-                claimIdentity.AddClaim(new Claim(ClaimTypes.AuthenticationMethod, loginProvider));
-            }
-
-            await Context.SignInAsync(MyIdentityConstants.ApplicationPartialScheme, new ClaimsPrincipal(claimIdentity));
+            await Context.SignInAsync(MyIdentityConstants.RequiresChangePasswordScheme, StoreChangePasswordInfo(userId, loginProvider));
 
             return AbpSignInResult.ChangePasswordRequired;
         }
 
-        return await base.SignInOrTwoFactorAsync(user, isPersistent, loginProvider, bypassTwoFactor);
+        if (!bypassTwoFactor && await IsTwoFactorEnabledAsync(user))
+        {
+            if (!await IsTwoFactorClientRememberedAsync(user))
+            {
+                // Store the userId for use after two factor check
+                var userId = await UserManager.GetUserIdAsync(user);
+                await Context.SignInAsync(IdentityConstants.TwoFactorUserIdScheme, StoreTwoFactorInfo(userId, loginProvider));
+                return SignInResult.TwoFactorRequired;
+            }
+        }
+
+        // Cleanup external cookie
+        if (loginProvider != null)
+        {
+            await Context.SignOutAsync(IdentityConstants.ExternalScheme);
+        }
+
+        if (loginProvider == null)
+        {
+            await SignInWithClaimsAsync(user, isPersistent, new Claim[] { new Claim("amr", "pwd") });
+        }
+        else
+        {
+            await SignInAsync(user, isPersistent, loginProvider);
+        }
+
+        return SignInResult.Success;
+
+        // return await base.SignInOrTwoFactorAsync(user, isPersistent, loginProvider, bypassTwoFactor);
     }
 
     public override async Task SignOutAsync()
     {
         await base.SignOutAsync();
-        await Context.SignOutAsync(MyIdentityConstants.ApplicationPartialScheme);
+        await Context.SignOutAsync(MyIdentityConstants.RequiresChangePasswordScheme);
     }
 
-    public virtual async Task<IdentityUser?> GetPartialAuthenticationUserAsync()
+    public virtual async Task<IdentityUser?> GetRequiresChangePasswordUserAsync()
     {
-        var result = await Context.AuthenticateAsync(MyIdentityConstants.ApplicationPartialScheme);
+        var result = await Context.AuthenticateAsync(MyIdentityConstants.RequiresChangePasswordScheme);
         if (result?.Principal == null)
         {
             return null;
@@ -110,5 +153,40 @@ public class SignInManager : AbpSignInManager, IScopedDependency
         }
 
         return await UserManager.FindByIdAsync(userId);
+    }
+
+    /// <summary>
+    /// Creates a claims principal for the specified 2fa information.
+    /// </summary>
+    /// <param name="userId">The user whose is logging in via 2fa.</param>
+    /// <param name="loginProvider">The 2fa provider.</param>
+    /// <returns>A <see cref="ClaimsPrincipal"/> containing the user 2fa information.</returns>
+    internal static ClaimsPrincipal StoreTwoFactorInfo(string userId, string? loginProvider)
+    {
+        var identity = new ClaimsIdentity(IdentityConstants.TwoFactorUserIdScheme);
+        identity.AddClaim(new Claim(ClaimTypes.Name, userId));
+        if (loginProvider != null)
+        {
+            identity.AddClaim(new Claim(ClaimTypes.AuthenticationMethod, loginProvider));
+        }
+        return new ClaimsPrincipal(identity);
+    }
+
+    /// <summary>
+    ///  Creates a claims principal for the specified user information that requires change password.
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="loginProvider"></param>
+    internal static ClaimsPrincipal StoreChangePasswordInfo(string userId, string? loginProvider)
+    {
+        var identity = new ClaimsIdentity(MyIdentityConstants.RequiresChangePasswordScheme);
+
+        identity.AddClaim(new Claim(ClaimTypes.Name, userId));
+        if (loginProvider != null)
+        {
+            identity.AddClaim(new Claim(ClaimTypes.AuthenticationMethod, loginProvider));
+        }
+
+        return new ClaimsPrincipal(identity);
     }
 }

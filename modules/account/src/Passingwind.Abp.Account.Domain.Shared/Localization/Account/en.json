@@ -1,7 +1,10 @@
 ﻿{
   "culture": "en",
   "texts": {
-    "Account:Error:01": "Local login is disabled",
+    "Account:Error:0101": "Local login is disabled",
+    "Account:Error:0200": "Two-factory verification is disabled",
+    "Account:Error:0201": "This feature cannot be disabled",
+    "Account:Error:0202": "The verification code is incorrect",
 
     "Permission:Create": "Create",
     "Permission:Update": "Edit",

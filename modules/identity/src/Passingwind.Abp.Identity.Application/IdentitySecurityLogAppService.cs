@@ -18,13 +18,13 @@ public class IdentitySecurityLogAppService : IdentityAppBaseService, IIdentitySe
     }
 
     [Authorize(IdentityPermissionNamesV2.SecurityLogs.Delete)]
-    public async Task DeleteAsync(Guid id)
+    public virtual async Task DeleteAsync(Guid id)
     {
         await SecurityLogRepository.DeleteAsync(id);
     }
 
     [Authorize(IdentityPermissionNamesV2.SecurityLogs.Default)]
-    public async Task<IdentitySecurityLogDto> GetAsync(Guid id)
+    public virtual async Task<IdentitySecurityLogDto> GetAsync(Guid id)
     {
         var entity = await SecurityLogRepository.GetAsync(id);
 
@@ -32,7 +32,7 @@ public class IdentitySecurityLogAppService : IdentityAppBaseService, IIdentitySe
     }
 
     [Authorize(IdentityPermissionNamesV2.SecurityLogs.Default)]
-    public async Task<PagedResultDto<IdentitySecurityLogDto>> GetListAsync(IdentitySecurityLogPagedListRequestDto input)
+    public virtual async Task<PagedResultDto<IdentitySecurityLogDto>> GetListAsync(IdentitySecurityLogPagedListRequestDto input)
     {
         var count = await SecurityLogRepository.GetCountAsync(
             input.StartTime,
@@ -63,7 +63,7 @@ public class IdentitySecurityLogAppService : IdentityAppBaseService, IIdentitySe
     }
 
     [Authorize]
-    public async Task<PagedResultDto<IdentitySecurityLogDto>> GetListByCurrentUserAsync(IdentitySecurityLogPagedListRequestDto input)
+    public virtual async Task<PagedResultDto<IdentitySecurityLogDto>> GetListByCurrentUserAsync(IdentitySecurityLogPagedListRequestDto input)
     {
         input.UserId = CurrentUser.Id;
 

@@ -1,7 +1,10 @@
 ﻿{
   "culture": "zh-Hans",
   "texts": {
-    "Account:Error:01": "本地登录已禁止使用",
+    "Account:Error:0101": "本地登录已禁止使用",
+    "Account:Error:0200": "两步验证已禁用",
+    "Account:Error:0201": "不能禁止该功能",
+    "Account:Error:0202": "验证码不正确",
 
     "Permission:Create": "创建",
     "Permission:Update": "编辑",

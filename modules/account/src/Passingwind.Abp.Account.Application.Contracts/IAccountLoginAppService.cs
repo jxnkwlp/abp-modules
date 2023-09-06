@@ -42,4 +42,25 @@ public interface IAccountLoginAppService : IApplicationService
     /// </summary>
     /// <param name="input"></param>
     Task ChangePasswordAsync(AccountRequiredChangePasswordRequestDto input);
+
+    /// <summary>
+    ///  Check tfa authentication user hash configure authenticator
+    /// </summary>
+    Task<AccountHasAuthenticatorResultDto> HasAuthenticatorAsync();
+
+    /// <summary>
+    ///  Get tfa authentication user authenticator info
+    /// </summary>
+    Task<AccountAuthenticatorInfoDto> GetAuthenticatorInfoAsync();
+
+    /// <summary>
+    ///  tfa authentication user verify authenticator code
+    /// </summary>
+    /// <param name="input"></param>
+    Task<AccountAuthenticatorRecoveryCodesResultDto> VerifyAuthenticatorToken(AccountAuthenticatorCodeVerifyRequestDto input);
+}
+
+public class AccountHasAuthenticatorResultDto
+{
+    public bool Enabled { get; set; }
 }

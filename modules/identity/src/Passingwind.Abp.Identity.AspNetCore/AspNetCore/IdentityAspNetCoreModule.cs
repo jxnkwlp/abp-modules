@@ -17,7 +17,7 @@ public class IdentityAspNetCoreModule : AbpModule
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
         // TODO
-        PreConfigure<IdentityBuilder>(builder => builder.AddSignInManager<SignInManager>());
+        // PreConfigure<IdentityBuilder>(builder => builder.AddSignInManager<SignInManager>());
     }
 
     public override void ConfigureServices(ServiceConfigurationContext context)
@@ -34,7 +34,7 @@ public class IdentityAspNetCoreModule : AbpModule
                     o.DefaultScheme = IdentityConstants.ApplicationScheme;
                     o.DefaultSignInScheme = IdentityConstants.ExternalScheme;
                 })
-                .AddApplicationPartialCookie()
+                .AddRequiresChangePasswordCookie()
                 ;
         }
     }

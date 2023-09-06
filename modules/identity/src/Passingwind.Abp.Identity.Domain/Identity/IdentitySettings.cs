@@ -44,4 +44,5 @@ public class IdentityTwofactorSettings
     public bool IsRememberBrowserEnabled { get; set; }
     public IdentityTwofactoryBehaviour TwoFactorBehaviour { get; set; }
     public bool UsersCanChange { get; set; }
+    public string? AuthenticatorIssuer { get; set; }
 }

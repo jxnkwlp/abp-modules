@@ -28,6 +28,18 @@ public class AccountLoginController : AccountBaseController, IAccountLoginAppSer
         return _service.CheckPasswordAsync(input);
     }
 
+    [HttpGet("login/authenticator")]
+    public Task<AccountAuthenticatorInfoDto> GetAuthenticatorInfoAsync()
+    {
+        return _service.GetAuthenticatorInfoAsync();
+    }
+
+    [HttpGet("login/has-authenticator")]
+    public Task<AccountHasAuthenticatorResultDto> HasAuthenticatorAsync()
+    {
+        return _service.HasAuthenticatorAsync();
+    }
+
     [HttpPost("login")]
     public Task<AccountLoginResultDto> LoginAsync(AccountLoginRequestDto input)
     {
@@ -50,5 +62,11 @@ public class AccountLoginController : AccountBaseController, IAccountLoginAppSer
     public Task LogoutAsync()
     {
         return _service.LogoutAsync();
+    }
+
+    [HttpPost("authenticator/verify")]
+    public Task<AccountAuthenticatorRecoveryCodesResultDto> VerifyAuthenticatorToken(AccountAuthenticatorCodeVerifyRequestDto input)
+    {
+        return _service.VerifyAuthenticatorToken(input);
     }
 }

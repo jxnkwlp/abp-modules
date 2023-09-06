@@ -6,11 +6,11 @@ namespace Passingwind.Abp.Identity.AspNetCore;
 
 public static class AuthenticationBuilderExtensions
 {
-    public static AuthenticationBuilder AddApplicationPartialCookie(this AuthenticationBuilder builder)
+    public static AuthenticationBuilder AddRequiresChangePasswordCookie(this AuthenticationBuilder builder)
     {
-        return builder.AddCookie(MyIdentityConstants.ApplicationPartialScheme, options =>
+        return builder.AddCookie(MyIdentityConstants.RequiresChangePasswordScheme, options =>
         {
-            options.Cookie.Name = MyIdentityConstants.ApplicationPartialScheme;
+            options.Cookie.Name = MyIdentityConstants.RequiresChangePasswordScheme;
             options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
         });
     }

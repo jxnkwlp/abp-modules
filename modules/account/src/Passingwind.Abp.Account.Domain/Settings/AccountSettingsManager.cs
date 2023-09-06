@@ -35,7 +35,10 @@ public class AccountSettingsManager : IAccountSettingsManager, IScopedDependency
 
     protected virtual async Task SetSettingValueAsync<T>(string name, T value) where T : struct
     {
-        await SettingManager.SetForCurrentTenantAsync(name, value.ToString());
+        if (typeof(T) == typeof(bool))
+            await SettingManager.SetForCurrentTenantAsync(name, value.ToString().ToLowerInvariant());
+        else
+            await SettingManager.SetForCurrentTenantAsync(name, value.ToString());
     }
 
     protected virtual async Task SetSettingValueAsync(string name, string? value)

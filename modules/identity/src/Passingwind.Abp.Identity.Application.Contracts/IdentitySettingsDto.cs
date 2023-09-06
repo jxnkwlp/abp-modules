@@ -56,6 +56,7 @@ public class IdentityTwofactorSettingsDto
     public bool IsRememberBrowserEnabled { get; set; }
     public IdentityTwofactoryBehaviour TwoFactorBehaviour { get; set; }
     public bool UsersCanChange { get; set; }
+    public string? AuthenticatorIssuer { get; set; }
     public string TwoFactorBehaviourDescription => TwoFactorBehaviour.ToString();
 }
 

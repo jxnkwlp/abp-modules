@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace Passingwind.Abp.Identity;
+﻿namespace Passingwind.Abp.Identity;
 
 public static class MyIdentityConstants
 {
-    public static readonly string ApplicationPartialScheme = IdentityConstants.ApplicationScheme + ".Partial";
+    private const string CookiePrefix = "Identity";
+
+    public static readonly string RequiresChangePasswordScheme = CookiePrefix + ".RequiresChangePassword";
+    public static readonly string TwoFactorInitialScheme = CookiePrefix + ".TwoFactorInitial";
 }
