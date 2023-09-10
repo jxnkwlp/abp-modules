@@ -7,6 +7,7 @@ using Volo.Abp.Identity;
 
 namespace Passingwind.Abp.Identity;
 
+[ControllerName("IdentityUser")]
 [Area(IdentityRemoteServiceConsts.ModuleName)]
 [RemoteService(Name = IdentityRemoteServiceConsts.RemoteServiceName)]
 [Route("api/identity/users")]
