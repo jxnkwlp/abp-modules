@@ -1,7 +1,10 @@
 ﻿<Project>
   <Import Project="..\common.props"/>
-  
-  <PropertyGroup> 
+
+  <PropertyGroup>
+    <Product>Passingwind.Abp.Identity</Product>
+    <Description>an abp module that extend identity service, include settings, organization unit.</Description>
+    <PackageTags>abp-module</PackageTags>
   </PropertyGroup>
-   
+
 </Project>

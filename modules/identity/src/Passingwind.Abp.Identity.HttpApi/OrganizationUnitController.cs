@@ -9,7 +9,7 @@ namespace Passingwind.Abp.Identity;
 
 [Area(IdentityRemoteServiceConsts.ModuleName)]
 [RemoteService(Name = IdentityRemoteServiceConsts.RemoteServiceName)]
-[Route("api/organization-units")]
+[Route("api/identity/organization-units")]
 public class OrganizationUnitController : IdentityBaseController, IOrganizationUnitAppService
 {
     private readonly IOrganizationUnitAppService _service;
