@@ -15,16 +15,16 @@ namespace Passingwind.Abp.FileManagement.Files;
 
 public class FileManager : DomainService, IFileManager
 {
-    private readonly IFileRepository _fileRepository;
-    private readonly IFileContainerRepository _fileContainerRepository;
-    private readonly IBlobContainerFactory _blobContainerFactor;
-    private readonly IFileBlobNameGenerator _fileBlobNameGenerator;
-    private readonly IFileHashCalculator _fileHashCalculator;
-    private readonly IFileMimeTypeProvider _fileMimeTypeProvider;
-    private readonly IFileUniqueIdGenerator _fileUniqueIdGenerator;
-    private readonly IFileBlobContainerProvider _fileBlobContainerProvider;
-    private readonly IFileDuplicateDetectionProvider _fileDuplicateDetectionProvider;
-    private readonly FileManagementOptions _options;
+    private IFileRepository FileRepository { get; }
+    private IFileContainerRepository FileContainerRepository { get; }
+    private IBlobContainerFactory BlobContainerFactor { get; }
+    private IFileBlobNameGenerator FileBlobNameGenerator { get; }
+    private IFileHashCalculator FileHashCalculator { get; }
+    private IFileMimeTypeProvider FileMimeTypeProvider { get; }
+    private IFileUniqueIdGenerator FileUniqueIdGenerator { get; }
+    private IFileBlobContainerProvider FileBlobContainerProvider { get; }
+    private IFileDuplicateDetectionProvider FileDuplicateDetectionProvider { get; }
+    private FileManagementOptions FileManagementOptions { get; }
 
     public FileManager(
         IFileRepository fileRepository,
@@ -38,19 +38,19 @@ public class FileManager : DomainService, IFileManager
         IFileDuplicateDetectionProvider fileDuplicateDetectionProvider,
         IOptions<FileManagementOptions> options)
     {
-        _fileRepository = fileRepository;
-        _fileContainerRepository = fileContainerRepository;
-        _blobContainerFactor = blobContainerFactor;
-        _fileBlobNameGenerator = fileBlobNameGenerator;
-        _fileHashCalculator = fileHashCalculator;
-        _fileMimeTypeProvider = fileMimeTypeProvider;
-        _fileUniqueIdGenerator = fileUniqueIdGenerator;
-        _fileBlobContainerProvider = fileBlobContainerProvider;
-        _fileDuplicateDetectionProvider = fileDuplicateDetectionProvider;
-        _options = options.Value;
+        FileRepository = fileRepository;
+        FileContainerRepository = fileContainerRepository;
+        BlobContainerFactor = blobContainerFactor;
+        FileBlobNameGenerator = fileBlobNameGenerator;
+        FileHashCalculator = fileHashCalculator;
+        FileMimeTypeProvider = fileMimeTypeProvider;
+        FileUniqueIdGenerator = fileUniqueIdGenerator;
+        FileBlobContainerProvider = fileBlobContainerProvider;
+        FileDuplicateDetectionProvider = fileDuplicateDetectionProvider;
+        FileManagementOptions = options.Value;
     }
 
-    public async Task<File> FindFileAsync(FileContainer container, string fileName, Guid? parentId, CancellationToken cancellationToken = default)
+    public virtual async Task<File> FindFileAsync(FileContainer container, string fileName, Guid? parentId, CancellationToken cancellationToken = default)
     {
         if (container is null)
         {
@@ -62,7 +62,7 @@ public class FileManager : DomainService, IFileManager
             throw new ArgumentException($"'{nameof(fileName)}' cannot be null or empty.", nameof(fileName));
         }
 
-        return await _fileRepository.FirstOrDefaultAsync(x => x.FileName == fileName && x.ParentId == parentId && x.ContainerId == container.Id && !x.IsDirectory);
+        return await FileRepository.FirstOrDefaultAsync(x => x.FileName == fileName && x.ParentId == parentId && x.ContainerId == container.Id && !x.IsDirectory);
     }
 
     public virtual async Task<bool> IsFileExistsAsync(FileContainer container, File file, CancellationToken cancellationToken = default)
@@ -80,7 +80,7 @@ public class FileManager : DomainService, IFileManager
         if (file.IsDirectory)
             throw new ArgumentException();
 
-        return await _fileDuplicateDetectionProvider.IsExistsAsync(container, file, cancellationToken);
+        return await FileDuplicateDetectionProvider.IsExistsAsync(container, file, cancellationToken);
     }
 
     public virtual async Task<bool> IsDirectoryExistsAsync(FileContainer container, File file, CancellationToken cancellationToken = default)
@@ -98,7 +98,7 @@ public class FileManager : DomainService, IFileManager
         if (!file.IsDirectory)
             throw new ArgumentException();
 
-        return await _fileDuplicateDetectionProvider.IsExistsAsync(container, file, cancellationToken);
+        return await FileDuplicateDetectionProvider.IsExistsAsync(container, file, cancellationToken);
     }
 
     public virtual Task CheckFileExtensionAsync(FileContainer container, File file, CancellationToken cancellationToken = default)
@@ -180,7 +180,7 @@ public class FileManager : DomainService, IFileManager
         }
     }
 
-    public async Task CheckDirectoryExistsAsync(FileContainer container, File entity, CancellationToken cancellationToken = default)
+    public virtual async Task CheckDirectoryExistsAsync(FileContainer container, File entity, CancellationToken cancellationToken = default)
     {
         if (container is null)
         {
@@ -221,11 +221,11 @@ public class FileManager : DomainService, IFileManager
             throw new ArgumentNullException(nameof(bytes));
         }
 
-        var hash = await _fileHashCalculator.GetAsync(bytes);
+        var hash = await FileHashCalculator.GetAsync(bytes);
 
         var fileId = GuidGenerator.Create();
-        var uniqueId = await _fileUniqueIdGenerator.CreateAsync(container, fileId);
-        var blobName = await _fileBlobNameGenerator.CreateAsync(container.Id, fileId, uniqueId, fileName, mimeType, bytes.Length, hash);
+        var uniqueId = await FileUniqueIdGenerator.CreateAsync(container, fileId);
+        var blobName = await FileBlobNameGenerator.CreateAsync(container.Id, fileId, uniqueId, fileName, mimeType, bytes.Length, hash);
 
         var file = new File(
             fileId,
@@ -243,7 +243,7 @@ public class FileManager : DomainService, IFileManager
         return file;
     }
 
-    public async Task<File> CreateDirectoryAsync(FileContainer container, string name, Guid? parentId, CancellationToken cancellationToken = default)
+    public virtual async Task<File> CreateDirectoryAsync(FileContainer container, string name, Guid? parentId, CancellationToken cancellationToken = default)
     {
         if (container is null)
         {
@@ -256,8 +256,8 @@ public class FileManager : DomainService, IFileManager
         }
 
         var fileId = GuidGenerator.Create();
-        var uniqueId = await _fileUniqueIdGenerator.CreateAsync(container, fileId);
-        var blobName = await _fileBlobNameGenerator.CreateAsync(container.Id, fileId, uniqueId, name, string.Empty, 0, string.Empty);
+        var uniqueId = await FileUniqueIdGenerator.CreateAsync(container, fileId);
+        var blobName = await FileBlobNameGenerator.CreateAsync(container.Id, fileId, uniqueId, name, string.Empty, 0, string.Empty);
 
         var file = new File(
             fileId,
@@ -309,7 +309,7 @@ public class FileManager : DomainService, IFileManager
             throw new ArgumentNullException(nameof(file));
         }
 
-        var blobContainer = await _fileBlobContainerProvider.GetAsync(container);
+        var blobContainer = await FileBlobContainerProvider.GetAsync(container);
 
         return await blobContainer.GetAllBytesOrNullAsync(file.BlobName, cancellationToken);
     }
@@ -326,7 +326,7 @@ public class FileManager : DomainService, IFileManager
             throw new ArgumentNullException(nameof(file));
         }
 
-        var blobContainer = await _fileBlobContainerProvider.GetAsync(container);
+        var blobContainer = await FileBlobContainerProvider.GetAsync(container);
 
         return await blobContainer.GetOrNullAsync(file.BlobName, cancellationToken);
     }
@@ -348,7 +348,7 @@ public class FileManager : DomainService, IFileManager
             throw new ArgumentNullException(nameof(stream));
         }
 
-        var blobContainer = await _fileBlobContainerProvider.GetAsync(container);
+        var blobContainer = await FileBlobContainerProvider.GetAsync(container);
 
         await blobContainer.SaveAsync(file.BlobName, stream, true, cancellationToken);
     }
@@ -370,12 +370,12 @@ public class FileManager : DomainService, IFileManager
             throw new ArgumentNullException(nameof(bytes));
         }
 
-        var blobContainer = await _fileBlobContainerProvider.GetAsync(container);
+        var blobContainer = await FileBlobContainerProvider.GetAsync(container);
 
         await blobContainer.SaveAsync(file.BlobName, bytes, true, cancellationToken);
     }
 
-    public async Task<File> ChangeFileNameAsync(FileContainer container, File file, string newName, Guid? parentId, CancellationToken cancellationToken = default)
+    public virtual async Task<File> ChangeFileNameAsync(FileContainer container, File file, string newName, Guid? parentId, CancellationToken cancellationToken = default)
     {
         if (container == null)
             throw new ArgumentNullException(nameof(container));
@@ -392,7 +392,7 @@ public class FileManager : DomainService, IFileManager
         file.SetFileName(newName);
 
         if (!file.IsDirectory)
-            file.UpdateMimeType(_fileMimeTypeProvider.Get(newName));
+            file.UpdateMimeType(FileMimeTypeProvider.Get(newName));
 
         await CheckFileExtensionAsync(container, file);
 
@@ -400,35 +400,54 @@ public class FileManager : DomainService, IFileManager
     }
 
     [UnitOfWork]
-    public async Task DeleteAsync(FileContainer container, File file, CancellationToken cancellationToken = default)
+    public virtual async Task DeleteAsync(FileContainer container, File file, CancellationToken cancellationToken = default)
     {
-        await _fileRepository.DeleteAsync(file);
+        await FileRepository.DeleteAsync(file);
 
         if (container.AutoDeleteBlob && !file.IsDirectory)
         {
-            var blobContainer = await _fileBlobContainerProvider.GetAsync(container, cancellationToken: cancellationToken);
+            var blobContainer = await FileBlobContainerProvider.GetAsync(container, cancellationToken: cancellationToken);
 
             await blobContainer.DeleteAsync(file.BlobName, cancellationToken);
         }
     }
 
     [UnitOfWork]
-    public async Task ClearContainerFilesAsync(FileContainer container, CancellationToken cancellationToken = default)
+    public virtual async Task ClearContainerFilesAsync(FileContainer container, CancellationToken cancellationToken = default)
     {
         // TODO: performance
 
-        var files = await _fileRepository.GetListAsync(containerId: container.Id, cancellationToken: cancellationToken);
+        var files = await FileRepository.GetListAsync(containerId: container.Id, cancellationToken: cancellationToken);
 
         foreach (var file in files)
         {
-            await _fileRepository.DeleteAsync(file);
+            await FileRepository.DeleteAsync(file);
 
             if (container.AutoDeleteBlob && !file.IsDirectory)
             {
-                var blobContainer = await _fileBlobContainerProvider.GetAsync(container, cancellationToken: cancellationToken);
+                var blobContainer = await FileBlobContainerProvider.GetAsync(container, cancellationToken: cancellationToken);
 
                 await blobContainer.DeleteAsync(file.BlobName, cancellationToken);
             }
         }
+    }
+
+    public async Task<byte[]> GetFileBytesByFileIdAsync(string containerName, Guid id, CancellationToken cancellationToken = default)
+    {
+        var container = await FileContainerRepository.GetByNameAsync(containerName, cancellationToken);
+        var file = await FileRepository.GetAsync(id, cancellationToken: cancellationToken);
+        return await GetFileBytesAsync(container, file, cancellationToken);
+    }
+
+    public async Task<Stream?> GetFileSteamByFileIdAsync(string containerName, Guid id, CancellationToken cancellationToken = default)
+    {
+        var container = await FileContainerRepository.GetByNameAsync(containerName, cancellationToken);
+        var file = await FileRepository.GetAsync(id, cancellationToken: cancellationToken);
+        return await GetFileSteamAsync(container, file, cancellationToken);
+    }
+
+    public async Task<File> GetByIdAsync(string containerName, Guid id, CancellationToken cancellationToken = default)
+    {
+        return await FileRepository.GetAsync(id, cancellationToken: cancellationToken);
     }
 }

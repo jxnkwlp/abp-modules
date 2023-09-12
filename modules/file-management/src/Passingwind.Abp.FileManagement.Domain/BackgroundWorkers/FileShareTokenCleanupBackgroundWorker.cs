@@ -12,8 +12,8 @@ public class FileShareTokenCleanupBackgroundWorker : AsyncPeriodicBackgroundWork
 {
     public FileShareTokenCleanupBackgroundWorker(AbpAsyncTimer timer, IServiceScopeFactory serviceScopeFactory) : base(timer, serviceScopeFactory)
     {
-        // 12h
-        Timer.Period = 12 * 60 * 60 * 1000;
+        // 6h
+        Timer.Period = 6 * 60 * 60 * 1000;
     }
 
     protected override async Task DoWorkAsync(PeriodicBackgroundWorkerContext workerContext)

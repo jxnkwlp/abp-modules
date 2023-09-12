@@ -57,4 +57,9 @@ public interface IFileManager : IDomainService
     /// <param name="container"></param>
     /// <param name="cancellationToken"></param>
     Task ClearContainerFilesAsync(FileContainer container, CancellationToken cancellationToken = default);
+
+    Task<byte[]> GetFileBytesByFileIdAsync(string containerName, Guid id, CancellationToken cancellationToken = default);
+    Task<Stream?> GetFileSteamByFileIdAsync(string containerName, Guid id, CancellationToken cancellationToken = default);
+
+    Task<File> GetByIdAsync(string containerName, Guid id, CancellationToken cancellationToken = default);
 }
