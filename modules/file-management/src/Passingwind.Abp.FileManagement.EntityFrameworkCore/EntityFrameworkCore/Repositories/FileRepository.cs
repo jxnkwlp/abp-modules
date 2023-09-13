@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Passingwind.Abp.FileManagement.Files;
+using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
 
@@ -15,6 +16,26 @@ public class FileRepository : EfCoreRepository<FileManagementDbContext, File, Gu
 {
     public FileRepository(IDbContextProvider<FileManagementDbContext> dbContextProvider) : base(dbContextProvider)
     {
+    }
+
+    public async Task<File?> FindByNameAsync(Guid containerId, string fileName, Guid? parentId = null, CancellationToken cancellationToken = default)
+    {
+        var dbset = await GetDbSetAsync();
+
+        return await dbset
+            .WhereIf(parentId.HasValue, x => x.ParentId == parentId)
+            .FirstOrDefaultAsync(x => x.ContainerId == containerId && x.FileName == fileName, cancellationToken: cancellationToken);
+    }
+
+    public async Task<File> GetByNameAsync(Guid containerId, string fileName, Guid? parentId = null, CancellationToken cancellationToken = default)
+    {
+        var dbset = await GetDbSetAsync();
+
+        var entity = await dbset
+            .WhereIf(parentId.HasValue, x => x.ParentId == parentId)
+            .FirstOrDefaultAsync(x => x.ContainerId == containerId && x.FileName == fileName, cancellationToken: cancellationToken);
+
+        return entity ?? throw new EntityNotFoundException();
     }
 
     public virtual async Task<long> GetCountAsync(string? filter = null, Guid? containerId = null, Guid? parentId = null, bool? isDirectory = null, CancellationToken cancellationToken = default)

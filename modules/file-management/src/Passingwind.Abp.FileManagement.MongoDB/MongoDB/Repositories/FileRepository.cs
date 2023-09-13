@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using Passingwind.Abp.FileManagement.Files;
+using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories.MongoDB;
 using Volo.Abp.MongoDB;
 
@@ -16,6 +17,28 @@ public class FileRepository : MongoDbRepository<FileManagementMongoDbContext, Fi
 {
     public FileRepository(IMongoDbContextProvider<FileManagementMongoDbContext> dbContextProvider) : base(dbContextProvider)
     {
+    }
+
+    public async Task<File?> FindByNameAsync(Guid containerId, string fileName, Guid? parentId = null, CancellationToken cancellationToken = default)
+    {
+        var query = await GetMongoQueryableAsync();
+
+        return await query
+            .WhereIf(parentId.HasValue, x => x.ParentId == parentId)
+            .As<IMongoQueryable<File>>()
+            .FirstOrDefaultAsync(x => x.ContainerId == containerId && x.FileName == fileName, cancellationToken: cancellationToken);
+    }
+
+    public async Task<File> GetByNameAsync(Guid containerId, string fileName, Guid? parentId = null, CancellationToken cancellationToken = default)
+    {
+        var query = await GetMongoQueryableAsync();
+
+        var entity = await query
+            .WhereIf(parentId.HasValue, x => x.ParentId == parentId)
+            .As<IMongoQueryable<File>>()
+            .FirstOrDefaultAsync(x => x.ContainerId == containerId && x.FileName == fileName, cancellationToken: cancellationToken);
+
+        return entity ?? throw new EntityNotFoundException();
     }
 
     public async Task<long> GetCountAsync(string? filter = null, Guid? containerId = null, Guid? parentId = null, bool? isDirectory = null, CancellationToken cancellationToken = default)

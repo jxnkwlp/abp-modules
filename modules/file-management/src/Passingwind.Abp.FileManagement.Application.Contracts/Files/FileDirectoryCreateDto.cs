@@ -11,4 +11,6 @@ public class FileDirectoryCreateDto : ExtensibleObject
     public string FileName { get; set; } = null!;
 
     public Guid? ParentId { get; set; }
+
+    public bool Force { get; set; }
 }

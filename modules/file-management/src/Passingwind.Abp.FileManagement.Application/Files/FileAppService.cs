@@ -17,15 +17,15 @@ namespace Passingwind.Abp.FileManagement.Files;
 [AllowAnonymous]
 public class FileAppService : FileManagementAppService, IFileAppService
 {
-    private readonly IFileManager _fileManager;
-    private readonly IFileRepository _fileRepository;
-    private readonly IFileContainerRepository _fileContainerRepository;
-    private readonly FileContainerManager _fileContainerManager;
-    private readonly IFileInfoCheckProvider _fileInfoCheckProvider;
-    private readonly IFileMimeTypeProvider _fileMimeTypeProvider;
-    private readonly IFileRenameProvider _fileRenameProvider;
-    private readonly IFileAccessTokenProvider _fileAccessTokenProvider;
-    private readonly FileManagementOptions _options;
+    protected IFileManager FileManager;
+    protected IFileRepository FileRepository;
+    protected IFileContainerRepository FileContainerRepository;
+    protected FileContainerManager FileContainerManager;
+    protected IFileInfoCheckProvider FileInfoCheckProvider;
+    protected IFileMimeTypeProvider FileMimeTypeProvider;
+    protected IFileRenameProvider FileRenameProvider;
+    protected IFileAccessTokenProvider FileAccessTokenProvider;
+    protected FileManagementOptions FileManagementOptions;
 
     public FileAppService(
         IFileManager fileManager,
@@ -38,36 +38,36 @@ public class FileAppService : FileManagementAppService, IFileAppService
         IFileAccessTokenProvider fileAccessTokenProvider,
         IOptions<FileManagementOptions> options)
     {
-        _fileManager = fileManager;
-        _fileRepository = fileRepository;
-        _fileContainerRepository = fileContainerRepository;
-        _fileContainerManager = fileContainerManager;
-        _fileInfoCheckProvider = fileInfoCheckProvider;
-        _fileMimeTypeProvider = fileMimeTypeProvider;
-        _fileRenameProvider = fileRenameProvider;
-        _fileAccessTokenProvider = fileAccessTokenProvider;
-        _options = options.Value;
+        FileManager = fileManager;
+        FileRepository = fileRepository;
+        FileContainerRepository = fileContainerRepository;
+        FileContainerManager = fileContainerManager;
+        FileInfoCheckProvider = fileInfoCheckProvider;
+        FileMimeTypeProvider = fileMimeTypeProvider;
+        FileRenameProvider = fileRenameProvider;
+        FileAccessTokenProvider = fileAccessTokenProvider;
+        FileManagementOptions = options.Value;
     }
 
     public virtual async Task<PagedResultDto<FileDto>> GetListAsync(string containerName, FilePagedListRequestDto input)
     {
-        var container = await _fileContainerRepository.GetByNameAsync(containerName);
+        var container = await FileContainerRepository.GetByNameAsync(containerName);
 
         await CheckContainerPermissionAsync(container);
 
-        var count = await _fileRepository.GetCountAsync(
+        var count = await FileRepository.GetCountAsync(
             filter: input.Filter,
             containerId: container.Id,
             parentId: input.ParentId ?? Guid.Empty,
             isDirectory: input.IsDirectory);
-        var list = await _fileRepository.GetPagedListAsync(
+        var list = await FileRepository.GetPagedListAsync(
             input.SkipCount,
             input.MaxResultCount,
             input.Filter,
             containerId: container.Id,
             parentId: input.ParentId ?? Guid.Empty,
             isDirectory: input.IsDirectory,
-            sorting: input.Sorting ?? nameof(File.FileName));
+            sorting: input.Sorting ?? $"{nameof(File.IsDirectory)} desc,{nameof(File.FileName)}");
 
         return new PagedResultDto<FileDto>()
         {
@@ -78,11 +78,11 @@ public class FileAppService : FileManagementAppService, IFileAppService
 
     public virtual async Task<FileDto> GetAsync(string containerName, Guid id)
     {
-        var container = await _fileContainerRepository.GetByNameAsync(containerName);
+        var container = await FileContainerRepository.GetByNameAsync(containerName);
 
         await CheckContainerPermissionAsync(container);
 
-        var entity = await _fileRepository.GetAsync(id);
+        var entity = await FileRepository.GetAsync(id);
 
         await CheckFileIsInContainerAsync(container, entity);
 
@@ -91,7 +91,7 @@ public class FileAppService : FileManagementAppService, IFileAppService
 
     public virtual async Task DeleteAsync(string containerName, Guid id)
     {
-        var container = await _fileContainerRepository.GetByNameAsync(containerName);
+        var container = await FileContainerRepository.GetByNameAsync(containerName);
 
         // 1: container permssion
         await CheckContainerPermissionAsync(container, write: true);
@@ -99,38 +99,38 @@ public class FileAppService : FileManagementAppService, IFileAppService
         //2: file permssion 
         await AuthorizationService.CheckAsync(FileManagementPermissions.File.Delete);
 
-        var entity = await _fileRepository.GetAsync(id);
+        var entity = await FileRepository.GetAsync(id);
 
         if (entity.IsDirectory)
         {
             // if an directory has files, can't be delete
-            var fileCount = await _fileRepository.GetCountAsync(containerId: container.Id, parentId: entity.Id);
+            var fileCount = await FileRepository.GetCountAsync(containerId: container.Id, parentId: entity.Id);
             if (fileCount > 0)
             {
                 throw new BusinessException(FileManagementErrorCodes.DirectoryHasFiles).WithData("name", entity.FileName);
             }
 
-            await _fileRepository.DeleteAsync(entity);
+            await FileRepository.DeleteAsync(entity);
         }
         else
         {
             await CheckFileIsInContainerAsync(container, entity);
 
-            await _fileManager.DeleteAsync(container, entity);
+            await FileManager.DeleteAsync(container, entity);
         }
     }
 
     public virtual async Task<IRemoteStreamContent?> GetBlobAsync(string containerName, Guid id)
     {
-        var container = await _fileContainerRepository.GetByNameAsync(containerName);
+        var container = await FileContainerRepository.GetByNameAsync(containerName);
 
         await CheckContainerPermissionAsync(container);
 
-        var entity = await _fileRepository.GetAsync(id);
+        var entity = await FileRepository.GetAsync(id);
 
         await CheckFileIsInContainerAsync(container, entity);
 
-        var fileStream = await _fileManager.GetFileSteamAsync(container, entity);
+        var fileStream = await FileManager.GetFileSteamAsync(container, entity);
 
         if (fileStream == null)
             throw new BlobNotFoundException();
@@ -140,33 +140,33 @@ public class FileAppService : FileManagementAppService, IFileAppService
 
     public virtual async Task<System.IO.Stream?> GeBlobStreamAsync(string containerName, Guid id)
     {
-        var container = await _fileContainerRepository.GetByNameAsync(containerName);
+        var container = await FileContainerRepository.GetByNameAsync(containerName);
 
         await CheckContainerPermissionAsync(container);
 
-        var entity = await _fileRepository.GetAsync(id);
+        var entity = await FileRepository.GetAsync(id);
 
         await CheckFileIsInContainerAsync(container, entity);
 
-        return await _fileManager.GetFileSteamAsync(container, entity);
+        return await FileManager.GetFileSteamAsync(container, entity);
     }
 
     public virtual async Task<byte[]> GetBlobBytesAsync(string containerName, Guid id)
     {
-        var container = await _fileContainerRepository.GetByNameAsync(containerName);
+        var container = await FileContainerRepository.GetByNameAsync(containerName);
 
         await CheckContainerPermissionAsync(container);
 
-        var entity = await _fileRepository.GetAsync(id);
+        var entity = await FileRepository.GetAsync(id);
 
         await CheckFileIsInContainerAsync(container, entity);
 
-        return await _fileManager.GetFileBytesAsync(container, entity);
+        return await FileManager.GetFileBytesAsync(container, entity);
     }
 
     public virtual async Task<FileDto> CreateAsync(string containerName, FileCreateDto input)
     {
-        var container = await _fileContainerRepository.GetByNameAsync(containerName);
+        var container = await FileContainerRepository.GetByNameAsync(containerName);
 
         await CheckContainerPermissionAsync(container, write: true);
 
@@ -179,7 +179,7 @@ public class FileAppService : FileManagementAppService, IFileAppService
 
     public virtual async Task<FileDto> CreateByStreamAsync(string containerName, FileCreateByStreamDto input)
     {
-        var container = await _fileContainerRepository.GetByNameAsync(containerName);
+        var container = await FileContainerRepository.GetByNameAsync(containerName);
 
         await CheckContainerPermissionAsync(container, write: true);
 
@@ -192,7 +192,7 @@ public class FileAppService : FileManagementAppService, IFileAppService
 
     public virtual async Task<FileDto> CreateByBytesAsync(string containerName, FileCreateByBytesDto input)
     {
-        var container = await _fileContainerRepository.GetByNameAsync(containerName);
+        var container = await FileContainerRepository.GetByNameAsync(containerName);
 
         await CheckContainerPermissionAsync(container, write: true);
 
@@ -205,105 +205,114 @@ public class FileAppService : FileManagementAppService, IFileAppService
 
     public virtual async Task<FileDto> MoveAsync(string containerName, Guid id, FileMoveRequestDto input)
     {
-        var container = await _fileContainerRepository.GetByNameAsync(containerName);
+        var container = await FileContainerRepository.GetByNameAsync(containerName);
 
         await CheckContainerPermissionAsync(container, write: true);
 
-        var entity = await _fileRepository.GetAsync(id);
+        var entity = await FileRepository.GetAsync(id);
 
         await CheckFileIsInContainerAsync(container, entity);
 
-        entity = await _fileManager.ChangeFileNameAsync(container, entity, entity.FileName, input.TargetId);
+        entity = await FileManager.ChangeNameAsync(container, entity, entity.FileName, input.TargetId);
 
-        await _fileInfoCheckProvider.CheckAsync(container, entity);
+        await FileInfoCheckProvider.CheckAsync(container, entity);
 
-        await _fileRepository.UpdateAsync(entity);
+        await FileRepository.UpdateAsync(entity);
 
         return ObjectMapper.Map<File, FileDto>(entity);
     }
 
     public virtual async Task<FileDto> UpdateAsync(string containerName, Guid id, FileUpdateDto input)
     {
-        var container = await _fileContainerRepository.GetByNameAsync(containerName);
+        var container = await FileContainerRepository.GetByNameAsync(containerName);
 
         await CheckContainerPermissionAsync(container);
 
-        var entity = await _fileRepository.GetAsync(id);
+        var entity = await FileRepository.GetAsync(id);
 
-        await CheckFileIsInContainerAsync(container, entity);
+        if (!entity.IsDirectory)
+            await CheckFileIsInContainerAsync(container, entity);
 
-        entity = await _fileManager.ChangeFileNameAsync(container, entity, input.FileName, entity.ParentId);
+        entity = await FileManager.ChangeNameAsync(container, entity, input.FileName, entity.ParentId);
 
-        await _fileInfoCheckProvider.CheckAsync(container, entity);
+        await FileInfoCheckProvider.CheckAsync(container, entity);
 
         input.MapExtraPropertiesTo(entity);
 
-        await _fileRepository.UpdateAsync(entity);
+        await FileRepository.UpdateAsync(entity);
 
         return ObjectMapper.Map<File, FileDto>(entity);
     }
 
     public virtual async Task<FileDto> CreateDirectoryAsync(string containerName, FileDirectoryCreateDto input)
     {
-        var container = await _fileContainerRepository.GetByNameAsync(containerName);
+        var container = await FileContainerRepository.GetByNameAsync(containerName);
 
         await CheckContainerPermissionAsync(container, write: true);
 
-        var entity = await _fileManager.CreateDirectoryAsync(container, input.FileName, input.ParentId);
+        var entity = await FileManager.CreateDirectoryAsync(container, input.FileName, input.ParentId);
 
         input.MapExtraPropertiesTo(entity);
 
-        if (await _fileManager.IsDirectoryExistsAsync(container, entity))
+        bool exists = await FileManager.IsDirectoryExistsAsync(container, entity);
+        if (!exists)
+        {
+            await FileRepository.InsertAsync(entity);
+
+            return ObjectMapper.Map<File, FileDto>(entity);
+        }
+
+        if (exists && !input.Force)
         {
             throw new BusinessException(FileManagementErrorCodes.DirectoryExists).WithData("name", entity.FileName);
         }
 
-        await _fileRepository.InsertAsync(entity);
+        entity = await FileRepository.GetByNameAsync(container.Id, input.FileName, input.ParentId);
 
         return ObjectMapper.Map<File, FileDto>(entity);
     }
 
-    protected async Task<File> CreateFileAsync(FileContainer container, string fileName, Guid? parentId, string? mimeType, byte[] fileBytes, ExtensibleObject extensibleObject)
+    protected virtual async Task<File> CreateFileAsync(FileContainer container, string fileName, Guid? parentId, string? mimeType, byte[] fileBytes, ExtensibleObject extensibleObject)
     {
-        mimeType ??= _fileMimeTypeProvider.Get(fileName);
+        mimeType ??= FileMimeTypeProvider.Get(fileName);
 
-        var entity = await _fileManager.CreateFileAsync(container, fileName, mimeType, fileBytes, parentId);
+        var entity = await FileManager.CreateFileAsync(container, fileName, mimeType, fileBytes, parentId);
 
         extensibleObject.MapExtraPropertiesTo(entity);
 
-        await _fileInfoCheckProvider.CheckAsync(container, entity);
+        await FileInfoCheckProvider.CheckAsync(container, entity);
 
-        var isExists = await _fileManager.IsFileExistsAsync(container, entity);
+        var isExists = await FileManager.IsFileExistsAsync(container, entity);
 
         if (isExists && container.OverrideBehavior == FileOverrideBehavior.Override)
         {
-            entity = await _fileManager.FindFileAsync(container, entity.FileName, entity.ParentId);
+            entity = await FileManager.FindFileAsync(container, entity.FileName, entity.ParentId);
 
             if (entity == null)
                 throw new EntityNotFoundException();
 
             // update
-            entity = await _fileManager.UpdateFileAsync(container, entity, fileBytes);
+            entity = await FileManager.UpdateFileAsync(container, entity, fileBytes);
 
-            await _fileRepository.UpdateAsync(entity);
+            await FileRepository.UpdateAsync(entity);
         }
         else if (isExists && container.OverrideBehavior == FileOverrideBehavior.Rename)
         {
-            var newFileName = await _fileRenameProvider.GetAsync(container, entity.FileName, entity.ParentId);
+            var newFileName = await FileRenameProvider.GetAsync(container, entity.FileName, entity.ParentId);
 
             entity.SetFileName(newFileName);
 
             // new 
-            await _fileRepository.InsertAsync(entity);
+            await FileRepository.InsertAsync(entity);
         }
         else
         {
             // new 
-            await _fileRepository.InsertAsync(entity);
+            await FileRepository.InsertAsync(entity);
         }
 
         // save to blob
-        await _fileManager.SaveBlobAsync(container, entity, fileBytes);
+        await FileManager.SaveBlobAsync(container, entity, fileBytes);
 
         return entity;
     }
@@ -341,6 +350,6 @@ public class FileAppService : FileManagementAppService, IFileAppService
 
     protected virtual async Task CheckContainerPermissionAsync(string containerName, string? policyName = null, bool write = false)
     {
-        await CheckContainerPermissionAsync(_fileContainerRepository, containerName, policyName, write);
+        await CheckContainerPermissionAsync(FileContainerRepository, containerName, policyName, write);
     }
 }

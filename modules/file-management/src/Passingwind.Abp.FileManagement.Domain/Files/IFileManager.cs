@@ -32,7 +32,7 @@ public interface IFileManager : IDomainService
 
     Task<File> CreateDirectoryAsync(FileContainer container, string name, Guid? parentId, CancellationToken cancellationToken = default);
 
-    Task<File> ChangeFileNameAsync(FileContainer container, File file, string newName, Guid? parentId, CancellationToken cancellationToken = default);
+    Task<File> ChangeNameAsync(FileContainer container, File file, string newName, Guid? parentId, CancellationToken cancellationToken = default);
 
     Task<byte[]> GetFileBytesAsync(FileContainer container, File file, CancellationToken cancellationToken = default);
     Task<Stream?> GetFileSteamAsync(FileContainer container, File file, CancellationToken cancellationToken = default);

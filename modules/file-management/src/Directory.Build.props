@@ -1,9 +1,9 @@
 ﻿<Project>
   <PropertyGroup>
     <Product>Passingwind.Abp.FileManagement</Product>
-    <Description>an abp module that provider file and file container management </Description>
+    <Description>an abp module that provider file and file container management.</Description>
     <Version>0.1.0</Version>
-    <PackageVersion>0.1.8</PackageVersion>
+    <PackageVersion>0.1.9</PackageVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 

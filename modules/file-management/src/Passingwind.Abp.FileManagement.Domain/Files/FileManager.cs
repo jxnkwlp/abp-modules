@@ -375,7 +375,7 @@ public class FileManager : DomainService, IFileManager
         await blobContainer.SaveAsync(file.BlobName, bytes, true, cancellationToken);
     }
 
-    public virtual async Task<File> ChangeFileNameAsync(FileContainer container, File file, string newName, Guid? parentId, CancellationToken cancellationToken = default)
+    public virtual async Task<File> ChangeNameAsync(FileContainer container, File file, string newName, Guid? parentId, CancellationToken cancellationToken = default)
     {
         if (container == null)
             throw new ArgumentNullException(nameof(container));
