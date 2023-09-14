@@ -31,12 +31,6 @@ public class IdentitySecurityLogController : IdentityBaseController, IIdentitySe
         return _service.GetListAsync(input);
     }
 
-    [HttpGet("my")]
-    public virtual Task<PagedResultDto<IdentitySecurityLogDto>> GetListByCurrentUserAsync([FromQuery] IdentitySecurityLogPagedListRequestDto input)
-    {
-        return _service.GetListByCurrentUserAsync(input);
-    }
-
     [HttpDelete("{id}")]
     public virtual Task DeleteAsync(Guid id)
     {

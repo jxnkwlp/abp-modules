@@ -1,47 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Passingwind.Abp.Identity;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Identity;
 
-namespace Passingwind.Abp.Identity;
+namespace Passingwind.Abp.Account;
 
-[Authorize(IdentityPermissionNamesV2.SecurityLogs.Default)]
-public class IdentitySecurityLogAppService : IdentityAppBaseService, IIdentitySecurityLogAppService
+[Authorize]
+public class AccountSecurityLogAppService : AccountAppBaseService, IAccountSecurityLogAppService
 {
     protected IIdentitySecurityLogRepository SecurityLogRepository { get; }
 
-    public IdentitySecurityLogAppService(IIdentitySecurityLogRepository securityLogRepository)
+    public AccountSecurityLogAppService(IIdentitySecurityLogRepository securityLogRepository)
     {
         SecurityLogRepository = securityLogRepository;
     }
 
-    [Authorize(IdentityPermissionNamesV2.SecurityLogs.Delete)]
-    public virtual async Task DeleteAsync(Guid id)
-    {
-        await SecurityLogRepository.DeleteAsync(id);
-    }
-
-    public virtual async Task<IdentitySecurityLogDto> GetAsync(Guid id)
-    {
-        var entity = await SecurityLogRepository.GetAsync(id);
-
-        return ObjectMapper.Map<IdentitySecurityLog, IdentitySecurityLogDto>(entity);
-    }
-
     public virtual async Task<PagedResultDto<IdentitySecurityLogDto>> GetListAsync(IdentitySecurityLogPagedListRequestDto input)
     {
+        input.UserId = CurrentUser.Id;
+
         var count = await SecurityLogRepository.GetCountAsync(
-            input.StartTime,
-            input.EndTime,
-            input.ApplicationName,
-            input.Identity,
-            input.Action,
-            input.UserId,
-            input.UserName,
-            input.ClientId,
-            input.CorrelationId);
+           input.StartTime,
+           input.EndTime,
+           input.ApplicationName,
+           input.Identity,
+           input.Action,
+           input.UserId,
+           input.UserName,
+           input.ClientId,
+           input.CorrelationId);
 
         var list = await SecurityLogRepository.GetListAsync(
             input.Sorting ?? nameof(IdentitySecurityLog.CreationTime) + " desc",

@@ -98,7 +98,7 @@ public class IdentityUserV2Controller : IdentityBaseController, IIdentityUserV2A
         return _service.GetRolesAsync(id);
     }
 
-    [HttpGet("{id}/assignable-roles")]
+    [HttpGet("assignable-roles")]
     public Task<ListResultDto<IdentityRoleDto>> GetAssignableRolesAsync()
     {
         return _service.GetAssignableRolesAsync();

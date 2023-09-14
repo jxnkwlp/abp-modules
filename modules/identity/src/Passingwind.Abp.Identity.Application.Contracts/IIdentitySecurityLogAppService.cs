@@ -7,11 +7,9 @@ namespace Passingwind.Abp.Identity;
 
 public interface IIdentitySecurityLogAppService : IApplicationService
 {
-    Task<IdentitySecurityLogDto> GetAsync(Guid id);
-
     Task<PagedResultDto<IdentitySecurityLogDto>> GetListAsync(IdentitySecurityLogPagedListRequestDto input);
 
-    Task<PagedResultDto<IdentitySecurityLogDto>> GetListByCurrentUserAsync(IdentitySecurityLogPagedListRequestDto input);
+    Task<IdentitySecurityLogDto> GetAsync(Guid id);
 
     Task DeleteAsync(Guid id);
 }
