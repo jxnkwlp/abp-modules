@@ -12,11 +12,6 @@ public class FileManagementMongoDbModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        context.Services.AddMongoDbContext<FileManagementMongoDbContext>(options =>
-        {
-            /* Add custom repositories here. Example:
-             * options.AddRepository<Question, MongoQuestionRepository>();
-             */
-        });
+        context.Services.AddMongoDbContext<FileManagementMongoDbContext>(options => options.AddDefaultRepositories());
     }
 }

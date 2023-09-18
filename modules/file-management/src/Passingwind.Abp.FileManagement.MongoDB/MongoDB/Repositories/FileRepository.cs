@@ -67,6 +67,13 @@ public class FileRepository : MongoDbRepository<FileManagementMongoDbContext, Fi
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<List<File>> GetListByIdsAsync(IEnumerable<Guid> ids, bool includeDetails = false, CancellationToken cancellationToken = default)
+    {
+        var query = await GetMongoQueryableAsync();
+
+        return await query.Where(x => ids.Contains(x.Id)).ToListAsync(cancellationToken);
+    }
+
     public async Task<List<File>> GetPagedListAsync(int skipCount, int maxResultCount, string? filter = null, Guid? containerId = null, Guid? parentId = null, bool? isDirectory = null, string? sorting = null, bool includeDetails = false, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();

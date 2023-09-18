@@ -17,10 +17,6 @@ public class FileManagementHttpApiClientModule : AbpModule
             FileManagementRemoteServiceConsts.RemoteServiceName
         );
 
-        Configure<AbpVirtualFileSystemOptions>(options =>
-        {
-            options.FileSets.AddEmbedded<FileManagementHttpApiClientModule>();
-        });
-
+        Configure<AbpVirtualFileSystemOptions>(options => options.FileSets.AddEmbedded<FileManagementHttpApiClientModule>());
     }
 }

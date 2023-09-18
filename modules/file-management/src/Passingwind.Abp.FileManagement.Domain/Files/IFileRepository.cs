@@ -14,6 +14,8 @@ public interface IFileRepository : IRepository<File, Guid>
 
     Task<List<File>> GetPagedListAsync(int skipCount, int maxResultCount, string? filter = null, Guid? containerId = null, Guid? parentId = null, bool? isDirectory = null, string? sorting = null, bool includeDetails = false, CancellationToken cancellationToken = default);
 
+    Task<List<File>> GetListByIdsAsync(IEnumerable<Guid> ids, bool includeDetails = false, CancellationToken cancellationToken = default);
+
     Task<bool> IsFileNameExistsAsync(Guid containerId, string fileName, Guid? parentId = null, CancellationToken cancellationToken = default);
 
     Task<File?> FindByNameAsync(Guid containerId, string fileName, Guid? parentId = null, CancellationToken cancellationToken = default);

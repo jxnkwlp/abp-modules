@@ -60,6 +60,12 @@ public class FileRepository : EfCoreRepository<FileManagementDbContext, File, Gu
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<List<File>> GetListByIdsAsync(IEnumerable<Guid> ids, bool includeDetails = false, CancellationToken cancellationToken = default)
+    {
+        var dbset = await GetDbSetAsync();
+        return await dbset.Where(x => ids.Contains(x.Id)).ToListAsync(cancellationToken);
+    }
+
     public virtual async Task<List<File>> GetPagedListAsync(int skipCount, int maxResultCount, string? filter = null, Guid? containerId = null, Guid? parentId = null, bool? isDirectory = null, string? sorting = null, bool includeDetails = false, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
