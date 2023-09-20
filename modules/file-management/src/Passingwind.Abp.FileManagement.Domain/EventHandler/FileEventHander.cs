@@ -29,7 +29,8 @@ public class FileEventHander :
 
         var container = await _fileContainerRepository.FindAsync(entity.ContainerId);
 
-        container?.SetFilesCount(container.FilesCount + 1);
+        if (container != null)
+            await _fileContainerRepository.IncrementFileCountAsync(container.Name, 1);
     }
 
     [UnitOfWork]
@@ -43,6 +44,6 @@ public class FileEventHander :
         var container = await _fileContainerRepository.FindAsync(entity.ContainerId);
 
         if (container?.FilesCount > 0)
-            container?.SetFilesCount(container.FilesCount - 1);
+            await _fileContainerRepository.IncrementFileCountAsync(container.Name, -1);
     }
 }

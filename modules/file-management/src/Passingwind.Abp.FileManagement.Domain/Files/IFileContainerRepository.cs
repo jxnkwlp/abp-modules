@@ -17,5 +17,8 @@ public interface IFileContainerRepository : IRepository<FileContainer, Guid>
     Task<bool> CheckExistsAsync(FileContainer fileContainer, CancellationToken cancellationToken = default);
 
     Task<FileContainer?> FindByNameAsync(string name, CancellationToken cancellationToken = default);
+
     Task<FileContainer> GetByNameAsync(string name, CancellationToken cancellationToken = default);
+
+    Task IncrementFileCountAsync(string name, int adjustment = 1, CancellationToken cancellationToken = default);
 }

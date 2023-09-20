@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
@@ -71,5 +71,12 @@ public class FileContainerRepository : EfCoreRepository<FileManagementDbContext,
             .OrderBy(sorting ?? nameof(FileContainer.CreationTime) + " desc")
             .PageBy(skipCount, maxResultCount)
             .ToListAsync(cancellationToken);
+    }
+
+    public virtual async Task IncrementFileCountAsync(string name, int adjustment = 1, CancellationToken cancellationToken = default)
+    {
+        var dbset = await GetDbSetAsync();
+
+        await dbset.Where(x => x.Name == name).ExecuteUpdateAsync(x => x.SetProperty(s => s.FilesCount, s => s.FilesCount + adjustment), cancellationToken: cancellationToken);
     }
 }

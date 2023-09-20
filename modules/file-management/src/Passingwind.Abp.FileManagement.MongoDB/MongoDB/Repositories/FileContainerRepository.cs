@@ -76,4 +76,14 @@ public class FileContainerRepository : MongoDbRepository<FileManagementMongoDbCo
             .As<IMongoQueryable<FileContainer>>()
             .ToListAsync(cancellationToken);
     }
+
+    public virtual async Task IncrementFileCountAsync(string name, int adjustment=1, CancellationToken cancellationToken = default)
+    {
+        var dbContext = await GetDbContextAsync(cancellationToken);
+        var collection = dbContext.Collection<FileContainer>();
+
+        var update = new UpdateDefinitionBuilder<FileContainer>();
+
+        await collection.UpdateOneAsync(x => x.Name == name, update.Inc(x => x.FilesCount, adjustment), cancellationToken: cancellationToken);
+    }
 }
