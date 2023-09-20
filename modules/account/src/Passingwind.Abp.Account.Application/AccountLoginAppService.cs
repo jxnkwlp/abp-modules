@@ -9,6 +9,7 @@ using Passingwind.Abp.Identity.AspNetCore;
 using Passingwind.Abp.Identity.Settings;
 using Volo.Abp;
 using Volo.Abp.Account.Settings;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.Authorization;
 using Volo.Abp.Identity;
 using Volo.Abp.Identity.AspNetCore;
@@ -266,6 +267,17 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
             FormatKey = sharedKey,
             Uri = authenticatorUri,
         };
+    }
+
+    public virtual async Task<ListResultDto<AccountExternalAuthenticationSchameDto>> GetExternalAuthenticationsAsync()
+    {
+        var schames = await SignInManager.GetExternalAuthenticationSchemesAsync();
+
+        return new ListResultDto<AccountExternalAuthenticationSchameDto>(schames.Select(x => new AccountExternalAuthenticationSchameDto()
+        {
+            Name = x.Name,
+            DisplayName = x.DisplayName,
+        }).ToList());
     }
 
     protected virtual async Task<IdentityUser?> FindUserAsync(string userNameOrEmailAddress)

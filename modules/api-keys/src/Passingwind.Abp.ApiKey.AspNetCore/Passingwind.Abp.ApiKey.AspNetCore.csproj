@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Passingwind.Abp.ApiKey</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\identity\src\Passingwind.Abp.Identity.Domain\Passingwind.Abp.Identity.Domain.csproj" />
+    <ProjectReference Include="..\Passingwind.Abp.ApiKey.Domain\Passingwind.Abp.ApiKey.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.AspNetCore" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Identity.AspNetCore" Version="$(AbpVersion)" />
+    <PackageReference Include="Passingwind.AspNetCore.Authentication.ApiKey" Version="0.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+</Project>

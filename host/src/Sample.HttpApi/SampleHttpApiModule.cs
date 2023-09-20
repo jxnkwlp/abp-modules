@@ -1,5 +1,6 @@
 ﻿using Localization.Resources.AbpUi;
 using Passingwind.Abp.Account;
+using Passingwind.Abp.ApiKey;
 using Passingwind.Abp.FileManagement;
 using Passingwind.Abp.Identity;
 using Passingwind.Abp.IdentityClientManagement;
@@ -23,6 +24,7 @@ namespace Sample;
     typeof(AbpFeatureManagementHttpApiModule),
     typeof(AbpSettingManagementHttpApiModule)
     )]
+[DependsOn(typeof(ApiKeyHttpApiModule))]
 [DependsOn(typeof(FileManagementHttpApiModule))]
 [DependsOn(typeof(AbpBlobStoringFileSystemModule))]
 [DependsOn(typeof(IdentityClientManagementHttpApiModule))]

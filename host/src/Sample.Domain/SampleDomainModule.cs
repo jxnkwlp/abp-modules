@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Passingwind.Abp.ApiKey;
 using Passingwind.Abp.FileManagement;
 using Passingwind.Abp.Identity;
 using Passingwind.Abp.IdentityClientManagement;
@@ -33,9 +34,10 @@ namespace Sample;
     typeof(AbpTenantManagementDomainModule),
     typeof(AbpEmailingModule)
 )]
-[DependsOn(typeof(IdentityDomainModule))]
+[DependsOn(typeof(ApiKeyDomainModule))]
 [DependsOn(typeof(FileManagementDomainModule))]
 [DependsOn(typeof(IdentityClientManagementDomainModule))]
+[DependsOn(typeof(IdentityDomainModule))]
 public class SampleDomainModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)

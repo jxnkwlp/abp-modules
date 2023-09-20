@@ -22,6 +22,7 @@
     <PackageReference Include="Volo.Abp.OpenIddict.AspNetCore" Version="7.2.3" />
     <PackageReference Include="Volo.Abp.BackgroundJobs.HangFire" Version="7.2.3" />
     <PackageReference Include="Volo.Abp.BackgroundWorkers.Hangfire" Version="7.2.3" />
+    <PackageReference Include="Passingwind.SwaggerExtensions" Version="0.5.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\modules\api-keys\src\Passingwind.Abp.ApiKey.AspNetCore\Passingwind.Abp.ApiKey.AspNetCore.csproj" />
     <ProjectReference Include="..\..\..\modules\file-management\src\Passingwind.Abp.FileManagement.HttpApi\Passingwind.Abp.FileManagement.HttpApi.csproj" />
     <ProjectReference Include="..\..\..\modules\identity-client-management\src\Passingwind.Abp.IdentityClientManagement.AspNetCore\Passingwind.Abp.IdentityClientManagement.AspNetCore.csproj" />
     <ProjectReference Include="..\Sample.Application\Sample.Application.csproj" />

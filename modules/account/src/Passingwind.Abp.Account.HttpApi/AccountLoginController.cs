@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp;
+using Volo.Abp.Application.Dtos;
 
 namespace Passingwind.Abp.Account;
 
@@ -32,6 +33,12 @@ public class AccountLoginController : AccountBaseController, IAccountLoginAppSer
     public Task<AccountAuthenticatorInfoDto> GetAuthenticatorInfoAsync()
     {
         return _service.GetAuthenticatorInfoAsync();
+    }
+
+    [HttpGet("login/external-providers")]
+    public Task<ListResultDto<AccountExternalAuthenticationSchameDto>> GetExternalAuthenticationsAsync()
+    {
+        return _service.GetExternalAuthenticationsAsync();
     }
 
     [HttpGet("login/has-authenticator")]

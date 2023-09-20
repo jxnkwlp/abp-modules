@@ -1,4 +1,5 @@
 ﻿using Passingwind.Abp.Account;
+using Passingwind.Abp.ApiKey;
 using Passingwind.Abp.FileManagement;
 using Passingwind.Abp.Identity;
 using Passingwind.Abp.IdentityClientManagement;
@@ -24,8 +25,9 @@ namespace Sample;
     typeof(AbpSettingManagementApplicationModule)
     )]
 [DependsOn(typeof(AccountApplicationModule))]
-[DependsOn(typeof(IdentityApplicationModule))]
+[DependsOn(typeof(ApiKeyApplicationModule))]
 [DependsOn(typeof(FileManagementApplicationModule))]
+[DependsOn(typeof(IdentityApplicationModule))]
 [DependsOn(typeof(IdentityClientManagementApplicationModule))]
 public class SampleApplicationModule : AbpModule
 {
