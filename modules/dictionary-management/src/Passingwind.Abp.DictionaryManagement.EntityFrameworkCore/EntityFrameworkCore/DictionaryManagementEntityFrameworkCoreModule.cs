@@ -12,6 +12,6 @@ public class DictionaryManagementEntityFrameworkCoreModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        context.Services.AddAbpDbContext<DictionaryManagementDbContext>();
+        context.Services.AddAbpDbContext<DictionaryManagementDbContext>(options => options.AddDefaultRepositories());
     }
 }

@@ -14,11 +14,6 @@ public class DynamicPermissionManagementMongoDbModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        context.Services.AddMongoDbContext<DynamicPermissionManagementMongoDbContext>(options =>
-        {
-            /* Add custom repositories here. Example:
-             * options.AddRepository<Question, MongoQuestionRepository>();
-             */
-        });
+        context.Services.AddMongoDbContext<DynamicPermissionManagementMongoDbContext>(options => options.AddDefaultRepositories());
     }
 }

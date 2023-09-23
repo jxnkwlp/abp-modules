@@ -14,6 +14,10 @@ public class IdentityClientManagementEntityFrameworkCoreModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        context.Services.AddAbpDbContext<IdentityClientManagementDbContext>(options => options.Entity<IdentityClient>(config => config.DefaultWithDetailsFunc = x => x.Include(i => i.ClaimMaps).Include(i => i.Configurations)));
+        context.Services.AddAbpDbContext<IdentityClientManagementDbContext>(options =>
+        {
+            options.AddDefaultRepositories();
+            options.Entity<IdentityClient>(config => config.DefaultWithDetailsFunc = x => x.Include(i => i.ClaimMaps).Include(i => i.Configurations));
+        });
     }
 }

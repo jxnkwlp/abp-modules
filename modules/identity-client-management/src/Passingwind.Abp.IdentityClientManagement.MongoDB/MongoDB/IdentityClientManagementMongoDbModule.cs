@@ -12,11 +12,6 @@ public class IdentityClientManagementMongoDbModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        context.Services.AddMongoDbContext<IdentityClientManagementMongoDbContext>(options =>
-        {
-            /* Add custom repositories here. Example:
-             * options.AddRepository<Question, MongoQuestionRepository>();
-             */
-        });
+        context.Services.AddMongoDbContext<IdentityClientManagementMongoDbContext>(options => options.AddDefaultRepositories());
     }
 }

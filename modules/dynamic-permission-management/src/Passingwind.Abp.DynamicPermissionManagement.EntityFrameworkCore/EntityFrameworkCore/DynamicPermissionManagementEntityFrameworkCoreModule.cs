@@ -14,11 +14,6 @@ public class DynamicPermissionManagementEntityFrameworkCoreModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        context.Services.AddAbpDbContext<DynamicPermissionManagementDbContext>(options =>
-        {
-            /* Add custom repositories here. Example:
-             * options.AddRepository<Question, EfCoreQuestionRepository>();
-             */
-        });
+        context.Services.AddAbpDbContext<DynamicPermissionManagementDbContext>(options => options.AddDefaultRepositories());
     }
 }
