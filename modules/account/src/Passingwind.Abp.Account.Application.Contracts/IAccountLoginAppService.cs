@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 
 namespace Passingwind.Abp.Account;
@@ -54,13 +55,13 @@ public interface IAccountLoginAppService : IApplicationService
     Task<AccountAuthenticatorInfoDto> GetAuthenticatorInfoAsync();
 
     /// <summary>
-    ///  tfa authentication user verify authenticator code
+    ///  Tfa authentication user verify authenticator code
     /// </summary>
     /// <param name="input"></param>
     Task<AccountAuthenticatorRecoveryCodesResultDto> VerifyAuthenticatorToken(AccountAuthenticatorCodeVerifyRequestDto input);
-}
 
-public class AccountHasAuthenticatorResultDto
-{
-    public bool Enabled { get; set; }
+    /// <summary>
+    ///  Gets a collection of the known external login providers.
+    /// </summary>
+    Task<ListResultDto<AccountExternalAuthenticationSchameDto>> GetExternalAuthenticationsAsync();
 }

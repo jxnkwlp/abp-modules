@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\modules\account\src\Passingwind.Abp.Account.Domain\Passingwind.Abp.Account.Domain.csproj" />
+    <ProjectReference Include="..\..\..\modules\api-keys\src\Passingwind.Abp.ApiKey.Domain\Passingwind.Abp.ApiKey.Domain.csproj" />
     <ProjectReference Include="..\..\..\modules\file-management\src\Passingwind.Abp.FileManagement.Domain\Passingwind.Abp.FileManagement.Domain.csproj" />
     <ProjectReference Include="..\..\..\modules\identity-client-management\src\Passingwind.Abp.IdentityClientManagement.Domain\Passingwind.Abp.IdentityClientManagement.Domain.csproj" />
     <ProjectReference Include="..\..\..\modules\identity\src\Passingwind.Abp.Identity.Domain\Passingwind.Abp.Identity.Domain.csproj" />

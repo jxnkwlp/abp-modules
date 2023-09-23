@@ -4,8 +4,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Passingwind.Abp.IdentityClientManagement.Identity;
 using Passingwind.Authentication.Saml2;
 using Volo.Abp;
+using Volo.Abp.AspNetCore;
 using Volo.Abp.AspNetCore.Authentication.OpenIdConnect;
-using Volo.Abp.AspNetCore.Mvc;
+using Volo.Abp.Identity.AspNetCore;
 using Volo.Abp.Modularity;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Threading;
@@ -15,7 +16,8 @@ namespace Passingwind.Abp.IdentityClientManagement;
 [DependsOn(
     typeof(IdentityClientManagementDomainModule),
     typeof(AbpAspNetCoreAuthenticationOpenIdConnectModule),
-    typeof(AbpAspNetCoreMvcModule),
+    typeof(AbpAspNetCoreModule),
+    typeof(AbpIdentityAspNetCoreModule),
     typeof(AbpMultiTenancyModule)
 )]
 public class IdentityClientManagementAspNetCoreModule : AbpModule

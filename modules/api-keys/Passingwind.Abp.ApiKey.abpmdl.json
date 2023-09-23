@@ -1,0 +1,79 @@
+{
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {},
+      "host": {}
+    }
+  },
+  "packages": {
+    "Passingwind.Abp.ApiKey.Domain.Shared": {
+      "path": "src/Passingwind.Abp.ApiKey.Domain.Shared/Passingwind.Abp.ApiKey.Domain.Shared.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.ApiKey.Domain": {
+      "path": "src/Passingwind.Abp.ApiKey.Domain/Passingwind.Abp.ApiKey.Domain.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.ApiKey.Application.Contracts": {
+      "path": "src/Passingwind.Abp.ApiKey.Application.Contracts/Passingwind.Abp.ApiKey.Application.Contracts.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.ApiKey.Application": {
+      "path": "src/Passingwind.Abp.ApiKey.Application/Passingwind.Abp.ApiKey.Application.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.ApiKey.EntityFrameworkCore": {
+      "path": "src/Passingwind.Abp.ApiKey.EntityFrameworkCore/Passingwind.Abp.ApiKey.EntityFrameworkCore.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.ApiKey.MongoDB": {
+      "path": "src/Passingwind.Abp.ApiKey.MongoDB/Passingwind.Abp.ApiKey.MongoDB.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.ApiKey.HttpApi": {
+      "path": "src/Passingwind.Abp.ApiKey.HttpApi/Passingwind.Abp.ApiKey.HttpApi.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.ApiKey.HttpApi.Client": {
+      "path": "src/Passingwind.Abp.ApiKey.HttpApi.Client/Passingwind.Abp.ApiKey.HttpApi.Client.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.ApiKey.TestBase": {
+      "path": "test/Passingwind.Abp.ApiKey.TestBase/Passingwind.Abp.ApiKey.TestBase.abppkg.json",
+      "folder": "test"
+    },
+    "Passingwind.Abp.ApiKey.EntityFrameworkCore.Tests": {
+      "path": "test/Passingwind.Abp.ApiKey.EntityFrameworkCore.Tests/Passingwind.Abp.ApiKey.EntityFrameworkCore.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "Passingwind.Abp.ApiKey.MongoDB.Tests": {
+      "path": "test/Passingwind.Abp.ApiKey.MongoDB.Tests/Passingwind.Abp.ApiKey.MongoDB.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "Passingwind.Abp.ApiKey.Domain.Tests": {
+      "path": "test/Passingwind.Abp.ApiKey.Domain.Tests/Passingwind.Abp.ApiKey.Domain.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "Passingwind.Abp.ApiKey.Application.Tests": {
+      "path": "test/Passingwind.Abp.ApiKey.Application.Tests/Passingwind.Abp.ApiKey.Application.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "Passingwind.Abp.ApiKey.HttpApi.Host": {
+      "path": "host/Passingwind.Abp.ApiKey.HttpApi.Host/Passingwind.Abp.ApiKey.HttpApi.Host.abppkg.json",
+      "folder": "host"
+    },
+    "Passingwind.Abp.ApiKey.HttpApi.Client.ConsoleTestApp": {
+      "path": "test/Passingwind.Abp.ApiKey.HttpApi.Client.ConsoleTestApp/Passingwind.Abp.ApiKey.HttpApi.Client.ConsoleTestApp.abppkg.json",
+      "folder": "test"
+    },
+    "Passingwind.Abp.ApiKey.AuthServer": {
+      "path": "host/Passingwind.Abp.ApiKey.AuthServer/Passingwind.Abp.ApiKey.AuthServer.abppkg.json",
+      "folder": "host"
+    },
+    "Passingwind.Abp.ApiKey.Host.Shared": {
+      "path": "host/Passingwind.Abp.ApiKey.Host.Shared/Passingwind.Abp.ApiKey.Host.Shared.abppkg.json",
+      "folder": "host"
+    }
+  }
+}

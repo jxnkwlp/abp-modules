@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Passingwind.Abp.ApiKey.EntityFrameworkCore;
 using Passingwind.Abp.FileManagement.EntityFrameworkCore;
 using Passingwind.Abp.IdentityClientManagement.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
@@ -81,6 +82,7 @@ public class SampleDbContext :
 
         modelBuilder.ConfigureFileManagement();
         modelBuilder.ConfigureIdentityClientManagement();
+        modelBuilder.ConfigureApiKey();
 
         /* Configure your own tables/entities inside here */
 

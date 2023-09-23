@@ -1,0 +1,10 @@
+﻿<Project>
+  <Import Project="..\common.props"/>
+
+  <PropertyGroup>
+    <Product>Passingwind.Abp.ApiKey</Product>
+    <Description>an abp module that provider api key authentication and key management.</Description>
+    <PackageTags>abp-module, apikey</PackageTags>
+  </PropertyGroup>
+
+</Project>

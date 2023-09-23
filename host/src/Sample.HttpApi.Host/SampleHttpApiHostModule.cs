@@ -12,11 +12,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using OpenIddict.Validation.AspNetCore;
+using Passingwind.Abp.ApiKey;
 using Passingwind.Abp.FileManagement;
 using Passingwind.Abp.FileManagement.Options;
 using Passingwind.Abp.IdentityClientManagement;
+using Passingwind.AspNetCore.Authentication.ApiKey;
 using Sample.EntityFrameworkCore;
 using Sample.MultiTenancy;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.AspNetCore.MultiTenancy;
@@ -50,6 +53,7 @@ namespace Sample;
     typeof(AbpAspNetCoreSerilogModule),
     typeof(AbpSwashbuckleModule)
 )]
+[DependsOn(typeof(ApiKeyAspNetCoreModule))]
 [DependsOn(typeof(FileManagementApplicationModule))]
 [DependsOn(typeof(IdentityClientManagementAspNetCoreModule))]
 public class SampleHttpApiHostModule : AbpModule
@@ -103,7 +107,27 @@ public class SampleHttpApiHostModule : AbpModule
 
     private void ConfigureAuthentication(ServiceConfigurationContext context)
     {
-        context.Services.ForwardIdentityAuthenticationForBearer(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
+        //context.Services.ForwardIdentityAuthenticationForBearer(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
+        //context.Services.ForwardIdentityAuthenticationForApiKey();
+
+        context.Services.ConfigureApplicationCookie(options =>
+        {
+            options.ForwardDefaultSelector = ctx =>
+            {
+                string? authorization = ctx.Request.Headers.Authorization;
+                if (!string.IsNullOrWhiteSpace(authorization) && authorization.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+                {
+                    return "Bearer";
+                }
+
+                if (ctx.IsApiKeyAuthorizationRequest())
+                {
+                    return ApiKeyDefaults.AuthenticationScheme;
+                }
+
+                return null;
+            };
+        });
     }
 
     private void ConfigureBundles()
@@ -174,6 +198,7 @@ public class SampleHttpApiHostModule : AbpModule
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "Sample API", Version = "v1" });
                 options.DocInclusionPredicate((docName, description) => true);
                 options.CustomSchemaIds(type => type.FullName);
+                options.ApplyExtensions();
             });
     }
 
