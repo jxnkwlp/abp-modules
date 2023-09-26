@@ -2,5 +2,5 @@
 
 public class AccountVerifyTokenResultDto
 {
-    public bool Result { get; set; }
+    public bool Valid { get; set; }
 }

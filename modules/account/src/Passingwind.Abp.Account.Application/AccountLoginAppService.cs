@@ -27,20 +27,20 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
     protected SignInManager SignInManager { get; }
     protected IdentityUserManager UserManager { get; }
     protected IdentitySecurityLogManager SecurityLogManager { get; }
-    protected IAccountTwoFactoryCodeSender AccountTwoFactoryCodeSender { get; }
+    protected IAccountTwoFactorTokenSender AccountTwoFactorTokenSender { get; }
     protected IOptions<IdentityOptions> IdentityOptions { get; }
 
     public AccountLoginAppService(
         SignInManager signInManager,
         IdentityUserManager userManager,
         IdentitySecurityLogManager securityLogManager,
-        IAccountTwoFactoryCodeSender accountTwoFactoryCodeSender,
+        IAccountTwoFactorTokenSender accountTwoFactorTokenSender,
         IOptions<IdentityOptions> identityOptions)
     {
         SignInManager = signInManager;
         UserManager = userManager;
         SecurityLogManager = securityLogManager;
-        AccountTwoFactoryCodeSender = accountTwoFactoryCodeSender;
+        AccountTwoFactorTokenSender = accountTwoFactorTokenSender;
         IdentityOptions = identityOptions;
     }
 
@@ -91,7 +91,7 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
     }
 
     /// <inheritdoc/>
-    public virtual async Task<AccountLoginResultDto> LoginWith2FaAsync(AccountLoginWith2FaRequestDto input)
+    public virtual async Task<AccountLoginResultDto> LoginWith2FaAsync(string provider, AccountLoginWith2FaRequestDto input)
     {
         await IdentityOptions.SetAsync();
 
@@ -100,13 +100,22 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
         if (user == null)
             throw new AbpAuthorizationException();
 
-        var authenticatorCode = input.Code.Replace(" ", string.Empty).Replace("-", string.Empty);
+        _ = await UserManager.GetUserIdAsync(user);
 
         var isRememberBrowserEnabled = await SettingProvider.IsTrueAsync(IdentitySettingNamesV2.Twofactor.IsRememberBrowserEnabled);
 
-        var signInResult = await SignInManager.TwoFactorAuthenticatorSignInAsync(authenticatorCode, input.RememberMe, input.RememberMachine && isRememberBrowserEnabled);
+        SignInResult signInResult;
 
-        await UserManager.GetUserIdAsync(user);
+        if (provider == IdentityOptions.Value.Tokens.AuthenticatorTokenProvider)
+        {
+            var authenticatorCode = input.Code.Replace(" ", string.Empty).Replace("-", string.Empty);
+
+            signInResult = await SignInManager.TwoFactorAuthenticatorSignInAsync(authenticatorCode, input.RememberMe, input.RememberMachine && isRememberBrowserEnabled);
+        }
+        else
+        {
+            signInResult = await SignInManager.TwoFactorSignInAsync(provider, input.Code, input.RememberMe, input.RememberMachine && isRememberBrowserEnabled);
+        }
 
         await SecurityLogManager.SaveAsync(new IdentitySecurityLogContext()
         {
@@ -305,7 +314,7 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
         };
     }
 
-    public virtual async Task Send2FaCodeAsync(Account2FaCodeSendDto input)
+    public virtual async Task SendTwoFactorTokenAsync(string provider)
     {
         await IdentityOptions.SetAsync();
 
@@ -314,14 +323,58 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
         if (user == null)
             throw new AbpAuthorizationException();
 
-        await AccountTwoFactoryCodeSender.SendAsync(user, input.Provider);
+        var validProviders = await UserManager.GetValidTwoFactorProvidersAsync(user);
+
+        if (!validProviders.Contains(provider))
+        {
+            throw new UserFriendlyException("Invalid token provider");
+        }
+
+        var token = await UserManager.GenerateTwoFactorTokenAsync(user, provider);
+
+        Logger.LogInformation("User with id '{id}' has been generated new token '{token}' for provider '{provider}'.", user.Id, token, provider);
+
+        await AccountTwoFactorTokenSender.SendAsync(user, provider, token);
 
         await SecurityLogManager.SaveAsync(new IdentitySecurityLogContext()
         {
             Identity = IdentitySecurityLogIdentityConsts.IdentityTwoFactor,
-            Action = "SendCode",
+            Action = "SendToken",
             UserName = user.UserName,
         });
+    }
+
+    public virtual async Task<AccountVerifyTokenResultDto> VerifyTwoFactorTokenAsync(string provider, AccountLoginVerifyTwoFactorTokenDto input)
+    {
+        await IdentityOptions.SetAsync();
+
+        var user = await SignInManager.GetTwoFactorAuthenticationUserAsync();
+
+        if (user == null)
+            throw new AbpAuthorizationException();
+
+        var validProviders = await UserManager.GetValidTwoFactorProvidersAsync(user);
+
+        if (!validProviders.Contains(provider))
+        {
+            throw new UserFriendlyException("Invalid token provider");
+        }
+
+        var valid = await UserManager.VerifyTwoFactorTokenAsync(user, provider, input.Token);
+
+        Logger.LogInformation("User with id '{id}' use provider '{provider}' verify two-factor token '{token}' result: {valid}.", user.Id, input.Token, provider, valid);
+
+        await SecurityLogManager.SaveAsync(new IdentitySecurityLogContext()
+        {
+            Identity = IdentitySecurityLogIdentityConsts.IdentityTwoFactor,
+            Action = valid ? "ValidTwoFactorToken" : "InvalidTwoFactorToken",
+            UserName = user.UserName,
+        });
+
+        return new AccountVerifyTokenResultDto
+        {
+            Valid = valid,
+        };
     }
 
     public virtual async Task<ListResultDto<AccountExternalAuthenticationSchameDto>> GetExternalAuthenticationsAsync()

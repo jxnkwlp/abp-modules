@@ -40,10 +40,10 @@ public class AccountTfaController : AccountBaseController, IAccountTfaAppService
         return TfaAppService.DisableAsync();
     }
 
-    [HttpPost("verify")]
-    public Task<AccountVerifyTokenResultDto> VerifyTokenAsync(AccountVerifyTokenRequestDto input)
+    [HttpPost("{provider}/verify")]
+    public Task<AccountVerifyTokenResultDto> VerifyTokenAsync(string provider, AccountTfaVerifyTokenRequestDto input)
     {
-        return TfaAppService.VerifyTokenAsync(input);
+        return TfaAppService.VerifyTokenAsync(provider, input);
     }
 
     [HttpGet("authenticator")]
@@ -68,5 +68,11 @@ public class AccountTfaController : AccountBaseController, IAccountTfaAppService
     public Task ResetAuthenticatorAsync(AccountAuthenticatorCodeVerifyRequestDto input)
     {
         return TfaAppService.ResetAuthenticatorAsync(input);
+    }
+
+    [HttpPost("{provider}/token")]
+    public Task SendTokenAsync(string provider)
+    {
+        return TfaAppService.SendTokenAsync(provider);
     }
 }

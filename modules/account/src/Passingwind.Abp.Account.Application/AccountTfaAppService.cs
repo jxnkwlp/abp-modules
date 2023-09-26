@@ -21,17 +21,20 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
     protected IdentityUserManager UserManager { get; }
     protected IdentitySecurityLogManager SecurityLogManager { get; }
     protected IOptions<IdentityOptions> IdentityOptions { get; }
+    protected IAccountTwoFactorTokenSender AccountTwoFactorTokenSender { get; }
 
     public AccountTfaAppService(
         SignInManager signInManager,
         IdentityUserManager userManager,
         IdentitySecurityLogManager securityLogManager,
-        IOptions<IdentityOptions> identityOptions)
+        IOptions<IdentityOptions> identityOptions,
+        IAccountTwoFactorTokenSender accountTwoFactorTokenSender)
     {
         SignInManager = signInManager;
         UserManager = userManager;
         SecurityLogManager = securityLogManager;
         IdentityOptions = identityOptions;
+        AccountTwoFactorTokenSender = accountTwoFactorTokenSender;
     }
 
     public virtual async Task<AccountTfaDto> GetAsync()
@@ -79,7 +82,7 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
         return new ListResultDto<string>(list.ToList());
     }
 
-    public virtual async Task<AccountVerifyTokenResultDto> VerifyTokenAsync(AccountVerifyTokenRequestDto input)
+    public virtual async Task SendTokenAsync(string provider)
     {
         await IdentityOptions.SetAsync();
 
@@ -87,13 +90,37 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
 
         var user = await UserManager.GetByIdAsync(CurrentUser.Id!.Value);
 
-        var valid = await UserManager.VerifyTwoFactorTokenAsync(user, input.Provider, input.Code);
+        var validProviders = await UserManager.GetValidTwoFactorProvidersAsync(user);
 
-        Logger.LogInformation("User with id '{id}' 2fa token verify result: {valid}.", user.Id, valid);
+        if (!validProviders.Contains(provider))
+        {
+            throw new UserFriendlyException("Invalid token provider");
+        }
+
+        var token = await UserManager.GenerateTwoFactorTokenAsync(user, provider);
+
+        await AccountTwoFactorTokenSender.SendAsync(user, provider, token);
+
+        Logger.LogInformation("User with id '{id}' has been generated new token '{token}' for provider '{provider}'.", user.Id, token, provider);
+
+        await AccountTwoFactorTokenSender.SendAsync(user, provider, token);
+    }
+
+    public virtual async Task<AccountVerifyTokenResultDto> VerifyTokenAsync(string provider, AccountTfaVerifyTokenRequestDto input)
+    {
+        await IdentityOptions.SetAsync();
+
+        await CheckTfaDisabledAsync();
+
+        var user = await UserManager.GetByIdAsync(CurrentUser.Id!.Value);
+
+        var valid = await UserManager.VerifyTwoFactorTokenAsync(user, provider, input.Token);
+
+        Logger.LogInformation("User with id '{id}' use provider '{provider}' verify two-factor token '{token}' result: {valid}.", user.Id, input.Token, provider, valid);
 
         return new AccountVerifyTokenResultDto
         {
-            Result = valid,
+            Valid = valid,
         };
     }
 

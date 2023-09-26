@@ -27,10 +27,17 @@ public interface IAccountTfaAppService : IApplicationService
     Task DisableAsync();
 
     /// <summary>
+    ///  Send token for specify token provider
+    /// </summary>
+    /// <param name="provider"></param>
+    Task SendTokenAsync(string provider);
+
+    /// <summary>
     ///  Verify token for specify token provider
     /// </summary>
+    /// <param name="provider"></param>
     /// <param name="input"></param>
-    Task<AccountVerifyTokenResultDto> VerifyTokenAsync(AccountVerifyTokenRequestDto input);
+    Task<AccountVerifyTokenResultDto> VerifyTokenAsync(string provider, AccountTfaVerifyTokenRequestDto input);
 
     /// <summary>
     ///  Get authenticator state
