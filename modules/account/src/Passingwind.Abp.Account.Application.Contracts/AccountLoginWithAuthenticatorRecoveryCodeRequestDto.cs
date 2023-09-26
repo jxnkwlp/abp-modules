@@ -2,7 +2,7 @@
 
 namespace Passingwind.Abp.Account;
 
-public class AccountLoginWithRecoveryCodeRequestDto
+public class AccountLoginWithAuthenticatorRecoveryCodeRequestDto
 {
     [Required]
     [MaxLength(256)]

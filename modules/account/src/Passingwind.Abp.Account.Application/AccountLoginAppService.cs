@@ -27,17 +27,20 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
     protected SignInManager SignInManager { get; }
     protected IdentityUserManager UserManager { get; }
     protected IdentitySecurityLogManager SecurityLogManager { get; }
+    protected IAccountTwoFactoryCodeSender AccountTwoFactoryCodeSender { get; }
     protected IOptions<IdentityOptions> IdentityOptions { get; }
 
     public AccountLoginAppService(
         SignInManager signInManager,
         IdentityUserManager userManager,
         IdentitySecurityLogManager securityLogManager,
+        IAccountTwoFactoryCodeSender accountTwoFactoryCodeSender,
         IOptions<IdentityOptions> identityOptions)
     {
         SignInManager = signInManager;
         UserManager = userManager;
         SecurityLogManager = securityLogManager;
+        AccountTwoFactoryCodeSender = accountTwoFactoryCodeSender;
         IdentityOptions = identityOptions;
     }
 
@@ -88,11 +91,14 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
     }
 
     /// <inheritdoc/>
-    public virtual async Task<AccountLoginResultDto> LoginWith2faAsync(AccountLoginWith2FaRequestDto input)
+    public virtual async Task<AccountLoginResultDto> LoginWith2FaAsync(AccountLoginWith2FaRequestDto input)
     {
         await IdentityOptions.SetAsync();
 
-        var user = await SignInManager.GetTwoFactorAuthenticationUserAsync() ?? throw new AbpAuthorizationException("Unable to load two-factor authentication user.");
+        var user = await SignInManager.GetTwoFactorAuthenticationUserAsync();
+
+        if (user == null)
+            throw new AbpAuthorizationException();
 
         var authenticatorCode = input.Code.Replace(" ", string.Empty).Replace("-", string.Empty);
 
@@ -113,11 +119,14 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
     }
 
     /// <inheritdoc/>
-    public virtual async Task<AccountLoginResultDto> LoginWithRecoveryCodeAsync(AccountLoginWithRecoveryCodeRequestDto input)
+    public virtual async Task<AccountLoginResultDto> LoginWithAuthenticatorRecoveryCodeAsync(AccountLoginWithAuthenticatorRecoveryCodeRequestDto input)
     {
         await IdentityOptions.SetAsync();
 
-        var user = await SignInManager.GetTwoFactorAuthenticationUserAsync() ?? throw new AbpAuthorizationException("Unable to load two-factor authentication user.");
+        var user = await SignInManager.GetTwoFactorAuthenticationUserAsync();
+
+        if (user == null)
+            throw new AbpAuthorizationException();
 
         var recoveryCode = input.RecoveryCode.Replace(" ", string.Empty);
 
@@ -169,6 +178,13 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
         user.SetShouldChangePasswordOnNextLogin(false);
 
         (await UserManager.UpdateAsync(user)).CheckErrors();
+
+        await SecurityLogManager.SaveAsync(new IdentitySecurityLogContext()
+        {
+            Identity = IdentitySecurityLogIdentityConsts.Identity,
+            Action = IdentitySecurityLogActionConsts.ChangePassword,
+            UserName = user.UserName,
+        });
     }
 
     public virtual async Task<AccountAuthenticatorRecoveryCodesResultDto> VerifyAuthenticatorToken(AccountAuthenticatorCodeVerifyRequestDto input)
@@ -248,10 +264,10 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
             unformattedKey = await UserManager.GetAuthenticatorKeyAsync(user);
         }
 
-        var sharedKey = FormatKey(unformattedKey!);
-
         var userName = await UserManager.GetUserNameAsync(user);
         var authenticatorUri = await GenerateAuthenticatorQrCodeUri(userName!, unformattedKey!);
+
+        var sharedKey = FormatKey(unformattedKey!);
 
         enabled = !string.IsNullOrEmpty(unformattedKey) && enabled;
 
@@ -262,11 +278,50 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
 
         return new AccountAuthenticatorInfoDto
         {
-            Enabled = enabled,
+            Enabled = false,
             Key = unformattedKey,
             FormatKey = sharedKey,
             Uri = authenticatorUri,
         };
+    }
+
+    public virtual async Task<Account2FaStateDto> Get2FaStatusAsync()
+    {
+        await IdentityOptions.SetAsync();
+
+        var user = await SignInManager.GetTwoFactorAuthenticationUserAsync();
+
+        if (user == null)
+            throw new AbpAuthorizationException();
+
+        var enabled = UserManager.SupportsUserTwoFactor && await UserManager.GetTwoFactorEnabledAsync(user);
+
+        var validTwoFactorProviders = await UserManager.GetValidTwoFactorProvidersAsync(user);
+
+        return new Account2FaStateDto
+        {
+            Enabled = enabled,
+            Providers = validTwoFactorProviders.ToArray(),
+        };
+    }
+
+    public virtual async Task Send2FaCodeAsync(Account2FaCodeSendDto input)
+    {
+        await IdentityOptions.SetAsync();
+
+        var user = await SignInManager.GetTwoFactorAuthenticationUserAsync();
+
+        if (user == null)
+            throw new AbpAuthorizationException();
+
+        await AccountTwoFactoryCodeSender.SendAsync(user, input.Provider);
+
+        await SecurityLogManager.SaveAsync(new IdentitySecurityLogContext()
+        {
+            Identity = IdentitySecurityLogIdentityConsts.IdentityTwoFactor,
+            Action = "SendCode",
+            UserName = user.UserName,
+        });
     }
 
     public virtual async Task<ListResultDto<AccountExternalAuthenticationSchameDto>> GetExternalAuthenticationsAsync()

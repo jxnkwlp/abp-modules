@@ -29,6 +29,12 @@ public class AccountLoginController : AccountBaseController, IAccountLoginAppSer
         return _service.CheckPasswordAsync(input);
     }
 
+    [HttpGet("login/2fa")]
+    public Task<Account2FaStateDto> Get2FaStatusAsync()
+    {
+        return _service.Get2FaStatusAsync();
+    }
+
     [HttpGet("login/authenticator")]
     public Task<AccountAuthenticatorInfoDto> GetAuthenticatorInfoAsync()
     {
@@ -54,21 +60,27 @@ public class AccountLoginController : AccountBaseController, IAccountLoginAppSer
     }
 
     [HttpPost("login/2fa")]
-    public Task<AccountLoginResultDto> LoginWith2faAsync(AccountLoginWith2FaRequestDto input)
+    public Task<AccountLoginResultDto> LoginWith2FaAsync(AccountLoginWith2FaRequestDto input)
     {
-        return _service.LoginWith2faAsync(input);
+        return _service.LoginWith2FaAsync(input);
     }
 
-    [HttpPost("login/recovery-code")]
-    public Task<AccountLoginResultDto> LoginWithRecoveryCodeAsync(AccountLoginWithRecoveryCodeRequestDto input)
+    [HttpPost("login/authenticator/recovery-code")]
+    public Task<AccountLoginResultDto> LoginWithAuthenticatorRecoveryCodeAsync(AccountLoginWithAuthenticatorRecoveryCodeRequestDto input)
     {
-        return _service.LoginWithRecoveryCodeAsync(input);
+        return _service.LoginWithAuthenticatorRecoveryCodeAsync(input);
     }
 
     [HttpPost("logout")]
     public Task LogoutAsync()
     {
         return _service.LogoutAsync();
+    }
+
+    [HttpPost("login/2fa/code")]
+    public Task Send2FaCodeAsync(Account2FaCodeSendDto input)
+    {
+        return _service.Send2FaCodeAsync(input);
     }
 
     [HttpPost("authenticator/verify")]
