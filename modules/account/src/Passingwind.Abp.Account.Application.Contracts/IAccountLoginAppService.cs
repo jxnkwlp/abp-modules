@@ -20,7 +20,7 @@ public interface IAccountLoginAppService : IApplicationService
     /// </summary>
     /// <param name="provider"></param>
     /// <param name="input"></param>
-    Task<AccountLoginResultDto> LoginWith2FaAsync(string provider, AccountLoginWith2FaRequestDto input);
+    Task<AccountLoginResultDto> LoginWithTfaAsync(string provider, AccountLoginWith2FaRequestDto input);
 
     /// <summary>
     ///  Login with authenticator recovery code
@@ -31,20 +31,20 @@ public interface IAccountLoginAppService : IApplicationService
     /// <summary>
     ///  Get user 2fa status when requires 2fa
     /// </summary>
-    Task<Account2FaStateDto> Get2FaStatusAsync();
+    Task<AccountTFaStateDto> GetTfaStatusAsync();
 
     /// <summary>
     ///  Send 2fa token when requires 2fa
     /// </summary>
     /// <param name="provider"></param>
-    Task SendTwoFactorTokenAsync(string provider);
+    Task SendTfaTokenAsync(string provider);
 
     /// <summary>
     ///  verify 2fa token
     /// </summary>
     /// <param name="provider"></param>
     /// <param name="input"></param>
-    Task<AccountVerifyTokenResultDto> VerifyTwoFactorTokenAsync(string provider, AccountLoginVerifyTwoFactorTokenDto input);
+    Task<AccountVerifyTokenResultDto> VerifyTfaTokenAsync(string provider, AccountLoginVerifyTwoFactorTokenDto input);
 
     /// <summary>
     ///  Logout

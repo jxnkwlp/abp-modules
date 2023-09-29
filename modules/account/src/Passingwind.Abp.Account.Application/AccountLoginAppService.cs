@@ -8,7 +8,6 @@ using Microsoft.Extensions.Options;
 using Passingwind.Abp.Identity.AspNetCore;
 using Passingwind.Abp.Identity.Settings;
 using Volo.Abp;
-using Volo.Abp.Account.Settings;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Authorization;
 using Volo.Abp.Identity;
@@ -91,7 +90,7 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
     }
 
     /// <inheritdoc/>
-    public virtual async Task<AccountLoginResultDto> LoginWith2FaAsync(string provider, AccountLoginWith2FaRequestDto input)
+    public virtual async Task<AccountLoginResultDto> LoginWithTfaAsync(string provider, AccountLoginWith2FaRequestDto input)
     {
         await IdentityOptions.SetAsync();
 
@@ -294,7 +293,7 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
         };
     }
 
-    public virtual async Task<Account2FaStateDto> Get2FaStatusAsync()
+    public virtual async Task<AccountTFaStateDto> GetTfaStatusAsync()
     {
         await IdentityOptions.SetAsync();
 
@@ -307,14 +306,14 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
 
         var validTwoFactorProviders = await UserManager.GetValidTwoFactorProvidersAsync(user);
 
-        return new Account2FaStateDto
+        return new AccountTFaStateDto
         {
             Enabled = enabled,
             Providers = validTwoFactorProviders.ToArray(),
         };
     }
 
-    public virtual async Task SendTwoFactorTokenAsync(string provider)
+    public virtual async Task SendTfaTokenAsync(string provider)
     {
         await IdentityOptions.SetAsync();
 
@@ -344,7 +343,7 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
         });
     }
 
-    public virtual async Task<AccountVerifyTokenResultDto> VerifyTwoFactorTokenAsync(string provider, AccountLoginVerifyTwoFactorTokenDto input)
+    public virtual async Task<AccountVerifyTokenResultDto> VerifyTfaTokenAsync(string provider, AccountLoginVerifyTwoFactorTokenDto input)
     {
         await IdentityOptions.SetAsync();
 
@@ -407,53 +406,5 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
         //
 
         return null;
-    }
-
-    private static AccountLoginResultDto GetAccountLoginResult(SignInResult result)
-    {
-        if (result.Succeeded)
-        {
-            return new AccountLoginResultDto(AccountLoginResultType.Success);
-        }
-
-        if (result.IsLockedOut)
-        {
-            return new AccountLoginResultDto(AccountLoginResultType.LockedOut);
-        }
-
-        if (result.RequiresTwoFactor)
-        {
-            return new AccountLoginResultDto(AccountLoginResultType.RequiresTwoFactor);
-        }
-
-        if (result.IsNotAllowed)
-        {
-            return new AccountLoginResultDto(AccountLoginResultType.NotAllowed);
-        }
-
-        if (result is AbpSignInResult abpSignInResult && abpSignInResult.RequiresChangePassword)
-        {
-            return new AccountLoginResultDto(AccountLoginResultType.RequiresChangePassword);
-        }
-
-        return new AccountLoginResultDto(AccountLoginResultType.InvalidUserNameOrPasswordOrToken);
-    }
-
-    protected virtual async Task CheckLocalLoginAsync()
-    {
-        if (!await SettingProvider.IsTrueAsync(AccountSettingNames.EnableLocalLogin))
-        {
-            throw new BusinessException(AccountErrorCodes.LocalLoginDisabled);
-        }
-    }
-
-    protected static string ToIdentitySecurityLogAction(SignInResult signInResult)
-    {
-        if (signInResult is AbpSignInResult abpSignInResult)
-        {
-            return $"Login{abpSignInResult}";
-        }
-
-        return signInResult.ToIdentitySecurityLogAction();
     }
 }

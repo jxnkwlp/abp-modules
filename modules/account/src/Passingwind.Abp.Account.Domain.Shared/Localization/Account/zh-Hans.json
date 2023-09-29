@@ -5,6 +5,8 @@
     "Account:Error:0200": "两步验证已禁用",
     "Account:Error:0201": "不能禁止该功能",
     "Account:Error:0202": "验证码不正确",
+    "Account:Error:0301": "用户不存在",
+    "Account:Error:0401": "用户没有链接到当前账号",
 
     "Permission:Create": "创建",
     "Permission:Update": "编辑",

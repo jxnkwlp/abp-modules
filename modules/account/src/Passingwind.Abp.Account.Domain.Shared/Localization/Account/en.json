@@ -5,6 +5,8 @@
     "Account:Error:0200": "Two-factory verification is disabled",
     "Account:Error:0201": "This feature cannot be disabled",
     "Account:Error:0202": "The verification code is incorrect",
+    "Account:Error:0301": "The user not found",
+    "Account:Error:0401": "The user not link for current user",
 
     "Permission:Create": "Create",
     "Permission:Update": "Edit",

@@ -14,15 +14,10 @@ namespace Passingwind.Abp.Identity.AspNetCore;
     typeof(IdentityDomainModule))]
 public class IdentityAspNetCoreModule : AbpModule
 {
-    public override void PreConfigureServices(ServiceConfigurationContext context)
-    {
-        // TODO
-        // PreConfigure<IdentityBuilder>(builder => builder.AddSignInManager<SignInManager>());
-    }
-
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         context.Services.AddScoped<SignInManager>();
+        context.Services.TryAddScoped(typeof(SignInManager<IdentityUser>), provider => provider.GetRequiredService(typeof(SignInManager)));
 
         var options = context.Services.ExecutePreConfiguredActions(new AbpIdentityAspNetCoreOptions());
 

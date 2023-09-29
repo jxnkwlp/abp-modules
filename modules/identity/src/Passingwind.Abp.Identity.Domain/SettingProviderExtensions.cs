@@ -4,7 +4,7 @@ using JetBrains.Annotations;
 using Volo.Abp;
 using Volo.Abp.Settings;
 
-namespace Passingwind.Abp;
+namespace Passingwind.Abp.Identity;
 
 public static class SettingProviderExtensions
 {

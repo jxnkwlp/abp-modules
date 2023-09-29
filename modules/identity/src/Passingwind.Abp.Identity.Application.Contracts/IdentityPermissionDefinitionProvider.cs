@@ -20,7 +20,7 @@ public class IdentityPermissionDefinitionProvider : PermissionDefinitionProvider
         userGroup.AddChild(IdentityPermissionNamesV2.Users.ManageClaims, L("Permission:ManageClaims"));
         userGroup.AddChild(IdentityPermissionNamesV2.Users.ManageRoles, L("Permission:ManageRoles"));
         userGroup.AddChild(IdentityPermissionNamesV2.Users.ManageOrganizations, L("Permission:ManageOrganizations"));
-        //userGroup.AddChild(IdentityPermissionNamesV2.Users.Impersonation, L("Permission:Users.Impersonation"));
+        userGroup.AddChild(IdentityPermissionNamesV2.Users.Impersonation, L("Permission:Users.Impersonation"));
         //userGroup.AddChild(IdentityPermissionNamesV2.Users.Import, L("Permission:Import"));
         //userGroup.AddChild(IdentityPermissionNamesV2.Users.Export, L("Permission:Export"));
         //userGroup.AddChild(IdentityPermissionNamesV2.Users.ChangeHistories, L("Permission:ChangeHistories"));

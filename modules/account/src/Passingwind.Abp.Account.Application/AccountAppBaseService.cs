@@ -5,8 +5,14 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Passingwind.Abp.Account.Localization;
+using Passingwind.Abp.Identity.AspNetCore;
 using Passingwind.Abp.Identity.Settings;
+using Volo.Abp;
+using Volo.Abp.Account.Settings;
 using Volo.Abp.Application.Services;
+using Volo.Abp.Identity.AspNetCore;
+using Volo.Abp.Settings;
+using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace Passingwind.Abp.Account;
 
@@ -52,5 +58,53 @@ public abstract class AccountAppBaseService : ApplicationService
             issuer,
             UrlEncoder.Encode(identitifer),
             unformattedKey);
+    }
+
+    protected static AccountLoginResultDto GetAccountLoginResult(SignInResult result)
+    {
+        if (result.Succeeded)
+        {
+            return new AccountLoginResultDto(AccountLoginResultType.Success);
+        }
+
+        if (result.IsLockedOut)
+        {
+            return new AccountLoginResultDto(AccountLoginResultType.LockedOut);
+        }
+
+        if (result.RequiresTwoFactor)
+        {
+            return new AccountLoginResultDto(AccountLoginResultType.RequiresTwoFactor);
+        }
+
+        if (result.IsNotAllowed)
+        {
+            return new AccountLoginResultDto(AccountLoginResultType.NotAllowed);
+        }
+
+        if (result is AbpSignInResult abpSignInResult && abpSignInResult.RequiresChangePassword)
+        {
+            return new AccountLoginResultDto(AccountLoginResultType.RequiresChangePassword);
+        }
+
+        return new AccountLoginResultDto(AccountLoginResultType.InvalidUserNameOrPasswordOrToken);
+    }
+
+    protected virtual async Task CheckLocalLoginAsync()
+    {
+        if (!await SettingProvider.IsTrueAsync(AccountSettingNames.EnableLocalLogin))
+        {
+            throw new BusinessException(AccountErrorCodes.LocalLoginDisabled);
+        }
+    }
+
+    protected static string ToIdentitySecurityLogAction(SignInResult signInResult)
+    {
+        if (signInResult is AbpSignInResult abpSignInResult)
+        {
+            return $"Login{abpSignInResult}";
+        }
+
+        return signInResult.ToIdentitySecurityLogAction();
     }
 }

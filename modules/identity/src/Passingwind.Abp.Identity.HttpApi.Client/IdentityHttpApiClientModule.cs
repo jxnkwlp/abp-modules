@@ -1,11 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Passingwind.Abp.Identity;
 using Volo.Abp.Http.Client;
 using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
 using Volo.Abp.VirtualFileSystem;
 
-namespace Passingwind.Abp;
+namespace Passingwind.Abp.Identity;
 
 [DependsOn(
     typeof(IdentityApplicationContractsModule),

@@ -5,11 +5,11 @@ using Passingwind.Abp.Account.Settings;
 namespace Passingwind.Abp.Account;
 
 [Authorize(AccountPermissionNames.Settings.Default)]
-public class AccountAdminSettingAppService : AccountAppBaseService, IAccountAdminSettingAppService
+public class AccountAdminSettingsAppService : AccountAppBaseService, IAccountAdminSettingsAppService
 {
     protected IAccountSettingsManager AccountSettingsManager { get; }
 
-    public AccountAdminSettingAppService(IAccountSettingsManager accountSettingsManager)
+    public AccountAdminSettingsAppService(IAccountSettingsManager accountSettingsManager)
     {
         AccountSettingsManager = accountSettingsManager;
     }

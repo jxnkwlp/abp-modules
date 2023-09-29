@@ -8,9 +8,9 @@ public static class AuthenticationBuilderExtensions
 {
     public static AuthenticationBuilder AddRequiresChangePasswordCookie(this AuthenticationBuilder builder)
     {
-        return builder.AddCookie(MyIdentityConstants.RequiresChangePasswordScheme, options =>
+        return builder.AddCookie(IdentityV2Constants.RequiresChangePasswordScheme, options =>
         {
-            options.Cookie.Name = MyIdentityConstants.RequiresChangePasswordScheme;
+            options.Cookie.Name = IdentityV2Constants.RequiresChangePasswordScheme;
             options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
         });
     }

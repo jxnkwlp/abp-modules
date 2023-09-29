@@ -199,6 +199,7 @@ public class SampleHttpApiHostModule : AbpModule
                 options.DocInclusionPredicate((docName, description) => true);
                 options.CustomSchemaIds(type => type.FullName);
                 options.ApplyExtensions();
+                options.OrderActionsBy(x => x.GroupName + x.RelativePath);
             });
     }
 

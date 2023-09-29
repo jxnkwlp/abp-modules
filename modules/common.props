@@ -16,6 +16,8 @@
     <PackageTags>abp, abp-module</PackageTags>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <CopyDocumentationFilesFromPackages>true</CopyDocumentationFilesFromPackages>
+    <CopyDebugSymbolFilesFromPackages>true</CopyDebugSymbolFilesFromPackages>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">

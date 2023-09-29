@@ -95,8 +95,7 @@ public class SignInManager : AbpSignInManager, IScopedDependency
         if (await ShouldChangePasswordAsync(user))
         {
             var userId = await UserManager.GetUserIdAsync(user);
-
-            await Context.SignInAsync(MyIdentityConstants.RequiresChangePasswordScheme, StoreChangePasswordInfo(userId, loginProvider));
+            await Context.SignInAsync(IdentityV2Constants.RequiresChangePasswordScheme, StoreChangePasswordInfo(userId, loginProvider));
 
             return AbpSignInResult.ChangePasswordRequired;
         }
@@ -108,6 +107,7 @@ public class SignInManager : AbpSignInManager, IScopedDependency
                 // Store the userId for use after two factor check
                 var userId = await UserManager.GetUserIdAsync(user);
                 await Context.SignInAsync(IdentityConstants.TwoFactorUserIdScheme, StoreTwoFactorInfo(userId, loginProvider));
+
                 return SignInResult.TwoFactorRequired;
             }
         }
@@ -135,12 +135,12 @@ public class SignInManager : AbpSignInManager, IScopedDependency
     public override async Task SignOutAsync()
     {
         await base.SignOutAsync();
-        await Context.SignOutAsync(MyIdentityConstants.RequiresChangePasswordScheme);
+        await Context.SignOutAsync(IdentityV2Constants.RequiresChangePasswordScheme);
     }
 
     public virtual async Task<IdentityUser?> GetRequiresChangePasswordUserAsync()
     {
-        var result = await Context.AuthenticateAsync(MyIdentityConstants.RequiresChangePasswordScheme);
+        var result = await Context.AuthenticateAsync(IdentityV2Constants.RequiresChangePasswordScheme);
         if (result?.Principal == null)
         {
             return null;
@@ -179,7 +179,7 @@ public class SignInManager : AbpSignInManager, IScopedDependency
     /// <param name="loginProvider"></param>
     internal static ClaimsPrincipal StoreChangePasswordInfo(string userId, string? loginProvider)
     {
-        var identity = new ClaimsIdentity(MyIdentityConstants.RequiresChangePasswordScheme);
+        var identity = new ClaimsIdentity(IdentityV2Constants.RequiresChangePasswordScheme);
 
         identity.AddClaim(new Claim(ClaimTypes.Name, userId));
         if (loginProvider != null)

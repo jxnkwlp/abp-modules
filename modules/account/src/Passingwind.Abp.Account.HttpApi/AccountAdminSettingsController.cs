@@ -6,11 +6,11 @@ namespace Passingwind.Abp.Account;
 [RemoteService(Name = AccountRemoteServiceConsts.RemoteServiceName)]
 [Area(AccountRemoteServiceConsts.ModuleName)]
 [Route("/api/account/admin/settings")]
-public class AccountAdminSettingController : AccountBaseController, IAccountAdminSettingAppService
+public class AccountAdminSettingsController : AccountBaseController, IAccountAdminSettingsAppService
 {
-    private readonly IAccountAdminSettingAppService _service;
+    private readonly IAccountAdminSettingsAppService _service;
 
-    public AccountAdminSettingController(IAccountAdminSettingAppService service)
+    public AccountAdminSettingsController(IAccountAdminSettingsAppService service)
     {
         _service = service;
     }

@@ -30,9 +30,9 @@ public class AccountLoginController : AccountBaseController, IAccountLoginAppSer
     }
 
     [HttpGet("login/2fa")]
-    public Task<Account2FaStateDto> Get2FaStatusAsync()
+    public Task<AccountTFaStateDto> GetTfaStatusAsync()
     {
-        return _service.Get2FaStatusAsync();
+        return _service.GetTfaStatusAsync();
     }
 
     [HttpGet("login/authenticator")]
@@ -60,9 +60,9 @@ public class AccountLoginController : AccountBaseController, IAccountLoginAppSer
     }
 
     [HttpPost("login/2fa/{provider}")]
-    public Task<AccountLoginResultDto> LoginWith2FaAsync(string provider, AccountLoginWith2FaRequestDto input)
+    public Task<AccountLoginResultDto> LoginWithTfaAsync(string provider, AccountLoginWith2FaRequestDto input)
     {
-        return _service.LoginWith2FaAsync(provider, input);
+        return _service.LoginWithTfaAsync(provider, input);
     }
 
     [HttpPost("login/authenticator/recovery-code")]
@@ -78,9 +78,9 @@ public class AccountLoginController : AccountBaseController, IAccountLoginAppSer
     }
 
     [HttpPost("login/2fa/{provider}/token")]
-    public Task SendTwoFactorTokenAsync(string provider)
+    public Task SendTfaTokenAsync(string provider)
     {
-        return _service.SendTwoFactorTokenAsync(provider);
+        return _service.SendTfaTokenAsync(provider);
     }
 
     [HttpPost("authenticator/verify")]
@@ -90,8 +90,8 @@ public class AccountLoginController : AccountBaseController, IAccountLoginAppSer
     }
 
     [HttpPost("login/2fa/{provider}/verify")]
-    public Task<AccountVerifyTokenResultDto> VerifyTwoFactorTokenAsync(string provider, AccountLoginVerifyTwoFactorTokenDto input)
+    public Task<AccountVerifyTokenResultDto> VerifyTfaTokenAsync(string provider, AccountLoginVerifyTwoFactorTokenDto input)
     {
-        return _service.VerifyTwoFactorTokenAsync(provider, input);
+        return _service.VerifyTfaTokenAsync(provider, input);
     }
 }
