@@ -13,15 +13,15 @@
   <ItemGroup>
     <PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
     <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
-    <PackageReference Include="Hangfire.Core" Version="1.7.29" />
+    <!--<PackageReference Include="Hangfire.Core" Version="1.8.2" />-->
     <PackageReference Include="Hangfire.MemoryStorage" Version="1.7.0" />
-    <PackageReference Include="Volo.Abp.AspNetCore.MultiTenancy" Version="7.2.3" />
-    <PackageReference Include="Volo.Abp.Autofac" Version="7.2.3" />
-    <PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="7.2.3" />
-    <PackageReference Include="Volo.Abp.Swashbuckle" Version="7.2.3" />
-    <PackageReference Include="Volo.Abp.OpenIddict.AspNetCore" Version="7.2.3" />
-    <PackageReference Include="Volo.Abp.BackgroundJobs.HangFire" Version="7.2.3" />
-    <PackageReference Include="Volo.Abp.BackgroundWorkers.Hangfire" Version="7.2.3" />
+    <PackageReference Include="Volo.Abp.AspNetCore.MultiTenancy" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Autofac" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Swashbuckle" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.OpenIddict.AspNetCore" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.BackgroundJobs.HangFire" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.BackgroundWorkers.Hangfire" Version="$(AbpVersion)" />
     <PackageReference Include="Passingwind.SwaggerExtensions" Version="0.5.0" />
   </ItemGroup>
 

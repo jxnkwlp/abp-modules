@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Passingwind.Abp.IdentityClientManagement.Cryptography;
 using Passingwind.Abp.IdentityClientManagement.Identity;
 using Passingwind.Abp.IdentityClientManagement.IdentityClients;
-using Passingwind.Authentication.Saml2;
+using Passingwind.AspNetCore.Authentication.Saml2;
 using Volo.Abp.DependencyInjection;
 
 namespace Passingwind.Abp.IdentityClientManagement.Saml2;
@@ -53,7 +53,7 @@ public class Saml2OptionBuilder : ISaml2OptionBuilder, ITransientDependency
         {
             // save to tmp
             var tmpFile = Path.GetTempFileName();
-            await File.WriteAllTextAsync(tmpFile, configuration.IdpMetadataContent);
+            await File.WriteAllTextAsync(tmpFile, configuration.IdpMetadataContent, cancellationToken);
             options.IdpMetadataUri = new Uri(tmpFile);
         }
 

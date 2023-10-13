@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Passingwind.Abp.IdentityClientManagement.IdentityClients;
-using Passingwind.Authentication.Saml2;
+using Passingwind.AspNetCore.Authentication.Saml2;
 
 namespace Passingwind.Abp.IdentityClientManagement.Saml2;
 

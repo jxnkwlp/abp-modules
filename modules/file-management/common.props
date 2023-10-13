@@ -1,7 +1,10 @@
 ﻿<Project>
   <Import Project="..\common.props"/>
   
-  <PropertyGroup> 
+  <PropertyGroup>
+    <Product>Passingwind.Abp.FileManagement</Product>
+    <Description>an abp module that provider file and file container management.</Description>
+    <PackageTags>abp-module</PackageTags>
   </PropertyGroup>
-   
+
 </Project>

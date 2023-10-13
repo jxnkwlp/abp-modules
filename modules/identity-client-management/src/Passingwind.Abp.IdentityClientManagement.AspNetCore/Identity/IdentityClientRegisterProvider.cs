@@ -8,7 +8,7 @@ using Passingwind.Abp.IdentityClientManagement.IdentityClients;
 using Passingwind.Abp.IdentityClientManagement.OpenIdConnect;
 using Passingwind.Abp.IdentityClientManagement.Options;
 using Passingwind.Abp.IdentityClientManagement.Saml2;
-using Passingwind.Authentication.Saml2;
+using Passingwind.AspNetCore.Authentication.Saml2;
 using Volo.Abp.DependencyInjection;
 
 namespace Passingwind.Abp.IdentityClientManagement.Identity;
@@ -97,7 +97,7 @@ public class IdentityClientRegisterProvider : IIdentityClientRegisterProvider, I
 
     public async Task ValidateAsync(IdentityClient identityClient, CancellationToken cancellationToken = default)
     {
-        var options = await OpenIdConnectOptionBuilder.GetAsync(identityClient.ProviderName, IdentityClientConfigurationHelper.ToOpenIdConnectConfiguration(identityClient.Configurations));
+        var options = await OpenIdConnectOptionBuilder.GetAsync(identityClient.ProviderName, IdentityClientConfigurationHelper.ToOpenIdConnectConfiguration(identityClient.Configurations), cancellationToken);
 
         OpenIdConnectPostConfigureOptions.PostConfigure(identityClient.ProviderName, options);
 
@@ -106,7 +106,7 @@ public class IdentityClientRegisterProvider : IIdentityClientRegisterProvider, I
 
     protected virtual async Task RegisterOpenIdConnectAsync(IdentityClient identityClient, CancellationToken cancellationToken = default)
     {
-        var options = await OpenIdConnectOptionBuilder.GetAsync(identityClient.ProviderName, IdentityClientConfigurationHelper.ToOpenIdConnectConfiguration(identityClient.Configurations));
+        var options = await OpenIdConnectOptionBuilder.GetAsync(identityClient.ProviderName, IdentityClientConfigurationHelper.ToOpenIdConnectConfiguration(identityClient.Configurations), cancellationToken);
 
         OpenIdConnectPostConfigureOptions.PostConfigure(identityClient.ProviderName, options);
 
@@ -117,7 +117,7 @@ public class IdentityClientRegisterProvider : IIdentityClientRegisterProvider, I
 
     protected virtual async Task RegisterSaml2Async(IdentityClient identityClient, CancellationToken cancellationToken = default)
     {
-        var options = await Saml2OptionBuilder.GetAsync(identityClient.ProviderName, IdentityClientConfigurationHelper.ToSaml2Configuration(identityClient.Configurations));
+        var options = await Saml2OptionBuilder.GetAsync(identityClient.ProviderName, IdentityClientConfigurationHelper.ToSaml2Configuration(identityClient.Configurations), cancellationToken);
 
         Saml2PostConfigureOptions.PostConfigure(identityClient.ProviderName, options);
 

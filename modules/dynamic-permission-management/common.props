@@ -3,7 +3,7 @@
   <Import Project="..\common.props" />
 
   <PropertyGroup>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <Product>Passingwind.Abp.DynamicPermissionManagement</Product>
     <Description>an abp module that provider dynamic permission management service</Description>
     <PackageTags>abp-module</PackageTags>
