@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Extensions.DependencyInjection;
 using Passingwind.Abp.IdentityClientManagement.Identity;
-using Passingwind.Authentication.Saml2;
+using Passingwind.AspNetCore.Authentication.Saml2;
 using Volo.Abp;
 using Volo.Abp.AspNetCore;
 using Volo.Abp.AspNetCore.Authentication.OpenIdConnect;

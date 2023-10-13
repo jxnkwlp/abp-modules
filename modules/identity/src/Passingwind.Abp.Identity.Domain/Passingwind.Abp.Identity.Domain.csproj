@@ -9,9 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="7.2.3" />
-    <PackageReference Include="Volo.Abp.Identity.Domain" Version="7.2.3" />
-    <PackageReference Include="Volo.Abp.SettingManagement.Domain" Version="7.2.3" />
+    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Identity.Domain" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.SettingManagement.Domain" Version="$(AbpVersion)" />
     <ProjectReference Include="..\Passingwind.Abp.Identity.Domain.Shared\Passingwind.Abp.Identity.Domain.Shared.csproj" />
   </ItemGroup>
 

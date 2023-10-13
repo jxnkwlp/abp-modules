@@ -4,7 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Passingwind.Abp.IdentityClientManagement.IdentityClients;
-using Passingwind.Authentication.Saml2;
+using Passingwind.AspNetCore.Authentication.Saml2;
 using Volo.Abp;
 using Volo.Abp.Json;
 
@@ -35,8 +35,8 @@ public class Saml2EventType : Saml2Events
 
         var xml = context.RedirectBinding.XmlDocument.OuterXml;
 
-        Logger.LogInformation("Authentication schame {0} request identity provider payload: {1}", providerName, xml);
-        Logger.LogInformation("Authentication schame {0} redirect to identity provider url: {1}", providerName, context.RedirectBinding.RedirectLocation.OriginalString);
+        Logger.LogDebug("Authentication schame {0} request identity provider payload: {1}", providerName, xml);
+        Logger.LogDebug("Authentication schame {0} redirect to identity provider url: {1}", providerName, context.RedirectBinding.RedirectLocation.OriginalString);
 
         return Task.CompletedTask;
     }
@@ -47,7 +47,7 @@ public class Saml2EventType : Saml2Events
 
         var xml = context.Saml2AuthnResponse.ToXml().OuterXml;
 
-        Logger.LogInformation("Authentication schame {0} received response payload: {1}", providerName, xml);
+        Logger.LogDebug("Authentication schame {0} received response payload: {1}", providerName, xml);
 
         return Task.CompletedTask;
     }
@@ -61,7 +61,7 @@ public class Saml2EventType : Saml2Events
         if (principal != null)
         {
             var cliams = principal.Claims.Select(x => new { x.Type, x.Value });
-            Logger.LogInformation("Authentication schame {0} resolved claims: {1}", providerName, JsonSerializer.Serialize(cliams));
+            Logger.LogDebug("Authentication schame {0} resolved claims: {1}", providerName, JsonSerializer.Serialize(cliams));
 
             // 
             var claimsIdentity = await HandlePrincipal(providerName, principal);

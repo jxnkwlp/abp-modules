@@ -25,7 +25,7 @@ public class AuthenticationSchemeProviderManager : IAuthenticationSchemeProvider
 
     public Task RegisterAsync<TOptions, THandler>(string name, string displayName, TOptions options, CancellationToken cancellationToken = default) where TOptions : class
     {
-        Logger.LogInformation("Try register authentication scheme '{0}', option type '{1}'", name, options.GetType().Name);
+        Logger.LogDebug("Try register authentication scheme '{0}', option type '{1}'", name, options.GetType().Name);
 
         IOptionsMonitorCache<TOptions> optionCache = LazyServiceProvider.LazyGetRequiredService<IOptionsMonitorCache<TOptions>>();
 

@@ -2,9 +2,7 @@
 
   <Import Project="..\common.props" />
 
-  <PropertyGroup>
-    <Version>0.1.0</Version>
-
+  <PropertyGroup> 
     <Product>Passingwind.Abp.DictionaryManagement</Product>
     <Description>an abp module that provider dynamic dictionary management service</Description>
     <PackageTags>abp-module</PackageTags>

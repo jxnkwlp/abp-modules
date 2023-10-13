@@ -9,9 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.AutoMapper" Version="7.2.3" />
-    <PackageReference Include="Volo.Abp.Ddd.Application" Version="7.2.3" />
-    <PackageReference Include="Volo.Abp.Identity.Application" Version="7.2.3" />
+    <PackageReference Include="Volo.Abp.AutoMapper" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Ddd.Application" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Identity.Application" Version="$(AbpVersion)" />
     <ProjectReference Include="..\Passingwind.Abp.Identity.Application.Contracts\Passingwind.Abp.Identity.Application.Contracts.csproj" />
     <ProjectReference Include="..\Passingwind.Abp.Identity.Domain\Passingwind.Abp.Identity.Domain.csproj" />
   </ItemGroup>

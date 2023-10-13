@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Http.Client" Version="7.2.3" />
+    <PackageReference Include="Volo.Abp.Http.Client" Version="$(AbpVersion)" />
     <ProjectReference Include="..\Passingwind.Abp.Identity.Application.Contracts\Passingwind.Abp.Identity.Application.Contracts.csproj" />
   </ItemGroup>
 
