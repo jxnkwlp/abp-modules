@@ -7,7 +7,7 @@
     "Permission:IdentityClientManagement": "Identity client management",
     "Permission:IdentityClientManagement.IdentityClient": "Identity clients",
     "Permission:Create": "Create",
-    "Permission:Update": "Update",
+    "Permission:Update": "Edit",
     "Permission:Delete": "Delete"
   }
 }

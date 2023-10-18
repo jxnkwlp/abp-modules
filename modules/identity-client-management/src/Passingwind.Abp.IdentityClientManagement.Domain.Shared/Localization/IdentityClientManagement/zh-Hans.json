@@ -6,8 +6,8 @@
 
     "Permission:IdentityClientManagement": "认证客户端管理",
     "Permission:IdentityClientManagement.IdentityClient": "客户端",
-    "Permission:Create": "添加",
-    "Permission:Update": "修改",
+    "Permission:Create": "创建",
+    "Permission:Update": "编辑",
     "Permission:Delete": "删除"
   }
 }
