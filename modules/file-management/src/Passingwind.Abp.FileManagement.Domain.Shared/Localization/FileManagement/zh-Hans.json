@@ -13,9 +13,9 @@
 
     "Permission:FileManagement": "文件管理",
     "Permission:FileManagement.FileContainer": "文件容器",
-    "Permission:FileManagement.FileContainer.Update": "更新",
-    "Permission:FileManagement.FileContainer.Delete": "删除",
-    "Permission:FileManagement.File": "文件",
-    "Permission:FileManagement.File.Delete": "删除"
+    "Permission:FileManagement.File": "文件", 
+    "Permission:Create": "创建",
+    "Permission:Update": "编辑",
+    "Permission:Delete": "删除"
   }
 }

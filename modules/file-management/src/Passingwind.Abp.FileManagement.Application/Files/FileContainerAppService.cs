@@ -15,11 +15,11 @@ namespace Passingwind.Abp.FileManagement.Files;
 [Authorize]
 public class FileContainerAppService : FileManagementAppService, IFileContainerAppService
 {
-    private readonly FileManagementOptions _fileManagementOptions;
-    private readonly FileContainerManager _fileContainerManager;
-    private readonly IFileContainerRepository _fileContainerRepository;
-    private readonly IFileRepository _fileRepository;
-    private readonly IFileManager _fileManager;
+    protected FileManagementOptions FileManagementOptions { get; }
+    protected FileContainerManager FileContainerManager { get; }
+    protected IFileContainerRepository FileContainerRepository { get; }
+    protected IFileRepository FileRepository { get; }
+    protected IFileManager FileManager { get; }
 
     public FileContainerAppService(
         IOptions<FileManagementOptions> fileManagementOptions,
@@ -28,11 +28,24 @@ public class FileContainerAppService : FileManagementAppService, IFileContainerA
         IFileRepository fileRepository,
         IFileManager fileManager)
     {
-        _fileManagementOptions = fileManagementOptions.Value;
-        _fileContainerManager = fileContainerManager;
-        _fileContainerRepository = fileContainerRepository;
-        _fileRepository = fileRepository;
-        _fileManager = fileManager;
+        FileManagementOptions = fileManagementOptions.Value;
+        FileContainerManager = fileContainerManager;
+        FileContainerRepository = fileContainerRepository;
+        FileRepository = fileRepository;
+        FileManager = fileManager;
+    }
+
+    public async Task<ListResultDto<FileContainerDto>> GetAllListAsync()
+    {
+        // permission: anyone that get permission can list all or list owners.
+
+        bool isManager = await AuthorizationService.IsGrantedAsync(FileManagementPermissions.FileContainer.Default);
+
+        Guid? userId = isManager ? null : CurrentUser.Id;
+
+        List<FileContainer> list = await FileContainerRepository.GetListAsync(userId: userId);
+
+        return new ListResultDto<FileContainerDto>(ObjectMapper.Map<List<FileContainer>, List<FileContainerDto>>(list));
     }
 
     public virtual async Task<PagedResultDto<FileContainerDto>> GetListAsync(FileContainerListRequestDto input)
@@ -43,8 +56,8 @@ public class FileContainerAppService : FileManagementAppService, IFileContainerA
 
         Guid? userId = isManager ? null : CurrentUser.Id;
 
-        var count = await _fileContainerRepository.GetCountAsync(input.Filter, userId: userId);
-        var list = await _fileContainerRepository.GetPagedListAsync(input.SkipCount, input.MaxResultCount, input.Filter, userId, nameof(FileContainer.Name));
+        long count = await FileContainerRepository.GetCountAsync(input.Filter, userId: userId);
+        List<FileContainer> list = await FileContainerRepository.GetPagedListAsync(input.SkipCount, input.MaxResultCount, input.Filter, userId, nameof(FileContainer.Name));
 
         return new PagedResultDto<FileContainerDto>()
         {
@@ -59,12 +72,11 @@ public class FileContainerAppService : FileManagementAppService, IFileContainerA
 
         bool isManager = await AuthorizationService.IsGrantedAsync(FileManagementPermissions.FileContainer.Default);
 
-        var entity = await _fileContainerRepository.GetAsync(id);
+        FileContainer entity = await FileContainerRepository.GetAsync(id);
 
-        if (!isManager && CurrentUser.Id != entity.CreatorId)
-            throw new EntityNotFoundException();
-
-        return ObjectMapper.Map<FileContainer, FileContainerDto>(entity);
+        return !isManager && CurrentUser.Id != entity.CreatorId
+            ? throw new EntityNotFoundException()
+            : ObjectMapper.Map<FileContainer, FileContainerDto>(entity);
     }
 
     [AllowAnonymous]
@@ -74,19 +86,18 @@ public class FileContainerAppService : FileManagementAppService, IFileContainerA
 
         bool isManager = await AuthorizationService.IsGrantedAsync(FileManagementPermissions.FileContainer.Default);
 
-        var entity = await _fileContainerRepository.GetAsync(x => x.Name == name);
+        FileContainer entity = await FileContainerRepository.GetAsync(x => x.Name == name);
 
-        if (!isManager && CurrentUser.Id != entity.CreatorId)
-            throw new EntityNotFoundException();
-
-        return ObjectMapper.Map<FileContainer, FileContainerDto>(entity);
+        return !isManager && CurrentUser.Id != entity.CreatorId
+            ? throw new EntityNotFoundException()
+            : ObjectMapper.Map<FileContainer, FileContainerDto>(entity);
     }
 
     public virtual async Task<FileContainerDto> CreateAsync(FileContainerCreateDto input)
     {
         // permission: anyone that authorized can create.
 
-        var entity = await _fileContainerManager.CreateAsync(
+        FileContainer entity = await FileContainerManager.CreateAsync(
             input.Name,
             input.AccessMode,
             input.Description,
@@ -100,12 +111,12 @@ public class FileContainerAppService : FileManagementAppService, IFileContainerA
 
         input.MapExtraPropertiesTo(entity);
 
-        if (await _fileContainerManager.IsExistsAsync(entity))
+        if (await FileContainerManager.IsExistsAsync(entity))
         {
             throw new BusinessException(FileManagementErrorCodes.ContainerExist).WithData("name", entity.Name);
         }
 
-        await _fileContainerRepository.InsertAsync(entity);
+        _ = await FileContainerRepository.InsertAsync(entity);
 
         return ObjectMapper.Map<FileContainer, FileContainerDto>(entity);
     }
@@ -116,10 +127,12 @@ public class FileContainerAppService : FileManagementAppService, IFileContainerA
 
         bool isManager = await AuthorizationService.IsGrantedAsync(FileManagementPermissions.FileContainer.Update);
 
-        var entity = await _fileContainerRepository.GetAsync(id);
+        FileContainer entity = await FileContainerRepository.GetAsync(id);
 
         if (!isManager && CurrentUser.Id != entity.CreatorId)
+        {
             throw new EntityNotFoundException();
+        }
 
         entity.Description = input.Description;
         entity.MaximumEachFileSize = input.MaximumEachFileSize ?? 0;
@@ -130,11 +143,11 @@ public class FileContainerAppService : FileManagementAppService, IFileContainerA
         entity.ProhibitedFileExtensions = input.ProhibitedFileExtensions;
         entity.AutoDeleteBlob = input.AutoDeleteBlob;
 
-        entity.SetAccessMode(input.AccessMode ?? _fileManagementOptions.DefaultContainerAccessMode);
+        entity.SetAccessMode(input.AccessMode ?? FileManagementOptions.DefaultContainerAccessMode);
 
         input.MapExtraPropertiesTo(entity);
 
-        await _fileContainerRepository.UpdateAsync(entity);
+        _ = await FileContainerRepository.UpdateAsync(entity);
 
         return ObjectMapper.Map<FileContainer, FileContainerDto>(entity);
     }
@@ -145,22 +158,24 @@ public class FileContainerAppService : FileManagementAppService, IFileContainerA
 
         bool isManager = await AuthorizationService.IsGrantedAsync(FileManagementPermissions.FileContainer.Delete);
 
-        var entity = await _fileContainerRepository.GetAsync(id);
+        FileContainer entity = await FileContainerRepository.GetAsync(id);
 
         if (!isManager && CurrentUser.Id != entity.CreatorId)
+        {
             return;
+        }
 
-        var fileCount = await _fileRepository.GetCountAsync(containerId: id);
+        long fileCount = await FileRepository.GetCountAsync(containerId: id);
 
-        if (fileCount > 0 && !_fileManagementOptions.AllowForceDeleteContainer)
+        if (fileCount > 0 && !FileManagementOptions.AllowForceDeleteContainer)
         {
             throw new BusinessException(FileManagementErrorCodes.ContainerNotAllowForceDelete);
         }
 
         // 1. delete file
-        await _fileManager.ClearContainerFilesAsync(entity);
+        await FileManager.ClearContainerFilesAsync(entity);
 
         // 2. delete container 
-        await _fileContainerRepository.DeleteAsync(id);
+        await FileContainerRepository.DeleteAsync(id);
     }
 }

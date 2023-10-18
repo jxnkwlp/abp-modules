@@ -9,7 +9,7 @@ using Serilog.Events;
 
 namespace Sample;
 
-public class Program
+public static class Program
 {
     public async static Task<int> Main(string[] args)
     {
@@ -23,7 +23,7 @@ public class Program
             .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
             .MinimumLevel.Override("OpenIddict", LogEventLevel.Warning)
             .Enrich.FromLogContext()
-            .WriteTo.Async(c => c.File("Logs/logs.txt"))
+            .WriteTo.Async(c => c.File("Logs/logs.log", shared: true, rollingInterval: RollingInterval.Day))
             .WriteTo.Async(c => c.Console())
             .CreateLogger();
 
@@ -44,13 +44,8 @@ public class Program
             await app.RunAsync();
             return 0;
         }
-        catch (Exception ex)
+        catch (Exception ex) when (ex is not HostAbortedException)
         {
-            if (ex is HostAbortedException)
-            {
-                throw;
-            }
-
             Log.Fatal(ex, "Host terminated unexpectedly!");
             return 1;
         }

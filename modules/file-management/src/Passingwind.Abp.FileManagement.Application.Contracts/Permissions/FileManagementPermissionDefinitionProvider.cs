@@ -12,11 +12,12 @@ public class FileManagementPermissionDefinitionProvider : PermissionDefinitionPr
         var fileManagement = context.AddGroup(FileManagementPermissions.GroupName, L($"Permission:{FileManagementPermissions.GroupName}"));
 
         var fileContainer = fileManagement.AddPermission(FileManagementPermissions.FileContainer.Default, L($"Permission:{FileManagementPermissions.FileContainer.Default}"));
-        fileContainer.AddChild(FileManagementPermissions.FileContainer.Update, L($"Permission:{FileManagementPermissions.FileContainer.Update}"));
-        fileContainer.AddChild(FileManagementPermissions.FileContainer.Delete, L($"Permission:{FileManagementPermissions.FileContainer.Delete}"));
+        fileContainer.AddChild(FileManagementPermissions.FileContainer.Create, L("Permission:Create"));
+        fileContainer.AddChild(FileManagementPermissions.FileContainer.Update, L("Permission:Update"));
+        fileContainer.AddChild(FileManagementPermissions.FileContainer.Delete, L("Permission:Delete"));
 
         var file = fileManagement.AddPermission(FileManagementPermissions.File.Default, L($"Permission:{FileManagementPermissions.File.Default}"));
-        file.AddChild(FileManagementPermissions.File.Delete, L($"Permission:{FileManagementPermissions.File.Delete}"));
+        file.AddChild(FileManagementPermissions.File.Delete, L("Permission:Delete"));
     }
 
     private static LocalizableString L(string name)

@@ -49,8 +49,14 @@ public class FileContainerController : FileManagementController, IFileContainerA
     }
 
     [HttpGet("by-name/{name}")]
-    public Task<FileContainerDto> GetByNameAsync(string name)
+    public virtual Task<FileContainerDto> GetByNameAsync(string name)
     {
         return _service.GetByNameAsync(name);
+    }
+
+    [HttpGet("all")]
+    public virtual Task<ListResultDto<FileContainerDto>> GetAllListAsync()
+    {
+        return _service.GetAllListAsync();
     }
 }

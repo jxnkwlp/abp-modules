@@ -13,9 +13,9 @@
 
     "Permission:FileManagement": "File management",
     "Permission:FileManagement.FileContainer": "File containers",
-    "Permission:FileManagement.FileContainer.Update": "Update",
-    "Permission:FileManagement.FileContainer.Delete": "Delete",
     "Permission:FileManagement.File": "Files",
-    "Permission:FileManagement.File.Delete": "Delete"
+    "Permission:Create": "Create",
+    "Permission:Update": "Edit",
+    "Permission:Delete": "Delete"
   }
 }

@@ -6,12 +6,10 @@ using Hangfire;
 using Hangfire.MemoryStorage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using OpenIddict.Validation.AspNetCore;
 using Passingwind.Abp.ApiKey;
 using Passingwind.Abp.FileManagement;
 using Passingwind.Abp.FileManagement.Options;
@@ -24,7 +22,7 @@ using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.AspNetCore.MultiTenancy;
 using Volo.Abp.AspNetCore.Mvc;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
@@ -46,7 +44,7 @@ namespace Sample;
     typeof(AbpAspNetCoreMultiTenancyModule),
     typeof(SampleApplicationModule),
     typeof(SampleEntityFrameworkCoreModule),
-    typeof(AbpAspNetCoreMvcUiLeptonXLiteThemeModule),
+    typeof(AbpAspNetCoreMvcUiBasicThemeModule),
     typeof(AbpOpenIddictAspNetCoreModule),
     typeof(AbpBackgroundJobsHangfireModule),
     typeof(AbpBackgroundWorkersHangfireModule),
@@ -266,7 +264,9 @@ public class SampleHttpApiHostModule : AbpModule
             c.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
             c.OAuthScopes("Sample");
             c.DisplayOperationId();
+            c.DisplayRequestDuration();
             c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
+            c.ConfigObject.AdditionalItems.Add("tagsSorter", "alpha");
         });
 
         app.UseAuditing();
