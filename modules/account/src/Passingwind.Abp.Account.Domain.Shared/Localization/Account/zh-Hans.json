@@ -13,7 +13,9 @@
     "Permission:Delete": "删除",
 
     "Permission:AccountManagement": "账户",
+
     "Permission:SettingManagement": "设置管理",
+    "Permission:SettingManagement.Account": "账户",
 
     "DisplayName:Account.Captcha.EnableOnLogin": "登录时启用",
     "DisplayName:Account.Captcha.EnableOnRegistration": "注册时启用",

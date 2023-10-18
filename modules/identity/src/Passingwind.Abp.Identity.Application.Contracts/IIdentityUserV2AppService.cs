@@ -32,6 +32,10 @@ public interface IIdentityUserV2AppService : ICrudAppService<IdentityUserV2Dto, 
 
     Task ClearPasswordAsync(Guid id);
 
+    Task UpdateEmailConfirmedAsync(Guid id, IdentityUserUpdateConfirmedDto input);
+
+    Task UpdatePhoneNumberConfirmedAsync(Guid id, IdentityUserUpdateConfirmedDto input);
+
     Task<IdentityUserTwoFactorEnabledDto> GetTwoFactorEnabledAsync(Guid id);
 
     Task UpdateTwoFactorEnabledAsync(Guid id, IdentityUserTwoFactorEnabledDto input);
@@ -41,4 +45,8 @@ public interface IIdentityUserV2AppService : ICrudAppService<IdentityUserV2Dto, 
     Task<ListResultDto<OrganizationUnitDto>> GetOrganizationUnitsAsync(Guid id);
 
     Task UpdateOrganizationUnitsAsync(Guid id, IdentityUserUpdateOrganizationUnitsDto input);
+
+    Task ResetAuthenticatorAsync(Guid id);
+
+    Task<IdentityUserShouldChangePasswordDto> GetShouldChangePasswordAsync(Guid id);
 }

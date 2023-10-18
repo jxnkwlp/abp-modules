@@ -7,4 +7,13 @@ public interface IAccountAdminSettingsAppService : IApplicationService
 {
     Task<AccountAdminSettingsDto> GetAsync();
     Task UpdateAsync(AccountAdminSettingsDto input);
+
+    Task<AccountGeneralSettingsDto> GetGeneralAsync();
+    Task UpdateGeneralAsync(AccountGeneralSettingsDto input);
+
+    Task<AccountCaptchaSettingsDto> GetCaptchaAsync();
+    Task UpdateCaptchaAsync(AccountCaptchaSettingsDto input);
+
+    Task<AccountRecaptchaSettingsDto> GetRecaptchaAsync();
+    Task UpdateRecaptchaAsync(AccountRecaptchaSettingsDto input);
 }

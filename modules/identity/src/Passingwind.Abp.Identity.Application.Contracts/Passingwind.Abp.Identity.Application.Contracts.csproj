@@ -11,7 +11,8 @@
   <ItemGroup>
     <PackageReference Include="Volo.Abp.Ddd.Application.Contracts" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.Authorization" Version="$(AbpVersion)" />
-      <PackageReference Include="Volo.Abp.Identity.Application.Contracts" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.SettingManagement.Application.Contracts" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Identity.Application.Contracts" Version="$(AbpVersion)" />
     <ProjectReference Include="..\Passingwind.Abp.Identity.Domain.Shared\Passingwind.Abp.Identity.Domain.Shared.csproj" />
   </ItemGroup>
 

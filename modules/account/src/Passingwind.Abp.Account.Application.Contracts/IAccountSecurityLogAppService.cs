@@ -1,10 +1,11 @@
 ﻿using System.Threading.Tasks;
 using Passingwind.Abp.Identity;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.Application.Services;
 
 namespace Passingwind.Abp.Account;
 
-public interface IAccountSecurityLogAppService
+public interface IAccountSecurityLogAppService : IApplicationService
 {
-    Task<PagedResultDto<IdentitySecurityLogDto>> GetListAsync(IdentitySecurityLogPagedListRequestDto input);
+    Task<PagedResultDto<IdentitySecurityLogDto>> GetListAsync(AccountSecurityLogPagedListRequestDto input);
 }

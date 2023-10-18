@@ -35,6 +35,10 @@ public class IdentityUserManager : Volo.Abp.Identity.IdentityUserManager
     {
     }
 
+    /// <summary>
+    ///  Check user should change password
+    /// </summary>
+    /// <param name="user"></param>
     public virtual async Task<bool> ShouldChangePasswordAsync(IdentityUser user)
     {
         Check.NotNull(user, nameof(user));
@@ -56,5 +60,15 @@ public class IdentityUserManager : Volo.Abp.Identity.IdentityUserManager
         var passwordChangePeriodDays = await SettingProvider.GetAsync<int>(IdentitySettingNames.Password.PasswordChangePeriodDays);
 
         return passwordChangePeriodDays > 0 && lastPasswordChangeTime.AddDays(passwordChangePeriodDays) < DateTime.UtcNow;
+    }
+
+    /// <summary>
+    ///  Remove an authentication token for a user
+    /// </summary>
+    /// <param name="user"></param>
+    public virtual async Task RemoveAuthenticatorAsync(IdentityUser user)
+    {
+        await RemoveAuthenticationTokenAsync(user, "[AspNetUserStore]", "AuthenticatorKey");
+        await RemoveAuthenticationTokenAsync(user, "[AspNetUserStore]", "RecoveryCodes");
     }
 }

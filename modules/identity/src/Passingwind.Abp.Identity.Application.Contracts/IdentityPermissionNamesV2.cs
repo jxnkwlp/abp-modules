@@ -1,5 +1,6 @@
 ﻿using Volo.Abp.Identity;
 using Volo.Abp.Reflection;
+using Volo.Abp.SettingManagement;
 
 namespace Passingwind.Abp.Identity;
 
@@ -59,9 +60,10 @@ public class IdentityPermissionNamesV2
 
     public static class Settings
     {
-        public const string Default = GroupName + ".Settings";
+        public const string GroupName = SettingManagementPermissions.GroupName;
 
-        public const string Update = Default + ".Update";
+        public const string Identity = GroupName + ".Identity";
+        //public const string Update = Identity + ".Update";
     }
 
     public static string[] GetAll()

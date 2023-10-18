@@ -1,4 +1,6 @@
-﻿namespace Passingwind.Abp.Account;
+﻿using Volo.Abp.SettingManagement;
+
+namespace Passingwind.Abp.Account;
 
 public static class AccountPermissionNames
 {
@@ -6,8 +8,8 @@ public static class AccountPermissionNames
 
     public static class Settings
     {
-        public const string Default = GroupName + ".Settings";
+        public const string GroupName = SettingManagementPermissions.GroupName;
 
-        public const string Update = Default + ".Update";
+        public const string Account = GroupName + ".Account";
     }
 }

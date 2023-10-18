@@ -13,7 +13,9 @@
     "Permission:Delete": "Delete",
 
     "Permission:AccountManagement": "Account",
-    "Permission:SettingManagement": "Setting management",
+
+    "Permission:SettingManagement": "Settings management",
+    "Permission:SettingManagement.Account": "Account",
 
     "DisplayName:Account.Captcha.EnableOnLogin": "Enable on login",
     "DisplayName:Account.Captcha.EnableOnRegistration": "Enable on registration",

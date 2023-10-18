@@ -32,7 +32,7 @@ public class OrganizationUnitController : IdentityBaseController, IOrganizationU
     }
 
     [HttpGet("children/{parentId}/all")]
-    public Task<ListResultDto<OrganizationUnitDto>> GetAllChildrenListAsync(Guid parentId)
+    public virtual Task<ListResultDto<OrganizationUnitDto>> GetAllChildrenListAsync(Guid parentId)
     {
         return _service.GetAllChildrenListAsync(parentId);
     }

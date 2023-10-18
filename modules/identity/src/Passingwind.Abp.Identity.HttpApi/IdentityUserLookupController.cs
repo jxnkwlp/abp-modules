@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Identity;
 using Volo.Abp.Users;
 
@@ -10,42 +11,42 @@ namespace Passingwind.Abp.Identity;
 
 [RemoteService(Name = IdentityRemoteServiceConsts.RemoteServiceName)]
 [Area(IdentityRemoteServiceConsts.ModuleName)]
-[ControllerName("UserLookup")]
+[ControllerName("IdentityUserLookup")]
 [Route("api/identity/users/lookup")]
-public class IdentityUserLookupController : IdentityBaseController, IIdentityUserLookupAppService
+public class IdentityUserLookupController : AbpControllerBase, IIdentityUserLookupAppService
 {
-    private readonly IIdentityUserLookupAppService _service;
+    protected IIdentityUserLookupAppService LookupAppService { get; }
 
-    public IdentityUserLookupController(IIdentityUserLookupAppService service)
+    public IdentityUserLookupController(IIdentityUserLookupAppService lookupAppService)
     {
-        _service = service;
+        LookupAppService = lookupAppService;
     }
 
     [HttpGet]
     [Route("{id}")]
     public virtual Task<UserData> FindByIdAsync(Guid id)
     {
-        return _service.FindByIdAsync(id);
+        return LookupAppService.FindByIdAsync(id);
     }
 
     [HttpGet]
     [Route("by-username/{userName}")]
     public virtual Task<UserData> FindByUserNameAsync(string userName)
     {
-        return _service.FindByUserNameAsync(userName);
+        return LookupAppService.FindByUserNameAsync(userName);
     }
 
     [HttpGet]
     [Route("search")]
     public Task<ListResultDto<UserData>> SearchAsync(UserLookupSearchInputDto input)
     {
-        return _service.SearchAsync(input);
+        return LookupAppService.SearchAsync(input);
     }
 
     [HttpGet]
     [Route("count")]
     public Task<long> GetCountAsync(UserLookupCountInputDto input)
     {
-        return _service.GetCountAsync(input);
+        return LookupAppService.GetCountAsync(input);
     }
 }

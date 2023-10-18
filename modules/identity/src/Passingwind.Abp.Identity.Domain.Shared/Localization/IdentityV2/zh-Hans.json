@@ -28,6 +28,7 @@
 
     "Permission:SecurityLogManagement": "安全日志管理",
 
-    "Permission:SettingManagement": "设置管理"
+    "Permission:SettingManagement": "设置管理",
+    "Permission:SettingManagement.Identity": "身份标识"
   }
 }

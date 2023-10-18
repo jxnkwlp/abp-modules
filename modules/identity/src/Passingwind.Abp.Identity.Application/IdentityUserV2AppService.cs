@@ -12,6 +12,7 @@ using Volo.Abp.Data;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Identity;
 using Volo.Abp.ObjectExtending;
+using IdentityUserManagerV2 = Passingwind.Abp.Identity.IdentityUserManager;
 
 namespace Passingwind.Abp.Identity;
 
@@ -20,6 +21,7 @@ public class IdentityUserV2AppService : IdentityUserAppService, IIdentityUserV2A
 {
     protected IIdentityClaimTypeRepository IdentityClaimTypeRepository { get; }
     protected IOrganizationUnitRepository OrganizationUnitRepository { get; }
+    protected IdentityUserManagerV2 UserManagerV2 { get; }
 
     public IdentityUserV2AppService(
         IdentityUserManager userManager,
@@ -27,10 +29,27 @@ public class IdentityUserV2AppService : IdentityUserAppService, IIdentityUserV2A
         IIdentityRoleRepository roleRepository,
         IOptions<IdentityOptions> identityOptions,
         IIdentityClaimTypeRepository identityClaimTypeRepository,
-        IOrganizationUnitRepository organizationUnitRepository) : base(userManager, userRepository, roleRepository, identityOptions)
+        IOrganizationUnitRepository organizationUnitRepository,
+        IdentityUserManagerV2 userManagerV2) : base(userManager, userRepository, roleRepository, identityOptions)
     {
         IdentityClaimTypeRepository = identityClaimTypeRepository;
         OrganizationUnitRepository = organizationUnitRepository;
+        UserManagerV2 = userManagerV2;
+    }
+
+    protected override async Task UpdateUserByInput(IdentityUser user, IdentityUserCreateOrUpdateDtoBase input)
+    {
+        await base.UpdateUserByInput(user, input);
+
+        if (input is IdentityUserCreateOrUpdateV2Dto inputV2)
+        {
+            if (inputV2.ShouldChangePasswordOnNextLogin.HasValue)
+                user.SetShouldChangePasswordOnNextLogin(inputV2.ShouldChangePasswordOnNextLogin.Value);
+
+            inputV2.OrganizationUnitIds ??= Array.Empty<Guid>();
+
+            await UserManager.SetOrganizationUnitsAsync(user, inputV2.OrganizationUnitIds);
+        }
     }
 
     public virtual async Task<ListResultDto<IdentityClaimTypeDto>> GetAssignableClaimsAsync()
@@ -321,18 +340,43 @@ public class IdentityUserV2AppService : IdentityUserAppService, IIdentityUserV2A
         await base.UpdateRolesAsync(id, input);
     }
 
-    protected override async Task UpdateUserByInput(IdentityUser user, IdentityUserCreateOrUpdateDtoBase input)
+    [Authorize(IdentityPermissions.Users.Update)]
+    public virtual async Task ResetAuthenticatorAsync(Guid id)
     {
-        await base.UpdateUserByInput(user, input);
+        await IdentityOptions.SetAsync();
 
-        if (input is IdentityUserCreateOrUpdateV2Dto inputV2)
+        var user = await UserManager.GetByIdAsync(id);
+
+        await UserManagerV2.RemoveAuthenticatorAsync(user);
+    }
+
+    public virtual async Task<IdentityUserShouldChangePasswordDto> GetShouldChangePasswordAsync(Guid id)
+    {
+        await IdentityOptions.SetAsync();
+
+        var user = await UserManager.GetByIdAsync(id);
+
+        return new IdentityUserShouldChangePasswordDto
         {
-            if (inputV2.ShouldChangePasswordOnNextLogin.HasValue)
-                user.SetShouldChangePasswordOnNextLogin(inputV2.ShouldChangePasswordOnNextLogin.Value);
+            Result = await UserManager.ShouldPeriodicallyChangePasswordAsync(user),
+        };
+    }
 
-            inputV2.OrganizationUnitIds ??= Array.Empty<Guid>();
+    public virtual async Task UpdateEmailConfirmedAsync(Guid id, IdentityUserUpdateConfirmedDto input)
+    {
+        var entity = await UserRepository.GetAsync(id);
 
-            await UserManager.SetOrganizationUnitsAsync(user, inputV2.OrganizationUnitIds);
-        }
+        entity.SetEmailConfirmed(input.Confirmed);
+
+        await UserManager.UpdateAsync(entity);
+    }
+
+    public virtual async Task UpdatePhoneNumberConfirmedAsync(Guid id, IdentityUserUpdateConfirmedDto input)
+    {
+        var entity = await UserRepository.GetAsync(id);
+
+        entity.SetPhoneNumberConfirmed(input.Confirmed);
+
+        await UserManager.UpdateAsync(entity);
     }
 }

@@ -21,9 +21,45 @@ public class AccountAdminSettingsController : AccountBaseController, IAccountAdm
         return _service.GetAsync();
     }
 
+    [HttpGet("captcha")]
+    public Task<AccountCaptchaSettingsDto> GetCaptchaAsync()
+    {
+        return _service.GetCaptchaAsync();
+    }
+
+    [HttpGet("general")]
+    public Task<AccountGeneralSettingsDto> GetGeneralAsync()
+    {
+        return _service.GetGeneralAsync();
+    }
+
+    [HttpGet("recaptcha")]
+    public Task<AccountRecaptchaSettingsDto> GetRecaptchaAsync()
+    {
+        return _service.GetRecaptchaAsync();
+    }
+
     [HttpPut]
     public Task UpdateAsync(AccountAdminSettingsDto input)
     {
         return _service.UpdateAsync(input);
+    }
+
+    [HttpPut("captcha")]
+    public Task UpdateCaptchaAsync(AccountCaptchaSettingsDto input)
+    {
+        return _service.UpdateCaptchaAsync(input);
+    }
+
+    [HttpPut("general")]
+    public Task UpdateGeneralAsync(AccountGeneralSettingsDto input)
+    {
+        return _service.UpdateGeneralAsync(input);
+    }
+
+    [HttpPut("recaptcha")]
+    public Task UpdateRecaptchaAsync(AccountRecaptchaSettingsDto input)
+    {
+        return _service.UpdateRecaptchaAsync(input);
     }
 }

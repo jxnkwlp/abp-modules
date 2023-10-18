@@ -17,34 +17,30 @@ public class AccountSecurityLogAppService : AccountAppBaseService, IAccountSecur
         SecurityLogRepository = securityLogRepository;
     }
 
-    public virtual async Task<PagedResultDto<IdentitySecurityLogDto>> GetListAsync(IdentitySecurityLogPagedListRequestDto input)
+    public virtual async Task<PagedResultDto<IdentitySecurityLogDto>> GetListAsync(AccountSecurityLogPagedListRequestDto input)
     {
-        input.UserId = CurrentUser.Id;
-
         var count = await SecurityLogRepository.GetCountAsync(
-           input.StartTime,
-           input.EndTime,
-           input.ApplicationName,
-           input.Identity,
-           input.Action,
-           input.UserId,
-           input.UserName,
-           input.ClientId,
-           input.CorrelationId);
+           startTime: input.StartTime,
+           endTime: input.EndTime,
+           applicationName: input.ApplicationName,
+           identity: input.Identity,
+           action: input.Action,
+           userId: CurrentUser.Id,
+           clientId: input.ClientId,
+           correlationId: input.CorrelationId);
 
         var list = await SecurityLogRepository.GetListAsync(
-            input.Sorting ?? nameof(IdentitySecurityLog.CreationTime) + " desc",
-            input.MaxResultCount,
-            input.SkipCount,
-            input.StartTime,
-            input.EndTime,
-            input.ApplicationName,
-            input.Identity,
-            input.Action,
-            input.UserId,
-            input.UserName,
-            input.ClientId,
-            input.CorrelationId);
+            sorting: input.Sorting ?? nameof(IdentitySecurityLog.CreationTime) + " desc",
+            maxResultCount: input.MaxResultCount,
+            skipCount: input.SkipCount,
+            startTime: input.StartTime,
+            endTime: input.EndTime,
+            applicationName: input.ApplicationName,
+            identity: input.Identity,
+            action: input.Action,
+            userId: CurrentUser.Id,
+            clientId: input.ClientId,
+            correlationId: input.CorrelationId);
 
         return new PagedResultDto<IdentitySecurityLogDto>(count, ObjectMapper.Map<List<IdentitySecurityLog>, List<IdentitySecurityLogDto>>(list));
     }

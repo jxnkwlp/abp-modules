@@ -2,6 +2,7 @@
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Identity;
 using Volo.Abp.Localization;
+using Volo.Abp.SettingManagement;
 
 namespace Passingwind.Abp.Identity;
 
@@ -39,8 +40,8 @@ public class IdentityPermissionDefinitionProvider : PermissionDefinitionProvider
         var securityLogsGroup = identityGroup.AddPermission(IdentityPermissionNamesV2.SecurityLogs.Default, L("Permission:SecurityLogManagement"));
         securityLogsGroup.AddChild(IdentityPermissionNamesV2.SecurityLogs.Delete, L("Permission:Delete"));
 
-        var settingsGroup = identityGroup.AddPermission(IdentityPermissionNamesV2.Settings.Default, L("Permission:SettingManagement"));
-        settingsGroup.AddChild(IdentityPermissionNamesV2.Settings.Update, L("Permission:Update"));
+        var settings = context.GetGroup(SettingManagementPermissions.GroupName);
+        settings.AddPermission(IdentityPermissionNamesV2.Settings.Identity, L("Permission:SettingManagement.Identity"));
     }
 
     private static LocalizableString L(string name)

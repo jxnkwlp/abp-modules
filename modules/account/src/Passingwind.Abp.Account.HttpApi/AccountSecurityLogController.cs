@@ -19,7 +19,7 @@ public class AccountSecurityLogController : AccountBaseController, IAccountSecur
     }
 
     [HttpGet]
-    public Task<PagedResultDto<IdentitySecurityLogDto>> GetListAsync(IdentitySecurityLogPagedListRequestDto input)
+    public Task<PagedResultDto<IdentitySecurityLogDto>> GetListAsync([FromQuery] AccountSecurityLogPagedListRequestDto input)
     {
         return _service.GetListAsync(input);
     }
