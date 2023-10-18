@@ -1,7 +1,5 @@
-{
+﻿{
   "culture": "zh-Hans",
-  "texts": {
-    "MyAccount": "我的账户",
-    "SamplePageMessage": "ApiKey模块的示例页面"
+  "texts": { 
   }
 }

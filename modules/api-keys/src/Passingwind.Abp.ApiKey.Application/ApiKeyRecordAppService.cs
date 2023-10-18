@@ -13,20 +13,20 @@ namespace Passingwind.Abp.ApiKey;
 [Authorize]
 public class ApiKeyRecordAppService : ApiKeyAppService, IApiKeyRecordAppService
 {
-    private readonly IApiKeyRecordManager _apiKeyRecordManager;
-    private readonly IApiKeyRecordRepository _apiKeyRecordRepository;
+    protected IApiKeyRecordManager ApiKeyRecordManager { get; }
+    protected IApiKeyRecordRepository ApiKeyRecordRepository { get; }
 
     public ApiKeyRecordAppService(IApiKeyRecordManager apiKeyRecordManager, IApiKeyRecordRepository apiKeyRecordRepository)
     {
-        _apiKeyRecordManager = apiKeyRecordManager;
-        _apiKeyRecordRepository = apiKeyRecordRepository;
+        ApiKeyRecordManager = apiKeyRecordManager;
+        ApiKeyRecordRepository = apiKeyRecordRepository;
     }
 
     /// <inheritdoc/>
     public virtual async Task<PagedResultDto<ApiKeyRecordDto>> GetListAsync(ApiKeyRecordListRequestDto input)
     {
-        var count = await _apiKeyRecordRepository.GetCountAsync(userId: CurrentUser.Id!);
-        var list = await _apiKeyRecordRepository.GetPagedListAsync(input.SkipCount, input.MaxResultCount, userId: CurrentUser.Id!, sorting: nameof(ApiKeyRecord.CreationTime) + " desc");
+        var count = await ApiKeyRecordRepository.GetCountAsync(userId: CurrentUser.Id!);
+        var list = await ApiKeyRecordRepository.GetPagedListAsync(input.SkipCount, input.MaxResultCount, userId: CurrentUser.Id!, sorting: nameof(ApiKeyRecord.CreationTime) + " desc");
 
         var dtoList = ObjectMapper.Map<List<ApiKeyRecord>, List<ApiKeyRecordDto>>(list);
 
@@ -42,7 +42,7 @@ public class ApiKeyRecordAppService : ApiKeyAppService, IApiKeyRecordAppService
     /// <inheritdoc/>
     public virtual async Task<ApiKeyRecordDto> CreateAsync(ApiKeyRecordCreateOrUpdateDto input)
     {
-        var value = await _apiKeyRecordManager.GenerateValueAsync(CurrentUser.Id!.Value);
+        var value = await ApiKeyRecordManager.GenerateValueAsync(CurrentUser.Id!.Value);
 
         var entity = new ApiKeyRecord(
             id: GuidGenerator.Create(),
@@ -54,7 +54,7 @@ public class ApiKeyRecordAppService : ApiKeyAppService, IApiKeyRecordAppService
 
         input.MapExtraPropertiesTo(entity);
 
-        await _apiKeyRecordRepository.InsertAsync(entity);
+        await ApiKeyRecordRepository.InsertAsync(entity);
 
         return ObjectMapper.Map<ApiKeyRecord, ApiKeyRecordDto>(entity);
     }
@@ -62,9 +62,9 @@ public class ApiKeyRecordAppService : ApiKeyAppService, IApiKeyRecordAppService
     /// <inheritdoc/>
     public virtual async Task DeleteAsync(Guid id)
     {
-        var entity = await _apiKeyRecordRepository.GetAsync(id);
+        var entity = await ApiKeyRecordRepository.GetAsync(id);
 
         if (entity.UserId == CurrentUser.Id)
-            await _apiKeyRecordRepository.DeleteAsync(entity);
+            await ApiKeyRecordRepository.DeleteAsync(entity);
     }
 }
