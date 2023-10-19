@@ -175,4 +175,58 @@ public class IdentityUserV2Controller : IdentityBaseController, IIdentityUserV2A
     {
         return Service.UpdatePhoneNumberConfirmedAsync(id, input);
     }
+
+    [HttpPut("batch/roles")]
+    public virtual Task BatchUpdateRolesAsync(IdentityUserBatchUpdateRolesDto input)
+    {
+        return Service.BatchUpdateRolesAsync(input);
+    }
+
+    [HttpPut("batch/organization-units")]
+    public virtual Task BatchUpdateOrganizationUnitsAsync(IdentityUserBatchUpdateOrganizationUnitsDto input)
+    {
+        return Service.BatchUpdateOrganizationUnitsAsync(input);
+    }
+
+    [HttpPut("batch/clear-password")]
+    public virtual Task BatchClearPasswordAsync(IdentityUserBatchClearPasswordDto input)
+    {
+        return Service.BatchClearPasswordAsync(input);
+    }
+
+    [HttpPut("batch/two-factor-enabled")]
+    public virtual Task BatchUpdateTwoFactorEnabledAsync(IdentityUserBatchUpdateTwoFactorEnabledDto input)
+    {
+        return Service.BatchUpdateTwoFactorEnabledAsync(input);
+    }
+
+    [HttpPut("batch/lock")]
+    public virtual Task BatchLockAsync(IdentityUserBatchLockDto input)
+    {
+        return Service.BatchLockAsync(input);
+    }
+
+    [HttpPut("batch/unlock")]
+    public virtual Task BatchUnlockAsync(IdentityUserBatchUnlockDto input)
+    {
+        return Service.BatchUnlockAsync(input);
+    }
+
+    [HttpPut("batch/email-confirmed")]
+    public virtual Task BatchUpdateEmailConfirmedAsync(IdentityUserBatchUpdateConfirmedDto input)
+    {
+        return Service.BatchUpdateEmailConfirmedAsync(input);
+    }
+
+    [HttpPut("batch/phonenumber-confirmed")]
+    public virtual Task BatchUpdatePhoneNumberConfirmedAsync(IdentityUserBatchUpdateConfirmedDto input)
+    {
+        return Service.BatchUpdatePhoneNumberConfirmedAsync(input);
+    }
+
+    [HttpPut("batch/change-password-on-next-login")]
+    public Task BatchUpdateChangePasswordOnNextLoginAsync(IdentityUserBatchInputDto input)
+    {
+        return Service.BatchUpdateChangePasswordOnNextLoginAsync(input);
+    }
 }

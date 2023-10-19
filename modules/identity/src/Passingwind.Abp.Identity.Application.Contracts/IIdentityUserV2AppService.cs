@@ -49,4 +49,14 @@ public interface IIdentityUserV2AppService : ICrudAppService<IdentityUserV2Dto, 
     Task ResetAuthenticatorAsync(Guid id);
 
     Task<IdentityUserShouldChangePasswordDto> GetShouldChangePasswordAsync(Guid id);
+
+    Task BatchUpdateRolesAsync(IdentityUserBatchUpdateRolesDto input);
+    Task BatchUpdateOrganizationUnitsAsync(IdentityUserBatchUpdateOrganizationUnitsDto input);
+    Task BatchClearPasswordAsync(IdentityUserBatchClearPasswordDto input);
+    Task BatchUpdateTwoFactorEnabledAsync(IdentityUserBatchUpdateTwoFactorEnabledDto input);
+    Task BatchLockAsync(IdentityUserBatchLockDto input);
+    Task BatchUnlockAsync(IdentityUserBatchUnlockDto input);
+    Task BatchUpdateEmailConfirmedAsync(IdentityUserBatchUpdateConfirmedDto input);
+    Task BatchUpdatePhoneNumberConfirmedAsync(IdentityUserBatchUpdateConfirmedDto input);
+    Task BatchUpdateChangePasswordOnNextLoginAsync(IdentityUserBatchInputDto input);
 }

@@ -234,7 +234,7 @@ public class IdentityUserV2AppService : IdentityUserAppService, IIdentityUserV2A
     }
 
     [Authorize(IdentityPermissions.Users.Update)]
-    public async Task ClearPasswordAsync(Guid id)
+    public virtual async Task ClearPasswordAsync(Guid id)
     {
         var entity = await UserRepository.GetAsync(id);
 
@@ -278,7 +278,7 @@ public class IdentityUserV2AppService : IdentityUserAppService, IIdentityUserV2A
     }
 
     [Authorize(IdentityPermissions.Users.Create)]
-    public async Task<IdentityUserV2Dto> CreateAsync(IdentityUserCreateV2Dto input)
+    public virtual async Task<IdentityUserV2Dto> CreateAsync(IdentityUserCreateV2Dto input)
     {
         await IdentityOptions.SetAsync();
 
@@ -308,7 +308,7 @@ public class IdentityUserV2AppService : IdentityUserAppService, IIdentityUserV2A
     }
 
     [Authorize(IdentityPermissions.Users.Update)]
-    public async Task<IdentityUserV2Dto> UpdateAsync(Guid id, IdentityUserUpdateV2Dto input)
+    public virtual async Task<IdentityUserV2Dto> UpdateAsync(Guid id, IdentityUserUpdateV2Dto input)
     {
         await IdentityOptions.SetAsync();
 
@@ -378,5 +378,146 @@ public class IdentityUserV2AppService : IdentityUserAppService, IIdentityUserV2A
         entity.SetPhoneNumberConfirmed(input.Confirmed);
 
         await UserManager.UpdateAsync(entity);
+    }
+
+    public virtual async Task BatchUpdateRolesAsync(IdentityUserBatchUpdateRolesDto input)
+    {
+        foreach (var id in input.UserIds)
+        {
+            var user = await UserManager.GetByIdAsync(id);
+
+            if (input.RoleNames?.Any() == true)
+            {
+                if (input.Override)
+                {
+                    (await UserManager.SetRolesAsync(user, input.RoleNames)).CheckErrors();
+                }
+                else
+                {
+                    List<string> roleNames = (await UserManager.GetRolesAsync(user)).ToList();
+
+                    roleNames.AddRange(input.RoleNames);
+
+                    (await UserManager.SetRolesAsync(user, roleNames.Distinct())).CheckErrors();
+                }
+            }
+            else
+            {
+                (await UserManager.SetRolesAsync(user, new string[0])).CheckErrors();
+            }
+        }
+    }
+
+    public virtual async Task BatchUpdateOrganizationUnitsAsync(IdentityUserBatchUpdateOrganizationUnitsDto input)
+    {
+        foreach (var id in input.UserIds)
+        {
+            var user = await UserManager.GetByIdAsync(id);
+
+            if (input.OrganizationUnitIds?.Any() == true)
+            {
+                if (input.Override)
+                {
+                    await UserManager.SetOrganizationUnitsAsync(user, input.OrganizationUnitIds);
+                }
+                else
+                {
+                    var organizationUnits = await UserManager.GetOrganizationUnitsAsync(user);
+
+                    var ids = organizationUnits.ConvertAll(x => x.Id);
+
+                    ids.AddRange(input.OrganizationUnitIds);
+
+                    await UserManager.SetOrganizationUnitsAsync(user, ids.ToArray());
+                }
+            }
+            else
+            {
+                await UserManager.SetOrganizationUnitsAsync(user, new Guid[0]);
+            }
+        }
+    }
+
+    public virtual async Task BatchClearPasswordAsync(IdentityUserBatchClearPasswordDto input)
+    {
+        foreach (var id in input.UserIds)
+        {
+            var entity = await UserRepository.GetAsync(id);
+
+            if (await UserManager.HasPasswordAsync(entity))
+            {
+                (await UserManager.RemovePasswordAsync(entity)).CheckErrors();
+            }
+        }
+    }
+
+    public virtual async Task BatchUpdateTwoFactorEnabledAsync(IdentityUserBatchUpdateTwoFactorEnabledDto input)
+    {
+        foreach (var id in input.UserIds)
+        {
+            var entity = await UserRepository.GetAsync(id);
+
+            (await UserManager.SetTwoFactorEnabledAsync(entity, input.Enabled)).CheckErrors();
+        }
+    }
+
+    public virtual async Task BatchLockAsync(IdentityUserBatchLockDto input)
+    {
+        foreach (var id in input.UserIds)
+        {
+            var entity = await UserRepository.GetAsync(id);
+
+            (await UserManager.SetLockoutEnabledAsync(entity, true)).CheckErrors();
+            (await UserManager.SetLockoutEndDateAsync(entity, input.EndTime)).CheckErrors();
+        }
+    }
+
+    public virtual async Task BatchUnlockAsync(IdentityUserBatchUnlockDto input)
+    {
+        foreach (var id in input.UserIds)
+        {
+            var entity = await UserRepository.GetAsync(id);
+
+            if (await UserManager.IsLockedOutAsync(entity))
+            {
+                (await UserManager.SetLockoutEndDateAsync(entity, null)).CheckErrors();
+            }
+        }
+    }
+
+    public virtual async Task BatchUpdateEmailConfirmedAsync(IdentityUserBatchUpdateConfirmedDto input)
+    {
+        foreach (var id in input.UserIds)
+        {
+            var entity = await UserRepository.GetAsync(id);
+
+            entity.SetEmailConfirmed(input.Confirmed);
+
+            await UserManager.UpdateAsync(entity);
+        }
+    }
+
+    public virtual async Task BatchUpdatePhoneNumberConfirmedAsync(IdentityUserBatchUpdateConfirmedDto input)
+    {
+        foreach (var id in input.UserIds)
+        {
+            var entity = await UserRepository.GetAsync(id);
+
+            entity.SetPhoneNumberConfirmed(input.Confirmed);
+
+            await UserManager.UpdateAsync(entity);
+        }
+    }
+
+    public virtual async Task BatchUpdateChangePasswordOnNextLoginAsync(IdentityUserBatchInputDto input)
+    {
+        foreach (var id in input.UserIds)
+        {
+            var entity = await UserRepository.GetAsync(id);
+
+            entity.SetShouldChangePasswordOnNextLogin(true);
+
+            await UserManager.UpdateAsync(entity);
+        }
     }
 }
