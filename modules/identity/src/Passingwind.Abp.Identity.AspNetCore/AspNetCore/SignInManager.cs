@@ -138,7 +138,10 @@ public class SignInManager : AbpSignInManager, IScopedDependency
         await Context.SignOutAsync(IdentityV2Constants.RequiresChangePasswordScheme);
     }
 
-    public virtual async Task<IdentityUser?> GetRequiresChangePasswordUserAsync()
+    /// <summary>
+    ///  Gets the <typeparamref name="IdentityUser"/> for the current requires change password authentication login
+    /// </summary>
+    public virtual async Task<IdentityUser?> GetChangePasswordAuthenticationUserAsync()
     {
         var result = await Context.AuthenticateAsync(IdentityV2Constants.RequiresChangePasswordScheme);
         if (result?.Principal == null)

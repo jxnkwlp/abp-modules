@@ -17,62 +17,62 @@ public class AccountTfaController : AccountBaseController, IAccountTfaAppService
     }
 
     [HttpGet]
-    public Task<AccountTfaDto> GetAsync()
+    public virtual Task<AccountTfaDto> GetAsync()
     {
         return TfaAppService.GetAsync();
     }
 
     [HttpGet("providers")]
-    public Task<ListResultDto<string>> GetProvidersAsync()
+    public virtual Task<ListResultDto<string>> GetProvidersAsync()
     {
         return TfaAppService.GetProvidersAsync();
     }
 
+    [HttpGet("providers/all")]
+    public virtual Task<ListResultDto<string>> GetAllProvidersAsync()
+    {
+        return TfaAppService.GetAllProvidersAsync();
+    }
+
     [HttpDelete("forget-client")]
-    public Task ForgetClientAsync()
+    public virtual Task ForgetClientAsync()
     {
         return TfaAppService.ForgetClientAsync();
     }
 
     [HttpDelete]
-    public Task DisableAsync()
+    public virtual Task DisableAsync()
     {
         return TfaAppService.DisableAsync();
     }
 
-    [HttpPost("{provider}/verify")]
-    public Task<AccountVerifyTokenResultDto> VerifyTokenAsync(string provider, AccountTfaVerifyTokenRequestDto input)
-    {
-        return TfaAppService.VerifyTokenAsync(provider, input);
-    }
-
     [HttpGet("authenticator")]
-    public Task<AccountAuthenticatorInfoDto> GetAuthenticatorAsync()
+    public virtual Task<AccountAuthenticatorInfoDto> GetAuthenticatorAsync()
     {
         return TfaAppService.GetAuthenticatorAsync();
     }
 
     [HttpPut("authenticator")]
-    public Task<AccountAuthenticatorRecoveryCodesResultDto> UpdateAuthenticatorAsync(AccountAuthenticatorCodeVerifyRequestDto input)
+    public virtual Task<AccountAuthenticatorRecoveryCodesResultDto> UpdateAuthenticatorAsync(AccountAuthenticatorCodeVerifyRequestDto input)
     {
         return TfaAppService.UpdateAuthenticatorAsync(input);
     }
 
     [HttpPut("authenticator/recovery-codes")]
-    public Task<AccountAuthenticatorRecoveryCodesResultDto> GenerateAuthenticatorRecoveryCodesAsync()
+    public virtual Task<AccountAuthenticatorRecoveryCodesResultDto> GenerateAuthenticatorRecoveryCodesAsync()
     {
         return TfaAppService.GenerateAuthenticatorRecoveryCodesAsync();
     }
 
-    [HttpPut("authenticator/reset")]
-    public Task ResetAuthenticatorAsync(AccountAuthenticatorCodeVerifyRequestDto input)
+    [HttpDelete("authenticator")]
+    public virtual Task RemoveAuthenticatorAsync(AccountAuthenticatorCodeVerifyRequestDto input)
     {
-        return TfaAppService.ResetAuthenticatorAsync(input);
+        return TfaAppService.RemoveAuthenticatorAsync(input);
     }
 
-    [HttpPost("{provider}/token")]
-    public Task SendTokenAsync(string provider)
+    [HttpPost("authenticator/verify")]
+    public virtual Task<AccountVerifyTokenResultDto> VerifyAuthenticatorTokenAsync(AccountAuthenticatorCodeVerifyRequestDto input)
     {
-        return TfaAppService.SendTokenAsync(provider);
+        return TfaAppService.VerifyAuthenticatorTokenAsync(input);
     }
 }

@@ -2,9 +2,14 @@
   "culture": "en",
   "texts": {
     "Account:Error:0101": "Local login is disabled",
+    "Account:Error:0102": "Change password is disbaled",
+    "Account:Error:0103": "Authenticator configre is disabled",
     "Account:Error:0200": "Two-factory verification is disabled",
     "Account:Error:0201": "This feature cannot be disabled",
     "Account:Error:0202": "The verification code is incorrect",
+    "Account:Error:0210": "Authenticator is disbaled",
+    "Account:Error:0211": "Change password is disbaled",
+    "Account:Error:0220": "The verification code is incorrect",
     "Account:Error:0301": "The user not found",
     "Account:Error:0401": "The user not link for current user",
 

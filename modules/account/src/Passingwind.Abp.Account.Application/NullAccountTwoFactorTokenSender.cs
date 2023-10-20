@@ -21,4 +21,25 @@ public class NullAccountTwoFactorTokenSender : IAccountTwoFactorTokenSender, ISi
 
         return Task.CompletedTask;
     }
+
+    public virtual Task SendEmailConfirmationTokenAsync(IdentityUser user, string token, CancellationToken cancellationToken = default)
+    {
+        Logger.LogWarning("Token not sent. Please implement '{0}' first.", typeof(IAccountTwoFactorTokenSender).FullName);
+
+        return Task.CompletedTask;
+    }
+
+    public virtual Task SendChangePhoneNumberTokenAsync(IdentityUser user, string phoneNumber, string token, CancellationToken cancellationToken = default)
+    {
+        Logger.LogWarning("Token not sent. Please implement '{0}' first.", typeof(IAccountTwoFactorTokenSender).FullName);
+
+        return Task.CompletedTask;
+    }
+
+    public virtual Task SendChangeEmailTokenAsync(IdentityUser user, string email, string token, CancellationToken cancellationToken = default)
+    {
+        Logger.LogWarning("Token not sent. Please implement '{0}' first.", typeof(IAccountTwoFactorTokenSender).FullName);
+
+        return Task.CompletedTask;
+    }
 }

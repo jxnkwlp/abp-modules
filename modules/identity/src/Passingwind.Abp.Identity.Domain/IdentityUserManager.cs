@@ -41,6 +41,7 @@ public class IdentityUserManager : Volo.Abp.Identity.IdentityUserManager
     /// <param name="user"></param>
     public virtual async Task<bool> ShouldChangePasswordAsync(IdentityUser user)
     {
+        ThrowIfDisposed();
         Check.NotNull(user, nameof(user));
 
         if (user.PasswordHash.IsNullOrWhiteSpace())
@@ -63,12 +64,23 @@ public class IdentityUserManager : Volo.Abp.Identity.IdentityUserManager
     }
 
     /// <summary>
-    ///  Remove an authentication token for a user
+    ///  Remove an authentication token for a user. both 'AuthenticatorKey' and 'RecoveryCodes'
     /// </summary>
     /// <param name="user"></param>
     public virtual async Task RemoveAuthenticatorAsync(IdentityUser user)
     {
+        ThrowIfDisposed();
+        Check.NotNull(user, nameof(user));
+
         await RemoveAuthenticationTokenAsync(user, "[AspNetUserStore]", "AuthenticatorKey");
         await RemoveAuthenticationTokenAsync(user, "[AspNetUserStore]", "RecoveryCodes");
+    }
+
+    public virtual async Task<bool> VerifyEmailConfirmationTokenAsync(IdentityUser user, string token)
+    {
+        ThrowIfDisposed();
+        Check.NotNull(user, nameof(user));
+
+        return await VerifyUserTokenAsync(user, Options.Tokens.EmailConfirmationTokenProvider, ConfirmEmailTokenPurpose, token).ConfigureAwait(false);
     }
 }

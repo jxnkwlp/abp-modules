@@ -4,11 +4,18 @@ public static class AccountErrorCodes
 {
     public const string LocalLoginDisabled = "Account:Error:0101";
 
+    public const string LoginChangePasswordDisabled = "Account:Error:0102";
+    public const string LoginAuthenticatorSetupDisabled = "Account:Error:0102";
+
     public const string TwoFactorDisabled = "Account:Error:0200";
     public const string TwoFactorCannotDisabled = "Account:Error:0201";
     public const string TwoFactorCodeValidFailed = "Account:Error:0202";
 
-    public const string UserNotFound = "Account:Error:0301";
+    public const string AuthenticatorDisabled = "Account:Error:0210";
+    public const string ChangePasswordDisabled = "Account:Error:0211";
 
+    public const string TokenInvalid = "Account:Error:0220";
+
+    public const string UserNotFound = "Account:Error:0301";
     public const string UserNotLink = "Account:Error:0401";
 }

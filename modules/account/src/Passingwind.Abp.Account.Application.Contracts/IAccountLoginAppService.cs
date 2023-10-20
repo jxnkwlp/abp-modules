@@ -9,6 +9,13 @@ namespace Passingwind.Abp.Account;
 /// </summary>
 public interface IAccountLoginAppService : IApplicationService
 {
+    #region Login
+
+    /// <summary>
+    ///  Logout
+    /// </summary>
+    Task LogoutAsync();
+
     /// <summary>
     ///  Password login
     /// </summary>
@@ -20,13 +27,28 @@ public interface IAccountLoginAppService : IApplicationService
     /// </summary>
     /// <param name="provider"></param>
     /// <param name="input"></param>
-    Task<AccountLoginResultDto> LoginWithTfaAsync(string provider, AccountLoginWith2FaRequestDto input);
+    Task<AccountLoginResultDto> LoginWithTfaAsync(string provider, AccountLoginWithTfaRequestDto input);
 
     /// <summary>
     ///  Login with authenticator recovery code
     /// </summary>
     /// <param name="input"></param>
     Task<AccountLoginResultDto> LoginWithAuthenticatorRecoveryCodeAsync(AccountLoginWithAuthenticatorRecoveryCodeRequestDto input);
+
+    /// <summary>
+    ///  Gets a collection of the known external login providers.
+    /// </summary>
+    Task<ListResultDto<AccountExternalAuthenticationSchameDto>> GetExternalAuthenticationsAsync();
+
+    /// <summary>
+    ///  Check password
+    /// </summary>
+    /// <param name="input"></param>
+    Task<AccountLoginResultDto> CheckPasswordAsync(AccountLoginRequestDto input);
+
+    #endregion Login
+
+    #region tfa
 
     /// <summary>
     ///  Get user 2fa status when requires 2fa
@@ -46,22 +68,19 @@ public interface IAccountLoginAppService : IApplicationService
     /// <param name="input"></param>
     Task<AccountVerifyTokenResultDto> VerifyTfaTokenAsync(string provider, AccountLoginVerifyTwoFactorTokenDto input);
 
-    /// <summary>
-    ///  Logout
-    /// </summary>
-    Task LogoutAsync();
+    #endregion tfa
 
-    /// <summary>
-    ///  Check password
-    /// </summary>
-    /// <param name="input"></param>
-    Task<AccountLoginResultDto> CheckPasswordAsync(AccountLoginRequestDto input);
+    #region ChangePassword
 
     /// <summary>
     ///  Change password
     /// </summary>
     /// <param name="input"></param>
     Task ChangePasswordAsync(AccountRequiredChangePasswordRequestDto input);
+
+    #endregion ChangePassword
+
+    #region Authenticator
 
     /// <summary>
     ///  Check tfa authentication user hash configure authenticator
@@ -79,8 +98,6 @@ public interface IAccountLoginAppService : IApplicationService
     /// <param name="input"></param>
     Task<AccountAuthenticatorRecoveryCodesResultDto> VerifyAuthenticatorToken(AccountAuthenticatorCodeVerifyRequestDto input);
 
-    /// <summary>
-    ///  Gets a collection of the known external login providers.
-    /// </summary>
-    Task<ListResultDto<AccountExternalAuthenticationSchameDto>> GetExternalAuthenticationsAsync();
+    #endregion Authenticator
+
 }

@@ -2,7 +2,7 @@
 
 namespace Passingwind.Abp.Account;
 
-public class AccountTfaVerifyTokenRequestDto
+public class AccountVerifyTokenRequestDto
 {
     [Required]
     public string Token { get; set; } = null!;

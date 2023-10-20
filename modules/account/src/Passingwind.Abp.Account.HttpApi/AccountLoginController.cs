@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
@@ -18,79 +19,86 @@ public class AccountLoginController : AccountBaseController, IAccountLoginAppSer
     }
 
     [HttpPost("change-password")]
-    public Task ChangePasswordAsync(AccountRequiredChangePasswordRequestDto input)
+    public virtual Task ChangePasswordAsync(AccountRequiredChangePasswordRequestDto input)
     {
         return _service.ChangePasswordAsync(input);
     }
 
     [HttpPost("check-password")]
-    public Task<AccountLoginResultDto> CheckPasswordAsync(AccountLoginRequestDto input)
+    public virtual Task<AccountLoginResultDto> CheckPasswordAsync(AccountLoginRequestDto input)
     {
         return _service.CheckPasswordAsync(input);
     }
 
     [HttpGet("login/2fa")]
-    public Task<AccountTFaStateDto> GetTfaStatusAsync()
+    public virtual Task<AccountTFaStateDto> GetTfaStatusAsync()
     {
         return _service.GetTfaStatusAsync();
     }
 
     [HttpGet("login/authenticator")]
-    public Task<AccountAuthenticatorInfoDto> GetAuthenticatorInfoAsync()
+    public virtual Task<AccountAuthenticatorInfoDto> GetAuthenticatorInfoAsync()
     {
         return _service.GetAuthenticatorInfoAsync();
     }
 
     [HttpGet("login/external-providers")]
-    public Task<ListResultDto<AccountExternalAuthenticationSchameDto>> GetExternalAuthenticationsAsync()
+    public virtual Task<ListResultDto<AccountExternalAuthenticationSchameDto>> GetExternalAuthenticationsAsync()
     {
         return _service.GetExternalAuthenticationsAsync();
     }
 
-    [HttpGet("login/has-authenticator")]
-    public Task<AccountHasAuthenticatorResultDto> HasAuthenticatorAsync()
+    [HttpGet("login/authenticator/status")]
+    public virtual Task<AccountHasAuthenticatorResultDto> HasAuthenticatorAsync()
     {
         return _service.HasAuthenticatorAsync();
     }
 
     [HttpPost("login")]
-    public Task<AccountLoginResultDto> LoginAsync(AccountLoginRequestDto input)
+    public virtual Task<AccountLoginResultDto> LoginAsync(AccountLoginRequestDto input)
     {
         return _service.LoginAsync(input);
     }
 
     [HttpPost("login/2fa/{provider}")]
-    public Task<AccountLoginResultDto> LoginWithTfaAsync(string provider, AccountLoginWith2FaRequestDto input)
+    public virtual Task<AccountLoginResultDto> LoginWithTfaAsync(string provider, AccountLoginWithTfaRequestDto input)
     {
         return _service.LoginWithTfaAsync(provider, input);
     }
 
     [HttpPost("login/authenticator/recovery-code")]
-    public Task<AccountLoginResultDto> LoginWithAuthenticatorRecoveryCodeAsync(AccountLoginWithAuthenticatorRecoveryCodeRequestDto input)
+    public virtual Task<AccountLoginResultDto> LoginWithAuthenticatorRecoveryCodeAsync(AccountLoginWithAuthenticatorRecoveryCodeRequestDto input)
     {
         return _service.LoginWithAuthenticatorRecoveryCodeAsync(input);
     }
 
+    [Obsolete]
+    [HttpGet("logout")]
+    public virtual Task GetLogoutAsync()
+    {
+        return _service.LogoutAsync();
+    }
+
     [HttpPost("logout")]
-    public Task LogoutAsync()
+    public virtual Task LogoutAsync()
     {
         return _service.LogoutAsync();
     }
 
     [HttpPost("login/2fa/{provider}/token")]
-    public Task SendTfaTokenAsync(string provider)
+    public virtual Task SendTfaTokenAsync(string provider)
     {
         return _service.SendTfaTokenAsync(provider);
     }
 
     [HttpPost("authenticator/verify")]
-    public Task<AccountAuthenticatorRecoveryCodesResultDto> VerifyAuthenticatorToken(AccountAuthenticatorCodeVerifyRequestDto input)
+    public virtual Task<AccountAuthenticatorRecoveryCodesResultDto> VerifyAuthenticatorToken(AccountAuthenticatorCodeVerifyRequestDto input)
     {
         return _service.VerifyAuthenticatorToken(input);
     }
 
     [HttpPost("login/2fa/{provider}/verify")]
-    public Task<AccountVerifyTokenResultDto> VerifyTfaTokenAsync(string provider, AccountLoginVerifyTwoFactorTokenDto input)
+    public virtual Task<AccountVerifyTokenResultDto> VerifyTfaTokenAsync(string provider, AccountLoginVerifyTwoFactorTokenDto input)
     {
         return _service.VerifyTfaTokenAsync(provider, input);
     }

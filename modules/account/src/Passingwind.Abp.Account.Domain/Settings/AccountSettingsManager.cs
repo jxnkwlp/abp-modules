@@ -61,6 +61,9 @@ public class AccountSettingsManager : IAccountSettingsManager, IScopedDependency
         {
             EnableLocalLogin = await GetSettingValueAsync<bool>(AccountSettingNames.General.EnableLocalLogin),
             IsSelfRegistrationEnabled = await GetSettingValueAsync<bool>(AccountSettingNames.General.IsSelfRegistrationEnabled),
+            EnableChangePasswordOnProfile = await GetSettingValueAsync<bool>(AccountSettingNames.General.EnableChangePasswordOnProfile),
+            EnableChangePasswordOnLogin = await GetSettingValueAsync<bool>(AccountSettingNames.General.EnableChangePasswordOnLogin),
+            EnableAuthenticatorSetupOnLogin = await GetSettingValueAsync<bool>(AccountSettingNames.General.EnableAuthenticatorSetupOnLogin),
         };
     }
 
@@ -86,6 +89,9 @@ public class AccountSettingsManager : IAccountSettingsManager, IScopedDependency
     {
         await SetSettingValueAsync(AccountSettingNames.General.IsSelfRegistrationEnabled, settings.IsSelfRegistrationEnabled);
         await SetSettingValueAsync(AccountSettingNames.General.EnableLocalLogin, settings.EnableLocalLogin);
+        await SetSettingValueAsync(AccountSettingNames.General.EnableChangePasswordOnProfile, settings.EnableChangePasswordOnProfile);
+        await SetSettingValueAsync(AccountSettingNames.General.EnableChangePasswordOnLogin, settings.EnableChangePasswordOnLogin);
+        await SetSettingValueAsync(AccountSettingNames.General.EnableAuthenticatorSetupOnLogin, settings.EnableAuthenticatorSetupOnLogin);
     }
 
     public virtual async Task SetRecaptchaSettingsAsync(AccountRecaptchaSettings settings, CancellationToken cancellationToken = default)
@@ -95,5 +101,18 @@ public class AccountSettingsManager : IAccountSettingsManager, IScopedDependency
         await SetSettingValueAsync(AccountSettingNames.Recaptcha.SiteSecret, settings.SiteSecret);
         await SetSettingValueAsync(AccountSettingNames.Recaptcha.VerifyBaseUrl, settings.VerifyBaseUrl);
         await SetSettingValueAsync(AccountSettingNames.Recaptcha.Version, settings.Version);
+    }
+
+    public virtual async Task<AccountSecurityLogsSettings> GetSecurityLogsSettingsAsync(CancellationToken cancellationToken = default)
+    {
+        return new AccountSecurityLogsSettings
+        {
+            AllowUserDelete = await GetSettingValueAsync<bool>(AccountSettingNames.SecurityLogs.AllowUserDelete)
+        };
+    }
+
+    public virtual async Task SetSecurityLogsSettingsAsync(AccountSecurityLogsSettings settings, CancellationToken cancellationToken = default)
+    {
+        await SetSettingValueAsync(AccountSettingNames.SecurityLogs.AllowUserDelete, settings.AllowUserDelete);
     }
 }

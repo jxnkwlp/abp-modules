@@ -18,7 +18,9 @@ public class IdentitySettingDefinitionProvider : SettingDefinitionProvider
         context.Add(new SettingDefinition(IdentitySettingNamesV2.Twofactor.IsRememberBrowserEnabled, bool.TrueString, L("DisplayName:Identity.Twofactor.IsRememberBrowserEnabled"), isVisibleToClients: true));
         context.Add(new SettingDefinition(IdentitySettingNamesV2.Twofactor.TwoFactorBehaviour, "0", L("DisplayName:Identity.Twofactor.TwoFactorBehaviour")));
         context.Add(new SettingDefinition(IdentitySettingNamesV2.Twofactor.UsersCanChange, bool.TrueString, L("DisplayName:Identity.Twofactor.UsersCanChange")));
-        context.Add(new SettingDefinition(IdentitySettingNamesV2.Twofactor.AuthenticatorIssuer, null, L("DisplayName:Identity.Twofactor.AuthenticatorIssuer")));
+
+        context.Add(new SettingDefinition(IdentitySettingNamesV2.Twofactor.AuthenticatorEnabled, bool.TrueString, L("DisplayName:Identity.Twofactor.AuthenticatorEnabled"), isVisibleToClients: true));
+        context.Add(new SettingDefinition(IdentitySettingNamesV2.Twofactor.AuthenticatorIssuer, "MYAPP", L("DisplayName:Identity.Twofactor.AuthenticatorIssuer")));
     }
 
     private static LocalizableString L(string name)
