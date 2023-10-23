@@ -1,0 +1,13 @@
+﻿{
+  "culture": "en",
+  "texts": {
+    "IdentityClient:Error:IdentityClientNameExists": "The name '{name}' already exists",
+    "IdentityClient:Error:IdentityClientConfigurationIncorrect": "The configuration is incorrect, please check",
+
+    "Permission:IdentityClient": "Identity client management",
+    "Permission:IdentityClient.IdentityClient": "Identity clients",
+    "Permission:Create": "Create",
+    "Permission:Update": "Edit",
+    "Permission:Delete": "Delete"
+  }
+}

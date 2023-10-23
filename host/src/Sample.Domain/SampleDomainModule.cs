@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Passingwind.Abp.ApiKey;
 using Passingwind.Abp.FileManagement;
 using Passingwind.Abp.Identity;
-using Passingwind.Abp.IdentityClientManagement;
+using Passingwind.Abp.IdentityClient;
 using Sample.MultiTenancy;
 using Volo.Abp.AuditLogging;
 using Volo.Abp.BackgroundJobs;
@@ -36,7 +36,7 @@ namespace Sample;
 )]
 [DependsOn(typeof(ApiKeyDomainModule))]
 [DependsOn(typeof(FileManagementDomainModule))]
-[DependsOn(typeof(IdentityClientManagementDomainModule))]
+[DependsOn(typeof(IdentityClientDomainModule))]
 [DependsOn(typeof(IdentityDomainModule))]
 public class SampleDomainModule : AbpModule
 {

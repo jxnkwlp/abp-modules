@@ -3,7 +3,7 @@ using Passingwind.Abp.Account;
 using Passingwind.Abp.ApiKey;
 using Passingwind.Abp.FileManagement;
 using Passingwind.Abp.Identity;
-using Passingwind.Abp.IdentityClientManagement;
+using Passingwind.Abp.IdentityClient;
 using Sample.Localization;
 using Volo.Abp.BlobStoring.FileSystem;
 using Volo.Abp.FeatureManagement;
@@ -27,7 +27,7 @@ namespace Sample;
 [DependsOn(typeof(ApiKeyHttpApiModule))]
 [DependsOn(typeof(FileManagementHttpApiModule))]
 [DependsOn(typeof(AbpBlobStoringFileSystemModule))]
-[DependsOn(typeof(IdentityClientManagementHttpApiModule))]
+[DependsOn(typeof(IdentityClientHttpApiModule))]
 public class SampleHttpApiModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)

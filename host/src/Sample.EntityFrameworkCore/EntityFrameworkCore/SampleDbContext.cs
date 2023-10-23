@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Passingwind.Abp.ApiKey.EntityFrameworkCore;
 using Passingwind.Abp.FileManagement.EntityFrameworkCore;
-using Passingwind.Abp.IdentityClientManagement.EntityFrameworkCore;
+using Passingwind.Abp.IdentityClient.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -81,7 +81,7 @@ public class SampleDbContext :
         modelBuilder.ConfigureTenantManagement();
 
         modelBuilder.ConfigureFileManagement();
-        modelBuilder.ConfigureIdentityClientManagement();
+        modelBuilder.ConfigureIdentityClient();
         modelBuilder.ConfigureApiKey();
 
         /* Configure your own tables/entities inside here */

@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <Import Project="..\..\common.props" />
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Passingwind.Abp.IdentityClient</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Volo.Abp.Ddd.Domain" Version="$(AbpVersion)" />
+        <PackageReference Include="Volo.Abp.Identity.Domain" Version="$(AbpVersion)" />
+        <PackageReference Include="Volo.Abp.MultiTenancy" Version="$(AbpVersion)" />
+        <ProjectReference Include="..\Passingwind.Abp.IdentityClient.Domain.Shared\Passingwind.Abp.IdentityClient.Domain.Shared.csproj" />
+    </ItemGroup>
+
+</Project>

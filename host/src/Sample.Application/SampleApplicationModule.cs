@@ -2,7 +2,7 @@
 using Passingwind.Abp.ApiKey;
 using Passingwind.Abp.FileManagement;
 using Passingwind.Abp.Identity;
-using Passingwind.Abp.IdentityClientManagement;
+using Passingwind.Abp.IdentityClient;
 using Volo.Abp.Account;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.FeatureManagement;
@@ -28,7 +28,7 @@ namespace Sample;
 [DependsOn(typeof(ApiKeyApplicationModule))]
 [DependsOn(typeof(FileManagementApplicationModule))]
 [DependsOn(typeof(IdentityApplicationModule))]
-[DependsOn(typeof(IdentityClientManagementApplicationModule))]
+[DependsOn(typeof(IdentityClientApplicationModule))]
 public class SampleApplicationModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)

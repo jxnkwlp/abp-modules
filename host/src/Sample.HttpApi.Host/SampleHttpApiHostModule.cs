@@ -13,7 +13,7 @@ using Microsoft.OpenApi.Models;
 using Passingwind.Abp.ApiKey;
 using Passingwind.Abp.FileManagement;
 using Passingwind.Abp.FileManagement.Options;
-using Passingwind.Abp.IdentityClientManagement;
+using Passingwind.Abp.IdentityClient;
 using Passingwind.AspNetCore.Authentication.ApiKey;
 using Sample.EntityFrameworkCore;
 using Sample.MultiTenancy;
@@ -53,7 +53,7 @@ namespace Sample;
 )]
 [DependsOn(typeof(ApiKeyAspNetCoreModule))]
 [DependsOn(typeof(FileManagementApplicationModule))]
-[DependsOn(typeof(IdentityClientManagementAspNetCoreModule))]
+[DependsOn(typeof(IdentityClientAspNetCoreModule))]
 public class SampleHttpApiHostModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
