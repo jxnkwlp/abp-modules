@@ -115,4 +115,19 @@ public class AccountSettingsManager : IAccountSettingsManager, IScopedDependency
     {
         await SetSettingValueAsync(AccountSettingNames.SecurityLogs.AllowUserDelete, settings.AllowUserDelete);
     }
+
+    public async Task<AccountExternalLoginSettings> GetAccountExternalLoginSettingsAsync(CancellationToken cancellationToken = default)
+    {
+        return new AccountExternalLoginSettings
+        {
+            AutoCreateUser = await GetSettingValueAsync<bool>(AccountSettingNames.ExternalLogin.AutoCreateUser),
+            BypassTwofactory = await GetSettingValueAsync<bool>(AccountSettingNames.ExternalLogin.BypassTwofactory)
+        };
+    }
+
+    public async Task SetAccountExternalLoginSettingsAsync(AccountExternalLoginSettings settings, CancellationToken cancellationToken = default)
+    {
+        await SetSettingValueAsync(AccountSettingNames.ExternalLogin.AutoCreateUser, settings.AutoCreateUser);
+        await SetSettingValueAsync(AccountSettingNames.ExternalLogin.BypassTwofactory, settings.BypassTwofactory);
+    }
 }

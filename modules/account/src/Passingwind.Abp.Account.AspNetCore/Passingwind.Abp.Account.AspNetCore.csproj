@@ -1,17 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <Import Project="..\..\common.props" />
+  <Import Project="..\..\common.props" />
 
-    <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
-        <Nullable>enable</Nullable>
-        <RootNamespace>Passingwind.Abp.Account</RootNamespace>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Passingwind.Abp.Account</RootNamespace>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Volo.Abp.Identity.AspNetCore" Version="$(AbpVersion)" /> 
-        <ProjectReference Include="..\Passingwind.Abp.Account.Application.Contracts\Passingwind.Abp.Account.Application.Contracts.csproj" />
-        <ProjectReference Include="..\Passingwind.Abp.Account.Domain\Passingwind.Abp.Account.Domain.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Identity.AspNetCore" Version="$(AbpVersion)" />
+    <ProjectReference Include="..\..\..\identity\src\Passingwind.Abp.Identity.Domain\Passingwind.Abp.Identity.Domain.csproj" />
+    <ProjectReference Include="..\Passingwind.Abp.Account.Application.Contracts\Passingwind.Abp.Account.Application.Contracts.csproj" />
+    <ProjectReference Include="..\Passingwind.Abp.Account.Domain\Passingwind.Abp.Account.Domain.csproj" />
+  </ItemGroup>
 
 </Project>

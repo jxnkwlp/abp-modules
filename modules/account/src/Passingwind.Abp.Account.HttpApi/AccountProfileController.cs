@@ -18,10 +18,16 @@ public class AccountProfileController : AbpControllerBase, IAccountProfileAppSer
         ProfileAppService = profileAppService;
     }
 
-    [HttpGet]
+    [NonAction]
     public virtual Task<ProfileDto> GetAsync()
     {
         return ProfileAppService.GetAsync();
+    }
+
+    [HttpGet]
+    public virtual Task<AccountProfileDto> GetV2Async()
+    {
+        return ProfileAppService.GetV2Async();
     }
 
     [HttpPut]

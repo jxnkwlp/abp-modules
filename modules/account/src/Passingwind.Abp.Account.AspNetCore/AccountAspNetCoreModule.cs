@@ -1,5 +1,4 @@
-﻿using Volo.Abp.AutoMapper;
-using Volo.Abp.Identity.AspNetCore;
+﻿using Volo.Abp.Identity.AspNetCore;
 using Volo.Abp.Modularity;
 
 namespace Passingwind.Abp.Account;
@@ -7,8 +6,7 @@ namespace Passingwind.Abp.Account;
 [DependsOn(
     typeof(AccountDomainModule),
     typeof(AccountApplicationContractsModule),
-    typeof(AbpIdentityAspNetCoreModule),
-    typeof(AbpAutoMapperModule)
+    typeof(AbpIdentityAspNetCoreModule)
     )]
 public class AccountAspNetCoreModule : AbpModule
 {

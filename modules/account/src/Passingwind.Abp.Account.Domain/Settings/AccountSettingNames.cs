@@ -39,6 +39,15 @@ public static class AccountSettingNames
         public const string AllowUserDelete = Prefix + ".AllowUserDelete";
     }
 
+    public static class ExternalLogin
+    {
+        public const string Prefix = GroupName + ".ExternalLogin";
+
+        public const string AutoCreateUser = Prefix + ".AutoCreateUser";
+
+        public const string BypassTwofactory = Prefix + ".BypassTwofactory";
+    }
+
     public static class Captcha
     {
         public const string Prefix = GroupName + ".Captcha";

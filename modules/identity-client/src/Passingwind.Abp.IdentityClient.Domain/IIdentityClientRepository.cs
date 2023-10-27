@@ -19,5 +19,7 @@ public interface IIdentityClientRepository : IRepository<IdentityClient, Guid>
 
     Task<IdentityClient?> FindByProviderNameAsync(string providerName, bool includeDetails = true, CancellationToken cancellationToken = default);
 
+    Task<IdentityClient> GetByProviderNameAsync(string providerName, bool includeDetails = true, CancellationToken cancellationToken = default);
+
     Task<bool> IsNameExistsAsync(string name, Guid[]? excludeIds = null, CancellationToken cancellationToken = default);
 }

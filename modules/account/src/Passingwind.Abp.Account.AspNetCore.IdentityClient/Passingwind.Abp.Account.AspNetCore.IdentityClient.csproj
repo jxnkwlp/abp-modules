@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Passingwind.Abp.Account</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\identity-client\src\Passingwind.Abp.IdentityClient.AspNetCore\Passingwind.Abp.IdentityClient.AspNetCore.csproj" />
+    <ProjectReference Include="..\Passingwind.Abp.Account.Application\Passingwind.Abp.Account.Application.csproj" />
+    <ProjectReference Include="..\Passingwind.Abp.Account.AspNetCore\Passingwind.Abp.Account.AspNetCore.csproj" />
+  </ItemGroup>
+
+</Project>

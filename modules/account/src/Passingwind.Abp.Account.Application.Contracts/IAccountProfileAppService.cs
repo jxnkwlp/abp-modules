@@ -5,6 +5,8 @@ namespace Passingwind.Abp.Account;
 
 public interface IAccountProfileAppService : IProfileAppService
 {
+    Task<AccountProfileDto> GetV2Async();
+
     Task SendEmailConfirmAsync();
     Task<AccountVerifyTokenResultDto> VerifyEmailConfirmTokenAsync(AccountVerifyTokenRequestDto input);
     Task UpdateEmailConfirmAsync(AccountVerifyTokenRequestDto input);

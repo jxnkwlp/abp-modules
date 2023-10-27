@@ -46,6 +46,19 @@ public class IdentityClientRepository : MongoDbRepository<IdentityClientMongoDbC
         return entity;
     }
 
+    public async Task<IdentityClient> GetByProviderNameAsync(string providerName, bool includeDetails = true, CancellationToken cancellationToken = default)
+    {
+        var query = await GetMongoQueryableAsync();
+
+        var entity = await query
+            .FirstOrDefaultAsync(x => x.ProviderName == providerName, cancellationToken: cancellationToken);
+
+        if (entity == null)
+            throw new EntityNotFoundException(typeof(IdentityClient));
+
+        return entity;
+    }
+
     public virtual async Task<long> GetCountAsync(string? filter, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();

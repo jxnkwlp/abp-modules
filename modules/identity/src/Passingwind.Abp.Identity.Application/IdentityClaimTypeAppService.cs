@@ -40,7 +40,7 @@ public class IdentityClaimTypeAppService : IdentityAppBaseService, IIdentityClai
     {
         if (await ClaimTypeRepository.AnyAsync(input.Name))
         {
-            throw new BusinessException(IdentityErrorCodes.IdentityClaimTypeNameExists).WithData("name", input.Name);
+            throw new BusinessException(IdentityErrorCodesV2.ClaimTypeNameExists).WithData("name", input.Name);
         }
 
         var entity = new IdentityClaimType(GuidGenerator.Create(), input.Name, input.Required, input.IsStatic, input.Regex, input.RegexDescription, input.Description, input.ValueType);
@@ -57,7 +57,7 @@ public class IdentityClaimTypeAppService : IdentityAppBaseService, IIdentityClai
 
         if (await ClaimTypeRepository.AnyAsync(input.Name, id))
         {
-            throw new BusinessException(IdentityErrorCodes.IdentityClaimTypeNameExists).WithData("name", input.Name);
+            throw new BusinessException(IdentityErrorCodesV2.ClaimTypeNameExists).WithData("name", input.Name);
         }
 
         entity.SetName(input.Name);

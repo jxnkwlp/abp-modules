@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using Passingwind.Abp.IdentityClient.Cryptography;
 using Passingwind.Abp.IdentityClient.Identity;
 using Passingwind.AspNetCore.Authentication.Saml2;
@@ -13,11 +14,13 @@ namespace Passingwind.Abp.IdentityClient.Saml2;
 public class Saml2OptionBuilder : ISaml2OptionBuilder, ITransientDependency
 {
     protected ICertificateLoader CertificateLoader { get; }
+    protected IdentityClientProviderOption IdentityClientProviderOption { get; }
     protected Saml2PostConfigureOptions Saml2PostConfigureOptions { get; }
 
-    public Saml2OptionBuilder(ICertificateLoader certificateLoader, Saml2PostConfigureOptions saml2PostConfigureOptions)
+    public Saml2OptionBuilder(ICertificateLoader certificateLoader, IOptions<IdentityClientProviderOption> identityClientProviderOption, Saml2PostConfigureOptions saml2PostConfigureOptions)
     {
         CertificateLoader = certificateLoader;
+        IdentityClientProviderOption = identityClientProviderOption.Value;
         Saml2PostConfigureOptions = saml2PostConfigureOptions;
     }
 
@@ -31,6 +34,8 @@ public class Saml2OptionBuilder : ISaml2OptionBuilder, ITransientDependency
             Issuer = configuration.Issuer ?? provider,
             ForceAuthn = configuration.ForceAuthn ?? true,
         };
+
+        IdentityClientProviderOption.ConfigureSaml2OptionsDefault?.Invoke(options);
 
         if (configuration.TrustCertificate.HasValue)
             options.CertificateValidationMode = configuration.TrustCertificate.Value ? System.ServiceModel.Security.X509CertificateValidationMode.None : System.ServiceModel.Security.X509CertificateValidationMode.PeerOrChainTrust;
@@ -60,6 +65,8 @@ public class Saml2OptionBuilder : ISaml2OptionBuilder, ITransientDependency
         {
             options.SigningCertificate = CertificateLoader.Create(configuration.SigningCertificatePem, configuration.SigningCertificateKeyPem);
         }
+
+        IdentityClientProviderOption.ConfigureSaml2OptionsOption?.Invoke(provider, options);
 
         Saml2PostConfigureOptions.PostConfigure(provider, options);
 

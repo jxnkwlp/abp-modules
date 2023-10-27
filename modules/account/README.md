@@ -1,3 +1,3 @@
 ﻿# Account
 
-Account login enhancements, such as 2fa, account settings.
+Account enhancements, such as 2fa, external login, account settings.

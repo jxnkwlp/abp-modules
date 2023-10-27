@@ -18,4 +18,8 @@ public static class AccountErrorCodes
 
     public const string UserNotFound = "Account:Error:0301";
     public const string UserNotLink = "Account:Error:0401";
+
+    public const string ExternalLoginRemoteError = "Account:Error:0501";
+    public const string ExternalLoginInfoAvailable = "Account:Error:0502";
+    public const string ExternalLoginUserNotFound = "Account:Error:0503";
 }

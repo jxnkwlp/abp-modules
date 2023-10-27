@@ -11,7 +11,9 @@ using Passingwind.Abp.Identity.AspNetCore;
 using Volo.Abp;
 using Volo.Abp.Authorization;
 using Volo.Abp.Identity;
+using Volo.Abp.MultiTenancy;
 using Volo.Abp.Security.Claims;
+using Volo.Abp.Users;
 using IdentityUser = Volo.Abp.Identity.IdentityUser;
 using IdentityUserManager = Passingwind.Abp.Identity.IdentityUserManager;
 
@@ -55,7 +57,7 @@ public class AccountImpersonationAppService : AccountAppBaseService, IAccountImp
         await ImpersonateLoginAsync(user);
     }
 
-    public async Task LoginLoginAsync(Guid userId)
+    public async Task LinkLoginAsync(Guid userId)
     {
         await IdentityOptions.SetAsync();
 
@@ -86,20 +88,16 @@ public class AccountImpersonationAppService : AccountAppBaseService, IAccountImp
 
     protected virtual async Task ImpersonateLoginAsync(IdentityUser user)
     {
-        var currentUserId = CurrentUser.Id;
-
-#pragma warning disable CS8604 // Possible null reference argument.
         IList<Claim> cliams = new List<Claim>() {
-            new Claim(AbpClaimTypes.ImpersonatorUserId, CurrentUser.Id.ToString()),
+            new Claim(AbpClaimTypes.ImpersonatorUserId, CurrentUser.GetId().ToString()),
             new Claim(AbpClaimTypes.ImpersonatorUserName, CurrentUser.UserName),
         };
 
         if (CurrentTenant.Id.HasValue)
         {
-            cliams.Add(new Claim(AbpClaimTypes.ImpersonatorTenantId, CurrentTenant.Id.ToString()));
+            cliams.Add(new Claim(AbpClaimTypes.ImpersonatorTenantId, CurrentTenant.GetId().ToString()));
             cliams.Add(new Claim(AbpClaimTypes.ImpersonatorTenantName, CurrentTenant.Name));
         }
-#pragma warning restore CS8604 // Possible null reference argument.
 
         await SignInManager.SignInWithClaimsAsync(user, false, cliams);
 
@@ -110,7 +108,7 @@ public class AccountImpersonationAppService : AccountAppBaseService, IAccountImp
             Identity = IdentitySecurityLogIdentityConsts.Identity,
             Action = "ImpersonationLogin",
             UserName = user.UserName,
-            ExtraProperties = { { "impersonatorUserId", currentUserId.ToString() } }
+            ExtraProperties = { { "impersonatorUserId", CurrentUser.GetId().ToString() } }
         });
     }
 }

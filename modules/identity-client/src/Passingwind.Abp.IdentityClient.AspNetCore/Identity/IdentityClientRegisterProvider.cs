@@ -51,7 +51,7 @@ public class IdentityClientRegisterProvider : IIdentityClientRegisterProvider, I
         Saml2OptionBuilder = saml2OptionBuilder;
     }
 
-    public async Task RegisterAllAsync(CancellationToken cancellationToken = default)
+    public virtual async Task RegisterAllAsync(CancellationToken cancellationToken = default)
     {
         if (!IdentityClientOption.ConfigureAuthenticationSchame)
             return;
@@ -64,7 +64,7 @@ public class IdentityClientRegisterProvider : IIdentityClientRegisterProvider, I
         }
     }
 
-    public async Task RegisterAsync(IdentityClient identityClient, CancellationToken cancellationToken = default)
+    public virtual async Task RegisterAsync(IdentityClient identityClient, CancellationToken cancellationToken = default)
     {
         if (!IdentityClientOption.ConfigureAuthenticationSchame)
             return;
@@ -89,18 +89,33 @@ public class IdentityClientRegisterProvider : IIdentityClientRegisterProvider, I
         }
     }
 
-    public async Task UnregisterAsync(IdentityClient identityClient, CancellationToken cancellationToken = default)
+    public virtual async Task UnregisterAsync(IdentityClient identityClient, CancellationToken cancellationToken = default)
     {
         await ExternalLoginProviderManager.UnRegisterAsync<OpenIdConnectOptions>(identityClient.ProviderName, cancellationToken);
     }
 
-    public async Task ValidateAsync(IdentityClient identityClient, CancellationToken cancellationToken = default)
+    public virtual async Task ValidateAsync(IdentityClient identityClient, CancellationToken cancellationToken = default)
     {
-        var options = await OpenIdConnectOptionBuilder.GetAsync(identityClient.ProviderName, IdentityClientConfigurationHelper.ToOpenIdConnectConfiguration(identityClient.Configurations), cancellationToken);
+        if (identityClient.ProviderType == IdentityProviderType.OpenIdConnect)
+        {
+            var options = await OpenIdConnectOptionBuilder.GetAsync(identityClient.ProviderName, IdentityClientConfigurationHelper.ToOpenIdConnectConfiguration(identityClient.Configurations), cancellationToken);
 
-        OpenIdConnectPostConfigureOptions.PostConfigure(identityClient.ProviderName, options);
+            OpenIdConnectPostConfigureOptions.PostConfigure(identityClient.ProviderName, options);
 
-        options.Validate(identityClient.ProviderName);
+            options.Validate(identityClient.ProviderName);
+        }
+        else if (identityClient.ProviderType == IdentityProviderType.Saml2)
+        {
+            var options = await Saml2OptionBuilder.GetAsync(identityClient.ProviderName, IdentityClientConfigurationHelper.ToSaml2Configuration(identityClient.Configurations), cancellationToken);
+
+            Saml2PostConfigureOptions.PostConfigure(identityClient.ProviderName, options);
+
+            options.Validate(identityClient.ProviderName);
+        }
+        else
+        {
+            // 
+        }
     }
 
     protected virtual async Task RegisterOpenIdConnectAsync(IdentityClient identityClient, CancellationToken cancellationToken = default)

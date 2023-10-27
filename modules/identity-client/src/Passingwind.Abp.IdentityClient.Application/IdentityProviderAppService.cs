@@ -7,17 +7,21 @@ namespace Passingwind.Abp.IdentityClient;
 
 public class IdentityProviderAppService : IdentityClientAppBaseService, IIdentityProviderAppService
 {
-    private readonly IIdentityClientRepository _identityClientRepository;
+    protected IIdentityClientRepository IdentityClientRepository { get; }
+    protected IIdentityProviderAuthenticationUrl IdentityProviderAuthenticationUrl { get; }
 
-    public IdentityProviderAppService(IIdentityClientRepository identityClientRepository)
+    public IdentityProviderAppService(
+        IIdentityClientRepository identityClientRepository,
+        IIdentityProviderAuthenticationUrl authenticationUrl)
     {
-        _identityClientRepository = identityClientRepository;
+        IdentityClientRepository = identityClientRepository;
+        IdentityProviderAuthenticationUrl = authenticationUrl;
     }
 
     [AllowAnonymous]
     public async Task<ListResultDto<IdentityProviderDto>> GetListAsync()
     {
-        var list = await _identityClientRepository.GetListAsync(false);
+        var list = await IdentityClientRepository.GetListAsync(false);
 
         var providers = list
             .Where(x => x.IsEnabled)
@@ -30,7 +34,7 @@ public class IdentityProviderAppService : IdentityClientAppBaseService, IIdentit
                     Name = x.Name,
                     DisplayName = x.DisplayName,
                     ProviderType = x.ProviderType,
-                    AuthenticationUrl = $"/auth/external/{x.Name}/login",
+                    AuthenticationUrl = IdentityProviderAuthenticationUrl.Get(x),
                 };
             })
             .ToList();

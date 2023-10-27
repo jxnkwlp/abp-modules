@@ -8,11 +8,11 @@ using Volo.Abp.Identity;
 namespace Passingwind.Abp.Account;
 
 [Authorize]
-public class AccountSecurityLogAppService : AccountAppBaseService, IAccountSecurityLogAppService
+public class AccountSecurityLogsAppService : AccountAppBaseService, IAccountSecurityLogsAppService
 {
     protected IIdentitySecurityLogRepository SecurityLogRepository { get; }
 
-    public AccountSecurityLogAppService(IIdentitySecurityLogRepository securityLogRepository)
+    public AccountSecurityLogsAppService(IIdentitySecurityLogRepository securityLogRepository)
     {
         SecurityLogRepository = securityLogRepository;
     }

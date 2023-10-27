@@ -147,7 +147,7 @@ public class IdentityClientAppService : IdentityClientAppBaseService, IIdentityC
         await _identityClientRepository.DeleteAsync(id);
     }
 
-    public async Task ValidateAsync(Guid id)
+    public async Task VerifyAsync(Guid id)
     {
         try
         {

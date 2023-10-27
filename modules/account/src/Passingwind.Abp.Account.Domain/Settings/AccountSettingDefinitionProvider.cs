@@ -28,6 +28,9 @@ public class AccountSettingDefinitionProvider : SettingDefinitionProvider
         context.Add(new SettingDefinition(AccountSettingNames.General.EnableChangePasswordOnLogin, "true", isVisibleToClients: true));
         context.Add(new SettingDefinition(AccountSettingNames.General.EnableAuthenticatorSetupOnLogin, "true", isVisibleToClients: true));
 
+        context.Add(new SettingDefinition(AccountSettingNames.ExternalLogin.AutoCreateUser, "true", L("DisplayName:Account.ExternalLogin.AutoCreateUser")));
+        context.Add(new SettingDefinition(AccountSettingNames.ExternalLogin.BypassTwofactory, "true", L("DisplayName:Account.ExternalLogin.BypassTwofactory")));
+
         context.Add(new SettingDefinition(AccountSettingNames.Captcha.EnableOnLogin, "false", L("DisplayName:Account.Captcha.EnableOnLogin"), isVisibleToClients: true));
         context.Add(new SettingDefinition(AccountSettingNames.Captcha.EnableOnRegistration, "false", L("DisplayName:Account.Captcha.EnableOnRegistration"), isVisibleToClients: true));
 

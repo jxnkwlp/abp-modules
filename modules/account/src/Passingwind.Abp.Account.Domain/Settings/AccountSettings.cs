@@ -16,6 +16,12 @@ public class AccountSecurityLogsSettings
     public bool AllowUserDelete { get; set; }
 }
 
+public class AccountExternalLoginSettings
+{
+    public bool AutoCreateUser { get; set; }
+    public bool BypassTwofactory { get; set; }
+}
+
 public class AccountCaptchaSettings
 {
     public bool EnableOnLogin { get; set; }

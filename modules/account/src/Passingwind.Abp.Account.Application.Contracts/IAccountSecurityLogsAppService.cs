@@ -5,7 +5,7 @@ using Volo.Abp.Application.Services;
 
 namespace Passingwind.Abp.Account;
 
-public interface IAccountSecurityLogAppService : IApplicationService
+public interface IAccountSecurityLogsAppService : IApplicationService
 {
     Task<PagedResultDto<IdentitySecurityLogDto>> GetListAsync(AccountSecurityLogPagedListRequestDto input);
 }

@@ -26,8 +26,8 @@ public class AccountImpersonationController : AccountBaseController, IAccountImp
 
     /// <inheritdoc/>
     [HttpPost("{userId}/link-login")]
-    public Task LoginLoginAsync(Guid userId)
+    public Task LinkLoginAsync(Guid userId)
     {
-        return _service.LoginLoginAsync(userId);
+        return _service.LinkLoginAsync(userId);
     }
 }

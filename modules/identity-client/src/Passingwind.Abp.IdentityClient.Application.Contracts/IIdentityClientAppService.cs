@@ -17,5 +17,5 @@ public interface IIdentityClientAppService : IApplicationService
 
     Task DeleteAsync(Guid id);
 
-    Task ValidateAsync(Guid id);
+    Task VerifyAsync(Guid id);
 }

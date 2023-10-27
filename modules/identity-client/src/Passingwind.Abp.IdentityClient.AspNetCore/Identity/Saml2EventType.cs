@@ -71,7 +71,7 @@ public class Saml2EventType : Saml2Events
 
     protected virtual async Task<ClaimsIdentity> HandlePrincipal(string provider, ClaimsPrincipal principal)
     {
-        var identityClient = await IdentityClientRepository.GetByNameAsync(provider);
+        var identityClient = await IdentityClientRepository.GetByProviderNameAsync(provider);
 
         var claims = principal.Claims.ToList();
 

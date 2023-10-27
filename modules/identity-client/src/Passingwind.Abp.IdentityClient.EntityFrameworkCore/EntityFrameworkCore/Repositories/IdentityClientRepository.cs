@@ -52,6 +52,21 @@ public class IdentityClientRepository : EfCoreRepository<IdentityClientDbContext
         return entity;
     }
 
+    public async Task<IdentityClient> GetByProviderNameAsync(string providerName, bool includeDetails = true, CancellationToken cancellationToken = default)
+    {
+        var dbset = await GetDbSetAsync();
+
+        var entity = await dbset
+            .IncludeIf(includeDetails, x => x.ClaimMaps)
+            .IncludeIf(includeDetails, x => x.Configurations)
+            .FirstOrDefaultAsync(x => x.ProviderName == providerName, cancellationToken: cancellationToken);
+
+        if (entity == null)
+            throw new EntityNotFoundException(typeof(IdentityClient));
+
+        return entity;
+    }
+
     public virtual async Task<long> GetCountAsync(string? filter, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Passingwind.Abp.Account;
 using Passingwind.Abp.ApiKey;
 using Passingwind.Abp.FileManagement;
 using Passingwind.Abp.FileManagement.Options;
@@ -53,7 +54,8 @@ namespace Sample;
 )]
 [DependsOn(typeof(ApiKeyAspNetCoreModule))]
 [DependsOn(typeof(FileManagementApplicationModule))]
-[DependsOn(typeof(IdentityClientAspNetCoreModule))]
+[DependsOn(typeof(AccountAspNetCoreIdentityClientModule))]
+[DependsOn(typeof(AccountAspNetCoreModule))]
 public class SampleHttpApiHostModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)

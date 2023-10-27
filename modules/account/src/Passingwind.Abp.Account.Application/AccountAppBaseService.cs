@@ -60,6 +60,36 @@ public abstract class AccountAppBaseService : ApplicationService
             unformattedKey);
     }
 
+    protected static AccountLoginResultType GetAccountLoginResultType(SignInResult result)
+    {
+        if (result.Succeeded)
+        {
+            return AccountLoginResultType.Success;
+        }
+
+        if (result.IsLockedOut)
+        {
+            return AccountLoginResultType.LockedOut;
+        }
+
+        if (result.RequiresTwoFactor)
+        {
+            return AccountLoginResultType.RequiresTwoFactor;
+        }
+
+        if (result.IsNotAllowed)
+        {
+            return AccountLoginResultType.NotAllowed;
+        }
+
+        if (result is AbpSignInResult abpSignInResult && abpSignInResult.RequiresChangePassword)
+        {
+            return AccountLoginResultType.RequiresChangePassword;
+        }
+
+        return AccountLoginResultType.InvalidUserNameOrPasswordOrToken;
+    }
+
     protected static AccountLoginResultDto GetAccountLoginResult(SignInResult result)
     {
         if (result.Succeeded)

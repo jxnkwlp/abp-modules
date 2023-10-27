@@ -10,6 +10,7 @@ using Volo.Abp.Authorization;
 using Volo.Abp.Identity;
 using Volo.Abp.Settings;
 using Volo.Abp.Users;
+using IdentityUser = Volo.Abp.Identity.IdentityUser;
 
 namespace Passingwind.Abp.Account;
 
@@ -27,6 +28,13 @@ public class AccountProfileAppService : ProfileAppService, IAccountProfileAppSer
     {
         SecurityLogManager = securityLogManager;
         AccountTwoFactorTokenSender = accountTwoFactorTokenSender;
+    }
+
+    public virtual async Task<AccountProfileDto> GetV2Async()
+    {
+        var currentUser = await UserManager.GetByIdAsync(CurrentUser.GetId());
+
+        return ObjectMapper.Map<IdentityUser, AccountProfileDto>(currentUser);
     }
 
     public override async Task ChangePasswordAsync(ChangePasswordInput input)

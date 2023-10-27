@@ -9,11 +9,11 @@ namespace Passingwind.Abp.Account;
 [RemoteService(Name = AccountRemoteServiceConsts.RemoteServiceName)]
 [Area(AccountRemoteServiceConsts.ModuleName)]
 [Route("/api/account/security-logs")]
-public class AccountSecurityLogController : AccountBaseController, IAccountSecurityLogAppService
+public class AccountSecurityLogsController : AccountBaseController, IAccountSecurityLogsAppService
 {
-    private readonly IAccountSecurityLogAppService _service;
+    private readonly IAccountSecurityLogsAppService _service;
 
-    public AccountSecurityLogController(IAccountSecurityLogAppService service)
+    public AccountSecurityLogsController(IAccountSecurityLogsAppService service)
     {
         _service = service;
     }

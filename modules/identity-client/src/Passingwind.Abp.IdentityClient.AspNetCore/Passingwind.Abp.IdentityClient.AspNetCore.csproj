@@ -21,11 +21,12 @@
   <ItemGroup>
     <PackageReference Include="Volo.Abp.AspNetCore.Authentication.OpenIdConnect" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.Identity.AspNetCore" Version="$(AbpVersion)" />
-    <PackageReference Include="Volo.Abp.AspNetCore" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="$(AbpVersion)" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\identity\src\Passingwind.Abp.Identity.Domain\Passingwind.Abp.Identity.Domain.csproj" />
+    <ProjectReference Include="..\Passingwind.Abp.IdentityClient.Application.Contracts\Passingwind.Abp.IdentityClient.Application.Contracts.csproj" />
     <ProjectReference Include="..\Passingwind.Abp.IdentityClient.Domain\Passingwind.Abp.IdentityClient.Domain.csproj" />
   </ItemGroup>
 

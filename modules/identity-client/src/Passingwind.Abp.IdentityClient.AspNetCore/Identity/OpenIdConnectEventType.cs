@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Extensions.Logging;
+using Volo.Abp;
 using Volo.Abp.Json;
 
 namespace Passingwind.Abp.IdentityClient.Identity;
@@ -31,7 +32,7 @@ public class OpenIdConnectEventType : OpenIdConnectEvents
     {
         var providerName = context.Scheme.Name;
 
-        Logger.LogInformation("Authentication schame {0} received authorization code: {1}", providerName, context.ProtocolMessage.Code);
+        Logger.LogDebug("Authentication schame {0} received authorization code: {1}", providerName, context.ProtocolMessage.Code);
 
         return Task.CompletedTask;
     }
@@ -40,10 +41,10 @@ public class OpenIdConnectEventType : OpenIdConnectEvents
     {
         var providerName = context.Scheme.Name;
 
-        Logger.LogInformation("Authentication schame {0} received access token: {1}", providerName, context.TokenEndpointResponse.AccessToken);
-        Logger.LogInformation("Authentication schame {0} received id token: {1}", providerName, context.TokenEndpointResponse.IdToken);
-        Logger.LogInformation("Authentication schame {0} received refresh token: {1}", providerName, context.TokenEndpointResponse.RefreshToken);
-        Logger.LogInformation("Authentication schame {0} received token expires: {1}", providerName, context.TokenEndpointResponse.ExpiresIn);
+        Logger.LogDebug("Authentication schame {0} received access token: {1}", providerName, context.TokenEndpointResponse.AccessToken);
+        Logger.LogDebug("Authentication schame {0} received id token: {1}", providerName, context.TokenEndpointResponse.IdToken);
+        Logger.LogDebug("Authentication schame {0} received refresh token: {1}", providerName, context.TokenEndpointResponse.RefreshToken);
+        Logger.LogDebug("Authentication schame {0} received token expires: {1}", providerName, context.TokenEndpointResponse.ExpiresIn);
 
         return Task.CompletedTask;
     }
@@ -57,7 +58,7 @@ public class OpenIdConnectEventType : OpenIdConnectEvents
         if (principal != null)
         {
             var cliams = principal.Claims.Select(x => new { x.Type, x.Value });
-            Logger.LogInformation("Authentication schame {0} resolved claims: {1}", providerName, JsonSerializer.Serialize(cliams));
+            Logger.LogDebug("Authentication schame {0} resolved claims: {1}", providerName, JsonSerializer.Serialize(cliams));
         }
 
         if (!context.Options.GetClaimsFromUserInfoEndpoint && principal?.Identity != null)
@@ -70,7 +71,7 @@ public class OpenIdConnectEventType : OpenIdConnectEvents
     {
         var providerName = context.Scheme.Name;
 
-        Logger.LogInformation("Authentication schame {0} received user information: {1}", context.User.RootElement.GetRawText());
+        Logger.LogDebug("Authentication schame {0} received user information: {1}", context.User.RootElement.GetRawText());
 
         var principal = context.Principal;
 
@@ -82,7 +83,7 @@ public class OpenIdConnectEventType : OpenIdConnectEvents
 
     protected virtual async Task<ClaimsPrincipal> HandlePrincipal(string provider, ClaimsPrincipal principal)
     {
-        var identityClient = await IdentityClientRepository.GetByNameAsync(provider);
+        var identityClient = await IdentityClientRepository.GetByProviderNameAsync(provider);
 
         var claims = principal.Claims.ToList();
 
@@ -104,7 +105,7 @@ public class OpenIdConnectEventType : OpenIdConnectEvents
         {
             if (!claims.Any(x => x.Type == type))
             {
-                throw new System.Exception($"Missing claim type '{type}'");
+                throw new UserFriendlyException($"Missing claim type '{type}'");
             }
         }
 

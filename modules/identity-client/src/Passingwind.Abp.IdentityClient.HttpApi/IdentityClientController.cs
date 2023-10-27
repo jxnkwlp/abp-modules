@@ -48,9 +48,9 @@ public class IdentityClientController : IdentityClientControllerBase, IIdentityC
         return _service.DeleteAsync(id);
     }
 
-    [HttpPost("{id}/validate")]
-    public Task ValidateAsync(Guid id)
+    [HttpPost("{id}/verify")]
+    public Task VerifyAsync(Guid id)
     {
-        return _service.ValidateAsync(id);
+        return _service.VerifyAsync(id);
     }
 }
