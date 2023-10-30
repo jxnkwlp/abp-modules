@@ -16,9 +16,9 @@ Implement and enhance identity users, roles, organizations, claim types, securit
 
 [![NuGet](https://img.shields.io/nuget/v/Passingwind.Abp.FileManagement.Application?style=flat-square)](https://www.nuget.org/packages?q=Passingwind.Abp.FileManagement)
 
-## [Identity Client Management](/modules/identity-client-management/README.md)
+## [Identity Client](/modules/identity-client/README.md)
 
-[![NuGet](https://img.shields.io/nuget/v/Passingwind.Abp.IdentityClientManagement.Application?style=flat-square)](https://www.nuget.org/packages?q=Passingwind.Abp.IdentityClientManagement)
+[![NuGet](https://img.shields.io/nuget/v/Passingwind.Abp.IdentityClient.Application?style=flat-square)](https://www.nuget.org/packages?q=Passingwind.Abp.IdentityClient)
 
 ## [ApiKey](/modules/api-keys/README.md)
 
