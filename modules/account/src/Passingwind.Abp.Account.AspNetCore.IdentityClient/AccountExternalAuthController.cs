@@ -1,12 +1,12 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Passingwind.Abp.IdentityClient;
 using Volo.Abp.AspNetCore.Mvc;
 
 namespace Passingwind.Abp.Account;
 
-//[ApiExplorerSettings(IgnoreApi = true)]
-
+[ApiExplorerSettings(IgnoreApi = true)]
 [Area(AccountRemoteServiceConsts.ModuleName)]
 [Route("auth/external")]
 public class AccountExternalAuthController : AbpController
@@ -18,8 +18,9 @@ public class AccountExternalAuthController : AbpController
         IdentityClientLoginAppService = identityClientLoginAppService;
     }
 
+    [AllowAnonymous]
     [HttpGet("identity/{provider}/login")]
-    public virtual async Task IdentityLoginAsync(string provider, string? returnUrl = null, string? returnUrlHash = null)
+    public virtual async Task IdentityClientLoginAsync(string provider, string? returnUrl = null, string? returnUrlHash = null)
     {
         var redirectUrl = Url.Action("callback", values: new { returnUrl, returnUrlHash });
 

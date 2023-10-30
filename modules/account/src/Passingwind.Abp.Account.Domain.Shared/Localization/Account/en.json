@@ -12,6 +12,9 @@
     "Account:Error:0220": "The verification code is incorrect",
     "Account:Error:0301": "The user not found",
     "Account:Error:0401": "The user not link for current user",
+    "Account:Error:0501": "A remote error occurred during external login",
+    "Account:Error:0502": "External login is not available now",
+    "Account:Error:0503": "The user was not found in external login",
 
     "Permission:Create": "Create",
     "Permission:Update": "Edit",

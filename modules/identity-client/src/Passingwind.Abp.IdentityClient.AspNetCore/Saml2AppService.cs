@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ITfoxtec.Identity.Saml2;
 using ITfoxtec.Identity.Saml2.Schemas;
 using ITfoxtec.Identity.Saml2.Schemas.Metadata;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -41,6 +42,7 @@ public class Saml2AppService : ApplicationService, ISaml2AppService
         HttpContext = httpContextAccessor.HttpContext;
     }
 
+    [AllowAnonymous]
     public async Task<string> GetMetadataDescriptorAsync(Uri baseUri, string name)
     {
         var identityClient = await IdentityClientRepository.GetByNameAsync(name);
@@ -129,6 +131,7 @@ public class Saml2AppService : ApplicationService, ISaml2AppService
         return metadata.ToXml();
     }
 
+    [Authorize]
     public async Task<string> LogoutAsync(string name)
     {
         if (HttpContext == null)

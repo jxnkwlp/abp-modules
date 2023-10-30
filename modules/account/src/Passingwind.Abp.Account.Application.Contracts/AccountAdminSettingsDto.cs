@@ -10,6 +10,8 @@ public class AccountAdminSettingsDto
     public AccountCaptchaSettingsDto Captcha { get; set; } = null!;
     [Required]
     public AccountRecaptchaSettingsDto Recaptcha { get; set; } = null!;
+    [Required]
+    public AccountExternalLoginSettingsDto ExternalLogin { get; set; } = null!;
 }
 
 public class AccountGeneralSettingsDto
@@ -20,6 +22,12 @@ public class AccountGeneralSettingsDto
     public bool EnableChangePasswordOnProfile { get; set; }
     public bool EnableChangePasswordOnLogin { get; set; }
     public bool EnableAuthenticatorSetupOnLogin { get; set; }
+}
+
+public class AccountExternalLoginSettingsDto
+{
+    public bool AutoCreateUser { get; set; }
+    public bool BypassTwofactory { get; set; }
 }
 
 public class AccountCaptchaSettingsDto

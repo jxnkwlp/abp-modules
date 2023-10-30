@@ -9,11 +9,11 @@ public interface IAccountSettingsManager
     Task<AccountCaptchaSettings> GetCaptchaSettingsAsync(CancellationToken cancellationToken = default);
     Task<AccountRecaptchaSettings> GetRecaptchaSettingsAsync(CancellationToken cancellationToken = default);
     Task<AccountSecurityLogsSettings> GetSecurityLogsSettingsAsync(CancellationToken cancellationToken = default);
-    Task<AccountExternalLoginSettings> GetAccountExternalLoginSettingsAsync(CancellationToken cancellationToken = default);
+    Task<AccountExternalLoginSettings> GetExternalLoginSettingsAsync(CancellationToken cancellationToken = default);
 
     Task SetGeneralSettingsAsync(AccountGeneralSettings settings, CancellationToken cancellationToken = default);
     Task SetCaptchaSettingsAsync(AccountCaptchaSettings settings, CancellationToken cancellationToken = default);
     Task SetRecaptchaSettingsAsync(AccountRecaptchaSettings settings, CancellationToken cancellationToken = default);
     Task SetSecurityLogsSettingsAsync(AccountSecurityLogsSettings settings, CancellationToken cancellationToken = default);
-    Task SetAccountExternalLoginSettingsAsync(AccountExternalLoginSettings settings, CancellationToken cancellationToken = default);
+    Task SetExternalLoginSettingsAsync(AccountExternalLoginSettings settings, CancellationToken cancellationToken = default);
 }

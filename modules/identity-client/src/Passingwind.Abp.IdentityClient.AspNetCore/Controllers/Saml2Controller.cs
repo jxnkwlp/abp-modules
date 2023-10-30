@@ -7,8 +7,7 @@ using Volo.Abp.AspNetCore.Mvc;
 
 namespace Passingwind.Abp.IdentityClient.Controllers;
 
-// [ApiExplorerSettings(IgnoreApi = true)]
-
+[ApiExplorerSettings(IgnoreApi = true)]
 [Area("IdentityClient")]
 [Route("auth/saml2")]
 public class Saml2Controller : AbpController

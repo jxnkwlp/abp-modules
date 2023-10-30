@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -20,8 +21,7 @@ using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace Passingwind.Abp.Account;
 
-//[ApiExplorerSettings(IgnoreApi = true)]
-
+[ApiExplorerSettings(IgnoreApi = true)]
 [Area(AccountRemoteServiceConsts.ModuleName)]
 [Route("auth/external")]
 public class AccountExternalAuthController : AbpController
@@ -61,6 +61,7 @@ public class AccountExternalAuthController : AbpController
         SettingProvider = settingProvider;
     }
 
+    [AllowAnonymous]
     [HttpGet("{provider}/login")]
     public virtual IActionResult Login([NotNull] string provider, string? returnUrl = null, string? returnUrlHash = null)
     {
@@ -72,6 +73,7 @@ public class AccountExternalAuthController : AbpController
         return Challenge(properties, provider);
     }
 
+    [AllowAnonymous]
     [HttpGet("callback")]
     public virtual async Task<IActionResult> CallbackAsync(string returnUrl = "", string returnUrlHash = "", string? remoteError = null)
     {

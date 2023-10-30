@@ -12,6 +12,9 @@
     "Account:Error:0220": "验证码不正确",
     "Account:Error:0301": "用户不存在",
     "Account:Error:0401": "用户没有链接到当前账号",
+    "Account:Error:0501": "外部登录出现远程错误",
+    "Account:Error:0502": "外部登录现在不可用",
+    "Account:Error:0503": "外部登录未找到该用户",
 
     "Permission:Create": "创建",
     "Permission:Update": "编辑",

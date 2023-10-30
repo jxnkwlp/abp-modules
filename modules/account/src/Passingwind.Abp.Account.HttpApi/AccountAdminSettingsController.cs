@@ -27,6 +27,12 @@ public class AccountAdminSettingsController : AccountBaseController, IAccountAdm
         return _service.GetCaptchaAsync();
     }
 
+    [HttpGet("external-login")]
+    public Task<AccountExternalLoginSettingsDto> GetExternalLoginAsync()
+    {
+        return _service.GetExternalLoginAsync();
+    }
+
     [HttpGet("general")]
     public Task<AccountGeneralSettingsDto> GetGeneralAsync()
     {
@@ -49,6 +55,12 @@ public class AccountAdminSettingsController : AccountBaseController, IAccountAdm
     public Task UpdateCaptchaAsync(AccountCaptchaSettingsDto input)
     {
         return _service.UpdateCaptchaAsync(input);
+    }
+
+    [HttpPut("external-login")]
+    public Task UpdateExternalLoginAsync(AccountExternalLoginSettingsDto input)
+    {
+        return _service.UpdateExternalLoginAsync(input);
     }
 
     [HttpPut("general")]

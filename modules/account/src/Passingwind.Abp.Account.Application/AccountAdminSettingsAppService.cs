@@ -21,6 +21,7 @@ public class AccountAdminSettingsAppService : AccountAppBaseService, IAccountAdm
             General = ObjectMapper.Map<AccountGeneralSettings, AccountGeneralSettingsDto>(await AccountSettingsManager.GetGeneralSettingsAsync()),
             Captcha = ObjectMapper.Map<AccountCaptchaSettings, AccountCaptchaSettingsDto>(await AccountSettingsManager.GetCaptchaSettingsAsync()),
             Recaptcha = ObjectMapper.Map<AccountRecaptchaSettings, AccountRecaptchaSettingsDto>(await AccountSettingsManager.GetRecaptchaSettingsAsync()),
+            ExternalLogin = ObjectMapper.Map<AccountExternalLoginSettings, AccountExternalLoginSettingsDto>(await AccountSettingsManager.GetExternalLoginSettingsAsync()),
         };
     }
 
@@ -29,6 +30,7 @@ public class AccountAdminSettingsAppService : AccountAppBaseService, IAccountAdm
         await AccountSettingsManager.SetGeneralSettingsAsync(ObjectMapper.Map<AccountGeneralSettingsDto, AccountGeneralSettings>(input.General));
         await AccountSettingsManager.SetCaptchaSettingsAsync(ObjectMapper.Map<AccountCaptchaSettingsDto, AccountCaptchaSettings>(input.Captcha));
         await AccountSettingsManager.SetRecaptchaSettingsAsync(ObjectMapper.Map<AccountRecaptchaSettingsDto, AccountRecaptchaSettings>(input.Recaptcha));
+        await AccountSettingsManager.SetExternalLoginSettingsAsync(ObjectMapper.Map<AccountExternalLoginSettingsDto, AccountExternalLoginSettings>(input.ExternalLogin));
     }
 
     public virtual async Task<AccountGeneralSettingsDto> GetGeneralAsync()
@@ -59,5 +61,15 @@ public class AccountAdminSettingsAppService : AccountAppBaseService, IAccountAdm
     public virtual async Task UpdateRecaptchaAsync(AccountRecaptchaSettingsDto input)
     {
         await AccountSettingsManager.SetRecaptchaSettingsAsync(ObjectMapper.Map<AccountRecaptchaSettingsDto, AccountRecaptchaSettings>(input));
+    }
+
+    public virtual async Task<AccountExternalLoginSettingsDto> GetExternalLoginAsync()
+    {
+        return ObjectMapper.Map<AccountExternalLoginSettings, AccountExternalLoginSettingsDto>(await AccountSettingsManager.GetExternalLoginSettingsAsync());
+    }
+
+    public virtual async Task UpdateExternalLoginAsync(AccountExternalLoginSettingsDto input)
+    {
+        await AccountSettingsManager.SetExternalLoginSettingsAsync(ObjectMapper.Map<AccountExternalLoginSettingsDto, AccountExternalLoginSettings>(input));
     }
 }

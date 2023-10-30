@@ -3,6 +3,7 @@
   "texts": {
     "IdentityClient:Error:IdentityClientNameExists": "名称'{name}'已经存在",
     "IdentityClient:Error:IdentityClientConfigurationIncorrect": "配置不正确，请检查",
+    "IdentityClient:Error:IdentityClientDisabled": "客户端已禁用",
 
     "Permission:IdentityClient": "认证客户端管理",
     "Permission:IdentityClient.IdentityClient": "客户端",

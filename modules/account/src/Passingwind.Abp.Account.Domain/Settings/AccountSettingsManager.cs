@@ -116,7 +116,7 @@ public class AccountSettingsManager : IAccountSettingsManager, IScopedDependency
         await SetSettingValueAsync(AccountSettingNames.SecurityLogs.AllowUserDelete, settings.AllowUserDelete);
     }
 
-    public async Task<AccountExternalLoginSettings> GetAccountExternalLoginSettingsAsync(CancellationToken cancellationToken = default)
+    public async Task<AccountExternalLoginSettings> GetExternalLoginSettingsAsync(CancellationToken cancellationToken = default)
     {
         return new AccountExternalLoginSettings
         {
@@ -125,7 +125,7 @@ public class AccountSettingsManager : IAccountSettingsManager, IScopedDependency
         };
     }
 
-    public async Task SetAccountExternalLoginSettingsAsync(AccountExternalLoginSettings settings, CancellationToken cancellationToken = default)
+    public async Task SetExternalLoginSettingsAsync(AccountExternalLoginSettings settings, CancellationToken cancellationToken = default)
     {
         await SetSettingValueAsync(AccountSettingNames.ExternalLogin.AutoCreateUser, settings.AutoCreateUser);
         await SetSettingValueAsync(AccountSettingNames.ExternalLogin.BypassTwofactory, settings.BypassTwofactory);

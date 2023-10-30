@@ -16,4 +16,7 @@ public interface IAccountAdminSettingsAppService : IApplicationService
 
     Task<AccountRecaptchaSettingsDto> GetRecaptchaAsync();
     Task UpdateRecaptchaAsync(AccountRecaptchaSettingsDto input);
+
+    Task<AccountExternalLoginSettingsDto> GetExternalLoginAsync();
+    Task UpdateExternalLoginAsync(AccountExternalLoginSettingsDto input);
 }

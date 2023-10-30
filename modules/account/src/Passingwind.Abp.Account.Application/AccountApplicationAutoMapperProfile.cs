@@ -15,5 +15,6 @@ public class AccountApplicationAutoMapperProfile : Profile
         CreateMap<AccountGeneralSettings, AccountGeneralSettingsDto>().ReverseMap();
         CreateMap<AccountCaptchaSettings, AccountCaptchaSettingsDto>().ReverseMap();
         CreateMap<AccountRecaptchaSettings, AccountRecaptchaSettingsDto>().ReverseMap();
+        CreateMap<AccountExternalLoginSettings, AccountExternalLoginSettingsDto>().ReverseMap();
     }
 }

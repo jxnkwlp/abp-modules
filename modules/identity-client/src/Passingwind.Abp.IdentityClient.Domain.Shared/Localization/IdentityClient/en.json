@@ -3,6 +3,7 @@
   "texts": {
     "IdentityClient:Error:IdentityClientNameExists": "The name '{name}' already exists",
     "IdentityClient:Error:IdentityClientConfigurationIncorrect": "The configuration is incorrect, please check",
+    "IdentityClient:Error:IdentityClientDisabled": "Client is disabled",
 
     "Permission:IdentityClient": "Identity client management",
     "Permission:IdentityClient.IdentityClient": "Identity clients",
