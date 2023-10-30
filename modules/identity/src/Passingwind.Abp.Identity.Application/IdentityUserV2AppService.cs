@@ -49,6 +49,20 @@ public class IdentityUserV2AppService : IdentityUserAppService, IIdentityUserV2A
             inputV2.OrganizationUnitIds ??= Array.Empty<Guid>();
 
             await UserManager.SetOrganizationUnitsAsync(user, inputV2.OrganizationUnitIds);
+
+            if (user.EmailConfirmed != inputV2.EmailConfirmed)
+            {
+                user.SetEmailConfirmed(inputV2.EmailConfirmed);
+            }
+
+            if (user.PhoneNumberConfirmed != inputV2.PhoneNumberConfirmed)
+            {
+                user.SetEmailConfirmed(inputV2.PhoneNumberConfirmed);
+            }
+            if (string.IsNullOrWhiteSpace(user.PhoneNumber))
+            {
+                user.SetPhoneNumberConfirmed(false);
+            }
         }
     }
 
@@ -362,6 +376,7 @@ public class IdentityUserV2AppService : IdentityUserAppService, IIdentityUserV2A
         };
     }
 
+    [Authorize(IdentityPermissions.Users.Update)]
     public virtual async Task UpdateEmailConfirmedAsync(Guid id, IdentityUserUpdateConfirmedDto input)
     {
         var entity = await UserRepository.GetAsync(id);
@@ -371,6 +386,7 @@ public class IdentityUserV2AppService : IdentityUserAppService, IIdentityUserV2A
         await UserManager.UpdateAsync(entity);
     }
 
+    [Authorize(IdentityPermissions.Users.Update)]
     public virtual async Task UpdatePhoneNumberConfirmedAsync(Guid id, IdentityUserUpdateConfirmedDto input)
     {
         var entity = await UserRepository.GetAsync(id);
@@ -380,6 +396,7 @@ public class IdentityUserV2AppService : IdentityUserAppService, IIdentityUserV2A
         await UserManager.UpdateAsync(entity);
     }
 
+    [Authorize(IdentityPermissions.Users.Update)]
     public virtual async Task BatchUpdateRolesAsync(IdentityUserBatchUpdateRolesDto input)
     {
         foreach (var id in input.UserIds)
@@ -408,6 +425,7 @@ public class IdentityUserV2AppService : IdentityUserAppService, IIdentityUserV2A
         }
     }
 
+    [Authorize(IdentityPermissions.Users.Update)]
     public virtual async Task BatchUpdateOrganizationUnitsAsync(IdentityUserBatchUpdateOrganizationUnitsDto input)
     {
         foreach (var id in input.UserIds)
@@ -438,6 +456,7 @@ public class IdentityUserV2AppService : IdentityUserAppService, IIdentityUserV2A
         }
     }
 
+    [Authorize(IdentityPermissions.Users.Update)]
     public virtual async Task BatchClearPasswordAsync(IdentityUserBatchClearPasswordDto input)
     {
         foreach (var id in input.UserIds)
@@ -451,6 +470,7 @@ public class IdentityUserV2AppService : IdentityUserAppService, IIdentityUserV2A
         }
     }
 
+    [Authorize(IdentityPermissions.Users.Update)]
     public virtual async Task BatchUpdateTwoFactorEnabledAsync(IdentityUserBatchUpdateTwoFactorEnabledDto input)
     {
         foreach (var id in input.UserIds)
@@ -461,6 +481,7 @@ public class IdentityUserV2AppService : IdentityUserAppService, IIdentityUserV2A
         }
     }
 
+    [Authorize(IdentityPermissions.Users.Update)]
     public virtual async Task BatchLockAsync(IdentityUserBatchLockDto input)
     {
         foreach (var id in input.UserIds)
@@ -472,6 +493,7 @@ public class IdentityUserV2AppService : IdentityUserAppService, IIdentityUserV2A
         }
     }
 
+    [Authorize(IdentityPermissions.Users.Update)]
     public virtual async Task BatchUnlockAsync(IdentityUserBatchUnlockDto input)
     {
         foreach (var id in input.UserIds)
@@ -485,6 +507,7 @@ public class IdentityUserV2AppService : IdentityUserAppService, IIdentityUserV2A
         }
     }
 
+    [Authorize(IdentityPermissions.Users.Update)]
     public virtual async Task BatchUpdateEmailConfirmedAsync(IdentityUserBatchUpdateConfirmedDto input)
     {
         foreach (var id in input.UserIds)
@@ -497,6 +520,7 @@ public class IdentityUserV2AppService : IdentityUserAppService, IIdentityUserV2A
         }
     }
 
+    [Authorize(IdentityPermissions.Users.Update)]
     public virtual async Task BatchUpdatePhoneNumberConfirmedAsync(IdentityUserBatchUpdateConfirmedDto input)
     {
         foreach (var id in input.UserIds)
@@ -509,6 +533,7 @@ public class IdentityUserV2AppService : IdentityUserAppService, IIdentityUserV2A
         }
     }
 
+    [Authorize(IdentityPermissions.Users.Update)]
     public virtual async Task BatchUpdateChangePasswordOnNextLoginAsync(IdentityUserBatchInputDto input)
     {
         foreach (var id in input.UserIds)
