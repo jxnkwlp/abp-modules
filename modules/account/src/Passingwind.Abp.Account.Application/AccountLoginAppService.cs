@@ -295,10 +295,11 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
         var enabled = await UserManager.GetTwoFactorEnabledAsync(user);
 
         var unformattedKey = await UserManager.GetAuthenticatorKeyAsync(user);
+        var recoveryCodesCount = await UserManager.CountRecoveryCodesAsync(user);
 
         return new AccountHasAuthenticatorResultDto
         {
-            Enabled = !string.IsNullOrEmpty(unformattedKey) && enabled,
+            Enabled = !string.IsNullOrEmpty(unformattedKey) && recoveryCodesCount > 0 && enabled,
         };
     }
 
@@ -323,6 +324,8 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
 
         var enabled = await UserManager.GetTwoFactorEnabledAsync(user);
 
+        var recoveryCodesCount = await UserManager.CountRecoveryCodesAsync(user);
+
         var unformattedKey = await UserManager.GetAuthenticatorKeyAsync(user);
 
         if (string.IsNullOrEmpty(unformattedKey))
@@ -336,7 +339,7 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
 
         var sharedKey = FormatKey(unformattedKey!);
 
-        enabled = !string.IsNullOrEmpty(unformattedKey) && enabled;
+        enabled = !string.IsNullOrEmpty(unformattedKey) && recoveryCodesCount > 0 && enabled;
 
         if (enabled)
         {
@@ -346,7 +349,7 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
         return new AccountAuthenticatorInfoDto
         {
             Enabled = false,
-            UserName = userName,
+            Identifier = userName,
             Key = unformattedKey,
             FormatKey = sharedKey,
             Uri = authenticatorUri,

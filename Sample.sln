@@ -169,6 +169,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.Account.Asp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.Account.AspNetCore.IdentityClient", "modules\account\src\Passingwind.Abp.Account.AspNetCore.IdentityClient\Passingwind.Abp.Account.AspNetCore.IdentityClient.csproj", "{05512A8D-B154-468D-87A2-70AF6709FE27}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.Identity.EntityFrameworkCore", "modules\identity\src\Passingwind.Abp.Identity.EntityFrameworkCore\Passingwind.Abp.Identity.EntityFrameworkCore.csproj", "{DA2351B1-696F-4EA1-9AA6-5904158D1BB0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.Identity.MongoDB", "modules\identity\src\Passingwind.Abp.Identity.MongoDB\Passingwind.Abp.Identity.MongoDB.csproj", "{142ACC29-6460-4E1C-9979-EB9BCA61114C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -439,6 +443,14 @@ Global
 		{05512A8D-B154-468D-87A2-70AF6709FE27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05512A8D-B154-468D-87A2-70AF6709FE27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05512A8D-B154-468D-87A2-70AF6709FE27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA2351B1-696F-4EA1-9AA6-5904158D1BB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA2351B1-696F-4EA1-9AA6-5904158D1BB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA2351B1-696F-4EA1-9AA6-5904158D1BB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA2351B1-696F-4EA1-9AA6-5904158D1BB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{142ACC29-6460-4E1C-9979-EB9BCA61114C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{142ACC29-6460-4E1C-9979-EB9BCA61114C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{142ACC29-6460-4E1C-9979-EB9BCA61114C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{142ACC29-6460-4E1C-9979-EB9BCA61114C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -524,6 +536,8 @@ Global
 		{B4ED20E3-55A2-4F35-9FDD-68912752E081} = {B5954512-7C9A-4B14-B06B-F1902B069D22}
 		{39CF69D7-1EA9-47FD-A3BD-9747A6221E8F} = {0FBA4154-8477-4C8E-BFF0-D5D9017F1064}
 		{05512A8D-B154-468D-87A2-70AF6709FE27} = {0FBA4154-8477-4C8E-BFF0-D5D9017F1064}
+		{DA2351B1-696F-4EA1-9AA6-5904158D1BB0} = {1D9AB036-09A0-4645-B692-4CFC6B63A5C9}
+		{142ACC29-6460-4E1C-9979-EB9BCA61114C} = {1D9AB036-09A0-4645-B692-4CFC6B63A5C9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}

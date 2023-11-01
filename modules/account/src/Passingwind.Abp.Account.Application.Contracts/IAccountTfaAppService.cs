@@ -17,11 +17,6 @@ public interface IAccountTfaAppService : IApplicationService
     Task<ListResultDto<string>> GetProvidersAsync();
 
     /// <summary>
-    ///  Get all tfs providers
-    /// </summary>
-    Task<ListResultDto<string>> GetAllProvidersAsync();
-
-    /// <summary>
     ///  forget tfa client if available
     /// </summary>
     Task ForgetClientAsync();
@@ -30,6 +25,11 @@ public interface IAccountTfaAppService : IApplicationService
     ///  Disabled account tfa state
     /// </summary>
     Task DisableAsync();
+
+    /// <summary>
+    ///  enable tfs
+    /// </summary>
+    Task EnabledAsync();
 
     /// <summary>
     ///  Get authenticator state
@@ -60,4 +60,24 @@ public interface IAccountTfaAppService : IApplicationService
     /// </remarks>
     /// <param name="input"></param>
     Task RemoveAuthenticatorAsync(AccountAuthenticatorCodeVerifyRequestDto input);
+
+    /// <summary>
+    ///  enable email token provider
+    /// </summary>
+    Task EnabledEmailTokenProviderAsync();
+    /// <summary>
+    ///  Disable the provider
+    /// </summary>
+    Task DisabledEmailTokenProviderAsync();
+    /// <summary>
+    ///  enable phone number token provider
+    /// </summary>
+    Task EnabledPhoneNumberTokenProviderAsync();
+    /// <summary>
+    ///  Disable the provider
+    /// </summary>
+    Task DisabledPhoneNumberTokenProviderAsync();
+
+    Task<AccountPreferredProviderDto> GetPreferredProviderAsync();
+    Task UpdatePreferredProviderAsync(AccountUpdatePreferredProviderDto input);
 }

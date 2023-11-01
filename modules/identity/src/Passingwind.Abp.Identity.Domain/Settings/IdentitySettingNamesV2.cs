@@ -22,4 +22,12 @@ public static class IdentitySettingNamesV2
         public const string AuthenticatorEnabled = Prefix + ".Authenticator.Enabled";
         public const string AuthenticatorIssuer = Prefix + ".Authenticator.Issuer";
     }
+
+    //public static class Token
+    //{
+    //    public const string Prefix = GroupName + ".Token";
+
+    //    public const string RequireConfirmedEmail = Prefix + ".RequireConfirmedEmail";
+    //    public const string RequireConfirmedPhoneNumber = Prefix + ".RequireConfirmedPhoneNumber";
+    //}
 }

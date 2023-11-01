@@ -6,11 +6,13 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Passingwind.Abp.Identity;
 using Passingwind.Abp.Identity.AspNetCore;
+using Passingwind.Abp.Identity.Options;
 using Passingwind.Abp.Identity.Settings;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Identity;
 using Volo.Abp.Settings;
+using Volo.Abp.Users;
 using IdentityUserManager = Passingwind.Abp.Identity.IdentityUserManager;
 
 namespace Passingwind.Abp.Account;
@@ -23,35 +25,32 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
     protected IdentitySecurityLogManager SecurityLogManager { get; }
     protected IOptions<IdentityOptions> IdentityOptions { get; }
     protected IAccountTwoFactorTokenSender AccountTwoFactorTokenSender { get; }
+    protected IdentityUserTwoFactorManager UserTwoFactorManager { get; }
+    protected IOptions<IdentityUserTokenOptions> UserTokenOptions { get; }
 
     public AccountTfaAppService(
         SignInManager signInManager,
         IdentityUserManager userManager,
         IdentitySecurityLogManager securityLogManager,
         IOptions<IdentityOptions> identityOptions,
-        IAccountTwoFactorTokenSender accountTwoFactorTokenSender)
+        IAccountTwoFactorTokenSender accountTwoFactorTokenSender,
+        IdentityUserTwoFactorManager userTwoFactorManager,
+        IOptions<IdentityUserTokenOptions> userTokenOptions)
     {
         SignInManager = signInManager;
         UserManager = userManager;
         SecurityLogManager = securityLogManager;
         IdentityOptions = identityOptions;
         AccountTwoFactorTokenSender = accountTwoFactorTokenSender;
-    }
-
-    public virtual async Task<ListResultDto<string>> GetAllProvidersAsync()
-    {
-        await IdentityOptions.SetAsync();
-
-        var list = IdentityOptions.Value.Tokens.ProviderMap.Keys.ToList();
-
-        return new ListResultDto<string>(list);
+        UserTwoFactorManager = userTwoFactorManager;
+        UserTokenOptions = userTokenOptions;
     }
 
     public virtual async Task<AccountTfaDto> GetAsync()
     {
         await IdentityOptions.SetAsync();
 
-        var user = await UserManager.GetByIdAsync(CurrentUser.Id!.Value);
+        var user = await UserManager.GetByIdAsync(CurrentUser.GetId());
 
         var enabled = await UserManager.GetTwoFactorEnabledAsync(user);
         var isMachineRemembered = await SignInManager.IsTwoFactorClientRememberedAsync(user);
@@ -72,7 +71,7 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
 
         await CheckTfaDisabledAsync();
 
-        var user = await UserManager.GetByIdAsync(CurrentUser.Id!.Value);
+        var user = await UserManager.GetByIdAsync(CurrentUser.GetId());
 
         var list = await UserManager.GetValidTwoFactorProvidersAsync(user);
 
@@ -83,7 +82,7 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
     {
         await IdentityOptions.SetAsync();
 
-        _ = await UserManager.GetByIdAsync(CurrentUser.Id!.Value);
+        _ = await UserManager.GetByIdAsync(CurrentUser.GetId());
 
         await SignInManager.ForgetTwoFactorClientAsync();
 
@@ -100,7 +99,9 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
 
         await CheckTfaForcedAsync();
 
-        var user = await UserManager.GetByIdAsync(CurrentUser.Id!.Value);
+        await CheckUsersCanChangeAsync();
+
+        var user = await UserManager.GetByIdAsync(CurrentUser.GetId());
 
         if (await UserManager.GetTwoFactorEnabledAsync(user))
         {
@@ -109,12 +110,44 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
             await SecurityLogManager.SaveAsync(new IdentitySecurityLogContext()
             {
                 Identity = IdentitySecurityLogIdentityConsts.IdentityTwoFactor,
-                Action = "Disabled",
-                UserName = user.UserName,
+                Action = IdentitySecurityLogActionConsts.TwoFactorDisabled,
+                UserName = CurrentUser.UserName,
             });
         }
 
-        Logger.LogInformation("User with id '{id}' has disabled 2fa.", user.Id);
+        Logger.LogInformation("User with id '{id}' has two-factor disabled", user.Id);
+    }
+
+    public virtual async Task EnabledAsync()
+    {
+        await IdentityOptions.SetAsync();
+
+        await CheckTfaDisabledAsync();
+
+        await CheckUsersCanChangeAsync();
+
+        var user = await UserManager.GetByIdAsync(CurrentUser.GetId());
+
+        var providers = await UserManager.GetValidTwoFactorProvidersAsync(user);
+
+        if (!await UserManager.GetTwoFactorEnabledAsync(user))
+        {
+            (await UserManager.SetTwoFactorEnabledAsync(user, true)).CheckErrors();
+
+            Logger.LogInformation("User with id '{id}' has two-factor enabled", user.Id);
+
+            if (providers.Count == 0)
+            {
+                Logger.LogWarning("User with id '{id}' does not have any valid two-factor provider but has two-factor enabled", user.Id);
+            }
+
+            await SecurityLogManager.SaveAsync(new IdentitySecurityLogContext()
+            {
+                Identity = IdentitySecurityLogIdentityConsts.IdentityTwoFactor,
+                Action = IdentitySecurityLogActionConsts.TwoFactorEnabled,
+                UserName = CurrentUser.UserName,
+            });
+        }
     }
 
     public virtual async Task<AccountAuthenticatorInfoDto> GetAuthenticatorAsync()
@@ -125,7 +158,7 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
 
         await CheckAuthenticatorDisabledAsync();
 
-        var user = await UserManager.GetByIdAsync(CurrentUser.Id!.Value);
+        var user = await UserManager.GetByIdAsync(CurrentUser.GetId());
 
         var enabled = await UserManager.GetTwoFactorEnabledAsync(user);
 
@@ -142,10 +175,12 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
         var userName = await UserManager.GetUserNameAsync(user);
         var authenticatorUri = await GenerateAuthenticatorQrCodeUri(userName!, unformattedKey!);
 
+        var count = await UserManager.CountRecoveryCodesAsync(user);
+
         return new AccountAuthenticatorInfoDto
         {
-            Enabled = !string.IsNullOrEmpty(unformattedKey) && enabled,
-            UserName = userName,
+            Enabled = !string.IsNullOrEmpty(unformattedKey) && count > 0 && enabled,
+            Identifier = userName,
             Key = unformattedKey,
             FormatKey = sharedKey,
             Uri = authenticatorUri,
@@ -158,9 +193,11 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
 
         await CheckTfaDisabledAsync();
 
+        await CheckUsersCanChangeAsync();
+
         await CheckAuthenticatorDisabledAsync();
 
-        var user = await UserManager.GetByIdAsync(CurrentUser.Id!.Value);
+        var user = await UserManager.GetByIdAsync(CurrentUser.GetId());
 
         var verificationCode = input.Code.Replace(" ", string.Empty).Replace("-", string.Empty);
 
@@ -200,7 +237,7 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
 
         await CheckAuthenticatorDisabledAsync();
 
-        var user = await UserManager.GetByIdAsync(CurrentUser.Id!.Value);
+        var user = await UserManager.GetByIdAsync(CurrentUser.GetId());
 
         var verificationCode = input.Code.Replace(" ", string.Empty).Replace("-", string.Empty);
 
@@ -217,7 +254,7 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
 
         await CheckAuthenticatorDisabledAsync();
 
-        var user = await UserManager.GetByIdAsync(CurrentUser.Id!.Value);
+        var user = await UserManager.GetByIdAsync(CurrentUser.GetId());
 
         var codes = await UserManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10);
 
@@ -242,9 +279,11 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
 
         await CheckTfaForcedAsync();
 
+        await CheckUsersCanChangeAsync();
+
         await CheckAuthenticatorDisabledAsync();
 
-        var user = await UserManager.GetByIdAsync(CurrentUser.Id!.Value);
+        var user = await UserManager.GetByIdAsync(CurrentUser.GetId());
 
         var verificationCode = input.Code.Replace(" ", string.Empty).Replace("-", string.Empty);
 
@@ -276,6 +315,115 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
         await SignInManager.RefreshSignInAsync(user);
     }
 
+    public virtual async Task EnabledEmailTokenProviderAsync()
+    {
+        await IdentityOptions.SetAsync();
+
+        await CheckTfaDisabledAsync();
+
+        await CheckUsersCanChangeAsync();
+
+        var user = await UserManager.GetByIdAsync(CurrentUser.GetId());
+
+        if (string.IsNullOrWhiteSpace(await UserManager.GetEmailAsync(user)))
+        {
+            throw new BusinessException(AccountErrorCodes.UserEmailRequired);
+        }
+
+        if (UserTokenOptions.Value.RequireConfirmedEmail && !await UserManager.IsEmailConfirmedAsync(user))
+        {
+            throw new BusinessException(AccountErrorCodes.UserRequireConfirmedEmail);
+        }
+
+        await UserManager.SetTwoFactorEnabledAsync(user, true);
+        await UserTwoFactorManager.SetEmailTokenEnabledAsync(user, true);
+    }
+
+    public virtual async Task EnabledPhoneNumberTokenProviderAsync()
+    {
+        await IdentityOptions.SetAsync();
+
+        await CheckTfaDisabledAsync();
+
+        await CheckUsersCanChangeAsync();
+
+        var user = await UserManager.GetByIdAsync(CurrentUser.GetId());
+
+        if (string.IsNullOrWhiteSpace(await UserManager.GetPhoneNumberAsync(user)))
+        {
+            throw new BusinessException(AccountErrorCodes.UserPhoneNumberRequired);
+        }
+
+        if (UserTokenOptions.Value.RequireConfirmedPhoneNumber && !await UserManager.IsPhoneNumberConfirmedAsync(user))
+        {
+            throw new BusinessException(AccountErrorCodes.UserRequireConfirmedPhoneNumber);
+        }
+
+        await UserManager.SetTwoFactorEnabledAsync(user, true);
+        await UserTwoFactorManager.SetPhoneNumberTokenEnabledAsync(user, true);
+    }
+
+    public async Task DisabledEmailTokenProviderAsync()
+    {
+        await IdentityOptions.SetAsync();
+
+        await CheckTfaForcedAsync();
+
+        await CheckUsersCanChangeAsync();
+
+        var user = await UserManager.GetByIdAsync(CurrentUser.GetId());
+
+        await UserTwoFactorManager.SetEmailTokenEnabledAsync(user, false);
+
+        var validProviders = await UserManager.GetValidTwoFactorProvidersAsync(user);
+
+        if (validProviders.Count == 0)
+        {
+            await UserManager.SetTwoFactorEnabledAsync(user, false);
+        }
+    }
+
+    public async Task DisabledPhoneNumberTokenProviderAsync()
+    {
+        await IdentityOptions.SetAsync();
+
+        await CheckTfaForcedAsync();
+
+        await CheckUsersCanChangeAsync();
+
+        var user = await UserManager.GetByIdAsync(CurrentUser.GetId());
+
+        await UserTwoFactorManager.SetPhoneNumberTokenEnabledAsync(user, false);
+
+        var validProviders = await UserManager.GetValidTwoFactorProvidersAsync(user);
+
+        if (validProviders.Count == 0)
+        {
+            await UserManager.SetTwoFactorEnabledAsync(user, false);
+        }
+    }
+
+    public virtual async Task<AccountPreferredProviderDto> GetPreferredProviderAsync()
+    {
+        await IdentityOptions.SetAsync();
+
+        var user = await UserManager.GetByIdAsync(CurrentUser.GetId());
+
+        return new AccountPreferredProviderDto
+        {
+            Provider = await UserTwoFactorManager.GetPreferredProviderAsync(user)
+        };
+    }
+
+    public virtual async Task UpdatePreferredProviderAsync(AccountUpdatePreferredProviderDto input)
+    {
+        await IdentityOptions.SetAsync();
+
+        var user = await UserManager.GetByIdAsync(CurrentUser.GetId());
+
+        await UserTwoFactorManager.SetPreferredProviderAsync(user, input.Provider);
+    }
+
     protected virtual async Task<IdentityTwofactoryBehaviour> GetTwofactoryBehaviourAsync()
     {
         return await SettingProvider.GetEnumValueAsync<IdentityTwofactoryBehaviour>(IdentitySettingNamesV2.Twofactor.TwoFactorBehaviour);
@@ -298,6 +446,7 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
             throw new BusinessException(AccountErrorCodes.TwoFactorDisabled);
         }
     }
+
     protected virtual async Task CheckTfaForcedAsync()
     {
         var behaviour = await GetTwofactoryBehaviourAsync();
@@ -305,6 +454,14 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
         if (behaviour == IdentityTwofactoryBehaviour.Forced)
         {
             throw new BusinessException(AccountErrorCodes.TwoFactorCannotDisabled);
+        }
+    }
+
+    protected virtual async Task CheckUsersCanChangeAsync()
+    {
+        if (!await SettingProvider.GetAsync<bool>(IdentitySettingNamesV2.Twofactor.UsersCanChange))
+        {
+            throw new BusinessException(AccountErrorCodes.TwoFactorCanNotChange);
         }
     }
 }

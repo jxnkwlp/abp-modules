@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.1;net7.0</TargetFrameworks>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Passingwind.Abp.Identity</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.MongoDB" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Identity.MongoDB" Version="$(AbpVersion)" />
+    <ProjectReference Include="..\Passingwind.Abp.Identity.Domain\Passingwind.Abp.Identity.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

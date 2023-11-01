@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Passingwind.Abp.ApiKey.EntityFrameworkCore;
 using Passingwind.Abp.FileManagement.EntityFrameworkCore;
+using Passingwind.Abp.Identity.EntityFrameworkCore;
 using Passingwind.Abp.IdentityClient.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
@@ -31,6 +32,7 @@ namespace Sample.EntityFrameworkCore;
 [DependsOn(typeof(ApiKeyEntityFrameworkCoreModule))]
 [DependsOn(typeof(FileManagementEntityFrameworkCoreModule))]
 [DependsOn(typeof(IdentityClientEntityFrameworkCoreModule))]
+[DependsOn(typeof(IdentityEntityFrameworkCoreModule))]
 public class SampleEntityFrameworkCoreModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)

@@ -36,7 +36,7 @@ public class AccountLoginController : AccountBaseController, IAccountLoginAppSer
         return _service.GetTfaStatusAsync();
     }
 
-    [HttpGet("login/authenticator")]
+    [HttpGet("authenticator")]
     public virtual Task<AccountAuthenticatorInfoDto> GetAuthenticatorInfoAsync()
     {
         return _service.GetAuthenticatorInfoAsync();
@@ -48,7 +48,7 @@ public class AccountLoginController : AccountBaseController, IAccountLoginAppSer
         return _service.GetExternalAuthenticationsAsync();
     }
 
-    [HttpGet("login/authenticator/status")]
+    [HttpGet("authenticator/status")]
     public virtual Task<AccountHasAuthenticatorResultDto> HasAuthenticatorAsync()
     {
         return _service.HasAuthenticatorAsync();

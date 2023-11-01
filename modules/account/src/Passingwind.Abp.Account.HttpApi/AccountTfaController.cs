@@ -28,12 +28,6 @@ public class AccountTfaController : AccountBaseController, IAccountTfaAppService
         return TfaAppService.GetProvidersAsync();
     }
 
-    [HttpGet("providers/all")]
-    public virtual Task<ListResultDto<string>> GetAllProvidersAsync()
-    {
-        return TfaAppService.GetAllProvidersAsync();
-    }
-
     [HttpDelete("forget-client")]
     public virtual Task ForgetClientAsync()
     {
@@ -74,5 +68,47 @@ public class AccountTfaController : AccountBaseController, IAccountTfaAppService
     public virtual Task<AccountVerifyTokenResultDto> VerifyAuthenticatorTokenAsync(AccountAuthenticatorCodeVerifyRequestDto input)
     {
         return TfaAppService.VerifyAuthenticatorTokenAsync(input);
+    }
+
+    [HttpPut]
+    public virtual Task EnabledAsync()
+    {
+        return TfaAppService.EnabledAsync();
+    }
+
+    [HttpPut("providers/email")]
+    public virtual Task EnabledEmailTokenProviderAsync()
+    {
+        return TfaAppService.EnabledEmailTokenProviderAsync();
+    }
+
+    [HttpPut("providers/phone-number")]
+    public virtual Task EnabledPhoneNumberTokenProviderAsync()
+    {
+        return TfaAppService.EnabledPhoneNumberTokenProviderAsync();
+    }
+
+    [HttpDelete("providers/email")]
+    public virtual Task DisabledEmailTokenProviderAsync()
+    {
+        return TfaAppService.DisabledEmailTokenProviderAsync();
+    }
+
+    [HttpDelete("providers/phone-number")]
+    public virtual Task DisabledPhoneNumberTokenProviderAsync()
+    {
+        return TfaAppService.DisabledPhoneNumberTokenProviderAsync();
+    }
+
+    [HttpPut("preferred-provider")]
+    public Task UpdatePreferredProviderAsync(AccountUpdatePreferredProviderDto input)
+    {
+        return TfaAppService.UpdatePreferredProviderAsync(input);
+    }
+
+    [HttpGet("preferred-provider")]
+    public Task<AccountPreferredProviderDto> GetPreferredProviderAsync()
+    {
+        return TfaAppService.GetPreferredProviderAsync();
     }
 }

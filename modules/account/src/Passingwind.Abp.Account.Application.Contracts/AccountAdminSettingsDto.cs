@@ -19,6 +19,8 @@ public class AccountGeneralSettingsDto
     public bool IsSelfRegistrationEnabled { get; set; }
     public bool EnableLocalLogin { get; set; }
 
+    public bool EnableResetPassword { get; set; }
+
     public bool EnableChangePasswordOnProfile { get; set; }
     public bool EnableChangePasswordOnLogin { get; set; }
     public bool EnableAuthenticatorSetupOnLogin { get; set; }

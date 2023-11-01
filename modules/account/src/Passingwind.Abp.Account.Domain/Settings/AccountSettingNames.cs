@@ -15,6 +15,11 @@ public static class AccountSettingNames
         public const string EnableLocalLogin = Prefix + ".EnableLocalLogin";
 
         /// <summary>
+        ///  Allow user reset password
+        /// </summary>
+        public const string EnableResetPassword = GroupName + ".EnableResetPassword";
+
+        /// <summary>
         ///  Allow user change password on profile
         /// </summary>
         public const string EnableChangePasswordOnProfile = GroupName + ".EnableChangePasswordOnProfile";

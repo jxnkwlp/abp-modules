@@ -28,6 +28,8 @@ public class AccountSettingDefinitionProvider : SettingDefinitionProvider
         context.Add(new SettingDefinition(AccountSettingNames.General.EnableChangePasswordOnLogin, "true", isVisibleToClients: true));
         context.Add(new SettingDefinition(AccountSettingNames.General.EnableAuthenticatorSetupOnLogin, "true", isVisibleToClients: true));
 
+        context.Add(new SettingDefinition(AccountSettingNames.General.EnableResetPassword, "true", isVisibleToClients: true));
+
         context.Add(new SettingDefinition(AccountSettingNames.ExternalLogin.AutoCreateUser, "true", L("DisplayName:Account.ExternalLogin.AutoCreateUser")));
         context.Add(new SettingDefinition(AccountSettingNames.ExternalLogin.BypassTwofactory, "true", L("DisplayName:Account.ExternalLogin.BypassTwofactory")));
 
