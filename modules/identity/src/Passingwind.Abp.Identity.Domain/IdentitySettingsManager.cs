@@ -59,7 +59,7 @@ public class IdentitySettingsManager : IIdentitySettingsManager, ITransientDepen
     {
         return new IdentityPasswordSettings()
         {
-            ForceUsersToPeriodicallyChangePassword = (await GetSettingValueAsync<bool>(IdentitySettingNames.Password.RequireNonAlphanumeric)),
+            ForceUsersToPeriodicallyChangePassword = (await GetSettingValueAsync<bool>(IdentitySettingNames.Password.ForceUsersToPeriodicallyChangePassword)),
             PasswordChangePeriodDays = (await GetSettingValueAsync<int>(IdentitySettingNames.Password.PasswordChangePeriodDays)),
             RequireDigit = (await GetSettingValueAsync<bool>(IdentitySettingNames.Password.RequireDigit)),
             RequiredLength = (await GetSettingValueAsync<int>(IdentitySettingNames.Password.RequiredLength)),

@@ -12,6 +12,6 @@ public class IdentityEntityFrameworkCoreModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        context.Services.AddAbpDbContext<IdentityDbContextV2>();
+        context.Services.AddAbpDbContext<IdentityDbContextV2>(options => options.AddDefaultRepositories());
     }
 }
