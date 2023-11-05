@@ -13,6 +13,7 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.Identity;
 using Volo.Abp.Settings;
 using Volo.Abp.Users;
+using IdentityUser = Volo.Abp.Identity.IdentityUser;
 using IdentityUserManager = Passingwind.Abp.Identity.IdentityUserManager;
 
 namespace Passingwind.Abp.Account;
@@ -99,9 +100,9 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
 
         await CheckTfaForcedAsync();
 
-        await CheckUsersCanChangeAsync();
-
         var user = await UserManager.GetByIdAsync(CurrentUser.GetId());
+
+        await CheckUsersCanChangeAsync(user);
 
         if (await UserManager.GetTwoFactorEnabledAsync(user))
         {
@@ -123,8 +124,6 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
         await IdentityOptions.SetAsync();
 
         await CheckTfaDisabledAsync();
-
-        await CheckUsersCanChangeAsync();
 
         var user = await UserManager.GetByIdAsync(CurrentUser.GetId());
 
@@ -193,11 +192,11 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
 
         await CheckTfaDisabledAsync();
 
-        await CheckUsersCanChangeAsync();
-
         await CheckAuthenticatorDisabledAsync();
 
         var user = await UserManager.GetByIdAsync(CurrentUser.GetId());
+
+        await CheckUsersCanChangeAsync(user);
 
         var verificationCode = input.Code.Replace(" ", string.Empty).Replace("-", string.Empty);
 
@@ -279,11 +278,11 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
 
         await CheckTfaForcedAsync();
 
-        await CheckUsersCanChangeAsync();
-
         await CheckAuthenticatorDisabledAsync();
 
         var user = await UserManager.GetByIdAsync(CurrentUser.GetId());
+
+        await CheckUsersCanChangeAsync(user);
 
         var verificationCode = input.Code.Replace(" ", string.Empty).Replace("-", string.Empty);
 
@@ -321,9 +320,9 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
 
         await CheckTfaDisabledAsync();
 
-        await CheckUsersCanChangeAsync();
-
         var user = await UserManager.GetByIdAsync(CurrentUser.GetId());
+
+        await CheckUsersCanChangeAsync(user);
 
         if (string.IsNullOrWhiteSpace(await UserManager.GetEmailAsync(user)))
         {
@@ -345,9 +344,9 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
 
         await CheckTfaDisabledAsync();
 
-        await CheckUsersCanChangeAsync();
-
         var user = await UserManager.GetByIdAsync(CurrentUser.GetId());
+
+        await CheckUsersCanChangeAsync(user);
 
         if (string.IsNullOrWhiteSpace(await UserManager.GetPhoneNumberAsync(user)))
         {
@@ -369,9 +368,9 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
 
         await CheckTfaForcedAsync();
 
-        await CheckUsersCanChangeAsync();
-
         var user = await UserManager.GetByIdAsync(CurrentUser.GetId());
+
+        await CheckUsersCanChangeAsync(user);
 
         await UserTwoFactorManager.SetEmailTokenEnabledAsync(user, false);
 
@@ -389,9 +388,9 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
 
         await CheckTfaForcedAsync();
 
-        await CheckUsersCanChangeAsync();
-
         var user = await UserManager.GetByIdAsync(CurrentUser.GetId());
+
+        await CheckUsersCanChangeAsync(user);
 
         await UserTwoFactorManager.SetPhoneNumberTokenEnabledAsync(user, false);
 
@@ -457,11 +456,19 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
         }
     }
 
-    protected virtual async Task CheckUsersCanChangeAsync()
+    protected virtual async Task CheckUsersCanChangeAsync(IdentityUser user)
     {
+        // if user has any valid tfa provider
+        // can't disable tfa
+        // can't enable/disable other tfa
         if (!await SettingProvider.GetAsync<bool>(IdentitySettingNamesV2.Twofactor.UsersCanChange))
         {
-            throw new BusinessException(AccountErrorCodes.TwoFactorCanNotChange);
+            var validProviders = await UserManager.GetValidTwoFactorProvidersAsync(user);
+
+            if (validProviders.Count > 0)
+            {
+                throw new BusinessException(AccountErrorCodes.TwoFactorCanNotChange);
+            }
         }
     }
 }
