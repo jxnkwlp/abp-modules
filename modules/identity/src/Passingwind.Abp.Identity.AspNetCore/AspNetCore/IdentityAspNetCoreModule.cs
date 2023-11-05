@@ -29,7 +29,7 @@ public class IdentityAspNetCoreModule : AbpModule
                     o.DefaultScheme = IdentityConstants.ApplicationScheme;
                     o.DefaultSignInScheme = IdentityConstants.ExternalScheme;
                 })
-                .AddRequiresChangePasswordCookie()
+                .AddChangePasswordCookie()
                 ;
         }
     }

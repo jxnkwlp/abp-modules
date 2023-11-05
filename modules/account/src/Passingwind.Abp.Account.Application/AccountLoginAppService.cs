@@ -43,6 +43,7 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
         AccountTwoFactorTokenSender = accountTwoFactorTokenSender;
         IdentityOptions = identityOptions;
     }
+
     /// <inheritdoc/>
     public virtual async Task<AccountLoginResultDto> LoginAsync(AccountLoginRequestDto input)
     {
@@ -120,11 +121,11 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
         {
             var authenticatorCode = input.Code.Replace(" ", string.Empty).Replace("-", string.Empty);
 
-            signInResult = await SignInManager.TwoFactorAuthenticatorSignInAsync(authenticatorCode, input.RememberMe, isRememberBrowserEnabled);
+            signInResult = await SignInManager.TwoFactorAuthenticatorSignInAsync(authenticatorCode, input.RememberMe, input.RememberBrowser && isRememberBrowserEnabled);
         }
         else
         {
-            signInResult = await SignInManager.TwoFactorSignInAsync(provider, input.Code, input.RememberMe, isRememberBrowserEnabled);
+            signInResult = await SignInManager.TwoFactorSignInAsync(provider, input.Code, input.RememberMe, input.RememberBrowser && isRememberBrowserEnabled);
         }
 
         await SecurityLogManager.SaveAsync(new IdentitySecurityLogContext()

@@ -59,7 +59,7 @@ public class AccountTfaController : AccountBaseController, IAccountTfaAppService
     }
 
     [HttpDelete("authenticator")]
-    public virtual Task RemoveAuthenticatorAsync(AccountAuthenticatorCodeVerifyRequestDto input)
+    public virtual Task RemoveAuthenticatorAsync([FromBody] AccountAuthenticatorCodeVerifyRequestDto input)
     {
         return TfaAppService.RemoveAuthenticatorAsync(input);
     }

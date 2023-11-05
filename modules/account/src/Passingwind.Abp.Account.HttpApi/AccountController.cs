@@ -10,11 +10,11 @@ namespace Passingwind.Abp.Account;
 [RemoteService(Name = AccountRemoteServiceConsts.RemoteServiceName)]
 [Area(AccountRemoteServiceConsts.ModuleName)]
 [Route("api/account")]
-public class AccountController : AbpControllerBase, IAccountAppService
+public class AccountController : AbpControllerBase, IAccountV2AppService
 {
-    protected IAccountAppService AccountAppService { get; }
+    protected IAccountV2AppService AccountAppService { get; }
 
-    public AccountController(IAccountAppService accountAppService)
+    public AccountController(IAccountV2AppService accountAppService)
     {
         AccountAppService = accountAppService;
     }
@@ -34,16 +34,22 @@ public class AccountController : AbpControllerBase, IAccountAppService
     }
 
     [HttpPost]
-    [Route("verify-password-reset-token")]
-    public Task<bool> VerifyPasswordResetTokenAsync(VerifyPasswordResetTokenInput input)
-    {
-        return AccountAppService.VerifyPasswordResetTokenAsync(input);
-    }
-
-    [HttpPost]
     [Route("reset-password")]
     public virtual Task ResetPasswordAsync(ResetPasswordDto input)
     {
         return AccountAppService.ResetPasswordAsync(input);
+    }
+
+    [HttpPost]
+    [Route("verify-password-reset-token")]
+    public virtual Task<AccountVerifyPasswordResetTokenResultDto> VerifyPasswordResetTokenV2Async(VerifyPasswordResetTokenInput input)
+    {
+        return AccountAppService.VerifyPasswordResetTokenV2Async(input);
+    }
+
+    [NonAction]
+    public virtual Task<bool> VerifyPasswordResetTokenAsync(VerifyPasswordResetTokenInput input)
+    {
+        return AccountAppService.VerifyPasswordResetTokenAsync(input);
     }
 }

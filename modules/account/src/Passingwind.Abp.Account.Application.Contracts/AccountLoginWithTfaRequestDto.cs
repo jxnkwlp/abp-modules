@@ -9,4 +9,6 @@ public class AccountLoginWithTfaRequestDto
     public string Code { get; set; } = null!;
 
     public bool RememberMe { get; set; }
+
+    public bool RememberBrowser { get; set; }
 }

@@ -95,7 +95,7 @@ public class SignInManager : AbpSignInManager, IScopedDependency
         if (await ShouldChangePasswordAsync(user))
         {
             var userId = await UserManager.GetUserIdAsync(user);
-            await Context.SignInAsync(IdentityV2Constants.RequiresChangePasswordScheme, StoreChangePasswordInfo(userId, loginProvider));
+            await Context.SignInAsync(IdentityV2Constants.ChangePasswordUserIdScheme, StoreChangePasswordInfo(userId, loginProvider));
 
             return AbpSignInResult.ChangePasswordRequired;
         }
@@ -135,7 +135,7 @@ public class SignInManager : AbpSignInManager, IScopedDependency
     public override async Task SignOutAsync()
     {
         await base.SignOutAsync();
-        await Context.SignOutAsync(IdentityV2Constants.RequiresChangePasswordScheme);
+        await Context.SignOutAsync(IdentityV2Constants.ChangePasswordUserIdScheme);
     }
 
     /// <summary>
@@ -143,7 +143,7 @@ public class SignInManager : AbpSignInManager, IScopedDependency
     /// </summary>
     public virtual async Task<IdentityUser?> GetChangePasswordAuthenticationUserAsync()
     {
-        var result = await Context.AuthenticateAsync(IdentityV2Constants.RequiresChangePasswordScheme);
+        var result = await Context.AuthenticateAsync(IdentityV2Constants.ChangePasswordUserIdScheme);
         if (result?.Principal == null)
         {
             return null;
@@ -182,7 +182,7 @@ public class SignInManager : AbpSignInManager, IScopedDependency
     /// <param name="loginProvider"></param>
     internal static ClaimsPrincipal StoreChangePasswordInfo(string userId, string? loginProvider)
     {
-        var identity = new ClaimsIdentity(IdentityV2Constants.RequiresChangePasswordScheme);
+        var identity = new ClaimsIdentity(IdentityV2Constants.ChangePasswordUserIdScheme);
 
         identity.AddClaim(new Claim(ClaimTypes.Name, userId));
         if (loginProvider != null)
