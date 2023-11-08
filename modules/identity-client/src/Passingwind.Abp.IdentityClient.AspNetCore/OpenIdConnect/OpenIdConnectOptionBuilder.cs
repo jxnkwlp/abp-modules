@@ -29,7 +29,7 @@ public class OpenIdConnectOptionBuilder : IOpenIdConnectOptionBuilder, ITransien
             SaveTokens = true,
             ResponseType = OpenIdConnectResponseType.Code,
             MapInboundClaims = true,
-            CallbackPath = "/auth/signin-oidc",
+            CallbackPath = $"/auth/p/{provider}/signin",
             EventsType = typeof(OpenIdConnectEventType)
         };
 

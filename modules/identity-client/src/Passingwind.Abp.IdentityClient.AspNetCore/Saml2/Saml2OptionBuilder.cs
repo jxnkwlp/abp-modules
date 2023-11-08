@@ -15,38 +15,35 @@ public class Saml2OptionBuilder : ISaml2OptionBuilder, ITransientDependency
 {
     protected ICertificateLoader CertificateLoader { get; }
     protected IdentityClientProviderOption IdentityClientProviderOption { get; }
-    protected Saml2PostConfigureOptions Saml2PostConfigureOptions { get; }
 
-    public Saml2OptionBuilder(ICertificateLoader certificateLoader, IOptions<IdentityClientProviderOption> identityClientProviderOption, Saml2PostConfigureOptions saml2PostConfigureOptions)
+    public Saml2OptionBuilder(ICertificateLoader certificateLoader, IOptions<IdentityClientProviderOption> identityClientProviderOption)
     {
         CertificateLoader = certificateLoader;
         IdentityClientProviderOption = identityClientProviderOption.Value;
-        Saml2PostConfigureOptions = saml2PostConfigureOptions;
     }
 
     public async Task<Saml2Options> GetAsync(string provider, IdentityClientSaml2Configuration configuration, CancellationToken cancellationToken = default)
     {
         var options = new Saml2Options()
         {
-            CallbackPath = new PathString("/auth/signin-saml2"),
-            RemoteSignOutPath = new PathString("/auth/signout-saml2"),
+            CallbackPath = new PathString(string.Format(Saml2Consts.SignInPathFormat, provider)),
+            RemoteSignOutPath = new PathString(string.Format(Saml2Consts.SignOutPathFormat, provider)),
             EventsType = typeof(Saml2EventType),
-            Issuer = configuration.Issuer ?? provider,
+            Issuer = !string.IsNullOrWhiteSpace(configuration.Issuer) ? configuration.Issuer : provider,
             ForceAuthn = configuration.ForceAuthn ?? true,
         };
 
         IdentityClientProviderOption.ConfigureSaml2OptionsDefault?.Invoke(options);
 
-        if (configuration.TrustCertificate.HasValue)
-            options.CertificateValidationMode = configuration.TrustCertificate.Value ? System.ServiceModel.Security.X509CertificateValidationMode.None : System.ServiceModel.Security.X509CertificateValidationMode.PeerOrChainTrust;
+        options.CertificateValidationMode = configuration.TrustCertificate == true ? System.ServiceModel.Security.X509CertificateValidationMode.None : System.ServiceModel.Security.X509CertificateValidationMode.PeerOrChainTrust;
 
         if (!string.IsNullOrWhiteSpace(configuration.CallbackPath))
         {
             options.CallbackPath = new PathString(configuration.CallbackPath);
         }
-        if (!string.IsNullOrWhiteSpace(configuration.RemoteSignOutPath))
+        if (!string.IsNullOrWhiteSpace(configuration.SignOutPath))
         {
-            options.RemoteSignOutPath = new PathString(configuration.RemoteSignOutPath);
+            options.RemoteSignOutPath = new PathString(configuration.SignOutPath);
         }
 
         if (!string.IsNullOrWhiteSpace(configuration.IdpMetadataUrl))
@@ -67,8 +64,6 @@ public class Saml2OptionBuilder : ISaml2OptionBuilder, ITransientDependency
         }
 
         IdentityClientProviderOption.ConfigureSaml2OptionsOption?.Invoke(provider, options);
-
-        Saml2PostConfigureOptions.PostConfigure(provider, options);
 
         return options;
     }

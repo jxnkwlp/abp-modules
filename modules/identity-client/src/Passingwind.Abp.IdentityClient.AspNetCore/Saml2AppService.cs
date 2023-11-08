@@ -24,6 +24,7 @@ public class Saml2AppService : ApplicationService, ISaml2AppService
     protected ICertificateLoader CertificateLoader { get; }
     protected IdentityClientProviderOption IdentityClientProviderOption { get; }
     protected ISaml2OptionBuilder Saml2OptionBuilder { get; }
+    protected ISaml2ConfigurationBuilder Saml2ConfigurationBuilder { get; }
     protected SignInManager<IdentityUser> SignInManager { get; }
 
     public Saml2AppService(
@@ -32,7 +33,8 @@ public class Saml2AppService : ApplicationService, ISaml2AppService
         IOptions<IdentityClientProviderOption> identityClientProviderOption,
         ISaml2OptionBuilder saml2OptionBuilder,
         SignInManager<IdentityUser> signInManager,
-        IHttpContextAccessor httpContextAccessor)
+        IHttpContextAccessor httpContextAccessor,
+        ISaml2ConfigurationBuilder saml2ConfigurationBuilder)
     {
         IdentityClientRepository = identityClientRepository;
         CertificateLoader = certificateLoader;
@@ -40,6 +42,7 @@ public class Saml2AppService : ApplicationService, ISaml2AppService
         Saml2OptionBuilder = saml2OptionBuilder;
         SignInManager = signInManager;
         HttpContext = httpContextAccessor.HttpContext;
+        Saml2ConfigurationBuilder = saml2ConfigurationBuilder;
     }
 
     [AllowAnonymous]
@@ -50,16 +53,17 @@ public class Saml2AppService : ApplicationService, ISaml2AppService
 
         var saml2Options = await Saml2OptionBuilder.GetAsync(identityClient.ProviderName, configuration);
 
-        saml2Options.Configuration = await saml2Options.ConfigurationManager.GetConfigurationAsync();
+        var saml2Configuration = await Saml2ConfigurationBuilder.GetAsync(saml2Options, configuration);
 
         X509Certificate2? signingCert = null;
         if (!string.IsNullOrWhiteSpace(configuration.SigningCertificatePem))
             signingCert = CertificateLoader.Create(configuration.SigningCertificatePem, configuration.SigningCertificateKeyPem);
 
+        var signOutPath = (string.IsNullOrWhiteSpace(configuration.SignOutPath) ? string.Format(Saml2Consts.SignOutPathFormat, identityClient.ProviderName) : configuration.SignOutPath).RemovePreFix("/");
         var spSsoSingleLogoutService = new SingleLogoutService
         {
             Binding = configuration.UseGetAsSingleLogoutService == true ? ProtocolBindings.HttpRedirect : ProtocolBindings.HttpPost,
-            Location = new Uri(baseUri, string.IsNullOrWhiteSpace(configuration.RemoteSignOutPath) ? "auth/signout-saml2" : configuration.RemoteSignOutPath),
+            Location = new Uri(baseUri, signOutPath),
         };
 
         if (!string.IsNullOrWhiteSpace(IdentityClientProviderOption.LoggedOutUrl))
@@ -67,33 +71,31 @@ public class Saml2AppService : ApplicationService, ISaml2AppService
             spSsoSingleLogoutService.ResponseLocation = new Uri(baseUri, IdentityClientProviderOption.LoggedOutUrl);
         }
 
+        var signInPath = (string.IsNullOrWhiteSpace(configuration.CallbackPath) ? string.Format(Saml2Consts.SignInPathFormat, identityClient.ProviderName) : configuration.CallbackPath).RemovePreFix("/");
         var spSsoAssertionConsumerService = new AssertionConsumerService
         {
             Binding = configuration.UseGetAsAssertionConsumerService == true ? ProtocolBindings.HttpRedirect : ProtocolBindings.HttpPost,
-            Location = new Uri(baseUri, string.IsNullOrWhiteSpace(configuration.CallbackPath) ? "auth/signin-saml2" : configuration.CallbackPath),
+            Location = new Uri(baseUri, signInPath),
             IsDefault = true,
         };
 
         var spSsoDescriptor = new SPSsoDescriptor
         {
-            AuthnRequestsSigned = configuration.AuthnRequestsSigned,
+            AuthnRequestsSigned = saml2Configuration.SignAuthnRequest,
             WantAssertionsSigned = configuration.RequireAssertionsSigned,
             SingleLogoutServices = new SingleLogoutService[] { spSsoSingleLogoutService },
             AssertionConsumerServices = new AssertionConsumerService[] { spSsoAssertionConsumerService },
-            NameIDFormats = new Uri[] {
+            NameIDFormats = new Uri[]
+            {
                 NameIdentifierFormats.Persistent
             },
-            // EncryptionCertificates = 
-            //AttributeConsumingServices = new AttributeConsumingService[]
-            //{
-            //    new AttributeConsumingService {
-            //        ServiceName = new ServiceName("Some SP", "en"),
-            //        RequestedAttributes = CreateRequestedAttributes()
-            //    }
-            //},
             AttributeConsumingServices = new AttributeConsumingService[]
             {
-                new AttributeConsumingService { ServiceName = new ServiceName(identityClient.Name, "en"), RequestedAttributes = CreateRequestedAttributes() }
+                new AttributeConsumingService
+                {
+                    ServiceName = new ServiceName(identityClient.Name, "en"),
+                    RequestedAttributes = CreateRequestedAttributes(),
+                }
             },
         };
 
@@ -120,7 +122,7 @@ public class Saml2AppService : ApplicationService, ISaml2AppService
             spSsoDescriptor.SigningCertificates = new List<X509Certificate2>() { signingCert };
         }
 
-        var entityDescriptor = new EntityDescriptor(saml2Options.Configuration)
+        var entityDescriptor = new EntityDescriptor(saml2Configuration)
         {
             ValidUntil = 365,
             SPSsoDescriptor = spSsoDescriptor,
@@ -142,10 +144,10 @@ public class Saml2AppService : ApplicationService, ISaml2AppService
 
         var saml2Options = await Saml2OptionBuilder.GetAsync(identityClient.ProviderName, configuration);
 
-        saml2Options.Configuration = await saml2Options.ConfigurationManager.GetConfigurationAsync();
+        var saml2Configuration = await Saml2ConfigurationBuilder.GetAsync(saml2Options, configuration);
 
         var binding = new Saml2PostBinding();
-        var logoutRequest = new Saml2LogoutRequest(saml2Options.Configuration, HttpContext.User);
+        var logoutRequest = new Saml2LogoutRequest(saml2Configuration, HttpContext.User);
 
         // logout current session
         await SignInManager.SignOutAsync();

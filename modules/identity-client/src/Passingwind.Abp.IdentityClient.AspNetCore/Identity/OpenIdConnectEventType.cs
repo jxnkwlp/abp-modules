@@ -37,14 +37,23 @@ public class OpenIdConnectEventType : OpenIdConnectEvents
         return Task.CompletedTask;
     }
 
+    //public override Task MessageReceived(MessageReceivedContext context)
+    //{
+    //    var providerName = context.Scheme.Name;
+
+    //    Logger.LogDebug("Authentication schame {0} message received: \n{1}", providerName, "");
+
+    //    return Task.CompletedTask;
+    //}
+
     public override Task TokenResponseReceived(TokenResponseReceivedContext context)
     {
         var providerName = context.Scheme.Name;
 
-        Logger.LogDebug("Authentication schame {0} received access token: {1}", providerName, context.TokenEndpointResponse.AccessToken);
-        Logger.LogDebug("Authentication schame {0} received id token: {1}", providerName, context.TokenEndpointResponse.IdToken);
-        Logger.LogDebug("Authentication schame {0} received refresh token: {1}", providerName, context.TokenEndpointResponse.RefreshToken);
-        Logger.LogDebug("Authentication schame {0} received token expires: {1}", providerName, context.TokenEndpointResponse.ExpiresIn);
+        Logger.LogDebug("Authentication schame {0} received access token: \n{1}", providerName, context.TokenEndpointResponse.AccessToken);
+        Logger.LogDebug("Authentication schame {0} received id token: \n{1}", providerName, context.TokenEndpointResponse.IdToken);
+        Logger.LogDebug("Authentication schame {0} received refresh token: \n{1}", providerName, context.TokenEndpointResponse.RefreshToken);
+        Logger.LogDebug("Authentication schame {0} received token expires: \n{1}", providerName, context.TokenEndpointResponse.ExpiresIn);
 
         return Task.CompletedTask;
     }
@@ -58,7 +67,7 @@ public class OpenIdConnectEventType : OpenIdConnectEvents
         if (principal != null)
         {
             var cliams = principal.Claims.Select(x => new { x.Type, x.Value });
-            Logger.LogDebug("Authentication schame {0} resolved claims: {1}", providerName, JsonSerializer.Serialize(cliams));
+            Logger.LogDebug("Authentication schame {0} resolved claims: \n{1}", providerName, JsonSerializer.Serialize(cliams));
         }
 
         if (!context.Options.GetClaimsFromUserInfoEndpoint && principal?.Identity != null)
@@ -71,7 +80,7 @@ public class OpenIdConnectEventType : OpenIdConnectEvents
     {
         var providerName = context.Scheme.Name;
 
-        Logger.LogDebug("Authentication schame {0} received user information: {1}", context.User.RootElement.GetRawText());
+        Logger.LogDebug("Authentication schame {0} received user information: \n{1}", context.User.RootElement.GetRawText());
 
         var principal = context.Principal;
 

@@ -8,7 +8,7 @@ using Volo.Abp.AspNetCore.Mvc;
 namespace Passingwind.Abp.IdentityClient.Controllers;
 
 [ApiExplorerSettings(IgnoreApi = true)]
-[Area("IdentityClient")]
+[Area(IdentityClientRemoteServiceConsts.ModuleName)]
 [Route("auth/saml2")]
 public class Saml2Controller : AbpController
 {
@@ -24,7 +24,8 @@ public class Saml2Controller : AbpController
     [HttpGet("{name}/endpoint/descriptor")]
     public virtual async Task<IActionResult> Saml2MetadataAsync(string name)
     {
-        var baseUri = new Uri($"{Request.Scheme}://{Request.Host.ToUriComponent()}/");
+        var url = $"{Request.Scheme}://{Request.Host.ToUriComponent()}{Request.PathBase}";
+        var baseUri = new Uri(url.EnsureEndsWith('/'));
 
         var metadataString = await Saml2AppService.GetMetadataDescriptorAsync(baseUri, name);
 

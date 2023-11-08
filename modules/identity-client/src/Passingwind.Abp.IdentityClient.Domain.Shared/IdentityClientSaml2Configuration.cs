@@ -6,10 +6,10 @@ public class IdentityClientSaml2Configuration
     public string? IdpMetadataContent { get; set; }
 
     public string? Issuer { get; set; }
-    public bool? ForceAuthn { get; set; }
+
     public bool? TrustCertificate { get; set; }
 
-    public bool? AuthnRequestsSigned { get; set; }
+    public bool? ForceAuthn { get; set; }
     public bool? RequireAssertionsSigned { get; set; }
 
     public string? SigningCertificatePem { get; set; }
@@ -19,7 +19,7 @@ public class IdentityClientSaml2Configuration
     public bool? UseGetAsSingleLogoutService { get; set; }
 
     public string? CallbackPath { get; set; }
-    public string? RemoteSignOutPath { get; set; }
+    public string? SignOutPath { get; set; }
 
     public string? NameIDFormats { get; set; }
 }
