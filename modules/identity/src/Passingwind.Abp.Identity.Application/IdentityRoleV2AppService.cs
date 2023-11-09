@@ -94,7 +94,7 @@ public class IdentityRoleV2AppService : IdentityRoleAppService, IIdentityRoleV2A
         await RoleRepository.UpdateAsync(entity);
     }
 
-    public async Task<ListResultDto<IdentityClaimTypeDto>> GetAssignableClaimsAsync()
+    public virtual async Task<ListResultDto<IdentityClaimTypeDto>> GetAssignableClaimsAsync()
     {
         var list = await IdentityClaimTypeRepository.GetListAsync();
 

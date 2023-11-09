@@ -101,13 +101,13 @@ public class AccountTfaController : AccountBaseController, IAccountTfaAppService
     }
 
     [HttpPut("preferred-provider")]
-    public Task UpdatePreferredProviderAsync(AccountUpdatePreferredProviderDto input)
+    public virtual Task UpdatePreferredProviderAsync(AccountUpdatePreferredProviderDto input)
     {
         return TfaAppService.UpdatePreferredProviderAsync(input);
     }
 
     [HttpGet("preferred-provider")]
-    public Task<AccountPreferredProviderDto> GetPreferredProviderAsync()
+    public virtual Task<AccountPreferredProviderDto> GetPreferredProviderAsync()
     {
         return TfaAppService.GetPreferredProviderAsync();
     }

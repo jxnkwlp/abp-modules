@@ -19,14 +19,14 @@ public class DictionaryItemRepository : MongoDbRepository<DictionaryManagementMo
     {
     }
 
-    public async Task<DictionaryItem?> FindByNameAsync(string name, CancellationToken cancellationToken = default)
+    public virtual async Task<DictionaryItem?> FindByNameAsync(string name, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 
         return await query.FirstOrDefaultAsync(x => x.Name == name, cancellationToken);
     }
 
-    public async Task<DictionaryItem> GetByNameAsync(string name, CancellationToken cancellationToken = default)
+    public virtual async Task<DictionaryItem> GetByNameAsync(string name, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 
@@ -77,7 +77,7 @@ public class DictionaryItemRepository : MongoDbRepository<DictionaryManagementMo
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<bool> IsNameExistsAsync(string name, IEnumerable<Guid>? excludeIds = null, CancellationToken cancellationToken = default)
+    public virtual async Task<bool> IsNameExistsAsync(string name, IEnumerable<Guid>? excludeIds = null, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 

@@ -16,7 +16,7 @@ public class DictionaryAppService : DictionaryManagementAppService, IDictionaryA
         _dictionaryItemRepository = dictionaryItemRepository;
     }
 
-    public async Task<DictionaryResultDto> GetAsync(string name)
+    public virtual async Task<DictionaryResultDto> GetAsync(string name)
     {
         var item = await _dictionaryItemRepository.GetByNameAsync(name);
 
@@ -35,7 +35,7 @@ public class DictionaryAppService : DictionaryManagementAppService, IDictionaryA
         return ObjectMapper.Map<DictionaryItem, DictionaryResultDto>(item);
     }
 
-    public async Task<DictionaryListResultDto> GetListByGroupAsync(string groupName)
+    public virtual async Task<DictionaryListResultDto> GetListByGroupAsync(string groupName)
     {
         var group = await _dictionaryGroupRepository.GetByNameAsync(groupName);
 

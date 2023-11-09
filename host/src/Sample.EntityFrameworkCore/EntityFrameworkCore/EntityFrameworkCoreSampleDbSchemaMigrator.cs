@@ -18,7 +18,7 @@ public class EntityFrameworkCoreSampleDbSchemaMigrator
         _serviceProvider = serviceProvider;
     }
 
-    public async Task MigrateAsync()
+    public virtual async Task MigrateAsync()
     {
         /* We intentionally resolving the SampleDbContext
          * from IServiceProvider (instead of directly injecting it)

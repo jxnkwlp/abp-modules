@@ -82,13 +82,13 @@ public class FileController : FileManagementController, IFileAppService
     }
 
     [HttpPut("{containerName}/{id}")]
-    public Task<FileDto> UpdateAsync(string containerName, Guid id, FileUpdateDto input)
+    public virtual Task<FileDto> UpdateAsync(string containerName, Guid id, FileUpdateDto input)
     {
         return _service.UpdateAsync(containerName, id, input);
     }
 
     [HttpPost("{containerName}/directory")]
-    public Task<FileDto> CreateDirectoryAsync(string containerName, FileDirectoryCreateDto input)
+    public virtual Task<FileDto> CreateDirectoryAsync(string containerName, FileDirectoryCreateDto input)
     {
         return _service.CreateDirectoryAsync(containerName, input);
     }

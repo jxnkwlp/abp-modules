@@ -49,7 +49,7 @@ public class DynamicPermissionDefinitionController : DynamicPermissionManagement
     }
 
     [HttpGet("all")]
-    public Task<ListResultDto<DynamicPermissionDefinitionDto>> GetAllListAsync(DynamicPermissionDefinitionListRequestDto input)
+    public virtual Task<ListResultDto<DynamicPermissionDefinitionDto>> GetAllListAsync(DynamicPermissionDefinitionListRequestDto input)
     {
         return _service.GetAllListAsync(input);
     }

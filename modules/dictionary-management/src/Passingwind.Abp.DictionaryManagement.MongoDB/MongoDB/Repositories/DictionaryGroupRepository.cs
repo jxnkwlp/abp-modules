@@ -19,14 +19,14 @@ public class DictionaryGroupRepository : MongoDbRepository<DictionaryManagementM
     {
     }
 
-    public async Task<DictionaryGroup?> FindByNameAsync(string name, CancellationToken cancellationToken = default)
+    public virtual async Task<DictionaryGroup?> FindByNameAsync(string name, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 
         return await query.FirstOrDefaultAsync(x => x.Name == name, cancellationToken);
     }
 
-    public async Task<DictionaryGroup> GetByNameAsync(string name, CancellationToken cancellationToken = default)
+    public virtual async Task<DictionaryGroup> GetByNameAsync(string name, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 
@@ -38,7 +38,7 @@ public class DictionaryGroupRepository : MongoDbRepository<DictionaryManagementM
         return entity;
     }
 
-    public async Task<long> GetCountAsync(string? filter = null, string? parentName = null, CancellationToken cancellationToken = default)
+    public virtual async Task<long> GetCountAsync(string? filter = null, string? parentName = null, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 
@@ -49,7 +49,7 @@ public class DictionaryGroupRepository : MongoDbRepository<DictionaryManagementM
             .LongCountAsync(cancellationToken);
     }
 
-    public async Task<List<DictionaryGroup>> GetListAsync(string? filter = null, string? parentName = null, bool includeDetails = false, string? sorting = null, CancellationToken cancellationToken = default)
+    public virtual async Task<List<DictionaryGroup>> GetListAsync(string? filter = null, string? parentName = null, bool includeDetails = false, string? sorting = null, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 
@@ -61,7 +61,7 @@ public class DictionaryGroupRepository : MongoDbRepository<DictionaryManagementM
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<List<DictionaryGroup>> GetPagedListAsync(int skipCount, int maxResultCount, string? filter = null, string? parentName = null, string? sorting = null, bool includeDetails = false, CancellationToken cancellationToken = default)
+    public virtual async Task<List<DictionaryGroup>> GetPagedListAsync(int skipCount, int maxResultCount, string? filter = null, string? parentName = null, string? sorting = null, bool includeDetails = false, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 
@@ -74,7 +74,7 @@ public class DictionaryGroupRepository : MongoDbRepository<DictionaryManagementM
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<bool> IsNameExistsAsync(string name, IEnumerable<Guid>? excludeIds = null, CancellationToken cancellationToken = default)
+    public virtual async Task<bool> IsNameExistsAsync(string name, IEnumerable<Guid>? excludeIds = null, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 

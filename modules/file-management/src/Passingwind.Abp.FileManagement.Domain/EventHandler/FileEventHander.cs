@@ -34,7 +34,7 @@ public class FileEventHander :
     }
 
     [UnitOfWork]
-    public async Task HandleEventAsync(EntityDeletedEventData<File> eventData)
+    public virtual async Task HandleEventAsync(EntityDeletedEventData<File> eventData)
     {
         var entity = eventData.Entity;
 

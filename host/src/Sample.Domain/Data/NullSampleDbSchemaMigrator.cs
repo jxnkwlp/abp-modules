@@ -8,7 +8,7 @@ namespace Sample.Data;
  */
 public class NullSampleDbSchemaMigrator : ISampleDbSchemaMigrator, ITransientDependency
 {
-    public Task MigrateAsync()
+    public virtual Task MigrateAsync()
     {
         return Task.CompletedTask;
     }

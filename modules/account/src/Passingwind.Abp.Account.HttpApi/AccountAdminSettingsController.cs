@@ -16,61 +16,61 @@ public class AccountAdminSettingsController : AccountBaseController, IAccountAdm
     }
 
     [HttpGet]
-    public Task<AccountAdminSettingsDto> GetAsync()
+    public virtual Task<AccountAdminSettingsDto> GetAsync()
     {
         return _service.GetAsync();
     }
 
     [HttpGet("captcha")]
-    public Task<AccountCaptchaSettingsDto> GetCaptchaAsync()
+    public virtual Task<AccountCaptchaSettingsDto> GetCaptchaAsync()
     {
         return _service.GetCaptchaAsync();
     }
 
     [HttpGet("external-login")]
-    public Task<AccountExternalLoginSettingsDto> GetExternalLoginAsync()
+    public virtual Task<AccountExternalLoginSettingsDto> GetExternalLoginAsync()
     {
         return _service.GetExternalLoginAsync();
     }
 
     [HttpGet("general")]
-    public Task<AccountGeneralSettingsDto> GetGeneralAsync()
+    public virtual Task<AccountGeneralSettingsDto> GetGeneralAsync()
     {
         return _service.GetGeneralAsync();
     }
 
     [HttpGet("recaptcha")]
-    public Task<AccountRecaptchaSettingsDto> GetRecaptchaAsync()
+    public virtual Task<AccountRecaptchaSettingsDto> GetRecaptchaAsync()
     {
         return _service.GetRecaptchaAsync();
     }
 
     [HttpPut]
-    public Task UpdateAsync(AccountAdminSettingsDto input)
+    public virtual Task UpdateAsync(AccountAdminSettingsDto input)
     {
         return _service.UpdateAsync(input);
     }
 
     [HttpPut("captcha")]
-    public Task UpdateCaptchaAsync(AccountCaptchaSettingsDto input)
+    public virtual Task UpdateCaptchaAsync(AccountCaptchaSettingsDto input)
     {
         return _service.UpdateCaptchaAsync(input);
     }
 
     [HttpPut("external-login")]
-    public Task UpdateExternalLoginAsync(AccountExternalLoginSettingsDto input)
+    public virtual Task UpdateExternalLoginAsync(AccountExternalLoginSettingsDto input)
     {
         return _service.UpdateExternalLoginAsync(input);
     }
 
     [HttpPut("general")]
-    public Task UpdateGeneralAsync(AccountGeneralSettingsDto input)
+    public virtual Task UpdateGeneralAsync(AccountGeneralSettingsDto input)
     {
         return _service.UpdateGeneralAsync(input);
     }
 
     [HttpPut("recaptcha")]
-    public Task UpdateRecaptchaAsync(AccountRecaptchaSettingsDto input)
+    public virtual Task UpdateRecaptchaAsync(AccountRecaptchaSettingsDto input)
     {
         return _service.UpdateRecaptchaAsync(input);
     }

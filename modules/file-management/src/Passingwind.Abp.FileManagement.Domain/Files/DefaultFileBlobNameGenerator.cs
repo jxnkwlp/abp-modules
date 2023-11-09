@@ -19,7 +19,7 @@ public class DefaultFileBlobNameGenerator : IFileBlobNameGenerator, ITransientDe
         _options = options.Value;
     }
 
-    public Task<string> CreateAsync(Guid containerId, Guid fileId, string uniqueId, string fileName, string mimeType, long length, string hash, CancellationToken cancellationToken = default)
+    public virtual Task<string> CreateAsync(Guid containerId, Guid fileId, string uniqueId, string fileName, string mimeType, long length, string hash, CancellationToken cancellationToken = default)
     {
         var now = _clock.Now;
         var directorySeparator = _options.BlobDirectorySeparator;

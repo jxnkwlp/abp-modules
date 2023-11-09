@@ -19,7 +19,7 @@ public class FileContainerRepository : MongoDbRepository<FileManagementMongoDbCo
     {
     }
 
-    public async Task<bool> CheckExistsAsync(FileContainer fileContainer, CancellationToken cancellationToken = default)
+    public virtual async Task<bool> CheckExistsAsync(FileContainer fileContainer, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 
@@ -37,14 +37,14 @@ public class FileContainerRepository : MongoDbRepository<FileManagementMongoDbCo
             .LongCountAsync(cancellationToken);
     }
 
-    public async Task<FileContainer?> FindByNameAsync(string name, CancellationToken cancellationToken = default)
+    public virtual async Task<FileContainer?> FindByNameAsync(string name, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 
         return await query.FirstOrDefaultAsync(x => x.Name == name, cancellationToken: cancellationToken);
     }
 
-    public async Task<FileContainer> GetByNameAsync(string name, CancellationToken cancellationToken = default)
+    public virtual async Task<FileContainer> GetByNameAsync(string name, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 

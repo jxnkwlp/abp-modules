@@ -18,14 +18,14 @@ public class DictionaryGroupRepository : EfCoreRepository<DictionaryManagementDb
     {
     }
 
-    public async Task<DictionaryGroup?> FindByNameAsync(string name, CancellationToken cancellationToken = default)
+    public virtual async Task<DictionaryGroup?> FindByNameAsync(string name, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
 
         return await dbset.FirstOrDefaultAsync(x => x.Name == name, cancellationToken);
     }
 
-    public async Task<DictionaryGroup> GetByNameAsync(string name, CancellationToken cancellationToken = default)
+    public virtual async Task<DictionaryGroup> GetByNameAsync(string name, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
 
@@ -47,7 +47,7 @@ public class DictionaryGroupRepository : EfCoreRepository<DictionaryManagementDb
             .LongCountAsync(cancellationToken);
     }
 
-    public async Task<List<DictionaryGroup>> GetListAsync(string? filter = null, string? parentName = null, bool includeDetails = false, string? sorting = null, CancellationToken cancellationToken = default)
+    public virtual async Task<List<DictionaryGroup>> GetListAsync(string? filter = null, string? parentName = null, bool includeDetails = false, string? sorting = null, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
 
@@ -70,7 +70,7 @@ public class DictionaryGroupRepository : EfCoreRepository<DictionaryManagementDb
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<bool> IsNameExistsAsync(string name, IEnumerable<Guid>? excludeIds = null, CancellationToken cancellationToken = default)
+    public virtual async Task<bool> IsNameExistsAsync(string name, IEnumerable<Guid>? excludeIds = null, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
 

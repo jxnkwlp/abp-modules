@@ -24,7 +24,7 @@ public class IdentityClientEventHandler :
         _identityClientRepository = identityClientRepository;
     }
 
-    public async Task HandleEventAsync(EntityCreatedEto<IdentityClientEto> eventData)
+    public virtual async Task HandleEventAsync(EntityCreatedEto<IdentityClientEto> eventData)
     {
         var data = eventData.Entity;
 
@@ -40,7 +40,7 @@ public class IdentityClientEventHandler :
         }
     }
 
-    public async Task HandleEventAsync(EntityUpdatedEto<IdentityClientEto> eventData)
+    public virtual async Task HandleEventAsync(EntityUpdatedEto<IdentityClientEto> eventData)
     {
         var data = eventData.Entity;
 
@@ -59,7 +59,7 @@ public class IdentityClientEventHandler :
         }
     }
 
-    public async Task HandleEventAsync(EntityDeletedEto<IdentityClientEto> eventData)
+    public virtual async Task HandleEventAsync(EntityDeletedEto<IdentityClientEto> eventData)
     {
         var data = eventData.Entity;
 

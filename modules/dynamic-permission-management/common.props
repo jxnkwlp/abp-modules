@@ -3,10 +3,18 @@
   <Import Project="..\common.props" />
 
   <PropertyGroup>
-    <Version>0.2.0</Version>
     <Product>Passingwind.Abp.DynamicPermissionManagement</Product>
     <Description>an abp module that provider dynamic permission management service</Description>
     <PackageTags>abp-module</PackageTags>
+    <Version>0.2.0</Version>
+    <PackageVersion>0.2.1</PackageVersion>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 </Project>

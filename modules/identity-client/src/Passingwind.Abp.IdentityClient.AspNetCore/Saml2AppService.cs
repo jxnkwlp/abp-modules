@@ -46,7 +46,7 @@ public class Saml2AppService : ApplicationService, ISaml2AppService
     }
 
     [AllowAnonymous]
-    public async Task<string> GetMetadataDescriptorAsync(Uri baseUri, string name)
+    public virtual async Task<string> GetMetadataDescriptorAsync(Uri baseUri, string name)
     {
         var identityClient = await IdentityClientRepository.GetByNameAsync(name);
         var configuration = IdentityClientConfigurationHelper.ToSaml2Configuration(identityClient.Configurations);
@@ -134,7 +134,7 @@ public class Saml2AppService : ApplicationService, ISaml2AppService
     }
 
     [Authorize]
-    public async Task<string> LogoutAsync(string name)
+    public virtual async Task<string> LogoutAsync(string name)
     {
         if (HttpContext == null)
             throw new ArgumentException(nameof(HttpContext));

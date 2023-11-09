@@ -20,7 +20,7 @@ public class OpenIdConnectOptionBuilder : IOpenIdConnectOptionBuilder, ITransien
         IdentityClientProviderOption = identityClientProviderOption.Value;
     }
 
-    public Task<OpenIdConnectOptions> GetAsync(string provider, IdentityClientOpenIdConnectConfiguration configuration, CancellationToken cancellationToken = default)
+    public virtual Task<OpenIdConnectOptions> GetAsync(string provider, IdentityClientOpenIdConnectConfiguration configuration, CancellationToken cancellationToken = default)
     {
         OpenIdConnectOptions options = new OpenIdConnectOptions
         {

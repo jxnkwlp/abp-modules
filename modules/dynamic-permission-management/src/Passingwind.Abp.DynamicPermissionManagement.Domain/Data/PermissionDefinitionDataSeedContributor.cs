@@ -14,7 +14,7 @@ public class PermissionDefinitionDataSeedContributor : IDataSeedContributor, ITr
         DynamicPermissionManager = dynamicPermissionManager;
     }
 
-    public async Task SeedAsync(DataSeedContext context)
+    public virtual async Task SeedAsync(DataSeedContext context)
     {
         await DynamicPermissionManager.InitialGroupDefinitionsToPermissionAsync();
         await DynamicPermissionManager.InitialDefinitionsToPermissionAsync();

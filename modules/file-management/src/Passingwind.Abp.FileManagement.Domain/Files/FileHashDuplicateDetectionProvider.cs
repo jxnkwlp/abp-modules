@@ -9,7 +9,7 @@
 //        _fileRepository = fileRepository;
 //    }
 
-//    public async Task<bool> IsExistsAsync(FileContainer fileContainer, File file, CancellationToken cancellationToken = default)
+//    public virtual async Task<bool> IsExistsAsync(FileContainer fileContainer, File file, CancellationToken cancellationToken = default)
 //    {
 //        return await _fileRepository.AnyAsync(x => x.Id != file.Id
 //                         && x.Hash == file.Hash

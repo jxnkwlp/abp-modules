@@ -25,7 +25,6 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
     protected IdentityUserManager UserManager { get; }
     protected IdentitySecurityLogManager SecurityLogManager { get; }
     protected IOptions<IdentityOptions> IdentityOptions { get; }
-    protected IAccountTwoFactorTokenSender AccountTwoFactorTokenSender { get; }
     protected IdentityUserTwoFactorManager UserTwoFactorManager { get; }
     protected IOptions<IdentityUserTokenOptions> UserTokenOptions { get; }
 
@@ -34,7 +33,6 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
         IdentityUserManager userManager,
         IdentitySecurityLogManager securityLogManager,
         IOptions<IdentityOptions> identityOptions,
-        IAccountTwoFactorTokenSender accountTwoFactorTokenSender,
         IdentityUserTwoFactorManager userTwoFactorManager,
         IOptions<IdentityUserTokenOptions> userTokenOptions)
     {
@@ -42,7 +40,6 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
         UserManager = userManager;
         SecurityLogManager = securityLogManager;
         IdentityOptions = identityOptions;
-        AccountTwoFactorTokenSender = accountTwoFactorTokenSender;
         UserTwoFactorManager = userTwoFactorManager;
         UserTokenOptions = userTokenOptions;
     }
@@ -362,7 +359,7 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
         await UserTwoFactorManager.SetPhoneNumberTokenEnabledAsync(user, true);
     }
 
-    public async Task DisabledEmailTokenProviderAsync()
+    public virtual async Task DisabledEmailTokenProviderAsync()
     {
         await IdentityOptions.SetAsync();
 
@@ -382,7 +379,7 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
         }
     }
 
-    public async Task DisabledPhoneNumberTokenProviderAsync()
+    public virtual async Task DisabledPhoneNumberTokenProviderAsync()
     {
         await IdentityOptions.SetAsync();
 

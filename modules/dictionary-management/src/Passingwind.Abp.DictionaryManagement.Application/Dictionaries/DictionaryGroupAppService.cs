@@ -18,7 +18,7 @@ public class DictionaryGroupAppService : DictionaryManagementAppService, IDictio
         _dictionaryGroupRepository = dictionaryGroupRepository;
     }
 
-    public async Task<ListResultDto<DictionaryGroupDto>> GetAllListAsync()
+    public virtual async Task<ListResultDto<DictionaryGroupDto>> GetAllListAsync()
     {
         var list = await _dictionaryGroupRepository.GetListAsync();
 

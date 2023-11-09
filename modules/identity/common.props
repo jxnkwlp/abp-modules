@@ -5,6 +5,15 @@
     <Product>Passingwind.Abp.Identity</Product>
     <Description>an abp module that extend identity service, include settings, organization unit.</Description>
     <PackageTags>abp-module</PackageTags>
+    <Version>0.2.0</Version>
+    <PackageVersion>0.2.9</PackageVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>

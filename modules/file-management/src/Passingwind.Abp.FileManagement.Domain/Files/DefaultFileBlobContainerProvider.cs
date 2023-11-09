@@ -18,7 +18,7 @@ public class DefaultFileBlobContainerProvider : IFileBlobContainerProvider, ITra
         _options = options.Value;
     }
 
-    public Task<IBlobContainer> GetAsync(FileContainer container, CancellationToken cancellationToken = default)
+    public virtual Task<IBlobContainer> GetAsync(FileContainer container, CancellationToken cancellationToken = default)
     {
         IBlobContainer blobContainer;
 

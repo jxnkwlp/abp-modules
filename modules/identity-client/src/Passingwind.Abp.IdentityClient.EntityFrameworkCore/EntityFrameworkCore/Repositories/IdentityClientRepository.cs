@@ -52,7 +52,7 @@ public class IdentityClientRepository : EfCoreRepository<IdentityClientDbContext
         return entity;
     }
 
-    public async Task<IdentityClient> GetByProviderNameAsync(string providerName, bool includeDetails = true, CancellationToken cancellationToken = default)
+    public virtual async Task<IdentityClient> GetByProviderNameAsync(string providerName, bool includeDetails = true, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
 

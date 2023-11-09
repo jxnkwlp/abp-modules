@@ -7,7 +7,7 @@ namespace Passingwind.Abp.FileManagement.Files;
 
 public class DefaultFileUniqueIdGenerator : IFileUniqueIdGenerator, ISingletonDependency
 {
-    public Task<string> CreateAsync(FileContainer fileContainer, Guid fileId, CancellationToken cancellationToken = default)
+    public virtual Task<string> CreateAsync(FileContainer fileContainer, Guid fileId, CancellationToken cancellationToken = default)
     {
         // return Nanoid.Nanoid.GenerateAsync(size: 32);
         return Task.FromResult(fileId.ToString("N"));

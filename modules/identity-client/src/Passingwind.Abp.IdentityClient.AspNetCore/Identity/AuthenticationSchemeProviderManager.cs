@@ -23,7 +23,7 @@ public class AuthenticationSchemeProviderManager : IAuthenticationSchemeProvider
         AuthenticationSchemeProvider = authenticationSchemeProvider;
     }
 
-    public Task RegisterAsync<TOptions, THandler>(string name, string displayName, TOptions options, CancellationToken cancellationToken = default) where TOptions : class
+    public virtual Task RegisterAsync<TOptions, THandler>(string name, string displayName, TOptions options, CancellationToken cancellationToken = default) where TOptions : class
     {
         Logger.LogDebug("Try register authentication scheme '{0}', option type '{1}'", name, options.GetType().Name);
 
@@ -48,7 +48,7 @@ public class AuthenticationSchemeProviderManager : IAuthenticationSchemeProvider
         return Task.CompletedTask;
     }
 
-    public Task UnRegisterAsync<TOptions>(string name, CancellationToken cancellationToken = default) where TOptions : class
+    public virtual Task UnRegisterAsync<TOptions>(string name, CancellationToken cancellationToken = default) where TOptions : class
     {
         Logger.LogInformation("Try unregister authentication scheme '{0}' ", name);
 

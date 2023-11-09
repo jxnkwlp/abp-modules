@@ -41,7 +41,7 @@ public class DynamicPermissionDefinitionEventHander :
     ///  DynamicPermissionDefinition Created
     /// </summary>
     /// <param name="eventData"></param>
-    public async Task HandleEventAsync(EntityCreatedEventData<DynamicPermissionDefinition> eventData)
+    public virtual async Task HandleEventAsync(EntityCreatedEventData<DynamicPermissionDefinition> eventData)
     {
         var definition = eventData.Entity;
         var group = await _permissionGroupDefinitionRepository.FindAsync(definition.GroupId);
@@ -74,7 +74,7 @@ public class DynamicPermissionDefinitionEventHander :
     ///  DynamicPermissionDefinition Deleted
     /// </summary>
     /// <param name="eventData"></param>
-    public async Task HandleEventAsync(EntityDeletedEventData<DynamicPermissionDefinition> eventData)
+    public virtual async Task HandleEventAsync(EntityDeletedEventData<DynamicPermissionDefinition> eventData)
     {
         var entity = eventData.Entity;
 
@@ -87,7 +87,7 @@ public class DynamicPermissionDefinitionEventHander :
     ///  DynamicPermissionDefinition Updated
     /// </summary>
     /// <param name="eventData"></param>
-    public async Task HandleEventAsync(EntityUpdatedEventData<DynamicPermissionDefinition> eventData)
+    public virtual async Task HandleEventAsync(EntityUpdatedEventData<DynamicPermissionDefinition> eventData)
     {
         var entity = eventData.Entity;
 
@@ -106,7 +106,7 @@ public class DynamicPermissionDefinitionEventHander :
     ///  DynamicPermissionGroupDefinition updated
     /// </summary>
     /// <param name="eventData"></param>
-    public async Task HandleEventAsync(EntityUpdatedEventData<DynamicPermissionGroupDefinition> eventData)
+    public virtual async Task HandleEventAsync(EntityUpdatedEventData<DynamicPermissionGroupDefinition> eventData)
     {
         var entity = eventData.Entity;
 
@@ -126,7 +126,7 @@ public class DynamicPermissionDefinitionEventHander :
     ///  DynamicPermissionGroupDefinition deleted
     /// </summary>
     /// <param name="eventData"></param>
-    public async Task HandleEventAsync(EntityDeletedEventData<DynamicPermissionGroupDefinition> eventData)
+    public virtual async Task HandleEventAsync(EntityDeletedEventData<DynamicPermissionGroupDefinition> eventData)
     {
         var entity = eventData.Entity;
 
@@ -139,7 +139,7 @@ public class DynamicPermissionDefinitionEventHander :
     ///  DynamicPermissionGroupDefinition changed name
     /// </summary>
     /// <param name="eventData"></param>
-    public async Task HandleEventAsync(DynamicPermissionGroupDefinitionNameChangedEto eventData)
+    public virtual async Task HandleEventAsync(DynamicPermissionGroupDefinitionNameChangedEto eventData)
     {
         await _dynamicPermissionManager.ChangePermissionGroupDefinitionNameAsync(eventData.OldName, eventData.Name, eventData.Entity);
 

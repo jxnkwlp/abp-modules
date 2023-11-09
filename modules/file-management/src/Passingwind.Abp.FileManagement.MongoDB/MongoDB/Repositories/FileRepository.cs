@@ -19,7 +19,7 @@ public class FileRepository : MongoDbRepository<FileManagementMongoDbContext, Fi
     {
     }
 
-    public async Task<File?> FindByNameAsync(Guid containerId, string fileName, Guid? parentId = null, CancellationToken cancellationToken = default)
+    public virtual async Task<File?> FindByNameAsync(Guid containerId, string fileName, Guid? parentId = null, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 
@@ -29,7 +29,7 @@ public class FileRepository : MongoDbRepository<FileManagementMongoDbContext, Fi
             .FirstOrDefaultAsync(x => x.ContainerId == containerId && x.FileName == fileName, cancellationToken: cancellationToken);
     }
 
-    public async Task<File> GetByNameAsync(Guid containerId, string fileName, Guid? parentId = null, CancellationToken cancellationToken = default)
+    public virtual async Task<File> GetByNameAsync(Guid containerId, string fileName, Guid? parentId = null, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 
@@ -41,7 +41,7 @@ public class FileRepository : MongoDbRepository<FileManagementMongoDbContext, Fi
         return entity ?? throw new EntityNotFoundException();
     }
 
-    public async Task<long> GetCountAsync(string? filter = null, Guid? containerId = null, Guid? parentId = null, bool? isDirectory = null, CancellationToken cancellationToken = default)
+    public virtual async Task<long> GetCountAsync(string? filter = null, Guid? containerId = null, Guid? parentId = null, bool? isDirectory = null, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 
@@ -54,7 +54,7 @@ public class FileRepository : MongoDbRepository<FileManagementMongoDbContext, Fi
             .LongCountAsync(cancellationToken);
     }
 
-    public async Task<List<File>> GetListAsync(string? filter = null, Guid? containerId = null, Guid? parentId = null, bool? isDirectory = null, bool includeDetails = false, CancellationToken cancellationToken = default)
+    public virtual async Task<List<File>> GetListAsync(string? filter = null, Guid? containerId = null, Guid? parentId = null, bool? isDirectory = null, bool includeDetails = false, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 
@@ -67,14 +67,14 @@ public class FileRepository : MongoDbRepository<FileManagementMongoDbContext, Fi
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<List<File>> GetListByIdsAsync(IEnumerable<Guid> ids, bool includeDetails = false, CancellationToken cancellationToken = default)
+    public virtual async Task<List<File>> GetListByIdsAsync(IEnumerable<Guid> ids, bool includeDetails = false, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 
         return await query.Where(x => ids.Contains(x.Id)).ToListAsync(cancellationToken);
     }
 
-    public async Task<List<File>> GetPagedListAsync(int skipCount, int maxResultCount, string? filter = null, Guid? containerId = null, Guid? parentId = null, bool? isDirectory = null, string? sorting = null, bool includeDetails = false, CancellationToken cancellationToken = default)
+    public virtual async Task<List<File>> GetPagedListAsync(int skipCount, int maxResultCount, string? filter = null, Guid? containerId = null, Guid? parentId = null, bool? isDirectory = null, string? sorting = null, bool includeDetails = false, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 
@@ -89,7 +89,7 @@ public class FileRepository : MongoDbRepository<FileManagementMongoDbContext, Fi
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<bool> IsFileNameExistsAsync(Guid containerId, string fileName, Guid? parentId, CancellationToken cancellationToken = default)
+    public virtual async Task<bool> IsFileNameExistsAsync(Guid containerId, string fileName, Guid? parentId, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
         return await query

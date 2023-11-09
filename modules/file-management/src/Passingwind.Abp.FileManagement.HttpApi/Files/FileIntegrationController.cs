@@ -19,32 +19,32 @@
 //        _fileIntegrationAppService = fileIntegrationAppService;
 //    }
 
-//    public Task<FileDto> CreateByBytesAsync(string containerName, FileCreateByBytesDto input)
+//    public virtual Task<FileDto> CreateByBytesAsync(string containerName, FileCreateByBytesDto input)
 //    {
 //        return _fileIntegrationAppService.CreateByBytesAsync(containerName, input);
 //    }
 
-//    public Task<FileDto> CreateByStreamAsync(string containerName, FileCreateByStreamDto input)
+//    public virtual Task<FileDto> CreateByStreamAsync(string containerName, FileCreateByStreamDto input)
 //    {
 //        return _fileIntegrationAppService.CreateByStreamAsync(containerName, input);
 //    }
 
-//    public Task<FileDto> GetAsync(string containerName, Guid id)
+//    public virtual Task<FileDto> GetAsync(string containerName, Guid id)
 //    {
 //        return _fileIntegrationAppService.GetAsync(containerName, id);
 //    }
 
-//    public Task<byte[]> GetBytesAsync(string containerName, Guid id)
+//    public virtual Task<byte[]> GetBytesAsync(string containerName, Guid id)
 //    {
 //        return _fileIntegrationAppService.GetBytesAsync(containerName, id);
 //    }
 
-//    public Task<FileContainerDto> GetContainerAsync(Guid id)
+//    public virtual Task<FileContainerDto> GetContainerAsync(Guid id)
 //    {
 //        return _fileIntegrationAppService.GetContainerAsync(id);
 //    }
 
-//    public Task<Stream?> GetStreamAsync(string containerName, Guid id)
+//    public virtual Task<Stream?> GetStreamAsync(string containerName, Guid id)
 //    {
 //        return _fileIntegrationAppService.GetStreamAsync(containerName, id);
 //    }

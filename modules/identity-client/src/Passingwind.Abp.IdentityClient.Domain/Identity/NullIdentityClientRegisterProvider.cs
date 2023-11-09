@@ -6,22 +6,22 @@ namespace Passingwind.Abp.IdentityClient.Identity;
 
 public class NullIdentityClientRegisterProvider : IIdentityClientRegisterProvider, ITransientDependency
 {
-    public Task RegisterAllAsync(CancellationToken cancellationToken = default)
+    public virtual Task RegisterAllAsync(CancellationToken cancellationToken = default)
     {
         return Task.CompletedTask;
     }
 
-    public Task RegisterAsync(IdentityClient identityClient, CancellationToken cancellationToken = default)
+    public virtual Task RegisterAsync(IdentityClient identityClient, CancellationToken cancellationToken = default)
     {
         return Task.CompletedTask;
     }
 
-    public Task UnregisterAsync(IdentityClient identityClient, CancellationToken cancellationToken = default)
+    public virtual Task UnregisterAsync(IdentityClient identityClient, CancellationToken cancellationToken = default)
     {
         return Task.CompletedTask;
     }
 
-    public Task ValidateAsync(IdentityClient identityClient, CancellationToken cancellationToken = default)
+    public virtual Task ValidateAsync(IdentityClient identityClient, CancellationToken cancellationToken = default)
     {
         return Task.CompletedTask;
     }

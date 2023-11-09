@@ -24,37 +24,37 @@ public class IdentitySettingsController : IdentityBaseController, IIdentitySetti
     }
 
     [HttpGet("lockout")]
-    public Task<IdentityLockoutSettingsDto> GetLockoutAsync()
+    public virtual Task<IdentityLockoutSettingsDto> GetLockoutAsync()
     {
         return _service.GetLockoutAsync();
     }
 
     [HttpGet("organization-unit")]
-    public Task<OrganizationUnitSettingsDto> GetOrganizationUnitAsync()
+    public virtual Task<OrganizationUnitSettingsDto> GetOrganizationUnitAsync()
     {
         return _service.GetOrganizationUnitAsync();
     }
 
     [HttpGet("password")]
-    public Task<IdentityPasswordSettingsDto> GetPasswordAsync()
+    public virtual Task<IdentityPasswordSettingsDto> GetPasswordAsync()
     {
         return _service.GetPasswordAsync();
     }
 
     [HttpGet("signin")]
-    public Task<IdentitySignInSettingsDto> GetSignInAsync()
+    public virtual Task<IdentitySignInSettingsDto> GetSignInAsync()
     {
         return _service.GetSignInAsync();
     }
 
     [HttpGet("two-factor")]
-    public Task<IdentityTwofactorSettingsDto> GetTwofactorAsync()
+    public virtual Task<IdentityTwofactorSettingsDto> GetTwofactorAsync()
     {
         return _service.GetTwofactorAsync();
     }
 
     [HttpGet("user")]
-    public Task<IdentityUserSettingsDto> GetUserAsync()
+    public virtual Task<IdentityUserSettingsDto> GetUserAsync()
     {
         return _service.GetUserAsync();
     }
@@ -66,37 +66,37 @@ public class IdentitySettingsController : IdentityBaseController, IIdentitySetti
     }
 
     [HttpPut("lockout")]
-    public Task UpdateLockoutAsync(IdentityLockoutSettingsDto input)
+    public virtual Task UpdateLockoutAsync(IdentityLockoutSettingsDto input)
     {
         return _service.UpdateLockoutAsync(input);
     }
 
     [HttpPut("organization-unit")]
-    public Task UpdateOrganizationUnitAsync(OrganizationUnitSettingsDto input)
+    public virtual Task UpdateOrganizationUnitAsync(OrganizationUnitSettingsDto input)
     {
         return _service.UpdateOrganizationUnitAsync(input);
     }
 
     [HttpPut("password")]
-    public Task UpdatePasswordAsync(IdentityPasswordSettingsDto input)
+    public virtual Task UpdatePasswordAsync(IdentityPasswordSettingsDto input)
     {
         return _service.UpdatePasswordAsync(input);
     }
 
     [HttpPut("signin")]
-    public Task UpdateSignInAsync(IdentitySignInSettingsDto input)
+    public virtual Task UpdateSignInAsync(IdentitySignInSettingsDto input)
     {
         return _service.UpdateSignInAsync(input);
     }
 
     [HttpPut("two-factor")]
-    public Task UpdateTwofactorAsync(IdentityTwofactorSettingsDto input)
+    public virtual Task UpdateTwofactorAsync(IdentityTwofactorSettingsDto input)
     {
         return _service.UpdateTwofactorAsync(input);
     }
 
     [HttpPut("user")]
-    public Task UpdateUserAsync(IdentityUserSettingsDto input)
+    public virtual Task UpdateUserAsync(IdentityUserSettingsDto input)
     {
         return _service.UpdateUserAsync(input);
     }

@@ -25,7 +25,7 @@ public class IdentityClientLoginAppService : ApplicationService, IIdentityClient
         HttpContext = httpContextAccessor.HttpContext;
     }
 
-    public async Task LoginAsync(string name, string? redirectUrl = null)
+    public virtual async Task LoginAsync(string name, string? redirectUrl = null)
     {
         var identityClient = await IdentityClientRepository.FindByProviderNameAsync(name);
 

@@ -14,7 +14,7 @@ public class IdentityClientProviderNameProvider : IIdentityClientProviderNamePro
         TenantStore = tenantStore;
     }
 
-    public async Task<string> CreateAsync(IdentityClient identityClient, CancellationToken cancellationToken = default)
+    public virtual async Task<string> CreateAsync(IdentityClient identityClient, CancellationToken cancellationToken = default)
     {
         if (identityClient.TenantId.HasValue)
         {

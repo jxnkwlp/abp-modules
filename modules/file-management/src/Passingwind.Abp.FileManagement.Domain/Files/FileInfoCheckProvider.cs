@@ -20,7 +20,7 @@ public class FileInfoCheckProvider : IFileInfoCheckProvider
         _fileDuplicateDetectionProvider = fileDuplicateDetectionProvider;
     }
 
-    public async Task CheckAsync(FileContainer container, File file, CancellationToken cancellationToken = default)
+    public virtual async Task CheckAsync(FileContainer container, File file, CancellationToken cancellationToken = default)
     {
         if (!file.IsDirectory)
         {

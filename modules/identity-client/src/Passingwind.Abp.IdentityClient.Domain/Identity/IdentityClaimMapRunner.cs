@@ -9,7 +9,7 @@ namespace Passingwind.Abp.IdentityClient.Identity;
 
 public class IdentityClaimMapRunner : IIdentityClaimMapRunner, ISingletonDependency
 {
-    public Task<List<Claim>> RunAsync(IEnumerable<Claim> source, List<IdentityClientClaimMap> claimMaps, CancellationToken cancellationToken = default)
+    public virtual Task<List<Claim>> RunAsync(IEnumerable<Claim> source, List<IdentityClientClaimMap> claimMaps, CancellationToken cancellationToken = default)
     {
         var cliams = source.ToList();
 

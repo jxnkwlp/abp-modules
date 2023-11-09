@@ -18,14 +18,14 @@ public class DictionaryItemRepository : EfCoreRepository<DictionaryManagementDbC
     {
     }
 
-    public async Task<DictionaryItem?> FindByNameAsync(string name, CancellationToken cancellationToken = default)
+    public virtual async Task<DictionaryItem?> FindByNameAsync(string name, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
 
         return await dbset.FirstOrDefaultAsync(x => x.Name == name, cancellationToken);
     }
 
-    public async Task<DictionaryItem> GetByNameAsync(string name, CancellationToken cancellationToken = default)
+    public virtual async Task<DictionaryItem> GetByNameAsync(string name, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
 
@@ -73,7 +73,7 @@ public class DictionaryItemRepository : EfCoreRepository<DictionaryManagementDbC
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<bool> IsNameExistsAsync(string name, IEnumerable<Guid>? excludeIds = null, CancellationToken cancellationToken = default)
+    public virtual async Task<bool> IsNameExistsAsync(string name, IEnumerable<Guid>? excludeIds = null, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
 

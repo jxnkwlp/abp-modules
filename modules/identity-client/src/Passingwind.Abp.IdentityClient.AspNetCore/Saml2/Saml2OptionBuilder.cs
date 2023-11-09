@@ -22,7 +22,7 @@ public class Saml2OptionBuilder : ISaml2OptionBuilder, ITransientDependency
         IdentityClientProviderOption = identityClientProviderOption.Value;
     }
 
-    public async Task<Saml2Options> GetAsync(string provider, IdentityClientSaml2Configuration configuration, CancellationToken cancellationToken = default)
+    public virtual async Task<Saml2Options> GetAsync(string provider, IdentityClientSaml2Configuration configuration, CancellationToken cancellationToken = default)
     {
         var options = new Saml2Options()
         {

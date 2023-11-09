@@ -49,7 +49,7 @@ public class IdentityClientController : IdentityClientControllerBase, IIdentityC
     }
 
     [HttpPost("{id}/verify")]
-    public Task VerifyAsync(Guid id)
+    public virtual Task VerifyAsync(Guid id)
     {
         return _service.VerifyAsync(id);
     }

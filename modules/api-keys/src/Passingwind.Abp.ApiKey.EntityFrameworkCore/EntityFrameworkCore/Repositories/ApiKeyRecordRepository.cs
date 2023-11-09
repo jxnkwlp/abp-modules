@@ -16,7 +16,7 @@ public class ApiKeyRecordRepository : EfCoreRepository<ApiKeyDbContext, ApiKeyRe
     {
     }
 
-    public async Task<ApiKeyRecord?> FindBySecretAsync(string value, CancellationToken cancellationToken = default)
+    public virtual async Task<ApiKeyRecord?> FindBySecretAsync(string value, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
 
@@ -24,7 +24,7 @@ public class ApiKeyRecordRepository : EfCoreRepository<ApiKeyDbContext, ApiKeyRe
             .FirstOrDefaultAsync(x => x.Secret == value, cancellationToken);
     }
 
-    public async Task<long> GetCountAsync(string? filter = null, Guid? userId = null, CancellationToken cancellationToken = default)
+    public virtual async Task<long> GetCountAsync(string? filter = null, Guid? userId = null, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
 
@@ -34,7 +34,7 @@ public class ApiKeyRecordRepository : EfCoreRepository<ApiKeyDbContext, ApiKeyRe
             .LongCountAsync(cancellationToken);
     }
 
-    public async Task<List<ApiKeyRecord>> GetListAsync(string? filter = null, Guid? userId = null, bool includeDetails = false, CancellationToken cancellationToken = default)
+    public virtual async Task<List<ApiKeyRecord>> GetListAsync(string? filter = null, Guid? userId = null, bool includeDetails = false, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
 
@@ -44,7 +44,7 @@ public class ApiKeyRecordRepository : EfCoreRepository<ApiKeyDbContext, ApiKeyRe
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<List<ApiKeyRecord>> GetPagedListAsync(int skipCount, int maxResultCount, string? filter = null, Guid? userId = null, string? sorting = null, bool includeDetails = false, CancellationToken cancellationToken = default)
+    public virtual async Task<List<ApiKeyRecord>> GetPagedListAsync(int skipCount, int maxResultCount, string? filter = null, Guid? userId = null, string? sorting = null, bool includeDetails = false, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
 

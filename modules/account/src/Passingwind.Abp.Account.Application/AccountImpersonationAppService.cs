@@ -57,7 +57,7 @@ public class AccountImpersonationAppService : AccountAppBaseService, IAccountImp
         await ImpersonateLoginAsync(user);
     }
 
-    public async Task LinkLoginAsync(Guid userId)
+    public virtual async Task LinkLoginAsync(Guid userId)
     {
         await IdentityOptions.SetAsync();
 

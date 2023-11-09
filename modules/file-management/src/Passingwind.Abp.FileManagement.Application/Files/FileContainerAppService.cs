@@ -35,7 +35,7 @@ public class FileContainerAppService : FileManagementAppService, IFileContainerA
         FileManager = fileManager;
     }
 
-    public async Task<ListResultDto<FileContainerDto>> GetAllListAsync()
+    public virtual async Task<ListResultDto<FileContainerDto>> GetAllListAsync()
     {
         // permission: anyone that get permission can list all or list owners.
 

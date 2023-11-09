@@ -18,7 +18,7 @@ public class FileContainerRepository : EfCoreRepository<FileManagementDbContext,
     {
     }
 
-    public async Task<bool> CheckExistsAsync(FileContainer fileContainer, CancellationToken cancellationToken = default)
+    public virtual async Task<bool> CheckExistsAsync(FileContainer fileContainer, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
 
@@ -35,14 +35,14 @@ public class FileContainerRepository : EfCoreRepository<FileManagementDbContext,
             .LongCountAsync(cancellationToken);
     }
 
-    public async Task<FileContainer?> FindByNameAsync(string name, CancellationToken cancellationToken = default)
+    public virtual async Task<FileContainer?> FindByNameAsync(string name, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
 
         return await dbset.FirstOrDefaultAsync(x => x.Name == name, cancellationToken: cancellationToken);
     }
 
-    public async Task<FileContainer> GetByNameAsync(string name, CancellationToken cancellationToken = default)
+    public virtual async Task<FileContainer> GetByNameAsync(string name, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
 

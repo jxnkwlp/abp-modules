@@ -17,7 +17,7 @@ public class DynamicPermissionDefinitionAppService : DynamicPermissionManagement
         _permissionDefinitionRepository = permissionDefinitionRepository;
     }
 
-    public async Task<ListResultDto<DynamicPermissionDefinitionDto>> GetAllListAsync(DynamicPermissionDefinitionListRequestDto input)
+    public virtual async Task<ListResultDto<DynamicPermissionDefinitionDto>> GetAllListAsync(DynamicPermissionDefinitionListRequestDto input)
     {
         var list = await _permissionDefinitionRepository.GetListAsync();
 

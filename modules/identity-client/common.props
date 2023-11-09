@@ -6,6 +6,15 @@
     <Product>Passingwind.Abp.IdentityClientManagement</Product>
     <Description>an abp module that provider dynamic identity provider, support oidc, saml2</Description>
     <PackageTags>abp, abp-module, OIDC, SAML2</PackageTags>
+    <Version>0.3.0</Version>
+    <PackageVersion>0.3.4</PackageVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>

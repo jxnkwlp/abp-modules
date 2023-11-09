@@ -19,7 +19,7 @@ public class IdentityProviderAppService : IdentityClientAppBaseService, IIdentit
     }
 
     [AllowAnonymous]
-    public async Task<ListResultDto<IdentityProviderDto>> GetListAsync()
+    public virtual async Task<ListResultDto<IdentityProviderDto>> GetListAsync()
     {
         var list = await IdentityClientRepository.GetListAsync(false);
 

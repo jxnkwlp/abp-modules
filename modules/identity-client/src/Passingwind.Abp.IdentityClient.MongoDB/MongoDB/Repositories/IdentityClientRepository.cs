@@ -18,7 +18,7 @@ public class IdentityClientRepository : MongoDbRepository<IdentityClientMongoDbC
     {
     }
 
-    public async Task<IdentityClient?> FindByNameAsync(string name, bool includeDetails = true, CancellationToken cancellationToken = default)
+    public virtual async Task<IdentityClient?> FindByNameAsync(string name, bool includeDetails = true, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 
@@ -26,14 +26,14 @@ public class IdentityClientRepository : MongoDbRepository<IdentityClientMongoDbC
            .FirstOrDefaultAsync(x => x.Name == name, cancellationToken: cancellationToken);
     }
 
-    public async Task<IdentityClient?> FindByProviderNameAsync(string providerName, bool includeDetails = true, CancellationToken cancellationToken = default)
+    public virtual async Task<IdentityClient?> FindByProviderNameAsync(string providerName, bool includeDetails = true, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
         return await query
            .FirstOrDefaultAsync(x => x.ProviderName == providerName, cancellationToken: cancellationToken);
     }
 
-    public async Task<IdentityClient> GetByNameAsync(string name, bool includeDetails = true, CancellationToken cancellationToken = default)
+    public virtual async Task<IdentityClient> GetByNameAsync(string name, bool includeDetails = true, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 
@@ -46,7 +46,7 @@ public class IdentityClientRepository : MongoDbRepository<IdentityClientMongoDbC
         return entity;
     }
 
-    public async Task<IdentityClient> GetByProviderNameAsync(string providerName, bool includeDetails = true, CancellationToken cancellationToken = default)
+    public virtual async Task<IdentityClient> GetByProviderNameAsync(string providerName, bool includeDetails = true, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 
@@ -91,7 +91,7 @@ public class IdentityClientRepository : MongoDbRepository<IdentityClientMongoDbC
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<bool> IsNameExistsAsync(string name, Guid[]? excludeIds = null, CancellationToken cancellationToken = default)
+    public virtual async Task<bool> IsNameExistsAsync(string name, Guid[]? excludeIds = null, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 

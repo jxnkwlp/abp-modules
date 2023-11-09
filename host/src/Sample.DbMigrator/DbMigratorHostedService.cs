@@ -21,7 +21,7 @@ public class DbMigratorHostedService : IHostedService
         _configuration = configuration;
     }
 
-    public async Task StartAsync(CancellationToken cancellationToken)
+    public virtual async Task StartAsync(CancellationToken cancellationToken)
     {
         using (var application = await AbpApplicationFactory.CreateAsync<SampleDbMigratorModule>(options =>
         {
@@ -44,7 +44,7 @@ public class DbMigratorHostedService : IHostedService
         }
     }
 
-    public Task StopAsync(CancellationToken cancellationToken)
+    public virtual Task StopAsync(CancellationToken cancellationToken)
     {
         return Task.CompletedTask;
     }

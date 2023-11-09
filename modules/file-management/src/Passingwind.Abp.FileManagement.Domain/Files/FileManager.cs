@@ -275,7 +275,7 @@ public class FileManager : DomainService, IFileManager
         return file;
     }
 
-    public Task<File> UpdateFileAsync(FileContainer container, File file, byte[] bytes, CancellationToken cancellationToken = default)
+    public virtual Task<File> UpdateFileAsync(FileContainer container, File file, byte[] bytes, CancellationToken cancellationToken = default)
     {
         if (container is null)
         {
@@ -432,21 +432,21 @@ public class FileManager : DomainService, IFileManager
         }
     }
 
-    public async Task<byte[]> GetFileBytesByFileIdAsync(string containerName, Guid id, CancellationToken cancellationToken = default)
+    public virtual async Task<byte[]> GetFileBytesByFileIdAsync(string containerName, Guid id, CancellationToken cancellationToken = default)
     {
         var container = await FileContainerRepository.GetByNameAsync(containerName, cancellationToken);
         var file = await FileRepository.GetAsync(id, cancellationToken: cancellationToken);
         return await GetFileBytesAsync(container, file, cancellationToken);
     }
 
-    public async Task<Stream?> GetFileSteamByFileIdAsync(string containerName, Guid id, CancellationToken cancellationToken = default)
+    public virtual async Task<Stream?> GetFileSteamByFileIdAsync(string containerName, Guid id, CancellationToken cancellationToken = default)
     {
         var container = await FileContainerRepository.GetByNameAsync(containerName, cancellationToken);
         var file = await FileRepository.GetAsync(id, cancellationToken: cancellationToken);
         return await GetFileSteamAsync(container, file, cancellationToken);
     }
 
-    public async Task<File> GetByIdAsync(string containerName, Guid id, CancellationToken cancellationToken = default)
+    public virtual async Task<File> GetByIdAsync(string containerName, Guid id, CancellationToken cancellationToken = default)
     {
         return await FileRepository.GetAsync(id, cancellationToken: cancellationToken);
     }

@@ -38,14 +38,14 @@ public class IdentityUserLookupController : AbpControllerBase, IIdentityUserLook
 
     [HttpGet]
     [Route("search")]
-    public Task<ListResultDto<UserData>> SearchAsync(UserLookupSearchInputDto input)
+    public virtual Task<ListResultDto<UserData>> SearchAsync(UserLookupSearchInputDto input)
     {
         return LookupAppService.SearchAsync(input);
     }
 
     [HttpGet]
     [Route("count")]
-    public Task<long> GetCountAsync(UserLookupCountInputDto input)
+    public virtual Task<long> GetCountAsync(UserLookupCountInputDto input)
     {
         return LookupAppService.GetCountAsync(input);
     }

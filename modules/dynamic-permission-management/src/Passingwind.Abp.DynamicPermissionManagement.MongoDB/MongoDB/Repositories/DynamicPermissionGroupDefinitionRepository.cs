@@ -51,7 +51,7 @@ public class DynamicPermissionGroupDefinitionRepository : MongoDbRepository<Dyna
             .ToListAsync(cancellationToken);
     }
 
-    public Task<bool> IsNameExistsAsync(string name, Guid[]? excludeIds = null, CancellationToken cancellationToken = default)
+    public virtual Task<bool> IsNameExistsAsync(string name, Guid[]? excludeIds = null, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }

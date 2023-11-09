@@ -18,7 +18,7 @@ public class FileRepository : EfCoreRepository<FileManagementDbContext, File, Gu
     {
     }
 
-    public async Task<File?> FindByNameAsync(Guid containerId, string fileName, Guid? parentId = null, CancellationToken cancellationToken = default)
+    public virtual async Task<File?> FindByNameAsync(Guid containerId, string fileName, Guid? parentId = null, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
 
@@ -27,7 +27,7 @@ public class FileRepository : EfCoreRepository<FileManagementDbContext, File, Gu
             .FirstOrDefaultAsync(x => x.ContainerId == containerId && x.FileName == fileName, cancellationToken: cancellationToken);
     }
 
-    public async Task<File> GetByNameAsync(Guid containerId, string fileName, Guid? parentId = null, CancellationToken cancellationToken = default)
+    public virtual async Task<File> GetByNameAsync(Guid containerId, string fileName, Guid? parentId = null, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
 
@@ -60,7 +60,7 @@ public class FileRepository : EfCoreRepository<FileManagementDbContext, File, Gu
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<List<File>> GetListByIdsAsync(IEnumerable<Guid> ids, bool includeDetails = false, CancellationToken cancellationToken = default)
+    public virtual async Task<List<File>> GetListByIdsAsync(IEnumerable<Guid> ids, bool includeDetails = false, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
         return await dbset.Where(x => ids.Contains(x.Id)).ToListAsync(cancellationToken);
@@ -79,7 +79,7 @@ public class FileRepository : EfCoreRepository<FileManagementDbContext, File, Gu
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<bool> IsFileNameExistsAsync(Guid containerId, string fileName, Guid? parentId = null, CancellationToken cancellationToken = default)
+    public virtual async Task<bool> IsFileNameExistsAsync(Guid containerId, string fileName, Guid? parentId = null, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
         return await dbset

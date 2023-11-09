@@ -2,10 +2,19 @@
 
   <Import Project="..\common.props" />
 
-  <PropertyGroup> 
+  <PropertyGroup>
     <Product>Passingwind.Abp.DictionaryManagement</Product>
     <Description>an abp module that provider dynamic dictionary management service</Description>
     <PackageTags>abp-module</PackageTags>
+    <Version>0.2.0</Version>
+    <PackageVersion>0.2.1</PackageVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>

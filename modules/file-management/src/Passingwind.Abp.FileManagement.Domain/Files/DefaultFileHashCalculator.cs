@@ -8,7 +8,7 @@ namespace Passingwind.Abp.FileManagement.Files;
 
 public class DefaultFileHashCalculator : IFileHashCalculator
 {
-    public Task<string> GetAsync(byte[] bytes, CancellationToken cancellationToken = default)
+    public virtual Task<string> GetAsync(byte[] bytes, CancellationToken cancellationToken = default)
     {
         var hash = GetMd5(bytes);
 

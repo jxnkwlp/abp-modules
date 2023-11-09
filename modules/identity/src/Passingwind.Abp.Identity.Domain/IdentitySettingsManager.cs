@@ -136,7 +136,7 @@ public class IdentitySettingsManager : IIdentitySettingsManager, ITransientDepen
         await SetSettingValueAsync(IdentitySettingNames.OrganizationUnit.MaxUserMembershipCount, settings.MaxUserMembershipCount);
     }
 
-    public async Task<IdentityTwofactorSettings> GetTwoFactorSettingsAsync(CancellationToken cancellationToken = default)
+    public virtual async Task<IdentityTwofactorSettings> GetTwoFactorSettingsAsync(CancellationToken cancellationToken = default)
     {
         return new IdentityTwofactorSettings
         {
@@ -149,7 +149,7 @@ public class IdentitySettingsManager : IIdentitySettingsManager, ITransientDepen
         };
     }
 
-    public async Task SetTwofactorSettingsAsync(IdentityTwofactorSettings settings, CancellationToken cancellationToken = default)
+    public virtual async Task SetTwofactorSettingsAsync(IdentityTwofactorSettings settings, CancellationToken cancellationToken = default)
     {
         await SetSettingValueAsync(IdentitySettingNamesV2.Twofactor.IsRememberBrowserEnabled, settings.IsRememberBrowserEnabled);
         await SetSettingValueAsync(IdentitySettingNamesV2.Twofactor.TwoFactorBehaviour, settings.TwoFactorBehaviour);

@@ -20,7 +20,7 @@ public class DictionaryItemAppService : DictionaryManagementAppService, IDiction
         _dictionaryGroupRepository = dictionaryGroupRepository;
     }
 
-    public async Task<ListResultDto<DictionaryItemDto>> GetAllListAsync(DictionaryItemListRequestDto input)
+    public virtual async Task<ListResultDto<DictionaryItemDto>> GetAllListAsync(DictionaryItemListRequestDto input)
     {
         var list = await _dictionaryItemRepository.GetListAsync(filter: input.Filter, groupName: input.GroupName, sorting: nameof(DictionaryItem.Name));
 

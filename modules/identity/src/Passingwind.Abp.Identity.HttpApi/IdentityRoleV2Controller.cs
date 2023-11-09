@@ -45,37 +45,37 @@ public class IdentityRoleV2Controller : IdentityBaseController, IIdentityRoleV2A
     }
 
     [HttpGet("all")]
-    public Task<ListResultDto<IdentityRoleDto>> GetAllListAsync()
+    public virtual Task<ListResultDto<IdentityRoleDto>> GetAllListAsync()
     {
         return _service.GetAllListAsync();
     }
 
     [HttpGet("{id}")]
-    public Task<IdentityRoleDto> GetAsync(Guid id)
+    public virtual Task<IdentityRoleDto> GetAsync(Guid id)
     {
         return _service.GetAsync(id);
     }
 
     [HttpGet]
-    public Task<PagedResultDto<IdentityRoleDto>> GetListAsync(GetIdentityRolesInput input)
+    public virtual Task<PagedResultDto<IdentityRoleDto>> GetListAsync(GetIdentityRolesInput input)
     {
         return _service.GetListAsync(input);
     }
 
     [HttpPost]
-    public Task<IdentityRoleDto> CreateAsync(IdentityRoleCreateDto input)
+    public virtual Task<IdentityRoleDto> CreateAsync(IdentityRoleCreateDto input)
     {
         return _service.CreateAsync(input);
     }
 
     [HttpPut("{id}")]
-    public Task<IdentityRoleDto> UpdateAsync(Guid id, IdentityRoleUpdateDto input)
+    public virtual Task<IdentityRoleDto> UpdateAsync(Guid id, IdentityRoleUpdateDto input)
     {
         return _service.UpdateAsync(id, input);
     }
 
     [HttpDelete("{id}")]
-    public Task DeleteAsync(Guid id)
+    public virtual Task DeleteAsync(Guid id)
     {
         return _service.DeleteAsync(id);
     }

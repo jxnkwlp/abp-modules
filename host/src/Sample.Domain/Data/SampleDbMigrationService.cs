@@ -38,7 +38,7 @@ public class SampleDbMigrationService : ITransientDependency
         Logger = NullLogger<SampleDbMigrationService>.Instance;
     }
 
-    public async Task MigrateAsync()
+    public virtual async Task MigrateAsync()
     {
         var initialMigrationAdded = AddInitialMigrationIfNotExist();
 

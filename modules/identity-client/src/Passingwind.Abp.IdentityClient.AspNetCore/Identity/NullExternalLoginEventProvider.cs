@@ -5,27 +5,27 @@ namespace Passingwind.Abp.IdentityClient.Identity;
 
 public class NullExternalLoginEventProvider : IExternalLoginEventProvider, ISingletonDependency
 {
-    public Task LoginInfoReceivedAsync(ExternalLoginInfoReceivedContext context)
+    public virtual Task LoginInfoReceivedAsync(ExternalLoginInfoReceivedContext context)
     {
         return Task.CompletedTask;
     }
 
-    public Task MessageReceivedAsync(ExternalLoginMessageReceivedContext context)
+    public virtual Task MessageReceivedAsync(ExternalLoginMessageReceivedContext context)
     {
         return Task.CompletedTask;
     }
 
-    public Task RedirectToIdentityProviderAsync(ExternalLoginRedirectToIdentityProviderContext context)
+    public virtual Task RedirectToIdentityProviderAsync(ExternalLoginRedirectToIdentityProviderContext context)
     {
         return Task.CompletedTask;
     }
 
-    public Task SignInAsync(ExternalLoginSignInContext context)
+    public virtual Task SignInAsync(ExternalLoginSignInContext context)
     {
         return Task.CompletedTask;
     }
 
-    public Task UserSignInAsync(ExternalLoginUserSignInContext context)
+    public virtual Task UserSignInAsync(ExternalLoginUserSignInContext context)
     {
         return Task.CompletedTask;
     }

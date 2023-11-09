@@ -46,7 +46,7 @@ public class DynamicPermissionGroupDefinitionRepository : EfCoreRepository<Dynam
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<bool> IsNameExistsAsync(string name, Guid[]? excludeIds = null, CancellationToken cancellationToken = default)
+    public virtual async Task<bool> IsNameExistsAsync(string name, Guid[]? excludeIds = null, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
 

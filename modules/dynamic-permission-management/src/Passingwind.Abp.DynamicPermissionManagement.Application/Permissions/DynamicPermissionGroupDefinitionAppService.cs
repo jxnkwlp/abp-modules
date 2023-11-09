@@ -19,7 +19,7 @@ public class DynamicPermissionGroupDefinitionAppService : DynamicPermissionManag
         _dynamicPermissionDefinitionRepository = dynamicPermissionDefinitionRepository;
     }
 
-    public async Task<ListResultDto<DynamicPermissionGroupDefinitionDto>> GetAllListAsync()
+    public virtual async Task<ListResultDto<DynamicPermissionGroupDefinitionDto>> GetAllListAsync()
     {
         var list = await _permissionGroupDefinitionRepository.GetListAsync();
 

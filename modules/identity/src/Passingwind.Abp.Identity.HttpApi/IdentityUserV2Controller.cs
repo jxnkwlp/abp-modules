@@ -225,7 +225,7 @@ public class IdentityUserV2Controller : IdentityBaseController, IIdentityUserV2A
     }
 
     [HttpPut("batch/change-password-on-next-login")]
-    public Task BatchUpdateChangePasswordOnNextLoginAsync(IdentityUserBatchInputDto input)
+    public virtual Task BatchUpdateChangePasswordOnNextLoginAsync(IdentityUserBatchInputDto input)
     {
         return Service.BatchUpdateChangePasswordOnNextLoginAsync(input);
     }

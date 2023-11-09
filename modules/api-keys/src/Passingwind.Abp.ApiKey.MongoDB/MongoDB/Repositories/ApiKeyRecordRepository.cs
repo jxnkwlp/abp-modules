@@ -17,7 +17,7 @@ public class ApiKeyRecordRepository : MongoDbRepository<ApiKeyMongoDbContext, Ap
     {
     }
 
-    public async Task<ApiKeyRecord?> FindBySecretAsync(string value, CancellationToken cancellationToken = default)
+    public virtual async Task<ApiKeyRecord?> FindBySecretAsync(string value, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 
@@ -25,7 +25,7 @@ public class ApiKeyRecordRepository : MongoDbRepository<ApiKeyMongoDbContext, Ap
             .FirstOrDefaultAsync(x => x.Secret == value, cancellationToken);
     }
 
-    public async Task<long> GetCountAsync(string? filter = null, Guid? userId = null, CancellationToken cancellationToken = default)
+    public virtual async Task<long> GetCountAsync(string? filter = null, Guid? userId = null, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 
@@ -36,7 +36,7 @@ public class ApiKeyRecordRepository : MongoDbRepository<ApiKeyMongoDbContext, Ap
             .LongCountAsync(cancellationToken);
     }
 
-    public async Task<List<ApiKeyRecord>> GetListAsync(string? filter = null, Guid? userId = null, bool includeDetails = false, CancellationToken cancellationToken = default)
+    public virtual async Task<List<ApiKeyRecord>> GetListAsync(string? filter = null, Guid? userId = null, bool includeDetails = false, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 
@@ -47,7 +47,7 @@ public class ApiKeyRecordRepository : MongoDbRepository<ApiKeyMongoDbContext, Ap
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<List<ApiKeyRecord>> GetPagedListAsync(int skipCount, int maxResultCount, string? filter = null, Guid? userId = null, string? sorting = null, bool includeDetails = false, CancellationToken cancellationToken = default)
+    public virtual async Task<List<ApiKeyRecord>> GetPagedListAsync(int skipCount, int maxResultCount, string? filter = null, Guid? userId = null, string? sorting = null, bool includeDetails = false, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 
