@@ -17,6 +17,8 @@
     "Account:Error:0304": "用户邮箱需要确认",
     "Account:Error:0305": "用户电话号码需要确认",
     "Account:Error:0401": "用户没有链接到当前账号",
+    "Account:Error:0402": "用户未被委托到当前账号",
+    "Account:Error:0403": "用户委托不适用于模拟用户",
     "Account:Error:0501": "外部登录出现远程错误",
     "Account:Error:0502": "外部登录现在不可用",
     "Account:Error:0503": "外部登录未找到该用户",

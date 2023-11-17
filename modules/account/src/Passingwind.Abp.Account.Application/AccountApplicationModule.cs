@@ -6,6 +6,7 @@ using Volo.Abp.Application;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Identity.AspNetCore;
 using Volo.Abp.Modularity;
+using Volo.Abp.MultiTenancy;
 
 namespace Passingwind.Abp.Account;
 
@@ -17,6 +18,7 @@ namespace Passingwind.Abp.Account;
     typeof(AbpAccountApplicationModule),
     typeof(AbpIdentityAspNetCoreModule),
     typeof(AbpDddApplicationModule),
+    typeof(AbpMultiTenancyAbstractionsModule),
     typeof(AbpAutoMapperModule)
     )]
 public class AccountApplicationModule : AbpModule

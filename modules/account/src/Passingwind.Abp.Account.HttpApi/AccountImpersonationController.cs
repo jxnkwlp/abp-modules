@@ -7,7 +7,7 @@ namespace Passingwind.Abp.Account;
 
 [RemoteService(Name = AccountRemoteServiceConsts.RemoteServiceName)]
 [Area(AccountRemoteServiceConsts.ModuleName)]
-[Route("api/account/impersonations")]
+[Route("api/account/impersonation")]
 public class AccountImpersonationController : AccountBaseController, IAccountImpersonationAppService
 {
     private readonly IAccountImpersonationAppService _service;
@@ -29,5 +29,19 @@ public class AccountImpersonationController : AccountBaseController, IAccountImp
     public virtual Task LinkLoginAsync(Guid userId)
     {
         return _service.LinkLoginAsync(userId);
+    }
+
+    /// <inheritdoc/>
+    [HttpPost("logout")]
+    public virtual Task LogoutAsync()
+    {
+        return _service.LogoutAsync();
+    }
+
+    /// <inheritdoc/>
+    [HttpPost("{userId}/delegation-login")]
+    public virtual Task DelegationLoginAsync(Guid userId)
+    {
+        return _service.DelegationLoginAsync(userId);
     }
 }

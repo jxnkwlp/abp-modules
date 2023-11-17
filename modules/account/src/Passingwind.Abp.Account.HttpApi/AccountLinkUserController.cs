@@ -40,7 +40,7 @@ public class AccountLinkUserController : AccountBaseController, IAccountLinkUser
     }
 
     /// <inheritdoc/>
-    [HttpPost("unlink")]
+    [HttpDelete("unlink")]
     public virtual Task UnlinkAsync(AccountUnlinkDto input)
     {
         return _service.UnlinkAsync(input);

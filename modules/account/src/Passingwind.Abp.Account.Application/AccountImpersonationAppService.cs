@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -26,6 +27,7 @@ public class AccountImpersonationAppService : AccountAppBaseService, IAccountImp
     protected IdentityUserManager UserManager { get; }
     protected IdentitySecurityLogManager SecurityLogManager { get; }
     protected IdentityLinkUserManager LinkUserManager { get; }
+    protected IdentityUserDelegationManager UserDelegationManager { get; }
     protected IOptions<IdentityOptions> IdentityOptions { get; }
 
     public AccountImpersonationAppService(
@@ -33,13 +35,39 @@ public class AccountImpersonationAppService : AccountAppBaseService, IAccountImp
         IdentityUserManager userManager,
         IdentitySecurityLogManager securityLogManager,
         IdentityLinkUserManager linkUserManager,
-        IOptions<IdentityOptions> identityOptions)
+        IOptions<IdentityOptions> identityOptions,
+        IdentityUserDelegationManager userDelegationManager)
     {
         SignInManager = signInManager;
         UserManager = userManager;
         SecurityLogManager = securityLogManager;
         LinkUserManager = linkUserManager;
         IdentityOptions = identityOptions;
+        UserDelegationManager = userDelegationManager;
+    }
+
+    public virtual async Task LogoutAsync()
+    {
+        await IdentityOptions.SetAsync();
+
+        var userId = CurrentUser.FindImpersonatorUserId();
+        var tenantId = CurrentUser.FindImpersonatorTenantId();
+
+        if (!userId.HasValue)
+        {
+            throw new AbpAuthorizationException();
+        }
+
+        if (tenantId.HasValue)
+        {
+            CurrentTenant.Change(tenantId.Value);
+        }
+
+        await IdentityOptions.SetAsync();
+
+        var user = await UserManager.FindByIdAsync(userId.Value.ToString());
+
+        await SignInManager.SignInAsync(user!, false);
     }
 
     [Authorize(IdentityPermissionNamesV2.Users.Impersonation)]
@@ -63,19 +91,24 @@ public class AccountImpersonationAppService : AccountAppBaseService, IAccountImp
 
         var user = await UserManager.GetByIdAsync(userId);
 
-        var source = new IdentityLinkUserInfo(CurrentUser.Id!.Value, CurrentUser.TenantId);
+        var source = new IdentityLinkUserInfo(CurrentUser.GetId(), CurrentUser.TenantId);
         var target = new IdentityLinkUserInfo(userId, user.TenantId);
+
+        if (user.TenantId.HasValue && user.TenantId != CurrentUser.TenantId)
+        {
+            CurrentTenant.Change(user.TenantId.Value);
+        }
 
         if (await LinkUserManager.IsLinkedAsync(source, target, true))
         {
-            await SignInManager.SignInWithClaimsAsync(user, false, new Claim[0]);
+            await ImpersonateLoginAsync(user);
 
             Logger.LogInformation("User with id '{0}' has been link login by user id '{1}'", user.Id, source.UserId);
 
             await SecurityLogManager.SaveAsync(new IdentitySecurityLogContext()
             {
                 Identity = IdentitySecurityLogIdentityConsts.Identity,
-                Action = "ImpersonationLogin",
+                Action = "LinkLogin",
                 UserName = user.UserName,
                 ExtraProperties = { { "SourceUserId", source.UserId } }
             });
@@ -84,6 +117,30 @@ public class AccountImpersonationAppService : AccountAppBaseService, IAccountImp
         {
             throw new BusinessException(AccountErrorCodes.UserNotLink);
         }
+    }
+
+    public virtual async Task DelegationLoginAsync(Guid userId)
+    {
+        var delegations = await UserDelegationManager.GetActiveDelegationsAsync(CurrentUser.GetId());
+
+        if (!delegations.Any(x => x.SourceUserId == userId))
+        {
+            throw new BusinessException(AccountErrorCodes.UserNotDelegated);
+        }
+
+        var user = await UserManager.GetByIdAsync(userId);
+
+        await ImpersonateLoginAsync(user);
+
+        Logger.LogInformation("User with id '{0}' has been delegation login by user id '{1}'", user.Id, CurrentUser.GetId());
+
+        await SecurityLogManager.SaveAsync(new IdentitySecurityLogContext()
+        {
+            Identity = IdentitySecurityLogIdentityConsts.Identity,
+            Action = "DelegationLogin",
+            UserName = user.UserName,
+            ExtraProperties = { { "SourceUserId", CurrentUser.GetId() } }
+        });
     }
 
     protected virtual async Task ImpersonateLoginAsync(IdentityUser user)

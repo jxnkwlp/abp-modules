@@ -24,6 +24,8 @@ public static class AccountErrorCodes
     public const string UserRequireConfirmedPhoneNumber = "Account:Error:0305";
 
     public const string UserNotLink = "Account:Error:0401";
+    public const string UserNotDelegated = "Account:Error:0402";
+    public const string UserActionDisabledInDelegatedMode = "Account:Error:0403";
 
     public const string ExternalLoginRemoteError = "Account:Error:0501";
     public const string ExternalLoginInfoAvailable = "Account:Error:0502";

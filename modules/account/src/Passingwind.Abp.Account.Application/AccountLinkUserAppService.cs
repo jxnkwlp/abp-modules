@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -6,6 +8,8 @@ using Microsoft.Extensions.Options;
 using Passingwind.Abp.Identity;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Identity;
+using Volo.Abp.MultiTenancy;
+using Volo.Abp.Users;
 using IdentityUserManager = Passingwind.Abp.Identity.IdentityUserManager;
 
 namespace Passingwind.Abp.Account;
@@ -18,61 +22,94 @@ public class AccountLinkUserAppService : AccountAppBaseService, IAccountLinkUser
     protected IdentityLinkUserManager LinkUserManager { get; }
     protected IdentitySecurityLogManager SecurityLogManager { get; }
     protected IOptions<IdentityOptions> IdentityOptions { get; }
+    protected ITenantStore TenantStore { get; }
 
     public AccountLinkUserAppService(
         IdentityUserManager userManager,
         IIdentityUserRepository userRepository,
         IdentityLinkUserManager linkUserManager,
         IdentitySecurityLogManager securityLogManager,
-        IOptions<IdentityOptions> identityOptions)
+        IOptions<IdentityOptions> identityOptions,
+        ITenantStore tenantStore)
     {
         UserManager = userManager;
         UserRepository = userRepository;
         LinkUserManager = linkUserManager;
         SecurityLogManager = securityLogManager;
         IdentityOptions = identityOptions;
+        TenantStore = tenantStore;
     }
 
     public virtual async Task<ListResultDto<AccountLinkUserDto>> GetListAsync(AccountLinkUserListRequestDto input)
     {
-        var list = await LinkUserManager.GetListAsync(new IdentityLinkUserInfo(CurrentUser.Id!.Value, CurrentUser.TenantId), input.IncludeIndirect);
+        var list = await LinkUserManager.GetListAsync(new IdentityLinkUserInfo(CurrentUser.GetId(), CurrentUser.TenantId), input.IncludeIndirect);
 
-        var userIds = list.Select(x => x.TargetUserId).Distinct();
+        var userIds = list.Select(x => x.TargetUserId).Concat(list.Select(x => x.SourceUserId)).Distinct();
 
-        var users = await UserRepository.GetListByIdsAsync(userIds);
+        var allUsers = await UserRepository.GetListByIdsAsync(userIds);
 
-        return new ListResultDto<AccountLinkUserDto>(list.ConvertAll(x => new AccountLinkUserDto()
+        var results = new List<AccountLinkUserDto>();
+
+        var tenantCache = new Dictionary<Guid, string?>();
+
+        foreach (var item in list)
         {
-            DirectlyLinked = x.SourceUserId == CurrentUser.Id || x.TargetUserId == CurrentUser.Id,
-            TargetUserId = x.TargetUserId,
-            TargetUserName = users.Find(u => u.Id == x.TargetUserId)?.Name,
-            TargetTenantId = x.TargetTenantId,
-            TargetTenantName = "" // TODO
-        }));
+            bool isDirectLink = item.TargetUserId == CurrentUser.GetId() && item.TargetTenantId == CurrentUser.TenantId;
+
+            string? tenantName = string.Empty;
+            if (item.SourceTenantId.HasValue)
+            {
+                if (tenantCache.ContainsKey(item.SourceTenantId.Value))
+                {
+                    tenantName = tenantCache[item.SourceTenantId.Value];
+                }
+                else
+                {
+                    tenantName = (await TenantStore.FindAsync(item.SourceTenantId.Value))?.Name;
+                    tenantCache[item.SourceTenantId.Value] = tenantName;
+                }
+            }
+
+            if (!results.Any(x => x.TargetUserId == item.SourceUserId && x.TargetTenantId == item.SourceTenantId))
+            {
+                results.Add(new AccountLinkUserDto()
+                {
+                    DirectlyLinked = isDirectLink,
+                    TargetUserId = item.SourceUserId,
+                    TargetUserName = allUsers.Find(u => u.Id == item.SourceUserId)?.UserName,
+                    TargetTenantId = item.SourceTenantId,
+                    TargetTenantName = tenantName,
+                });
+            }
+        }
+
+        return new ListResultDto<AccountLinkUserDto>(results);
     }
 
     public virtual async Task UnlinkAsync(AccountUnlinkDto input)
     {
-        await LinkUserManager.UnlinkAsync(new IdentityLinkUserInfo(CurrentUser.Id!.Value, CurrentUser.TenantId), new IdentityLinkUserInfo(input.UserId, input.TenantId));
+        var source = new IdentityLinkUserInfo(input.UserId, input.TenantId);
+        var target = new IdentityLinkUserInfo(CurrentUser.GetId(), CurrentUser.TenantId);
+        await LinkUserManager.UnlinkAsync(source, target);
 
         await SecurityLogManager.SaveAsync(new IdentitySecurityLogContext
         {
             Identity = IdentitySecurityLogIdentityConsts.Identity,
             Action = "Unlink",
             UserName = CurrentUser.UserName,
-            ExtraProperties = { ["TargetUserId"] = input.UserId }
+            ExtraProperties = { ["SourceUserId"] = input.UserId }
         });
     }
 
     public virtual async Task<AccountLinkDto> CreateLinkTokenAsync()
     {
-        var source = new IdentityLinkUserInfo(CurrentUser.Id!.Value, CurrentUser.TenantId);
-        var token = await LinkUserManager.GenerateLinkTokenAsync(source, source.UserId.ToString());
+        var target = new IdentityLinkUserInfo(CurrentUser.GetId(), CurrentUser.TenantId);
+        var token = await LinkUserManager.GenerateLinkTokenAsync(target, target.UserId.ToString());
 
         return new AccountLinkDto
         {
             Token = token,
-            UserId = CurrentUser.Id!.Value,
+            UserId = CurrentUser.GetId(),
         };
     }
 
@@ -80,35 +117,35 @@ public class AccountLinkUserAppService : AccountAppBaseService, IAccountLinkUser
     {
         var user = await UserManager.GetByIdAsync(input.UserId);
 
-        var source = new IdentityLinkUserInfo(input.UserId, user.TenantId);
-        var target = new IdentityLinkUserInfo(CurrentUser.Id!.Value, CurrentUser.TenantId);
+        var target = new IdentityLinkUserInfo(input.UserId, user.TenantId);
+        var source = new IdentityLinkUserInfo(CurrentUser.GetId(), CurrentUser.TenantId);
 
-        var tokenVerified = await LinkUserManager.VerifyLinkTokenAsync(source, input.Token, source.UserId.ToString());
+        var tokenVerified = await LinkUserManager.VerifyLinkTokenAsync(target, input.Token, target.UserId.ToString());
 
-        if (tokenVerified)
+        if (!tokenVerified)
         {
-            if (!await LinkUserManager.IsLinkedAsync(source, target))
+            return new AccountLinkTokenValidationResultDto
             {
-                await LinkUserManager.LinkAsync(source, target);
-            }
+                Verified = false,
+            };
+        }
+
+        if (!await LinkUserManager.IsLinkedAsync(source, target))
+        {
+            await LinkUserManager.LinkAsync(source, target);
 
             await SecurityLogManager.SaveAsync(new IdentitySecurityLogContext
             {
                 Identity = IdentitySecurityLogIdentityConsts.Identity,
                 Action = "LinkUser",
                 UserName = CurrentUser.UserName,
-                ExtraProperties = { ["SourceUserId"] = source.UserId }
+                ExtraProperties = { ["TargetUserId"] = target.UserId }
             });
-
-            return new AccountLinkTokenValidationResultDto
-            {
-                Verified = true,
-            };
         }
 
         return new AccountLinkTokenValidationResultDto
         {
-            Verified = false,
+            Verified = true,
         };
     }
 }
