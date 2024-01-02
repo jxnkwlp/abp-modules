@@ -1,10 +1,15 @@
 ﻿<Project>
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
     <AssemblyVersion>$(Version)</AssemblyVersion>
     <FileVersion>$(Version)</FileVersion>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
-    
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <IsPackable>true</IsPackable>
     <Authors>Passingwind</Authors>
     <Copyright>Passingwind</Copyright>

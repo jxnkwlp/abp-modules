@@ -1,5 +1,4 @@
-﻿using Passingwind.Abp.FileManagement.Files;
-using Volo.Abp;
+﻿using Volo.Abp;
 using Volo.Abp.MongoDB;
 
 namespace Passingwind.Abp.FileManagement.MongoDB;
@@ -12,7 +11,7 @@ public static class FileManagementMongoDbContextExtensions
         Check.NotNull(builder, nameof(builder));
 
         builder.Entity<FileContainer>(options => options.CollectionName = FileManagementDbProperties.DbTablePrefix + "FileContainers");
-        builder.Entity<File>(options => options.CollectionName = FileManagementDbProperties.DbTablePrefix + "Files");
+        builder.Entity<FileItem>(options => options.CollectionName = FileManagementDbProperties.DbTablePrefix + "Files");
         builder.Entity<FileAccessToken>(options => options.CollectionName = FileManagementDbProperties.DbTablePrefix + "FileAccessTokens");
     }
 }

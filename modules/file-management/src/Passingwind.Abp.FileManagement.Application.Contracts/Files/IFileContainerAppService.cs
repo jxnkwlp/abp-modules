@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 
@@ -7,17 +6,9 @@ namespace Passingwind.Abp.FileManagement.Files;
 
 public interface IFileContainerAppService : IApplicationService
 {
-    Task<ListResultDto<FileContainerDto>> GetAllListAsync();
+    Task<ListResultDto<FileContainerBasicDto>> GetAllListAsync(FileContainerListRequestDto input);
 
-    Task<PagedResultDto<FileContainerDto>> GetListAsync(FileContainerListRequestDto input);
+    Task<FileContainerBasicDto> GetByNameAsync(string name);
 
-    Task<FileContainerDto> GetAsync(Guid id);
-
-    Task<FileContainerDto> GetByNameAsync(string name);
-
-    Task<FileContainerDto> CreateAsync(FileContainerCreateDto input);
-
-    Task<FileContainerDto> UpdateAsync(Guid id, FileContainerUpdateDto input);
-
-    Task DeleteAsync(Guid id);
+    Task<FileContainerCanAccessResultDto> GetCanAccessAsync(string name);
 }

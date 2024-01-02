@@ -193,7 +193,7 @@ public class FileManagementAuthServerModule : AbpModule
 #endif
     }
 
-    public async override Task OnApplicationInitializationAsync(ApplicationInitializationContext context)
+    public virtual async override Task OnApplicationInitializationAsync(ApplicationInitializationContext context)
     {
         var app = context.GetApplicationBuilder();
         var env = context.GetEnvironment();

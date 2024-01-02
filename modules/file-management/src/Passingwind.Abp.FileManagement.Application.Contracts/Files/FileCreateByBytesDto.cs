@@ -16,6 +16,8 @@ public class FileCreateByBytesDto : ExtensibleObject
     [Required]
     public byte[] FileData { get; set; } = null!;
 
+    public bool Override { get; set; }
+
     public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
         foreach (var result in base.Validate(validationContext))

@@ -16,6 +16,8 @@ public class FileCreateByStreamDto : ExtensibleObject
     [Required]
     public Stream FileStream { get; set; } = null!;
 
+    public bool Override { get; set; }
+
     public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
         foreach (var result in base.Validate(validationContext))

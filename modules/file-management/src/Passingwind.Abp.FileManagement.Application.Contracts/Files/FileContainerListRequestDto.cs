@@ -2,7 +2,7 @@
 
 namespace Passingwind.Abp.FileManagement.Files;
 
-public class FileContainerListRequestDto : PagedResultRequestDto
+public class FileContainerAdminListRequestDto : PagedResultRequestDto
 {
     public string? Filter { get; set; }
 }

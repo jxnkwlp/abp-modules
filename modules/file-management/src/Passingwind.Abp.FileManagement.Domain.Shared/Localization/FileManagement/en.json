@@ -1,5 +1,5 @@
 ﻿{
-    "culture": "en",
+  "culture": "en",
   "texts": {
     "FileManagement:Error:ContainerExist": "The container '{name}' already exists",
     "FileManagement:Error:ContainerFileQuantitiesMaximumSurpass": "Too many file in container",
@@ -14,6 +14,8 @@
     "Permission:FileManagement": "File management",
     "Permission:FileManagement.FileContainer": "File containers",
     "Permission:FileManagement.File": "Files",
+    "Permission:FileManagement.File.Upload": "Upload",
+    "Permission:FileManagement.File.Download": "Download",
     "Permission:Create": "Create",
     "Permission:Update": "Edit",
     "Permission:Delete": "Delete"

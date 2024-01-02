@@ -3,19 +3,24 @@
 public enum FileAccessMode
 {
     /// <summary>
-    ///  Anonymous can read & upload
+    ///  Anonymous can read & write
     /// </summary>
     Anonymous = 0,
     /// <summary>
-    ///  Anonymous can read
+    ///  Anonymous can read, authorized user can write
     /// </summary>
-    Readonly = 1,
+    AnonymousReadonly = 1,
     /// <summary>
-    ///  Only authorized user can read & upload
+    ///  Only authorized user can read & write
     /// </summary>
     Authorized = 10,
     /// <summary>
-    ///  Only created user can read & upload
+    ///  control by <see cref="FileContainerAccess"/>
     /// </summary>
     Private = 20,
+
+    ///// <summary>
+    /////  Readonly
+    ///// </summary>
+    //Readonly = 30,
 }

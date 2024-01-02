@@ -11,13 +11,16 @@ public class FileManagementPermissionDefinitionProvider : PermissionDefinitionPr
     {
         var fileManagement = context.AddGroup(FileManagementPermissions.GroupName, L($"Permission:{FileManagementPermissions.GroupName}"));
 
-        var fileContainer = fileManagement.AddPermission(FileManagementPermissions.FileContainer.Default, L($"Permission:{FileManagementPermissions.FileContainer.Default}"));
-        fileContainer.AddChild(FileManagementPermissions.FileContainer.Create, L("Permission:Create"));
-        fileContainer.AddChild(FileManagementPermissions.FileContainer.Update, L("Permission:Update"));
-        fileContainer.AddChild(FileManagementPermissions.FileContainer.Delete, L("Permission:Delete"));
+        var fileContainer = fileManagement.AddPermission(FileManagementPermissions.FileContainers.Default, L($"Permission:{FileManagementPermissions.FileContainers.Default}"));
+        fileContainer.AddChild(FileManagementPermissions.FileContainers.Create, L("Permission:Create"));
+        fileContainer.AddChild(FileManagementPermissions.FileContainers.Update, L("Permission:Update"));
+        fileContainer.AddChild(FileManagementPermissions.FileContainers.Delete, L("Permission:Delete"));
 
-        var file = fileManagement.AddPermission(FileManagementPermissions.File.Default, L($"Permission:{FileManagementPermissions.File.Default}"));
-        file.AddChild(FileManagementPermissions.File.Delete, L("Permission:Delete"));
+        var file = fileManagement.AddPermission(FileManagementPermissions.Files.Default, L($"Permission:{FileManagementPermissions.Files.Default}"));
+        file.AddChild(FileManagementPermissions.Files.Delete, L("Permission:Delete"));
+        file.AddChild(FileManagementPermissions.Files.Update, L("Permission:Update"));
+        file.AddChild(FileManagementPermissions.Files.Upload, L($"Permission:{FileManagementPermissions.Files.Default}.Upload"));
+        file.AddChild(FileManagementPermissions.Files.Download, L($"Permission:{FileManagementPermissions.Files.Default}.Download"));
     }
 
     private static LocalizableString L(string name)

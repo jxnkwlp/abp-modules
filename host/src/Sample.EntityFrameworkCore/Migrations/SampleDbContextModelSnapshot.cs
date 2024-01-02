@@ -88,7 +88,212 @@ namespace Sample.Migrations
                     b.ToTable("PassingwindApiKeys", (string)null);
                 });
 
-            modelBuilder.Entity("Passingwind.Abp.FileManagement.Files.File", b =>
+            modelBuilder.Entity("Passingwind.Abp.FileManagement.Files.FileAccessToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<Guid>("ContainerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<long>("DownloadCount")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("ExpirationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ExtraProperties")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<Guid>("FileId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<long>("Length")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("MimeType")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TenantId");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FileId");
+
+                    b.HasIndex("Token");
+
+                    b.ToTable("FmFileAccessTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Passingwind.Abp.FileManagement.Files.FileContainer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("AccessMode")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("AllowAnyFileExtension")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("AllowedFileExtensions")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("AutoDeleteBlob")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<Guid?>("DeleterId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("DeleterId");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DeletionTime");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<int>("EntityVersion")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ExtraProperties")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<int>("FilesCount")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false)
+                        .HasColumnName("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<long>("MaximumEachFileSize")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("MaximumFileQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<int>("OverrideBehavior")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProhibitedFileExtensions")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TenantId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name");
+
+                    b.ToTable("FmFileContainers", (string)null);
+                });
+
+            modelBuilder.Entity("Passingwind.Abp.FileManagement.Files.FileContainerAccess", b =>
+                {
+                    b.Property<Guid>("FileContainerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ProviderName")
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<bool>("Delete")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<bool>("Read")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Write")
+                        .HasColumnType("bit");
+
+                    b.HasKey("FileContainerId", "ProviderName", "ProviderKey");
+
+                    b.ToTable("FmFileContainerAccesses", (string)null);
+                });
+
+            modelBuilder.Entity("Passingwind.Abp.FileManagement.Files.FileItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -123,6 +328,9 @@ namespace Sample.Migrations
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnType("datetime2")
                         .HasColumnName("DeletionTime");
+
+                    b.Property<int>("EntityVersion")
+                        .HasColumnType("int");
 
                     b.Property<string>("ExtraProperties")
                         .HasColumnType("nvarchar(max)")
@@ -189,144 +397,18 @@ namespace Sample.Migrations
                     b.ToTable("FmFiles", (string)null);
                 });
 
-            modelBuilder.Entity("Passingwind.Abp.FileManagement.Files.FileAccessToken", b =>
+            modelBuilder.Entity("Passingwind.Abp.FileManagement.Files.FileTags", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)")
-                        .HasColumnName("ConcurrencyStamp");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("CreationTime");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("CreatorId");
-
-                    b.Property<long>("DownloadCount")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("ExpirationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ExtraProperties")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ExtraProperties");
-
                     b.Property<Guid>("FileId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Token")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FileId");
-
-                    b.HasIndex("Token");
-
-                    b.ToTable("FmFileAccessTokens", (string)null);
-                });
-
-            modelBuilder.Entity("Passingwind.Abp.FileManagement.Files.FileContainer", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("AccessMode")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("AllowAnyFileExtension")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("AllowedFileExtensions")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("AutoDeleteBlob")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)")
-                        .HasColumnName("ConcurrencyStamp");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("CreationTime");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("CreatorId");
-
-                    b.Property<Guid?>("DeleterId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("DeleterId");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("DeletionTime");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("ExtraProperties")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ExtraProperties");
-
-                    b.Property<int>("FilesCount")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false)
-                        .HasColumnName("IsDeleted");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("LastModificationTime");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("LastModifierId");
-
-                    b.Property<long>("MaximumEachFileSize")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("MaximumFileQuantity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
+                    b.Property<string>("Tags")
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
 
-                    b.Property<int>("OverrideBehavior")
-                        .HasColumnType("int");
+                    b.HasKey("FileId", "Tags");
 
-                    b.Property<string>("ProhibitedFileExtensions")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("TenantId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("TenantId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name");
-
-                    b.ToTable("FmFileContainers", (string)null);
+                    b.ToTable("FmFileTags", (string)null);
                 });
 
             modelBuilder.Entity("Passingwind.Abp.Identity.IdentityUserTwoFactor", b =>
@@ -2171,6 +2253,24 @@ namespace Sample.Migrations
                     b.ToTable("AbpTenantConnectionStrings", (string)null);
                 });
 
+            modelBuilder.Entity("Passingwind.Abp.FileManagement.Files.FileContainerAccess", b =>
+                {
+                    b.HasOne("Passingwind.Abp.FileManagement.Files.FileContainer", null)
+                        .WithMany("Accesses")
+                        .HasForeignKey("FileContainerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Passingwind.Abp.FileManagement.Files.FileTags", b =>
+                {
+                    b.HasOne("Passingwind.Abp.FileManagement.Files.FileItem", null)
+                        .WithMany("Tags")
+                        .HasForeignKey("FileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Passingwind.Abp.IdentityClient.IdentityClientClaimMap", b =>
                 {
                     b.HasOne("Passingwind.Abp.IdentityClient.IdentityClient", null)
@@ -2329,6 +2429,16 @@ namespace Sample.Migrations
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Passingwind.Abp.FileManagement.Files.FileContainer", b =>
+                {
+                    b.Navigation("Accesses");
+                });
+
+            modelBuilder.Entity("Passingwind.Abp.FileManagement.Files.FileItem", b =>
+                {
+                    b.Navigation("Tags");
                 });
 
             modelBuilder.Entity("Passingwind.Abp.IdentityClient.IdentityClient", b =>

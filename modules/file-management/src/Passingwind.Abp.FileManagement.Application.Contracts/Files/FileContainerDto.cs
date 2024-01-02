@@ -1,9 +1,10 @@
 ﻿using System;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.Domain.Entities;
 
 namespace Passingwind.Abp.FileManagement.Files;
 
-public class FileContainerDto : ExtensibleAuditedEntityDto<Guid>
+public class FileContainerDto : ExtensibleAuditedEntityDto<Guid>, IHasConcurrencyStamp
 {
     public virtual string Name { get; set; } = null!;
     public virtual string? Description { get; set; }
@@ -18,4 +19,5 @@ public class FileContainerDto : ExtensibleAuditedEntityDto<Guid>
     public virtual string? ProhibitedFileExtensions { get; set; }
     public virtual int FilesCount { get; set; }
     public virtual bool AutoDeleteBlob { get; set; }
+    public virtual string? ConcurrencyStamp { get; set; }
 }

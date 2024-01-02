@@ -13,7 +13,9 @@
 
     "Permission:FileManagement": "文件管理",
     "Permission:FileManagement.FileContainer": "文件容器",
-    "Permission:FileManagement.File": "文件", 
+    "Permission:FileManagement.File": "文件",
+    "Permission:FileManagement.File.Upload": "上传",
+    "Permission:FileManagement.File.Download": "下载",
     "Permission:Create": "创建",
     "Permission:Update": "编辑",
     "Permission:Delete": "删除"

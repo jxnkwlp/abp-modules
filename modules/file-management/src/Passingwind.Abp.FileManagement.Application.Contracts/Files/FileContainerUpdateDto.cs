@@ -1,4 +1,8 @@
-﻿namespace Passingwind.Abp.FileManagement.Files;
+﻿using Volo.Abp.Domain.Entities;
 
-public class FileContainerUpdateDto : FileContainerCreateOrUpdateBasicDto
-{ }
+namespace Passingwind.Abp.FileManagement.Files;
+
+public class FileContainerAdminUpdateDto : FileContainerCreateOrUpdateBasicDto, IHasConcurrencyStamp
+{
+    public virtual string? ConcurrencyStamp { get; set; }
+}

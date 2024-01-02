@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Passingwind.Abp.FileManagement.Files;
 using Passingwind.Abp.FileManagement.Localization;
 using Passingwind.Abp.FileManagement.Permissions;
+using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Authorization;
 using Volo.Abp.Domain.Entities;
@@ -24,16 +24,18 @@ public abstract class FileManagementAppService : ApplicationService
     /// <param name="write"></param>
     protected virtual async Task<bool> CanAccessContainerAsync(FileContainer container, bool write = false)
     {
-        bool isGranted = await AuthorizationService.IsGrantedAsync(FileManagementPermissions.FileContainer.Default);
+        bool isGranted = await AuthorizationService.IsGrantedAsync(FileManagementPermissions.FileContainers.Default);
 
         if (isGranted)
+        {
             return true;
+        }
 
         if (container.AccessMode == FileAccessMode.Anonymous)
         {
             return true;
         }
-        else if (container.AccessMode == FileAccessMode.Readonly && !write)
+        else if (container.AccessMode == FileAccessMode.AnonymousReadonly && !write)
         {
             return true;
         }
@@ -63,7 +65,7 @@ public abstract class FileManagementAppService : ApplicationService
         if (!await CanAccessContainerAsync(container, write))
         {
             throw new AbpAuthorizationException(code: AbpAuthorizationErrorCodes.GivenPolicyHasNotGrantedWithPolicyName)
-                 .WithData("PolicyName", policyName ?? FileManagementPermissions.FileContainer.Default);
+                 .WithData("PolicyName", policyName ?? FileManagementPermissions.FileContainers.Default);
         }
     }
 
@@ -79,11 +81,11 @@ public abstract class FileManagementAppService : ApplicationService
         if (!await CanAccessContainerAsync(container, write))
         {
             throw new AbpAuthorizationException(code: AbpAuthorizationErrorCodes.GivenPolicyHasNotGrantedWithPolicyName)
-                 .WithData("PolicyName", policyName ?? FileManagementPermissions.FileContainer.Default);
+                 .WithData("PolicyName", policyName ?? FileManagementPermissions.FileContainers.Default);
         }
     }
 
-    protected virtual Task CheckFileIsInContainerAsync(FileContainer container, File file)
+    protected virtual Task CheckFileIsInContainerAsync(FileContainer container, FileItem file)
     {
         if (file.IsDirectory)
         {
@@ -91,9 +93,6 @@ public abstract class FileManagementAppService : ApplicationService
             throw new EntityNotFoundException();
         }
 
-        if (container.Id != file.ContainerId)
-            throw new EntityNotFoundException();
-
-        return Task.CompletedTask;
+        return container.Id != file.ContainerId ? throw new EntityNotFoundException() : Task.CompletedTask;
     }
 }

@@ -1,0 +1,79 @@
+{
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {},
+      "host": {}
+    }
+  },
+  "packages": {
+    "Passingwind.Abp.FileManagement.Domain.Shared": {
+      "path": "src/Passingwind.Abp.FileManagement.Domain.Shared/Passingwind.Abp.FileManagement.Domain.Shared.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.FileManagement.Domain": {
+      "path": "src/Passingwind.Abp.FileManagement.Domain/Passingwind.Abp.FileManagement.Domain.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.FileManagement.Application.Contracts": {
+      "path": "src/Passingwind.Abp.FileManagement.Application.Contracts/Passingwind.Abp.FileManagement.Application.Contracts.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.FileManagement.Application": {
+      "path": "src/Passingwind.Abp.FileManagement.Application/Passingwind.Abp.FileManagement.Application.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.FileManagement.EntityFrameworkCore": {
+      "path": "src/Passingwind.Abp.FileManagement.EntityFrameworkCore/Passingwind.Abp.FileManagement.EntityFrameworkCore.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.FileManagement.MongoDB": {
+      "path": "src/Passingwind.Abp.FileManagement.MongoDB/Passingwind.Abp.FileManagement.MongoDB.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.FileManagement.HttpApi": {
+      "path": "src/Passingwind.Abp.FileManagement.HttpApi/Passingwind.Abp.FileManagement.HttpApi.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.FileManagement.HttpApi.Client": {
+      "path": "src/Passingwind.Abp.FileManagement.HttpApi.Client/Passingwind.Abp.FileManagement.HttpApi.Client.abppkg.json",
+      "folder": "src"
+    },
+    "Passingwind.Abp.FileManagement.TestBase": {
+      "path": "test/Passingwind.Abp.FileManagement.TestBase/Passingwind.Abp.FileManagement.TestBase.abppkg.json",
+      "folder": "test"
+    },
+    "Passingwind.Abp.FileManagement.EntityFrameworkCore.Tests": {
+      "path": "test/Passingwind.Abp.FileManagement.EntityFrameworkCore.Tests/Passingwind.Abp.FileManagement.EntityFrameworkCore.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "Passingwind.Abp.FileManagement.MongoDB.Tests": {
+      "path": "test/Passingwind.Abp.FileManagement.MongoDB.Tests/Passingwind.Abp.FileManagement.MongoDB.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "Passingwind.Abp.FileManagement.Domain.Tests": {
+      "path": "test/Passingwind.Abp.FileManagement.Domain.Tests/Passingwind.Abp.FileManagement.Domain.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "Passingwind.Abp.FileManagement.Application.Tests": {
+      "path": "test/Passingwind.Abp.FileManagement.Application.Tests/Passingwind.Abp.FileManagement.Application.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "Passingwind.Abp.FileManagement.HttpApi.Host": {
+      "path": "host/Passingwind.Abp.FileManagement.HttpApi.Host/Passingwind.Abp.FileManagement.HttpApi.Host.abppkg.json",
+      "folder": "host"
+    },
+    "Passingwind.Abp.FileManagement.HttpApi.Client.ConsoleTestApp": {
+      "path": "test/Passingwind.Abp.FileManagement.HttpApi.Client.ConsoleTestApp/Passingwind.Abp.FileManagement.HttpApi.Client.ConsoleTestApp.abppkg.json",
+      "folder": "test"
+    },
+    "Passingwind.Abp.FileManagement.AuthServer": {
+      "path": "host/Passingwind.Abp.FileManagement.AuthServer/Passingwind.Abp.FileManagement.AuthServer.abppkg.json",
+      "folder": "host"
+    },
+    "Passingwind.Abp.FileManagement.Host.Shared": {
+      "path": "host/Passingwind.Abp.FileManagement.Host.Shared/Passingwind.Abp.FileManagement.Host.Shared.abppkg.json",
+      "folder": "host"
+    }
+  }
+}
