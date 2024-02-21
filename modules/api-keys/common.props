@@ -5,8 +5,8 @@
     <Product>Passingwind.Abp.ApiKey</Product>
     <Description>an abp module that provider api key authentication and key management.</Description>
     <PackageTags>abp-module, apikey</PackageTags>
-    <Version>0.2.0</Version>
-    <PackageVersion>0.2.2</PackageVersion>
+    <Version>1.0.0</Version>
+    <PackageVersion>1.0.0</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>

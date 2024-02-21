@@ -66,9 +66,7 @@ public class SignInManager : AbpSignInManager, IScopedDependency
         return signInResult;
     }
 
-    // TODO
-    // will be override on net8 and review this code
-    public virtual async Task<bool> IsTwoFactorEnabledAsync(IdentityUser user)
+    public override async Task<bool> IsTwoFactorEnabledAsync(IdentityUser user)
     {
         var behaviour = await SettingProvider.GetEnumValueAsync<IdentityTwofactoryBehaviour>(IdentitySettingNamesV2.Twofactor.TwoFactorBehaviour);
 
@@ -78,9 +76,7 @@ public class SignInManager : AbpSignInManager, IScopedDependency
         if (behaviour == IdentityTwofactoryBehaviour.Forced && UserManager.SupportsUserTwoFactor)
             return true;
 
-        return UserManager.SupportsUserTwoFactor
-            && await UserManager.GetTwoFactorEnabledAsync(user)
-            && (await UserManager.GetValidTwoFactorProvidersAsync(user)).Count > 0;
+        return await base.IsTwoFactorEnabledAsync(user);
     }
 
     public virtual async Task<bool> ShouldChangePasswordAsync(IdentityUser user)
@@ -178,8 +174,6 @@ public class SignInManager : AbpSignInManager, IScopedDependency
     /// <summary>
     ///  Creates a claims principal for the specified user information that requires change password.
     /// </summary>
-    /// <param name="userId"></param>
-    /// <param name="loginProvider"></param>
     internal static ClaimsPrincipal StoreChangePasswordInfo(string userId, string? loginProvider)
     {
         var identity = new ClaimsIdentity(IdentityV2Constants.ChangePasswordUserIdScheme);

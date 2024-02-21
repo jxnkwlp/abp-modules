@@ -5,8 +5,8 @@
     <Product>Passingwind.Abp.Identity</Product>
     <Description>an abp module that extend identity service, include settings, organization unit.</Description>
     <PackageTags>abp-module</PackageTags>
-    <Version>0.2.0</Version>
-    <PackageVersion>0.2.9</PackageVersion>
+    <Version>1.0.0</Version>
+    <PackageVersion>1.0.0</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>

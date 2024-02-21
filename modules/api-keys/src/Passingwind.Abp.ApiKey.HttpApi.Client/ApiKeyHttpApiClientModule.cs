@@ -17,10 +17,6 @@ public class ApiKeyHttpApiClientModule : AbpModule
             ApiKeyRemoteServiceConsts.RemoteServiceName
         );
 
-        Configure<AbpVirtualFileSystemOptions>(options =>
-        {
-            options.FileSets.AddEmbedded<ApiKeyHttpApiClientModule>();
-        });
-
+        Configure<AbpVirtualFileSystemOptions>(options => options.FileSets.AddEmbedded<ApiKeyHttpApiClientModule>());
     }
 }

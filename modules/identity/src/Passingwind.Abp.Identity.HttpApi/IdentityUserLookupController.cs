@@ -13,10 +13,13 @@ namespace Passingwind.Abp.Identity;
 [Area(IdentityRemoteServiceConsts.ModuleName)]
 [ControllerName("IdentityUserLookup")]
 [Route("api/identity/users/lookup")]
+[Obsolete]
 public class IdentityUserLookupController : AbpControllerBase, IIdentityUserLookupAppService
 {
+    [Obsolete]
     protected IIdentityUserLookupAppService LookupAppService { get; }
 
+    [Obsolete]
     public IdentityUserLookupController(IIdentityUserLookupAppService lookupAppService)
     {
         LookupAppService = lookupAppService;
@@ -38,14 +41,14 @@ public class IdentityUserLookupController : AbpControllerBase, IIdentityUserLook
 
     [HttpGet]
     [Route("search")]
-    public virtual Task<ListResultDto<UserData>> SearchAsync(UserLookupSearchInputDto input)
+    public Task<ListResultDto<UserData>> SearchAsync(UserLookupSearchInputDto input)
     {
         return LookupAppService.SearchAsync(input);
     }
 
     [HttpGet]
     [Route("count")]
-    public virtual Task<long> GetCountAsync(UserLookupCountInputDto input)
+    public Task<long> GetCountAsync(UserLookupCountInputDto input)
     {
         return LookupAppService.GetCountAsync(input);
     }
