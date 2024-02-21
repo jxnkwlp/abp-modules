@@ -5,9 +5,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Volo.Abp;
+using Volo.Abp.Caching;
 using Volo.Abp.DependencyInjection;
+using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Identity;
 using Volo.Abp.Identity.Settings;
+using Volo.Abp.Security.Claims;
 using Volo.Abp.Settings;
 using Volo.Abp.Threading;
 
@@ -31,14 +34,16 @@ public class IdentityUserManager : Volo.Abp.Identity.IdentityUserManager
         ILogger<Volo.Abp.Identity.IdentityUserManager> logger,
         ICancellationTokenProvider cancellationTokenProvider,
         IOrganizationUnitRepository organizationUnitRepository,
-        ISettingProvider settingProvider) : base(store, roleRepository, userRepository, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger, cancellationTokenProvider, organizationUnitRepository, settingProvider)
+        ISettingProvider settingProvider,
+        IDistributedEventBus distributedEventBus,
+        IIdentityLinkUserRepository identityLinkUserRepository,
+        IDistributedCache<AbpDynamicClaimCacheItem> dynamicClaimCache) : base(store, roleRepository, userRepository, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger, cancellationTokenProvider, organizationUnitRepository, settingProvider, distributedEventBus, identityLinkUserRepository, dynamicClaimCache)
     {
     }
 
     /// <summary>
     ///  Check user should change password
     /// </summary>
-    /// <param name="user"></param>
     public virtual async Task<bool> ShouldChangePasswordAsync(IdentityUser user)
     {
         ThrowIfDisposed();
@@ -66,7 +71,6 @@ public class IdentityUserManager : Volo.Abp.Identity.IdentityUserManager
     /// <summary>
     ///  Remove an authentication token for a user. both 'AuthenticatorKey' and 'RecoveryCodes'
     /// </summary>
-    /// <param name="user"></param>
     public virtual async Task RemoveAuthenticatorAsync(IdentityUser user)
     {
         ThrowIfDisposed();
