@@ -25,7 +25,7 @@ public class AccountImpersonationController : AccountBaseController, IAccountImp
     }
 
     /// <inheritdoc/>
-    [HttpPost("{userId}/link-login")]
+    [HttpPost("link/users/{userId}/login")]
     public virtual Task LinkLoginAsync(Guid userId)
     {
         return _service.LinkLoginAsync(userId);
@@ -39,9 +39,9 @@ public class AccountImpersonationController : AccountBaseController, IAccountImp
     }
 
     /// <inheritdoc/>
-    [HttpPost("{userId}/delegation-login")]
-    public virtual Task DelegationLoginAsync(Guid userId)
+    [HttpPost("delegations/{id}/login")]
+    public virtual Task DelegationLoginAsync(Guid id)
     {
-        return _service.DelegationLoginAsync(userId);
+        return _service.DelegationLoginAsync(id);
     }
 }

@@ -24,8 +24,8 @@ public interface IAccountImpersonationAppService : IApplicationService
     Task LinkLoginAsync(Guid userId);
 
     /// <summary>
-    ///  delegation login
+    ///  Delegation login
     /// </summary>
-    /// <param name="userId"></param>
-    Task DelegationLoginAsync(Guid userId);
+    /// <param name="id"></param>
+    Task DelegationLoginAsync(Guid id);
 }
