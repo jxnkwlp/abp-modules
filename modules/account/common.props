@@ -6,7 +6,7 @@
     <Description>an abp module that provider account service, such as login, 2fa, account link, impersonation, settings. </Description>
     <PackageTags>abp-module</PackageTags>
     <Version>1.0.0</Version>
-    <PackageVersion>1.0.0</PackageVersion>
+    <PackageVersion>1.1.0</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
