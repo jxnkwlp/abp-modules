@@ -3,13 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using Passingwind.Abp.Identity;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.AspNetCore.Mvc;
 
 namespace Passingwind.Abp.Account;
 
 [RemoteService(Name = AccountRemoteServiceConsts.RemoteServiceName)]
 [Area(AccountRemoteServiceConsts.ModuleName)]
 [Route("/api/account/security-logs")]
-public class AccountSecurityLogsController : AccountBaseController, IAccountSecurityLogsAppService
+public class AccountSecurityLogsController : AbpControllerBase, IAccountSecurityLogsAppService
 {
     private readonly IAccountSecurityLogsAppService _service;
 

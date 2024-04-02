@@ -2,13 +2,14 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp;
+using Volo.Abp.AspNetCore.Mvc;
 
 namespace Passingwind.Abp.Account;
 
 [RemoteService(Name = AccountRemoteServiceConsts.RemoteServiceName)]
 [Area(AccountRemoteServiceConsts.ModuleName)]
 [Route("api/account/impersonation")]
-public class AccountImpersonationController : AccountBaseController, IAccountImpersonationAppService
+public class AccountImpersonationController : AbpControllerBase, IAccountImpersonationAppService
 {
     private readonly IAccountImpersonationAppService _service;
 

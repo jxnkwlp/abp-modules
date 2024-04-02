@@ -187,8 +187,12 @@ public class SampleHttpApiHostModule : AbpModule
 
     private static void ConfigureSwaggerServices(ServiceConfigurationContext context, IConfiguration configuration)
     {
+        var authority = configuration["AuthServer:Authority"];
+        if (string.IsNullOrWhiteSpace(authority))
+            return;
+
         context.Services.AddAbpSwaggerGenWithOAuth(
-            configuration["AuthServer:Authority"],
+            authority,
             new Dictionary<string, string>
             {
                     {"Sample", "Sample API"}

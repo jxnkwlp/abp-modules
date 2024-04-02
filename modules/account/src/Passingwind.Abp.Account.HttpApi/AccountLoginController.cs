@@ -3,13 +3,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.AspNetCore.Mvc;
 
 namespace Passingwind.Abp.Account;
 
 [Area(AccountRemoteServiceConsts.RemoteServiceName)]
 [RemoteService(Name = AccountRemoteServiceConsts.RemoteServiceName)]
 [Route("api/account")]
-public class AccountLoginController : AccountBaseController, IAccountLoginAppService
+public class AccountLoginController : AbpControllerBase, IAccountLoginAppService
 {
     private readonly IAccountLoginAppService _service;
 

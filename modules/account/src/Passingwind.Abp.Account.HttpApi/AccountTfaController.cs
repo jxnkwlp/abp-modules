@@ -2,12 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.AspNetCore.Mvc;
 namespace Passingwind.Abp.Account;
 
 [RemoteService(Name = AccountRemoteServiceConsts.RemoteServiceName)]
 [Area(AccountRemoteServiceConsts.ModuleName)]
 [Route("/api/account/2fa")]
-public class AccountTfaController : AccountBaseController, IAccountTfaAppService
+public class AccountTfaController : AbpControllerBase, IAccountTfaAppService
 {
     protected IAccountTfaAppService TfaAppService { get; }
 

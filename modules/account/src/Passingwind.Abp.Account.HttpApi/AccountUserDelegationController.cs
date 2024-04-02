@@ -3,13 +3,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.AspNetCore.Mvc;
 
 namespace Passingwind.Abp.Account;
 
 [RemoteService(Name = AccountRemoteServiceConsts.RemoteServiceName)]
 [Area(AccountRemoteServiceConsts.ModuleName)]
 [Route("api/account/user-delegation")]
-public class AccountUserDelegationController : AccountBaseController, IAccountUserDelegationAppService
+public class AccountUserDelegationController : AbpControllerBase, IAccountUserDelegationAppService
 {
     private readonly IAccountUserDelegationAppService _service;
 

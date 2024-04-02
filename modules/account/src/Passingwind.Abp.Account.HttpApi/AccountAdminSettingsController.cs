@@ -1,12 +1,13 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp;
+using Volo.Abp.AspNetCore.Mvc;
 namespace Passingwind.Abp.Account;
 
 [RemoteService(Name = AccountRemoteServiceConsts.RemoteServiceName)]
 [Area(AccountRemoteServiceConsts.ModuleName)]
 [Route("/api/account/admin/settings")]
-public class AccountAdminSettingsController : AccountBaseController, IAccountAdminSettingsAppService
+public class AccountAdminSettingsController : AbpControllerBase, IAccountAdminSettingsAppService
 {
     private readonly IAccountAdminSettingsAppService _service;
 

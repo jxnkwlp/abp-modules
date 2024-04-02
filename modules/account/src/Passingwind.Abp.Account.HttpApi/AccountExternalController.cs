@@ -2,6 +2,7 @@
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp;
+using Volo.Abp.AspNetCore.Mvc;
 
 namespace Passingwind.Abp.Account;
 
@@ -9,7 +10,7 @@ namespace Passingwind.Abp.Account;
 [RemoteService(Name = AccountRemoteServiceConsts.RemoteServiceName)]
 [Area(AccountRemoteServiceConsts.ModuleName)]
 [Route("api/account/external")]
-public class AccountExternalController : AccountBaseController, IAccountExternalAppService
+public class AccountExternalController : AbpControllerBase, IAccountExternalAppService
 {
     protected IAccountExternalAppService ExternalAppService { get; }
 

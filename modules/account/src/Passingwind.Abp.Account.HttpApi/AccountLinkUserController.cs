@@ -3,13 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using Passingwind.Abp.Account;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.AspNetCore.Mvc;
 
 namespace Passingwind.Abp.Identity;
 
 [RemoteService(Name = AccountRemoteServiceConsts.RemoteServiceName)]
 [Area(AccountRemoteServiceConsts.ModuleName)]
 [Route("api/account/link-user")]
-public class AccountLinkUserController : AccountBaseController, IAccountLinkUserAppService
+public class AccountLinkUserController : AbpControllerBase, IAccountLinkUserAppService
 {
     private readonly IAccountLinkUserAppService _service;
 
