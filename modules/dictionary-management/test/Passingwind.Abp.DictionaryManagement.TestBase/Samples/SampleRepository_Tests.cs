@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-using Volo.Abp.Modularity;
-using Xunit;
+﻿using Volo.Abp.Modularity;
 
 namespace Passingwind.Abp.DictionaryManagement.Samples;
 
@@ -16,11 +14,5 @@ public abstract class SampleRepository_Tests<TStartupModule> : DictionaryManagem
     protected SampleRepository_Tests()
     {
         //_sampleRepository = GetRequiredService<ISampleRepository>();
-    }
-
-    [Fact]
-    public Task Method1Async()
-    {
-        return Task.CompletedTask;
     }
 }

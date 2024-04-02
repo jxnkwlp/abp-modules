@@ -4,7 +4,7 @@ using Volo.Abp;
 
 namespace Passingwind.Abp.DictionaryManagement.Dictionaries;
 
-[Area("DictionaryManagement")]
+[Area(DictionaryManagementRemoteServiceConsts.RemoteServiceName)]
 [RemoteService(Name = DictionaryManagementRemoteServiceConsts.RemoteServiceName)]
 [Route("api/dictionaries")]
 public class DictionaryController : DictionaryManagementController, IDictionaryAppService
@@ -20,6 +20,12 @@ public class DictionaryController : DictionaryManagementController, IDictionaryA
     public virtual Task<DictionaryResultDto> GetAsync(string name)
     {
         return _service.GetAsync(name);
+    }
+
+    [HttpGet("groups")]
+    public virtual Task<DictionaryGroupListResultDto> GetGroupListAsync(string? parentName = null)
+    {
+        return _service.GetGroupListAsync(parentName);
     }
 
     [HttpGet("groups/{groupName}")]

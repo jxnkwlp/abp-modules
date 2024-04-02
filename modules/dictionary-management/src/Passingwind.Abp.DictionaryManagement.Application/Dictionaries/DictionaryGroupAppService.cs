@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Passingwind.Abp.DictionaryManagement.Permissions;
@@ -11,16 +11,16 @@ namespace Passingwind.Abp.DictionaryManagement.Dictionaries;
 [Authorize(DictionaryManagementPermissions.DictionaryGroup.Default)]
 public class DictionaryGroupAppService : DictionaryManagementAppService, IDictionaryGroupAppService
 {
-    private readonly IDictionaryGroupRepository _dictionaryGroupRepository;
+    protected IDictionaryGroupRepository DictionaryGroupRepository { get; }
 
     public DictionaryGroupAppService(IDictionaryGroupRepository dictionaryGroupRepository)
     {
-        _dictionaryGroupRepository = dictionaryGroupRepository;
+        DictionaryGroupRepository = dictionaryGroupRepository;
     }
 
     public virtual async Task<ListResultDto<DictionaryGroupDto>> GetAllListAsync()
     {
-        var list = await _dictionaryGroupRepository.GetListAsync();
+        var list = await DictionaryGroupRepository.GetListAsync();
 
         return new ListResultDto<DictionaryGroupDto>()
         {
@@ -30,8 +30,8 @@ public class DictionaryGroupAppService : DictionaryManagementAppService, IDictio
 
     public virtual async Task<PagedResultDto<DictionaryGroupDto>> GetListAsync(DictionaryGroupListRequestDto input)
     {
-        var count = await _dictionaryGroupRepository.GetCountAsync(filter: input.Filter, parentName: input.ParentName);
-        var list = await _dictionaryGroupRepository.GetPagedListAsync(input.SkipCount, input.MaxResultCount, filter: input.Filter, parentName: input.ParentName);
+        var count = await DictionaryGroupRepository.GetCountAsync(filter: input.Filter, parentName: input.ParentName);
+        var list = await DictionaryGroupRepository.GetPagedListAsync(input.SkipCount, input.MaxResultCount, filter: input.Filter, parentName: input.ParentName);
 
         return new PagedResultDto<DictionaryGroupDto>()
         {
@@ -42,7 +42,7 @@ public class DictionaryGroupAppService : DictionaryManagementAppService, IDictio
 
     public virtual async Task<DictionaryGroupDto> GetAsync(string name)
     {
-        var entity = await _dictionaryGroupRepository.GetByNameAsync(name);
+        var entity = await DictionaryGroupRepository.GetByNameAsync(name);
 
         return ObjectMapper.Map<DictionaryGroup, DictionaryGroupDto>(entity);
     }
@@ -61,21 +61,21 @@ public class DictionaryGroupAppService : DictionaryManagementAppService, IDictio
 
         input.MapExtraPropertiesTo(entity);
 
-        if (await _dictionaryGroupRepository.IsNameExistsAsync(input.Name))
+        if (await DictionaryGroupRepository.IsNameExistsAsync(input.Name))
         {
             throw new BusinessException(DictionaryManagementErrorCodes.NameExists).WithData("name", input.Name);
         }
 
         if (!string.IsNullOrWhiteSpace(input.ParentName))
         {
-            var parent = await _dictionaryGroupRepository.FindByNameAsync(input.ParentName);
+            var parent = await DictionaryGroupRepository.FindByNameAsync(input.ParentName);
             if (parent == null)
             {
                 throw new BusinessException(DictionaryManagementErrorCodes.GroupNotExists).WithData("name", input.ParentName);
             }
         }
 
-        await _dictionaryGroupRepository.InsertAsync(entity);
+        await DictionaryGroupRepository.InsertAsync(entity);
 
         return ObjectMapper.Map<DictionaryGroup, DictionaryGroupDto>(entity);
     }
@@ -83,7 +83,7 @@ public class DictionaryGroupAppService : DictionaryManagementAppService, IDictio
     [Authorize(DictionaryManagementPermissions.DictionaryGroup.Update)]
     public virtual async Task<DictionaryGroupDto> UpdateAsync(string name, DictionaryGroupUpdateDto input)
     {
-        var entity = await _dictionaryGroupRepository.GetByNameAsync(name);
+        var entity = await DictionaryGroupRepository.GetByNameAsync(name);
 
         entity.DisplayName = input.DisplayName;
         entity.Description = input.Description;
@@ -91,7 +91,7 @@ public class DictionaryGroupAppService : DictionaryManagementAppService, IDictio
 
         input.MapExtraPropertiesTo(entity);
 
-        await _dictionaryGroupRepository.UpdateAsync(entity);
+        await DictionaryGroupRepository.UpdateAsync(entity);
 
         return ObjectMapper.Map<DictionaryGroup, DictionaryGroupDto>(entity);
     }
@@ -99,6 +99,6 @@ public class DictionaryGroupAppService : DictionaryManagementAppService, IDictio
     [Authorize(DictionaryManagementPermissions.DictionaryGroup.Delete)]
     public virtual async Task DeleteAsync(string name)
     {
-        await _dictionaryGroupRepository.DeleteAsync(x => x.Name == name);
+        await DictionaryGroupRepository.DeleteAsync(x => x.Name == name);
     }
 }

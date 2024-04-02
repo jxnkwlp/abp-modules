@@ -6,6 +6,7 @@ namespace Passingwind.Abp.DictionaryManagement.Dictionaries;
 public class DictionaryItemDto : ExtensibleAuditedEntityDto<Guid>
 {
     public virtual string Name { get; set; } = null!;
+    public string? GroupName { get; set; }
     public virtual string DisplayName { get; set; } = null!;
     public virtual int DisplayOrder { get; set; }
     public virtual bool IsEnabled { get; set; }

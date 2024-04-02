@@ -18,14 +18,14 @@ public class DictionaryGroupRepository : EfCoreRepository<DictionaryManagementDb
     {
     }
 
-    public virtual async Task<DictionaryGroup?> FindByNameAsync(string name, CancellationToken cancellationToken = default)
+    public async Task<DictionaryGroup?> FindByNameAsync(string name, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
 
         return await dbset.FirstOrDefaultAsync(x => x.Name == name, cancellationToken);
     }
 
-    public virtual async Task<DictionaryGroup> GetByNameAsync(string name, CancellationToken cancellationToken = default)
+    public async Task<DictionaryGroup> GetByNameAsync(string name, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
 
@@ -37,40 +37,43 @@ public class DictionaryGroupRepository : EfCoreRepository<DictionaryManagementDb
         return entity;
     }
 
-    public virtual async Task<long> GetCountAsync(string? filter = null, string? parentName = null, CancellationToken cancellationToken = default)
+    public virtual async Task<long> GetCountAsync(string? filter = null, string? parentName = null, bool? isPublic = null, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
 
         return await dbset
             .WhereIf(!string.IsNullOrEmpty(filter), x => x.Name.Contains(filter!))
             .WhereIf(!string.IsNullOrEmpty(parentName), x => x.ParentName == parentName)
+            .WhereIf(isPublic.HasValue, x => x.IsPublic == isPublic)
             .LongCountAsync(cancellationToken);
     }
 
-    public virtual async Task<List<DictionaryGroup>> GetListAsync(string? filter = null, string? parentName = null, bool includeDetails = false, string? sorting = null, CancellationToken cancellationToken = default)
+    public async Task<List<DictionaryGroup>> GetListAsync(string? filter = null, string? parentName = null, bool? isPublic = null, bool includeDetails = false, string? sorting = null, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
 
         return await dbset
             .WhereIf(!string.IsNullOrEmpty(filter), x => x.Name.Contains(filter!))
             .WhereIf(!string.IsNullOrEmpty(parentName), x => x.ParentName == parentName)
+            .WhereIf(isPublic.HasValue, x => x.IsPublic == isPublic)
             .OrderBy(sorting ?? nameof(DictionaryItem.Name))
             .ToListAsync(cancellationToken);
     }
 
-    public virtual async Task<List<DictionaryGroup>> GetPagedListAsync(int skipCount, int maxResultCount, string? filter = null, string? parentName = null, string? sorting = null, bool includeDetails = false, CancellationToken cancellationToken = default)
+    public virtual async Task<List<DictionaryGroup>> GetPagedListAsync(int skipCount, int maxResultCount, string? filter = null, string? parentName = null, bool? isPublic = null, string? sorting = null, bool includeDetails = false, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
 
         return await dbset
             .WhereIf(!string.IsNullOrEmpty(filter), x => x.Name.Contains(filter!))
             .WhereIf(!string.IsNullOrEmpty(parentName), x => x.ParentName == parentName)
+            .WhereIf(isPublic.HasValue, x => x.IsPublic == isPublic)
             .OrderBy(sorting ?? nameof(DictionaryItem.Name))
             .PageBy(skipCount, maxResultCount)
             .ToListAsync(cancellationToken);
     }
 
-    public virtual async Task<bool> IsNameExistsAsync(string name, IEnumerable<Guid>? excludeIds = null, CancellationToken cancellationToken = default)
+    public async Task<bool> IsNameExistsAsync(string name, IEnumerable<Guid>? excludeIds = null, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
 
