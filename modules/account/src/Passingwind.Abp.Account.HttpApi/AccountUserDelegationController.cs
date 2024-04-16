@@ -20,10 +20,10 @@ public class AccountUserDelegationController : AbpControllerBase, IAccountUserDe
     }
 
     /// <inheritdoc/>
-    [HttpGet("my-delegations")]
-    public virtual Task<ListResultDto<AccountUserDelegationDto>> GetMyDelegationListAsync()
+    [HttpGet("my-delegateds")]
+    public virtual Task<ListResultDto<AccountUserDelegationDto>> GetMyDelegatedListAsync()
     {
-        return _service.GetMyDelegationListAsync();
+        return _service.GetMyDelegatedListAsync();
     }
 
     /// <inheritdoc/>

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -65,9 +64,9 @@ public class AccountImpersonationAppService : AccountAppBaseService, IAccountImp
 
         await IdentityOptions.SetAsync();
 
-        var user = await UserManager.FindByIdAsync(userId.Value.ToString());
+        var user = await UserManager.FindByIdAsync(userId.Value.ToString()) ?? throw new UserNotFoundException();
 
-        await SignInManager.SignInAsync(user!, false);
+        await SignInManager.SignInAsync(user, false);
     }
 
     [Authorize(IdentityPermissionNamesV2.Users.Impersonation)]
@@ -101,9 +100,9 @@ public class AccountImpersonationAppService : AccountAppBaseService, IAccountImp
 
         if (await LinkUserManager.IsLinkedAsync(source, target, true))
         {
-            await ImpersonateLoginAsync(user);
-
             Logger.LogInformation("User with id '{0}' has been link login by user id '{1}'", user.Id, source.UserId);
+
+            await ImpersonateLoginAsync(user);
 
             await SecurityLogManager.SaveAsync(new IdentitySecurityLogContext()
             {
@@ -119,20 +118,22 @@ public class AccountImpersonationAppService : AccountAppBaseService, IAccountImp
         }
     }
 
-    public virtual async Task DelegationLoginAsync(Guid userId)
+    public virtual async Task DelegationLoginAsync(Guid id)
     {
-        var delegations = await UserDelegationManager.GetActiveDelegationsAsync(CurrentUser.GetId());
+        var delegation = await UserDelegationManager.FindActiveDelegationByIdAsync(id);
 
-        if (!delegations.Any(x => x.SourceUserId == userId))
+        // check the delegated is for me.
+        if (delegation == null || delegation.TargetUserId != CurrentUser.GetId())
         {
             throw new BusinessException(AccountErrorCodes.UserNotDelegated);
         }
 
-        var user = await UserManager.GetByIdAsync(userId);
-
-        await ImpersonateLoginAsync(user);
+        // Get the delegation source user 
+        var user = await UserManager.GetByIdAsync(delegation.SourceUserId);
 
         Logger.LogInformation("User with id '{0}' has been delegation login by user id '{1}'", user.Id, CurrentUser.GetId());
+
+        await ImpersonateLoginAsync(user);
 
         await SecurityLogManager.SaveAsync(new IdentitySecurityLogContext()
         {

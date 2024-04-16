@@ -22,28 +22,8 @@ public class AccountUserDelegationAppService : AccountAppBaseService, IAccountUs
         UserDelegationManager = userDelegationManager;
     }
 
-    public virtual async Task CreateAsync(AccountUserDelegationCreateDto input)
-    {
-        if (CurrentUser.FindImpersonatorUserId().HasValue)
-        {
-            throw new BusinessException(AccountErrorCodes.UserActionDisabledInDelegatedMode);
-        }
-
-        var user = await UserRepository.FindAsync(input.UserId);
-
-        if (user == null)
-        {
-            throw new BusinessException(AccountErrorCodes.UserNotFound);
-        }
-
-        await UserDelegationManager.DelegateNewUserAsync(
-            sourceUserId: CurrentUser.GetId(),
-            targetUserId: input.UserId,
-            startTime: input.StartTime,
-            endTime: input.EndTime);
-    }
-
-    public virtual async Task<ListResultDto<AccountUserDelegationDto>> GetDelegatedListAsync()
+    /// <inheritdoc/>
+    public virtual async Task<ListResultDto<AccountUserDelegationDto>> GetMyDelegatedListAsync()
     {
         var list = await UserDelegationManager.GetListAsync(targetUserId: CurrentUser.GetId());
 
@@ -60,7 +40,8 @@ public class AccountUserDelegationAppService : AccountAppBaseService, IAccountUs
         }));
     }
 
-    public virtual async Task<ListResultDto<AccountUserDelegationDto>> GetMyDelegationListAsync()
+    /// <inheritdoc/>
+    public virtual async Task<ListResultDto<AccountUserDelegationDto>> GetDelegatedListAsync()
     {
         var list = await UserDelegationManager.GetListAsync(sourceUserId: CurrentUser.GetId());
 
@@ -77,6 +58,34 @@ public class AccountUserDelegationAppService : AccountAppBaseService, IAccountUs
         }));
     }
 
+    /// <inheritdoc/>
+    public virtual async Task CreateAsync(AccountUserDelegationCreateDto input)
+    {
+        if (CurrentUser.FindImpersonatorUserId().HasValue)
+        {
+            throw new BusinessException(AccountErrorCodes.UserActionDisabledInDelegatedMode);
+        }
+
+        if (CurrentUser.Id == input.UserId)
+        {
+            throw new BusinessException(AccountErrorCodes.UserNotFound);
+        }
+
+        var user = await UserRepository.FindAsync(input.UserId);
+
+        if (user == null)
+        {
+            throw new BusinessException(AccountErrorCodes.UserNotFound);
+        }
+
+        await UserDelegationManager.DelegateNewUserAsync(
+            sourceUserId: CurrentUser.GetId(),
+            targetUserId: input.UserId,
+            startTime: input.StartTime,
+            endTime: input.EndTime);
+    }
+
+    /// <inheritdoc/>
     public virtual async Task DeleteAsync(Guid id)
     {
         if (CurrentUser.FindImpersonatorUserId().HasValue)
@@ -87,6 +96,7 @@ public class AccountUserDelegationAppService : AccountAppBaseService, IAccountUs
         await UserDelegationManager.DeleteDelegationAsync(id, CurrentUser.GetId());
     }
 
+    /// <inheritdoc/>
     public virtual async Task<ListResultDto<UserBasicDto>> UserLookupAsync(string? filter = null)
     {
         var list = await UserRepository.GetListAsync(sorting: nameof(IdentityUser.UserName), maxResultCount: 10, filter: filter);
