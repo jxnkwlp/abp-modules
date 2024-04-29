@@ -22,7 +22,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <AbpVersion>8.0.0</AbpVersion>    
+    <AbpVersion>8.1.1</AbpVersion>    
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">

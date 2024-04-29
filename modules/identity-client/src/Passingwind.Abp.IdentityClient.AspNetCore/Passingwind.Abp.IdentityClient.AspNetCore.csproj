@@ -13,9 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ITfoxtec.Identity.Saml2" Version="4.8.8" />
+    <PackageReference Include="ITfoxtec.Identity.Saml2" Version="4.10.8" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.*" />
-    <PackageReference Include="Passingwind.AspNetCore.Authentication.Saml2" Version="0.2.1" />
+    <PackageReference Include="Passingwind.AspNetCore.Authentication.Saml2" Version="0.3.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +28,21 @@
     <ProjectReference Include="..\..\..\identity\src\Passingwind.Abp.Identity.Domain\Passingwind.Abp.Identity.Domain.csproj" />
     <ProjectReference Include="..\Passingwind.Abp.IdentityClient.Application.Contracts\Passingwind.Abp.IdentityClient.Application.Contracts.csproj" />
     <ProjectReference Include="..\Passingwind.Abp.IdentityClient.Domain\Passingwind.Abp.IdentityClient.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Roslynator.Analyzers" Version="4.12.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Update="Roslynator.CodeAnalysis.Analyzers" Version="4.12.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Update="Roslynator.Formatting.Analyzers" Version="4.12.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

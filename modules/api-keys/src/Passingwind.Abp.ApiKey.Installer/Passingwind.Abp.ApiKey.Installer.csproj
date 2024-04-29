@@ -10,7 +10,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Volo.Abp.VirtualFileSystem" Version="7.2.3" />
+        <PackageReference Include="Volo.Abp.VirtualFileSystem" Version="8.1.1" />
     </ItemGroup>
 
     <ItemGroup>
@@ -19,6 +19,21 @@
         <Pack>true</Pack>
         <PackagePath>content\</PackagePath>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="Roslynator.Analyzers" Version="4.12.2">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+      </PackageReference>
+      <PackageReference Update="Roslynator.CodeAnalysis.Analyzers" Version="4.12.2">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+      </PackageReference>
+      <PackageReference Update="Roslynator.Formatting.Analyzers" Version="4.12.2">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+      </PackageReference>
     </ItemGroup>
 
 </Project>
