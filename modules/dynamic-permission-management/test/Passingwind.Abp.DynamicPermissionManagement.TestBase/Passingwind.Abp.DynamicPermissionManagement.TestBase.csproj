@@ -3,26 +3,44 @@
   <Import Project="..\..\common.props" />
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <RootNamespace>Passingwind.Abp.DynamicPermissionManagement</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
-    <PackageReference Include="NSubstitute" Version="4.3.0" />
-    <PackageReference Include="NSubstitute.Analyzers.CSharp" Version="1.0.15">
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+    <PackageReference Include="NSubstitute" Version="5.1.0" />
+    <PackageReference Include="NSubstitute.Analyzers.CSharp" Version="1.0.17">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Shouldly" Version="4.1.0" />
-    <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.extensibility.execution" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5" />
-    <PackageReference Include="Volo.Abp.Autofac" Version="7.2.3" />
-    <PackageReference Include="Volo.Abp.Authorization" Version="7.2.3" />
-    <PackageReference Include="Volo.Abp.TestBase" Version="7.2.3" />
+    <PackageReference Include="Shouldly" Version="4.2.1" />
+    <PackageReference Include="xunit" Version="2.8.0" />
+    <PackageReference Include="xunit.extensibility.execution" Version="2.8.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Volo.Abp.Autofac" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Authorization" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.TestBase" Version="$(AbpVersion)" />
     <ProjectReference Include="..\..\src\Passingwind.Abp.DynamicPermissionManagement.Domain\Passingwind.Abp.DynamicPermissionManagement.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Roslynator.Analyzers" Version="4.12.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Update="Roslynator.CodeAnalysis.Analyzers" Version="4.12.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Update="Roslynator.Formatting.Analyzers" Version="4.12.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

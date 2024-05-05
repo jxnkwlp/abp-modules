@@ -16,7 +16,7 @@
   <ItemGroup>
     <PackageReference Include="Volo.Abp.AspNetCore" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.Identity.AspNetCore" Version="$(AbpVersion)" />
-    <PackageReference Include="Passingwind.AspNetCore.Authentication.ApiKey" Version="0.2.0" />
+    <PackageReference Include="Passingwind.AspNetCore.Authentication.ApiKey" Version="0.3.0" />
   </ItemGroup>
 
   <ItemGroup>

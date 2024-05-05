@@ -22,7 +22,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <AbpVersion>8.0.0</AbpVersion>    
+    <AbpVersion>8.1.1</AbpVersion>
+    <RoslynatorVersion>4.11.0</RoslynatorVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -45,15 +46,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Roslynator.Analyzers" Version="4.11.0">
+    <PackageReference Include="Roslynator.Analyzers" Version="$(RoslynatorVersion)">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Roslynator.CodeAnalysis.Analyzers" Version="4.11.0">
+    <PackageReference Include="Roslynator.CodeAnalysis.Analyzers" Version="$(RoslynatorVersion)">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Roslynator.Formatting.Analyzers" Version="4.11.0">
+    <PackageReference Include="Roslynator.Formatting.Analyzers" Version="$(RoslynatorVersion)">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>

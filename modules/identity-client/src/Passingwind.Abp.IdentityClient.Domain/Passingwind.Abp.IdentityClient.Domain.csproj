@@ -15,4 +15,19 @@
         <ProjectReference Include="..\Passingwind.Abp.IdentityClient.Domain.Shared\Passingwind.Abp.IdentityClient.Domain.Shared.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Update="Roslynator.Analyzers" Version="$(RoslynatorVersion)">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+      </PackageReference>
+      <PackageReference Update="Roslynator.CodeAnalysis.Analyzers" Version="$(RoslynatorVersion)">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+      </PackageReference>
+      <PackageReference Update="Roslynator.Formatting.Analyzers" Version="$(RoslynatorVersion)">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
+
 </Project>

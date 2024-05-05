@@ -14,5 +14,7 @@
     <ProjectReference Include="..\Passingwind.Abp.DictionaryManagement.Application.Contracts\Passingwind.Abp.DictionaryManagement.Application.Contracts.csproj" />
     <ProjectReference Include="..\Passingwind.Abp.DictionaryManagement.Domain\Passingwind.Abp.DictionaryManagement.Domain.csproj" />
   </ItemGroup>
+ 
+
 
 </Project>

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Data;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Identity;
@@ -30,7 +31,7 @@ public class IdentityUserV2AppService : IdentityUserAppService, IIdentityUserV2A
         IOptions<IdentityOptions> identityOptions,
         IIdentityClaimTypeRepository identityClaimTypeRepository,
         IOrganizationUnitRepository organizationUnitRepository,
-        IdentityUserManagerV2 userManagerV2) : base(userManager, userRepository, roleRepository, identityOptions)
+        IdentityUserManagerV2 userManagerV2, IPermissionChecker permissionChecker) : base(userManager, userRepository, roleRepository, identityOptions, permissionChecker)
     {
         IdentityClaimTypeRepository = identityClaimTypeRepository;
         OrganizationUnitRepository = organizationUnitRepository;

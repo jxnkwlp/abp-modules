@@ -154,7 +154,7 @@ public class AccountExternalAuthController : AbpController
             UserName = user.Name
         });
 
-        return RedirectSafely(returnUrl, returnUrlHash);
+        return await RedirectSafelyAsync(returnUrl, returnUrlHash);
     }
 
     protected virtual async Task<SignInResult> ExternalLoginSignInAsync(ExternalLoginInfo loginInfo)

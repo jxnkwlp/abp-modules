@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <Import Project="..\..\common.props" />
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <RootNamespace>Passingwind.Abp.DictionaryManagement</RootNamespace>
     <PreserveCompilationReferences>true</PreserveCompilationReferences>
@@ -11,22 +11,25 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
     <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
-    <PackageReference Include="IdentityModel" Version="6.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="7.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.1" />
-    <PackageReference Include="Volo.Abp.Autofac" Version="7.2.3" />
-    <PackageReference Include="Volo.Abp.Caching.StackExchangeRedis" Version="7.2.3" />
-    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy" Version="7.2.3" />
-    <PackageReference Include="Volo.Abp.EntityFrameworkCore.SqlServer" Version="7.2.3" />
-    <PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="7.2.3" />
-    <PackageReference Include="Volo.Abp.Swashbuckle" Version="7.2.3" />
-    <PackageReference Include="Volo.Abp.PermissionManagement.EntityFrameworkCore" Version="7.2.3" />
-    <PackageReference Include="Volo.Abp.SettingManagement.EntityFrameworkCore" Version="7.2.3" />
-    <PackageReference Include="Volo.Abp.AuditLogging.EntityFrameworkCore" Version="7.2.3" />
-    <PackageReference Include="Volo.Abp.TenantManagement.EntityFrameworkCore" Version="7.2.3" />
+    <PackageReference Include="IdentityModel" Version="7.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="8.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Volo.Abp.Autofac" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Caching.StackExchangeRedis" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.EntityFrameworkCore.SqlServer" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Swashbuckle" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.EntityFrameworkCore" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.SettingManagement.EntityFrameworkCore" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.AuditLogging.EntityFrameworkCore" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.TenantManagement.EntityFrameworkCore" Version="$(AbpVersion)" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,6 +44,21 @@
     <Content Remove="Logs\**" />
     <EmbeddedResource Remove="Logs\**" />
     <None Remove="Logs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Roslynator.Analyzers" Version="4.12.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Update="Roslynator.CodeAnalysis.Analyzers" Version="4.12.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Update="Roslynator.Formatting.Analyzers" Version="4.12.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

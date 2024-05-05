@@ -7,7 +7,7 @@ using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Identity;
 using Volo.Abp.Identity.Integration;
 using Volo.Abp.Users;
-
+using Asp.Versioning;
 namespace Passingwind.Abp.Identity.Integration;
 
 [RemoteService(Name = IdentityRemoteServiceConsts.RemoteServiceName)]
