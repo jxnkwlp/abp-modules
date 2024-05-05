@@ -1,39 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <Import Project="..\..\common.props" />
+  <Import Project="..\..\common.props" />
 
-    <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
-        <Nullable>enable</Nullable>
-        <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
-        <RootNamespace>Passingwind.Abp.Identity</RootNamespace>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
+    <RootNamespace>Passingwind.Abp.Identity</RootNamespace>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Volo.Abp.VirtualFileSystem" Version="$(AbpVersion)" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.VirtualFileSystem" Version="$(AbpVersion)" />
+  </ItemGroup>
 
-    <ItemGroup>
-      <None Remove="..\..\Passingwind.Abp.Identity.abpmdl.json" />
-      <Content Include="..\..\Passingwind.Abp.Identity.abpmdl.json">
-        <Pack>true</Pack>
-        <PackagePath>content\</PackagePath>
-      </Content>
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Update="Roslynator.Analyzers" Version="4.12.2">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-      </PackageReference>
-      <PackageReference Update="Roslynator.CodeAnalysis.Analyzers" Version="4.12.2">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-      </PackageReference>
-      <PackageReference Update="Roslynator.Formatting.Analyzers" Version="4.12.2">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-      </PackageReference>
-    </ItemGroup>
+  <ItemGroup>
+    <None Remove="..\..\Passingwind.Abp.Identity.abpmdl.json" />
+    <Content Include="..\..\Passingwind.Abp.Identity.abpmdl.json">
+      <Pack>true</Pack>
+      <PackagePath>content\</PackagePath>
+    </Content>
+  </ItemGroup>
 
 </Project>

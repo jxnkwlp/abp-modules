@@ -11,24 +11,11 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.0.4" />
-    <ProjectReference Include="..\..\src\Passingwind.Abp.DynamicPermissionManagement.EntityFrameworkCore\Passingwind.Abp.DynamicPermissionManagement.EntityFrameworkCore.csproj" />
-    <ProjectReference Include="..\Passingwind.Abp.DynamicPermissionManagement.TestBase\Passingwind.Abp.DynamicPermissionManagement.TestBase.csproj" />
+    <ProjectReference
+      Include="..\..\src\Passingwind.Abp.DynamicPermissionManagement.EntityFrameworkCore\Passingwind.Abp.DynamicPermissionManagement.EntityFrameworkCore.csproj" />
+    <ProjectReference
+      Include="..\Passingwind.Abp.DynamicPermissionManagement.TestBase\Passingwind.Abp.DynamicPermissionManagement.TestBase.csproj" />
     <PackageReference Include="Volo.Abp.EntityFrameworkCore.Sqlite" Version="$(AbpVersion)" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="Roslynator.Analyzers" Version="4.12.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-    <PackageReference Update="Roslynator.CodeAnalysis.Analyzers" Version="4.12.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-    <PackageReference Update="Roslynator.Formatting.Analyzers" Version="4.12.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
 </Project>

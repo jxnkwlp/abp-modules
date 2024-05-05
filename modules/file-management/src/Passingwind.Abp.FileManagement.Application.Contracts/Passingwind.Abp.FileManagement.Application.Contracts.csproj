@@ -2,31 +2,17 @@
 
   <Import Project="..\..\common.props" />
 
-	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
-		<Nullable>enable</Nullable>
-		<RootNamespace>Passingwind.Abp.FileManagement</RootNamespace>
-	</PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Passingwind.Abp.FileManagement</RootNamespace>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Volo.Abp.Ddd.Application.Contracts" Version="$(AbpVersion)" />
-		<PackageReference Include="Volo.Abp.Authorization" Version="$(AbpVersion)" />
-		<ProjectReference Include="..\Passingwind.Abp.FileManagement.Domain.Shared\Passingwind.Abp.FileManagement.Domain.Shared.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <PackageReference Update="Roslynator.Analyzers" Version="$(RoslynatorVersion)">
-	    <PrivateAssets>all</PrivateAssets>
-	    <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-	  </PackageReference>
-	  <PackageReference Update="Roslynator.CodeAnalysis.Analyzers" Version="$(RoslynatorVersion)">
-	    <PrivateAssets>all</PrivateAssets>
-	    <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-	  </PackageReference>
-	  <PackageReference Update="Roslynator.Formatting.Analyzers" Version="$(RoslynatorVersion)">
-	    <PrivateAssets>all</PrivateAssets>
-	    <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-	  </PackageReference>
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Ddd.Application.Contracts" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Authorization" Version="$(AbpVersion)" />
+    <ProjectReference
+      Include="..\Passingwind.Abp.FileManagement.Domain.Shared\Passingwind.Abp.FileManagement.Domain.Shared.csproj" />
+  </ItemGroup>
 
 </Project>

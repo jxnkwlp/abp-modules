@@ -9,24 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Passingwind.Abp.DictionaryManagement.Application\Passingwind.Abp.DictionaryManagement.Application.csproj" />
-    <ProjectReference Include="..\Passingwind.Abp.DictionaryManagement.Domain.Tests\Passingwind.Abp.DictionaryManagement.Domain.Tests.csproj" />
+    <ProjectReference
+      Include="..\..\src\Passingwind.Abp.DictionaryManagement.Application\Passingwind.Abp.DictionaryManagement.Application.csproj" />
+    <ProjectReference
+      Include="..\Passingwind.Abp.DictionaryManagement.Domain.Tests\Passingwind.Abp.DictionaryManagement.Domain.Tests.csproj" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="Roslynator.Analyzers" Version="4.12.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-    <PackageReference Update="Roslynator.CodeAnalysis.Analyzers" Version="4.12.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-    <PackageReference Update="Roslynator.Formatting.Analyzers" Version="4.12.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
 </Project>

@@ -1,33 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <Import Project="..\..\common.props" />
+  <Import Project="..\..\common.props" />
 
-    <PropertyGroup>
-        <TargetFramework>netstandard2.1</TargetFramework>
-        <Nullable>enable</Nullable>
-        <RootNamespace>Passingwind.Abp.IdentityClient</RootNamespace>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Passingwind.Abp.IdentityClient</RootNamespace>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Volo.Abp.Ddd.Domain" Version="$(AbpVersion)" />
-        <PackageReference Include="Volo.Abp.Identity.Domain" Version="$(AbpVersion)" />
-        <PackageReference Include="Volo.Abp.MultiTenancy" Version="$(AbpVersion)" />
-        <ProjectReference Include="..\Passingwind.Abp.IdentityClient.Domain.Shared\Passingwind.Abp.IdentityClient.Domain.Shared.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Update="Roslynator.Analyzers" Version="$(RoslynatorVersion)">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-      </PackageReference>
-      <PackageReference Update="Roslynator.CodeAnalysis.Analyzers" Version="$(RoslynatorVersion)">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-      </PackageReference>
-      <PackageReference Update="Roslynator.Formatting.Analyzers" Version="$(RoslynatorVersion)">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-      </PackageReference>
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Identity.Domain" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.MultiTenancy" Version="$(AbpVersion)" />
+    <ProjectReference
+      Include="..\Passingwind.Abp.IdentityClient.Domain.Shared\Passingwind.Abp.IdentityClient.Domain.Shared.csproj" />
+  </ItemGroup>
 
 </Project>
