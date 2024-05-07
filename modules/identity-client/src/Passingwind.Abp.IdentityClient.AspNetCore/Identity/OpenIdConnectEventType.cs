@@ -80,7 +80,7 @@ public class OpenIdConnectEventType : OpenIdConnectEvents
     {
         var providerName = context.Scheme.Name;
 
-        Logger.LogDebug("Authentication schame {0} received user information: \n{1}", context.User.RootElement.GetRawText());
+        Logger.LogDebug("Authentication schame {0} received user information: \n{1}", providerName, context.User.RootElement.GetRawText());
 
         var principal = context.Principal;
 

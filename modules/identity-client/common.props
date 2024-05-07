@@ -7,7 +7,7 @@
     <Description>an abp module that provider dynamic identity provider, support oidc, saml2</Description>
     <PackageTags>abp, abp-module, OIDC, SAML2</PackageTags>
     <Version>1.0.0</Version>
-    <PackageVersion>1.0.0</PackageVersion>
+    <PackageVersion>1.0.1</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
