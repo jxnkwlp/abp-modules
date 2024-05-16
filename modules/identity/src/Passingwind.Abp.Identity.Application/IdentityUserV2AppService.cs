@@ -25,13 +25,14 @@ public class IdentityUserV2AppService : IdentityUserAppService, IIdentityUserV2A
     protected IdentityUserManagerV2 UserManagerV2 { get; }
 
     public IdentityUserV2AppService(
-        IdentityUserManager userManager,
+        Volo.Abp.Identity.IdentityUserManager userManager,
         IIdentityUserRepository userRepository,
         IIdentityRoleRepository roleRepository,
         IOptions<IdentityOptions> identityOptions,
+        IPermissionChecker permissionChecker,
         IIdentityClaimTypeRepository identityClaimTypeRepository,
         IOrganizationUnitRepository organizationUnitRepository,
-        IdentityUserManagerV2 userManagerV2, IPermissionChecker permissionChecker) : base(userManager, userRepository, roleRepository, identityOptions, permissionChecker)
+        IdentityUserManagerV2 userManagerV2) : base(userManager, userRepository, roleRepository, identityOptions, permissionChecker)
     {
         IdentityClaimTypeRepository = identityClaimTypeRepository;
         OrganizationUnitRepository = organizationUnitRepository;

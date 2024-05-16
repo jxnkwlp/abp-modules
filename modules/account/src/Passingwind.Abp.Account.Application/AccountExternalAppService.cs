@@ -8,11 +8,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Passingwind.Abp.Account.Events;
 using Passingwind.Abp.Account.Settings;
 using Passingwind.Abp.Identity;
 using Passingwind.Abp.Identity.AspNetCore;
 using Volo.Abp;
 using Volo.Abp.Authorization;
+using Volo.Abp.EventBus.Local;
 using Volo.Abp.Identity;
 using Volo.Abp.Identity.AspNetCore;
 using Volo.Abp.Json;
@@ -33,6 +35,7 @@ public class AccountExternalAppService : AccountAppBaseService, IAccountExternal
     protected IdentityUserManager UserManager { get; }
     protected IExternalUserProvider ExternalUserProvider { get; }
     protected IOptions<AccountExternalLoginOptions> ExternalLoginOptions { get; set; }
+    protected ILocalEventBus LocalEventBus { get; }
 
     public AccountExternalAppService(
         SignInManager<IdentityUser> signInManager,
@@ -42,7 +45,8 @@ public class AccountExternalAppService : AccountAppBaseService, IAccountExternal
         IdentityUserManager userManager,
         IJsonSerializer jsonSerializer,
         IExternalUserProvider externalUserProvider,
-        IOptions<AccountExternalLoginOptions> externalLoginOptions)
+        IOptions<AccountExternalLoginOptions> externalLoginOptions,
+        ILocalEventBus localEventBus)
     {
         SignInManager = signInManager;
         HttpContext = httpContextAccessor.HttpContext;
@@ -52,6 +56,7 @@ public class AccountExternalAppService : AccountAppBaseService, IAccountExternal
         JsonSerializer = jsonSerializer;
         ExternalUserProvider = externalUserProvider;
         ExternalLoginOptions = externalLoginOptions;
+        LocalEventBus = localEventBus;
     }
 
     public virtual async Task LoginAsync([NotNull] string provider, string? redirectUrl = null)
@@ -65,6 +70,11 @@ public class AccountExternalAppService : AccountAppBaseService, IAccountExternal
         await HttpContext.ChallengeAsync(provider, properties);
     }
 
+    /// <summary>
+    ///  When external login callback
+    /// </summary>
+    /// <exception cref="BusinessException"></exception>
+    /// <exception cref="AbpAuthorizationException">When the external login info not exists </exception>
     public virtual async Task<AccountExternalLoginResultDto> CallbackAsync([NotNull] AccountExternalLoginCallbackDto input)
     {
         if (!string.IsNullOrWhiteSpace(input.RemoteError))
@@ -84,7 +94,7 @@ public class AccountExternalAppService : AccountAppBaseService, IAccountExternal
             throw new AbpAuthorizationException("External login info is not available");
         }
 
-        Logger.LogInformation("Received external login. provider: {LoginProvider}, key: {ProviderKey}", loginInfo.LoginProvider, loginInfo.ProviderKey);
+        Logger.LogInformation("Received external login callback. provider: {LoginProvider}, key: {ProviderKey}", loginInfo.LoginProvider, loginInfo.ProviderKey);
 
         if (ExternalLoginOptions.Value.LogClaims)
         {
@@ -123,6 +133,8 @@ public class AccountExternalAppService : AccountAppBaseService, IAccountExternal
             UserName = user.Name
         });
 
+        await LocalEventBus.PublishAsync(new UserLoginEvent(user.Id, UserLoginEvent.ExternalLogin), onUnitOfWorkComplete: true);
+
         return new AccountExternalLoginResultDto(AccountLoginResultType.Success)
         {
             RedirectUrl = input.ReturnUrl,
@@ -142,6 +154,10 @@ public class AccountExternalAppService : AccountAppBaseService, IAccountExternal
 
         if (result.ToString() != SignInResult.Failed.ToString())
         {
+            var user = await UserManager.FindByLoginAsync(loginInfo.LoginProvider, loginInfo.ProviderKey);
+
+            await LocalEventBus.PublishAsync(new UserLoginEvent(user!.Id, UserLoginEvent.ExternalLogin), onUnitOfWorkComplete: true);
+
             Logger.LogInformation("User use provider key '{ProviderKey}' logged in with '{LoginProvider}' provider.", loginInfo.ProviderKey, loginInfo.LoginProvider);
 
             await IdentitySecurityLogManager.SaveAsync(new IdentitySecurityLogContext()

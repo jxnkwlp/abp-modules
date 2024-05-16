@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Passingwind.Abp.Account.Events;
 using Passingwind.Abp.Identity;
 using Passingwind.Abp.Identity.AspNetCore;
 using Volo.Abp;
 using Volo.Abp.Authorization;
+using Volo.Abp.EventBus.Local;
 using Volo.Abp.Identity;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Security.Claims;
@@ -28,6 +30,7 @@ public class AccountImpersonationAppService : AccountAppBaseService, IAccountImp
     protected IdentityLinkUserManager LinkUserManager { get; }
     protected IdentityUserDelegationManager UserDelegationManager { get; }
     protected IOptions<IdentityOptions> IdentityOptions { get; }
+    protected ILocalEventBus LocalEventBus { get; }
 
     public AccountImpersonationAppService(
         SignInManager signInManager,
@@ -35,7 +38,8 @@ public class AccountImpersonationAppService : AccountAppBaseService, IAccountImp
         IdentitySecurityLogManager securityLogManager,
         IdentityLinkUserManager linkUserManager,
         IOptions<IdentityOptions> identityOptions,
-        IdentityUserDelegationManager userDelegationManager)
+        IdentityUserDelegationManager userDelegationManager,
+        ILocalEventBus localEventBus)
     {
         SignInManager = signInManager;
         UserManager = userManager;
@@ -43,6 +47,7 @@ public class AccountImpersonationAppService : AccountAppBaseService, IAccountImp
         LinkUserManager = linkUserManager;
         IdentityOptions = identityOptions;
         UserDelegationManager = userDelegationManager;
+        LocalEventBus = localEventBus;
     }
 
     public virtual async Task LogoutAsync()
@@ -82,6 +87,8 @@ public class AccountImpersonationAppService : AccountAppBaseService, IAccountImp
         IdentityUser user = await UserManager.FindByIdAsync(userId.ToString()) ?? throw new UserNotFoundException();
 
         await ImpersonateLoginAsync(user);
+
+        await LocalEventBus.PublishAsync(new UserLoginEvent(user.Id, UserLoginEvent.ImpersonationLogout), onUnitOfWorkComplete: true);
     }
 
     public virtual async Task LinkLoginAsync(Guid userId)
@@ -111,6 +118,8 @@ public class AccountImpersonationAppService : AccountAppBaseService, IAccountImp
                 UserName = user.UserName,
                 ExtraProperties = { { "SourceUserId", source.UserId } }
             });
+
+            await LocalEventBus.PublishAsync(new UserLoginEvent(user.Id, UserLoginEvent.LinkLogin), onUnitOfWorkComplete: true);
         }
         else
         {
@@ -142,19 +151,24 @@ public class AccountImpersonationAppService : AccountAppBaseService, IAccountImp
             UserName = user.UserName,
             ExtraProperties = { { "SourceUserId", CurrentUser.GetId() } }
         });
+
+        await LocalEventBus.PublishAsync(new UserLoginEvent(user.Id, UserLoginEvent.DelegationLogin), onUnitOfWorkComplete: true);
     }
 
     protected virtual async Task ImpersonateLoginAsync(IdentityUser user)
     {
+        if (CurrentUser?.IsAuthenticated != true)
+            throw new AbpAuthorizationException();
+
         IList<Claim> cliams = new List<Claim>() {
             new Claim(AbpClaimTypes.ImpersonatorUserId, CurrentUser.GetId().ToString()),
-            new Claim(AbpClaimTypes.ImpersonatorUserName, CurrentUser.UserName),
+            new Claim(AbpClaimTypes.ImpersonatorUserName, CurrentUser.UserName!),
         };
 
         if (CurrentTenant.Id.HasValue)
         {
             cliams.Add(new Claim(AbpClaimTypes.ImpersonatorTenantId, CurrentTenant.GetId().ToString()));
-            cliams.Add(new Claim(AbpClaimTypes.ImpersonatorTenantName, CurrentTenant.Name));
+            cliams.Add(new Claim(AbpClaimTypes.ImpersonatorTenantName, CurrentTenant.Name!));
         }
 
         await SignInManager.SignInWithClaimsAsync(user, false, cliams);

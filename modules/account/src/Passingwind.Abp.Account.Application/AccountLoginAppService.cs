@@ -5,15 +5,18 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Passingwind.Abp.Account.Events;
 using Passingwind.Abp.Account.Settings;
 using Passingwind.Abp.Identity.AspNetCore;
 using Passingwind.Abp.Identity.Settings;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Authorization;
+using Volo.Abp.EventBus.Local;
 using Volo.Abp.Identity;
 using Volo.Abp.Identity.AspNetCore;
 using Volo.Abp.Settings;
+using Volo.Abp.Users;
 using Volo.Abp.Validation;
 using IdentityUser = Volo.Abp.Identity.IdentityUser;
 using IdentityUserManager = Passingwind.Abp.Identity.IdentityUserManager;
@@ -29,19 +32,22 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
     protected IdentitySecurityLogManager SecurityLogManager { get; }
     protected SignInManager SignInManager { get; }
     protected IdentityUserManager UserManager { get; }
+    protected ILocalEventBus LocalEventBus { get; }
 
     public AccountLoginAppService(
         SignInManager signInManager,
         IdentityUserManager userManager,
         IdentitySecurityLogManager securityLogManager,
         IAccountTwoFactorTokenSender accountTwoFactorTokenSender,
-        IOptions<IdentityOptions> identityOptions)
+        IOptions<IdentityOptions> identityOptions,
+        ILocalEventBus localEventBus)
     {
         SignInManager = signInManager;
         UserManager = userManager;
         SecurityLogManager = securityLogManager;
         AccountTwoFactorTokenSender = accountTwoFactorTokenSender;
         IdentityOptions = identityOptions;
+        LocalEventBus = localEventBus;
     }
 
     /// <inheritdoc/>
@@ -72,6 +78,8 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
             UserName = user.UserName,
         });
 
+        await LocalEventBus.PublishAsync(new UserLoginEvent(user.Id, UserLoginEvent.PasswordLogin), onUnitOfWorkComplete: true);
+
         return GetAccountLoginResult(signInResult);
     }
 
@@ -97,6 +105,8 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
             Action = signInResult.ToIdentitySecurityLogAction(),
             UserName = user.UserName,
         });
+
+        await LocalEventBus.PublishAsync(new UserLoginEvent(user.Id, UserLoginEvent.AuthenticatorRecoveryCodeLogin), onUnitOfWorkComplete: true);
 
         return GetAccountLoginResult(signInResult);
     }
@@ -135,6 +145,8 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
             UserName = user.UserName,
         });
 
+        await LocalEventBus.PublishAsync(new UserLoginEvent(user.Id, UserLoginEvent.TwoFactorLogin), onUnitOfWorkComplete: true);
+
         return GetAccountLoginResult(signInResult);
     }
 
@@ -160,6 +172,8 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
             Identity = IdentitySecurityLogIdentityConsts.Identity,
             Action = IdentitySecurityLogActionConsts.Logout
         });
+
+        await LocalEventBus.PublishAsync(new UserLoginEvent(CurrentUser.GetId(), UserLoginEvent.Logout), onUnitOfWorkComplete: true);
 
         await SignInManager.SignOutAsync();
     }

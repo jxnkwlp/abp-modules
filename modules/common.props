@@ -1,4 +1,7 @@
 ﻿<Project>
+
+  <Import Project="..\common.props" />
+  
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
     <AssemblyVersion>$(Version)</AssemblyVersion>
@@ -21,15 +24,14 @@
     <CopyDebugSymbolFilesFromPackages>true</CopyDebugSymbolFilesFromPackages>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <AbpVersion>8.1.1</AbpVersion>
-    <RoslynatorVersion>4.11.0</RoslynatorVersion>
-  </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
-
+  
+  <PropertyGroup>
+    <RoslynatorVersion>4.11.0</RoslynatorVersion>
+  </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="ConfigureAwait.Fody" Version="3.3.2" PrivateAssets="All" />
     <PackageReference Include="Fody" Version="6.8.0">
