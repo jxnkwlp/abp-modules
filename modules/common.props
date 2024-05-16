@@ -1,4 +1,7 @@
 ﻿<Project>
+
+  <Import Project="..\common.props" />
+  
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
     <AssemblyVersion>$(Version)</AssemblyVersion>
@@ -19,10 +22,6 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <CopyDocumentationFilesFromPackages>true</CopyDocumentationFilesFromPackages>
     <CopyDebugSymbolFilesFromPackages>true</CopyDebugSymbolFilesFromPackages>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <AbpVersion>8.0.0</AbpVersion>    
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
