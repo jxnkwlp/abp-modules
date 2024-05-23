@@ -20,13 +20,13 @@ public class IdentitySecurityLogController : IdentityBaseController, IIdentitySe
     }
 
     [HttpGet("{id}")]
-    public virtual Task<IdentitySecurityLogDto> GetAsync(Guid id)
+    public virtual Task<IdentitySecurityLogsDto> GetAsync(Guid id)
     {
         return _service.GetAsync(id);
     }
 
     [HttpGet]
-    public virtual Task<PagedResultDto<IdentitySecurityLogDto>> GetListAsync([FromQuery] IdentitySecurityLogPagedListRequestDto input)
+    public virtual Task<PagedResultDto<IdentitySecurityLogsDto>> GetListAsync([FromQuery] IdentitySecurityLogPagedListRequestDto input)
     {
         return _service.GetListAsync(input);
     }

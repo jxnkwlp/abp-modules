@@ -17,29 +17,35 @@ public class NullAccountTwoFactorTokenSender : IAccountTwoFactorTokenSender, ISi
 
     public virtual Task SendAsync(IdentityUser user, string provider, string token, CancellationToken cancellationToken = default)
     {
-        Logger.LogWarning("Two-factor token not sent. Please implement '{0}' first.", typeof(IAccountTwoFactorTokenSender).FullName);
+        Logger.NotImplement(token, typeof(IAccountTwoFactorTokenSender).FullName);
 
         return Task.CompletedTask;
     }
 
     public virtual Task SendEmailConfirmationTokenAsync(IdentityUser user, string token, CancellationToken cancellationToken = default)
     {
-        Logger.LogWarning("Token not sent. Please implement '{0}' first.", typeof(IAccountTwoFactorTokenSender).FullName);
+        Logger.NotImplement(token, typeof(IAccountTwoFactorTokenSender).FullName);
 
         return Task.CompletedTask;
     }
 
     public virtual Task SendChangePhoneNumberTokenAsync(IdentityUser user, string phoneNumber, string token, CancellationToken cancellationToken = default)
     {
-        Logger.LogWarning("Token not sent. Please implement '{0}' first.", typeof(IAccountTwoFactorTokenSender).FullName);
+        Logger.NotImplement(token, typeof(IAccountTwoFactorTokenSender).FullName);
 
         return Task.CompletedTask;
     }
 
     public virtual Task SendChangeEmailTokenAsync(IdentityUser user, string email, string token, CancellationToken cancellationToken = default)
     {
-        Logger.LogWarning("Token not sent. Please implement '{0}' first.", typeof(IAccountTwoFactorTokenSender).FullName);
+        Logger.NotImplement(token, typeof(IAccountTwoFactorTokenSender).FullName);
 
         return Task.CompletedTask;
     }
+}
+
+internal static partial class NullAccountTwoFactorTokenSenderLoggerMessage
+{
+    [LoggerMessage("Token '{Token}' not sent. Please implement '{TypeName}' first.", Level = LogLevel.Warning)]
+    internal static partial void NotImplement(this ILogger logger, string token, string? typeName);
 }

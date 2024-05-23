@@ -7,5 +7,5 @@ namespace Passingwind.Abp.Account;
 
 public interface IAccountSecurityLogsAppService : IApplicationService
 {
-    Task<PagedResultDto<IdentitySecurityLogDto>> GetListAsync(AccountSecurityLogPagedListRequestDto input);
+    Task<PagedResultDto<IdentitySecurityLogsDto>> GetListAsync(AccountSecurityLogsPagedListRequestDto input);
 }

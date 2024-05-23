@@ -20,7 +20,7 @@ public class AccountExternalAuthController : AbpController
 
     [AllowAnonymous]
     [HttpGet("identity/{provider}/login")]
-    public virtual async Task IdentityClientLoginAsync(string provider, string? returnUrl = null, string? returnUrlHash = null)
+    public virtual async Task LoginAsync(string provider, string? returnUrl = null, string? returnUrlHash = null)
     {
         var redirectUrl = Url.Action("callback", values: new { returnUrl, returnUrlHash });
 

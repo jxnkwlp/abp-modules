@@ -17,7 +17,7 @@ public class AccountSecurityLogsAppService : AccountAppBaseService, IAccountSecu
         SecurityLogRepository = securityLogRepository;
     }
 
-    public virtual async Task<PagedResultDto<IdentitySecurityLogDto>> GetListAsync(AccountSecurityLogPagedListRequestDto input)
+    public virtual async Task<PagedResultDto<IdentitySecurityLogsDto>> GetListAsync(AccountSecurityLogsPagedListRequestDto input)
     {
         var count = await SecurityLogRepository.GetCountAsync(
            startTime: input.StartTime,
@@ -42,6 +42,6 @@ public class AccountSecurityLogsAppService : AccountAppBaseService, IAccountSecu
             clientId: input.ClientId,
             correlationId: input.CorrelationId);
 
-        return new PagedResultDto<IdentitySecurityLogDto>(count, ObjectMapper.Map<List<IdentitySecurityLog>, List<IdentitySecurityLogDto>>(list));
+        return new PagedResultDto<IdentitySecurityLogsDto>(count, ObjectMapper.Map<List<IdentitySecurityLog>, List<IdentitySecurityLogsDto>>(list));
     }
 }

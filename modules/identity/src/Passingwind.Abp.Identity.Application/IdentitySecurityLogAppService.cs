@@ -23,14 +23,14 @@ public class IdentitySecurityLogAppService : IdentityAppBaseService, IIdentitySe
         await SecurityLogRepository.DeleteAsync(id);
     }
 
-    public virtual async Task<IdentitySecurityLogDto> GetAsync(Guid id)
+    public virtual async Task<IdentitySecurityLogsDto> GetAsync(Guid id)
     {
         var entity = await SecurityLogRepository.GetAsync(id);
 
-        return ObjectMapper.Map<IdentitySecurityLog, IdentitySecurityLogDto>(entity);
+        return ObjectMapper.Map<IdentitySecurityLog, IdentitySecurityLogsDto>(entity);
     }
 
-    public virtual async Task<PagedResultDto<IdentitySecurityLogDto>> GetListAsync(IdentitySecurityLogPagedListRequestDto input)
+    public virtual async Task<PagedResultDto<IdentitySecurityLogsDto>> GetListAsync(IdentitySecurityLogPagedListRequestDto input)
     {
         var count = await SecurityLogRepository.GetCountAsync(
             input.StartTime,
@@ -57,6 +57,6 @@ public class IdentitySecurityLogAppService : IdentityAppBaseService, IIdentitySe
             input.ClientId,
             input.CorrelationId);
 
-        return new PagedResultDto<IdentitySecurityLogDto>(count, ObjectMapper.Map<List<IdentitySecurityLog>, List<IdentitySecurityLogDto>>(list));
+        return new PagedResultDto<IdentitySecurityLogsDto>(count, ObjectMapper.Map<List<IdentitySecurityLog>, List<IdentitySecurityLogsDto>>(list));
     }
 }

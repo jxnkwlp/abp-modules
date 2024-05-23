@@ -3,7 +3,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace Passingwind.Abp.Identity;
 
-public class IdentitySecurityLogDto : ExtensibleEntityDto<Guid>
+public class IdentitySecurityLogsDto : ExtensibleEntityDto<Guid>
 {
     public Guid? TenantId { get; set; }
 

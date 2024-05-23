@@ -25,9 +25,14 @@ public class IdentityClientExternalProvider : AccountExternalProvider
         // check is debug mode
         var identityClient = await IdentityClientRepository.FindByProviderNameAsync(providerName);
 
-        // TODO check tenant 
-        // 
-        if (identityClient?.IsDebugMode == true)
+        if (identityClient == null)
+        {
+            context.Handled = true;
+            context.Result = new NotFoundResult();
+            return;
+        }
+
+        if (identityClient.IsDebugMode)
         {
             Logger.LogWarning("YOU ARE USE DEBUG MODE FOR IDENTITY PROVIDER");
             context.Handled = true;

@@ -35,7 +35,7 @@ public class SignInManager : AbpSignInManager, IScopedDependency
         IdentityUserManager = identityUserManager;
     }
 
-    protected override async Task<SignInResult?> PreSignInCheck(Volo.Abp.Identity.IdentityUser user)
+    protected override async Task<SignInResult?> PreSignInCheck(IdentityUser user)
     {
         if (!user.IsActive)
         {
@@ -56,16 +56,23 @@ public class SignInManager : AbpSignInManager, IScopedDependency
         return null;
     }
 
-    protected virtual async Task<SignInResult> PostSignInCheck(IdentityUser user, SignInResult signInResult)
+    /// <summary>
+    ///  Post action when user signin
+    /// </summary>
+    protected virtual Task<SignInResult> PostSignInCheckAsync(IdentityUser user, SignInResult signInResult)
     {
-        if (await IdentityUserManager.ShouldChangePasswordAsync(user))
-        {
-            return AbpSignInResult.ChangePasswordRequired;
-        }
-
-        return signInResult;
+        return Task.FromResult(signInResult);
     }
 
+    /// <summary>
+    ///  Check if the user has need change password before login
+    /// </summary>
+    public virtual async Task<bool> ShouldChangePasswordAsync(IdentityUser user)
+    {
+        return await IdentityUserManager.ShouldChangePasswordAsync(user);
+    }
+
+    /// <inheritdoc />
     public override async Task<bool> IsTwoFactorEnabledAsync(IdentityUser user)
     {
         var behaviour = await SettingProvider.GetEnumValueAsync<IdentityTwofactoryBehaviour>(IdentitySettingNamesV2.Twofactor.TwoFactorBehaviour);
@@ -79,55 +86,46 @@ public class SignInManager : AbpSignInManager, IScopedDependency
         return await base.IsTwoFactorEnabledAsync(user);
     }
 
-    public virtual async Task<bool> ShouldChangePasswordAsync(IdentityUser user)
+    /// <summary>
+    ///  This is to call the protection method <see cref="SignInOrTwoFactorAsync"/>
+    /// </summary>
+    public virtual async Task<SignInResult> DirectSignInAsync(IdentityUser user, bool isPersistent, string? loginProvider = null, bool bypassTwoFactor = false, bool bypassChangePassword = false)
     {
-        return await IdentityUserManager.ShouldChangePasswordAsync(user);
+        return await SignInOrTwoFactorAsync(
+            user,
+            isPersistent: isPersistent,
+            loginProvider: loginProvider,
+            bypassTwoFactor: bypassTwoFactor,
+            bypassChangePassword: bypassChangePassword);
     }
 
-    // TODO
-    // review this when upgrade to .net8
-    protected override async Task<SignInResult> SignInOrTwoFactorAsync(IdentityUser user, bool isPersistent, string? loginProvider = null, bool bypassTwoFactor = false)
+    /// <inheritdoc />
+    protected virtual async Task<SignInResult> SignInOrTwoFactorAsync(IdentityUser user, bool isPersistent, string? loginProvider = null, bool bypassTwoFactor = false, bool bypassChangePassword = false)
     {
-        if (await ShouldChangePasswordAsync(user))
+        SignInResult result = SignInResult.Failed;
+
+        if (!bypassChangePassword && await ShouldChangePasswordAsync(user))
         {
             var userId = await UserManager.GetUserIdAsync(user);
             await Context.SignInAsync(IdentityV2Constants.ChangePasswordUserIdScheme, StoreChangePasswordInfo(userId, loginProvider));
 
-            return AbpSignInResult.ChangePasswordRequired;
-        }
-
-        if (!bypassTwoFactor && await IsTwoFactorEnabledAsync(user))
-        {
-            if (!await IsTwoFactorClientRememberedAsync(user))
-            {
-                // Store the userId for use after two factor check
-                var userId = await UserManager.GetUserIdAsync(user);
-                await Context.SignInAsync(IdentityConstants.TwoFactorUserIdScheme, StoreTwoFactorInfo(userId, loginProvider));
-
-                return SignInResult.TwoFactorRequired;
-            }
-        }
-
-        // Cleanup external cookie
-        if (loginProvider != null)
-        {
-            await Context.SignOutAsync(IdentityConstants.ExternalScheme);
-        }
-
-        if (loginProvider == null)
-        {
-            await SignInWithClaimsAsync(user, isPersistent, new Claim[] { new Claim("amr", "pwd") });
+            result = AbpSignInResult.ChangePasswordRequired;
         }
         else
         {
-            await SignInAsync(user, isPersistent, loginProvider);
+            result = await base.SignInOrTwoFactorAsync(user, isPersistent, loginProvider, bypassTwoFactor);
         }
 
-        return SignInResult.Success;
-
-        // return await base.SignInOrTwoFactorAsync(user, isPersistent, loginProvider, bypassTwoFactor);
+        return await PostSignInCheckAsync(user, result);
     }
 
+    /// <inheritdoc />
+    protected override async Task<SignInResult> SignInOrTwoFactorAsync(IdentityUser user, bool isPersistent, string? loginProvider = null, bool bypassTwoFactor = false)
+    {
+        return await SignInOrTwoFactorAsync(user, isPersistent, loginProvider, bypassTwoFactor, false);
+    }
+
+    /// <inheritdoc />
     public override async Task SignOutAsync()
     {
         await base.SignOutAsync();
@@ -152,23 +150,6 @@ public class SignInManager : AbpSignInManager, IScopedDependency
         }
 
         return await UserManager.FindByIdAsync(userId);
-    }
-
-    /// <summary>
-    /// Creates a claims principal for the specified 2fa information.
-    /// </summary>
-    /// <param name="userId">The user whose is logging in via 2fa.</param>
-    /// <param name="loginProvider">The 2fa provider.</param>
-    /// <returns>A <see cref="ClaimsPrincipal"/> containing the user 2fa information.</returns>
-    internal static ClaimsPrincipal StoreTwoFactorInfo(string userId, string? loginProvider)
-    {
-        var identity = new ClaimsIdentity(IdentityConstants.TwoFactorUserIdScheme);
-        identity.AddClaim(new Claim(ClaimTypes.Name, userId));
-        if (loginProvider != null)
-        {
-            identity.AddClaim(new Claim(ClaimTypes.AuthenticationMethod, loginProvider));
-        }
-        return new ClaimsPrincipal(identity);
     }
 
     /// <summary>
