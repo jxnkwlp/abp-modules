@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Passingwind.Abp.PermissionManagement</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Passingwind.Abp.PermissionManagement.Domain\Passingwind.Abp.PermissionManagement.Domain.csproj" />
+    <ProjectReference Include="..\Passingwind.Abp.PermissionManagement.TestBase\Passingwind.Abp.PermissionManagement.TestBase.csproj" />
+  </ItemGroup>
+
+
+</Project>

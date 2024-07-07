@@ -1,0 +1,14 @@
+﻿{
+  "culture": "zh-Hans",
+  "texts": {
+    "PermissionManagement:Error:PermissionGroupNameExists": "权限组定义名称“{name}”已存在。",
+    "PermissionManagement:Error:PermissionGroupHasPermissions": "权限组定义下有其他权限定义。",
+    "PermissionManagement:Error:PermissionNameExists": "权限定义名称“{name}”已存在。",
+
+    "Permission:PermissionManagement": "权限管理",
+    "Permission:PermissionManagement.DynamicPermissions": "动态权限定义",
+    "Permission:PermissionManagement.DynamicPermissions.Manage": "管理",
+    "Permission:PermissionManagement.Permissions": "权限",
+    "Permission:PermissionManagement.Permissions.Manage": "管理"
+  }
+}

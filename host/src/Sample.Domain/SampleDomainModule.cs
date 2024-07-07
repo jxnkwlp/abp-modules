@@ -4,6 +4,7 @@ using Passingwind.Abp.ApiKey;
 using Passingwind.Abp.FileManagement;
 using Passingwind.Abp.Identity;
 using Passingwind.Abp.IdentityClient;
+using Passingwind.Abp.PermissionManagement;
 using Sample.MultiTenancy;
 using Volo.Abp.AuditLogging;
 using Volo.Abp.BackgroundJobs;
@@ -38,6 +39,7 @@ namespace Sample;
 [DependsOn(typeof(FileManagementDomainModule))]
 [DependsOn(typeof(IdentityClientDomainModule))]
 [DependsOn(typeof(IdentityDomainModule))]
+[DependsOn(typeof(PermissionManagementDomainModule))]
 public class SampleDomainModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)

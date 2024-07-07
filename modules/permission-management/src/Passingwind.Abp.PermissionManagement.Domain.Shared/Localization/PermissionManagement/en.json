@@ -1,0 +1,14 @@
+﻿{
+  "culture": "en",
+  "texts": {
+    "PermissionManagement:Error:PermissionGroupNameExists": "The permission group definition name '{name}' already exists.",
+    "PermissionManagement:Error:PermissionGroupHasPermissions": "The permission group definition has associate defintion records.",
+    "PermissionManagement:Error:PermissionNameExists": "The permission definition name '{name}' already exists.",
+
+    "Permission:PermissionManagement": "Permission management",
+    "Permission:PermissionManagement.DynamicPermissions": "Dynamic Permission definitions",
+    "Permission:PermissionManagement.DynamicPermissions.Manage": "Manage",
+    "Permission:PermissionManagement.Permissions": "Permissions",
+    "Permission:PermissionManagement.Permissions.Manage": "Manage"
+  }
+}

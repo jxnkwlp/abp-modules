@@ -4,8 +4,10 @@ using System.IO;
 using System.Linq;
 using Hangfire;
 using Hangfire.MemoryStorage;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -14,7 +16,7 @@ using Passingwind.Abp.Account;
 using Passingwind.Abp.ApiKey;
 using Passingwind.Abp.FileManagement;
 using Passingwind.Abp.FileManagement.Options;
-using Passingwind.Abp.IdentityClient;
+using Passingwind.Abp.PermissionManagement;
 using Passingwind.AspNetCore.Authentication.ApiKey;
 using Sample.EntityFrameworkCore;
 using Sample.MultiTenancy;
@@ -23,6 +25,7 @@ using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.AspNetCore.MultiTenancy;
 using Volo.Abp.AspNetCore.Mvc;
+using Volo.Abp.AspNetCore.Mvc.AntiForgery;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Serilog;
@@ -56,6 +59,7 @@ namespace Sample;
 [DependsOn(typeof(FileManagementApplicationModule))]
 [DependsOn(typeof(AccountAspNetCoreIdentityClientModule))]
 [DependsOn(typeof(AccountAspNetCoreModule))]
+[DependsOn(typeof(PermissionManagementHttpApiModule))]
 public class SampleHttpApiHostModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
@@ -103,6 +107,14 @@ public class SampleHttpApiHostModule : AbpModule
                 .UseRecommendedSerializerSettings()
                 .UseColouredConsoleLogProvider();
         });
+
+        Configure<CookiePolicyOptions>(options =>
+        {
+            options.MinimumSameSitePolicy = SameSiteMode.Lax;
+            options.Secure = CookieSecurePolicy.SameAsRequest;
+        });
+
+        Configure<AbpAntiForgeryOptions>(options => options.TokenCookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Lax);
     }
 
     private void ConfigureAuthentication(ServiceConfigurationContext context)

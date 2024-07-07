@@ -13,6 +13,7 @@
     <ProjectReference Include="..\..\..\modules\file-management\src\Passingwind.Abp.FileManagement.EntityFrameworkCore\Passingwind.Abp.FileManagement.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\..\modules\identity-client\src\Passingwind.Abp.IdentityClient.EntityFrameworkCore\Passingwind.Abp.IdentityClient.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\..\modules\identity\src\Passingwind.Abp.Identity.EntityFrameworkCore\Passingwind.Abp.Identity.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\..\..\modules\permission-management\src\Passingwind.Abp.PermissionManagement.EntityFrameworkCore\Passingwind.Abp.PermissionManagement.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\Sample.Domain\Sample.Domain.csproj" />
     <PackageReference Include="Volo.Abp.EntityFrameworkCore.SqlServer" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.PermissionManagement.EntityFrameworkCore" Version="$(AbpVersion)" />

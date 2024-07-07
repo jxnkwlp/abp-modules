@@ -1,7 +1,0 @@
-{
-  "modules": {
-    "Passingwind.Abp.DynamicPermissionManagement": {
-      "path": "Passingwind.Abp.DynamicPermissionManagement.abpmdl.json"
-    }
-  }
-}

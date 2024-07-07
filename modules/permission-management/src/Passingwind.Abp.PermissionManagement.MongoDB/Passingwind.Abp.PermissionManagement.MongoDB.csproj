@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Passingwind.Abp.PermissionManagement</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.PermissionManagement.MongoDB" Version="$(AbpVersion)" />
+    <ProjectReference Include="..\Passingwind.Abp.PermissionManagement.Domain\Passingwind.Abp.PermissionManagement.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
