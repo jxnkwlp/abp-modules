@@ -93,7 +93,7 @@ public class Saml2AppService : ApplicationService, ISaml2AppService
             {
                 new AttributeConsumingService
                 {
-                    ServiceName = new ServiceName(identityClient.Name, "en"),
+                     ServiceNames = new []{ new LocalizedNameType(identityClient.Name, "en") },
                     RequestedAttributes = CreateRequestedAttributes(),
                 }
             },
