@@ -1,13 +1,13 @@
 ﻿<Project>
 
   <Import Project="..\common.props" />
-  
+
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
     <AssemblyVersion>$(Version)</AssemblyVersion>
     <FileVersion>$(Version)</FileVersion>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
-    
+
     <IsPackable>true</IsPackable>
     <Authors>Passingwind</Authors>
     <Copyright>Passingwind</Copyright>
@@ -27,11 +27,11 @@
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
-  
+
   <PropertyGroup>
-    <RoslynatorVersion>4.11.0</RoslynatorVersion>
+    <RoslynatorVersion>4.12.4</RoslynatorVersion>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <PackageReference Include="ConfigureAwait.Fody" Version="3.3.2" PrivateAssets="All" />
     <PackageReference Include="Fody" Version="6.8.0">

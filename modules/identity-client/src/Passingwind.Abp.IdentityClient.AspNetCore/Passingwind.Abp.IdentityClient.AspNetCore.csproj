@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ITfoxtec.Identity.Saml2" Version="4.10.8" />
+    <PackageReference Include="ITfoxtec.Identity.Saml2" Version="4.11.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.*" />
     <PackageReference Include="Passingwind.AspNetCore.Authentication.Saml2" Version="0.3.0" />
   </ItemGroup>
