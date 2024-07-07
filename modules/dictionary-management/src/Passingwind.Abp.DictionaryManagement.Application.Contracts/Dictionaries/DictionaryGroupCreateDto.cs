@@ -1,14 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Volo.Abp.Validation;
 
 namespace Passingwind.Abp.DictionaryManagement.Dictionaries;
 
 public class DictionaryGroupCreateDto : DictionaryGroupUpdateDto
 {
     [Required]
-    [MaxLength(32)]
+    [DynamicMaxLength(typeof(DictionaryManagementConsts), nameof(DictionaryManagementConsts.MaxNameLength))]
     [RegularExpression("^[A-Za-z0-9_\\-\\.]+$")]
     public virtual string Name { get; set; } = null!;
-    [MaxLength(32)]
+    [DynamicMaxLength(typeof(DictionaryManagementConsts), nameof(DictionaryManagementConsts.MaxNameLength))]
     [RegularExpression("^[A-Za-z0-9_\\-\\.]+$")]
     public virtual string? ParentName { get; set; }
 }

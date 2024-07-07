@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Authorization;
 
@@ -7,24 +6,25 @@ namespace Passingwind.Abp.DictionaryManagement.Dictionaries;
 
 public class DictionaryAppService : DictionaryManagementAppService, IDictionaryAppService
 {
-    private readonly IDictionaryGroupRepository _dictionaryGroupRepository;
-    private readonly IDictionaryItemRepository _dictionaryItemRepository;
+    protected IDictionaryManager DictionaryManager { get; }
 
-    public DictionaryAppService(IDictionaryGroupRepository dictionaryGroupRepository, IDictionaryItemRepository dictionaryItemRepository)
+    public DictionaryAppService(IDictionaryManager dictionaryManager)
     {
-        _dictionaryGroupRepository = dictionaryGroupRepository;
-        _dictionaryItemRepository = dictionaryItemRepository;
+        DictionaryManager = dictionaryManager;
     }
 
     public virtual async Task<DictionaryResultDto> GetAsync(string name)
     {
-        var item = await _dictionaryItemRepository.GetByNameAsync(name);
+        var item = await DictionaryManager.GetItemAsync(name);
 
-        var group = await _dictionaryGroupRepository.GetByNameAsync(item.GroupName!);
-
-        if (!group.IsPublic && !CurrentUser.IsAuthenticated)
+        if (!string.IsNullOrWhiteSpace(item.GroupName))
         {
-            throw new AbpAuthorizationException();
+            var group = await DictionaryManager.GetGroupAsync(item.GroupName);
+
+            if (!group.IsPublic && !CurrentUser.IsAuthenticated)
+            {
+                throw new AbpAuthorizationException();
+            }
         }
 
         if (!item.IsEnabled)
@@ -32,22 +32,52 @@ public class DictionaryAppService : DictionaryManagementAppService, IDictionaryA
             throw new DictionaryItemDisabledException();
         }
 
-        return ObjectMapper.Map<DictionaryItem, DictionaryResultDto>(item);
+        return new DictionaryResultDto
+        {
+            Description = item.Description,
+            DisplayName = item.DisplayName,
+            Name = item.Name,
+            Value = item.Value,
+        };
+    }
+
+    public virtual async Task<DictionaryGroupListResultDto> GetGroupListAsync(string? parentName = null)
+    {
+        bool onlyPublic = true;
+        if (CurrentUser.IsAuthenticated)
+        {
+            onlyPublic = false;
+        }
+
+        var list = await DictionaryManager.GetGroupsAsync(parentName: parentName, onlyPublic: onlyPublic);
+
+        return new DictionaryGroupListResultDto(list.Select(x => new DictionaryGroupResultDto
+        {
+            Description = x.Description,
+            DisplayName = x.DisplayName,
+            IsPublic = x.IsPublic,
+            Name = x.Name,
+            ParentName = x.ParentName,
+        }).ToList());
     }
 
     public virtual async Task<DictionaryListResultDto> GetListByGroupAsync(string groupName)
     {
-        var group = await _dictionaryGroupRepository.GetByNameAsync(groupName);
+        var group = await DictionaryManager.GetGroupAsync(groupName);
 
         if (!group.IsPublic && !CurrentUser.IsAuthenticated)
         {
             throw new AbpAuthorizationException();
         }
 
-        var list = await _dictionaryItemRepository.GetListAsync(groupName: groupName, isEnabled: true);
+        var list = await DictionaryManager.GetItemsAsync(groupName: groupName, onlyEnabled: true);
 
-        list = list.OrderBy(x => x.DisplayOrder).ThenBy(x => x.Name).ToList();
-
-        return new DictionaryListResultDto(ObjectMapper.Map<List<DictionaryItem>, List<DictionaryResultDto>>(list));
+        return new DictionaryListResultDto(list.Select(x => new DictionaryResultDto
+        {
+            Description = x.Description,
+            DisplayName = x.DisplayName,
+            Name = x.Name,
+            Value = x.Value,
+        }).ToList());
     }
 }

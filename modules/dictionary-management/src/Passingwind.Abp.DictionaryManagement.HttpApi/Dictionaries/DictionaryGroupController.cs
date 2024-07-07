@@ -5,7 +5,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace Passingwind.Abp.DictionaryManagement.Dictionaries;
 
-[Area("DictionaryManagement")]
+[Area(DictionaryManagementRemoteServiceConsts.RemoteServiceName)]
 [RemoteService(Name = DictionaryManagementRemoteServiceConsts.RemoteServiceName)]
 [Route("api/dictionary-management/groups")]
 public class DictionaryGroupController : DictionaryManagementController, IDictionaryGroupAppService

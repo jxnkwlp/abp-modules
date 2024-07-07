@@ -38,36 +38,39 @@ public class DictionaryGroupRepository : MongoDbRepository<DictionaryManagementM
         return entity;
     }
 
-    public virtual async Task<long> GetCountAsync(string? filter = null, string? parentName = null, CancellationToken cancellationToken = default)
+    public virtual async Task<long> GetCountAsync(string? filter = null, string? parentName = null, bool? isPublic = null, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 
         return await query
             .WhereIf(!string.IsNullOrEmpty(filter), x => x.Name.Contains(filter!))
             .WhereIf(!string.IsNullOrEmpty(parentName), x => x.ParentName == parentName)
+            .WhereIf(isPublic.HasValue, x => x.IsPublic == isPublic)
             .As<IMongoQueryable<DictionaryGroup>>()
             .LongCountAsync(cancellationToken);
     }
 
-    public virtual async Task<List<DictionaryGroup>> GetListAsync(string? filter = null, string? parentName = null, bool includeDetails = false, string? sorting = null, CancellationToken cancellationToken = default)
+    public virtual async Task<List<DictionaryGroup>> GetListAsync(string? filter = null, string? parentName = null, bool? isPublic = null, bool includeDetails = false, string? sorting = null, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 
         return await query
             .WhereIf(!string.IsNullOrEmpty(filter), x => x.Name.Contains(filter!))
             .WhereIf(!string.IsNullOrEmpty(parentName), x => x.ParentName == parentName)
+            .WhereIf(isPublic.HasValue, x => x.IsPublic == isPublic)
             .OrderBy(sorting ?? nameof(DictionaryGroup.Name))
             .As<IMongoQueryable<DictionaryGroup>>()
             .ToListAsync(cancellationToken);
     }
 
-    public virtual async Task<List<DictionaryGroup>> GetPagedListAsync(int skipCount, int maxResultCount, string? filter = null, string? parentName = null, string? sorting = null, bool includeDetails = false, CancellationToken cancellationToken = default)
+    public virtual async Task<List<DictionaryGroup>> GetPagedListAsync(int skipCount, int maxResultCount, string? filter = null, string? parentName = null, bool? isPublic = null, string? sorting = null, bool includeDetails = false, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 
         return await query
             .WhereIf(!string.IsNullOrEmpty(filter), x => x.Name.Contains(filter!))
             .WhereIf(!string.IsNullOrEmpty(parentName), x => x.ParentName == parentName)
+            .WhereIf(isPublic.HasValue, x => x.IsPublic == isPublic)
             .OrderBy(sorting ?? nameof(DictionaryGroup.Name))
             .PageBy(skipCount, maxResultCount)
             .As<IMongoQueryable<DictionaryGroup>>()
