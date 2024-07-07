@@ -20,6 +20,7 @@ public class IdentityDbContextV2 : AbpDbContext<IdentityDbContextV2>, IIdentityD
     public DbSet<IdentityUserDelegation> UserDelegations { get; set; }
 
     public DbSet<IdentityUserTwoFactor> UserTwoFactors { get; set; }
+    public DbSet<IdentitySession> Sessions { get; set; }
 
     public IdentityDbContextV2(DbContextOptions<IdentityDbContextV2> options)
         : base(options)
