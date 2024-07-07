@@ -1,8 +1,8 @@
 ﻿<Project>
 
   <PropertyGroup>
-    <MicrosoftPackageVersion>8.0.0</MicrosoftPackageVersion>
-    <AbpVersion>8.1.1</AbpVersion>
+    <MicrosoftPackageVersion>8.0.4</MicrosoftPackageVersion>
+    <AbpVersion>8.2.0</AbpVersion>
   </PropertyGroup>
 
 </Project>
