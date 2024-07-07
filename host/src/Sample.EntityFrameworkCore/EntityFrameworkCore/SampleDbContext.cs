@@ -3,6 +3,7 @@ using Passingwind.Abp.ApiKey.EntityFrameworkCore;
 using Passingwind.Abp.FileManagement.EntityFrameworkCore;
 using Passingwind.Abp.Identity.EntityFrameworkCore;
 using Passingwind.Abp.IdentityClient.EntityFrameworkCore;
+using Passingwind.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -86,6 +87,7 @@ public class SampleDbContext :
         modelBuilder.ConfigureIdentityClient();
         modelBuilder.ConfigureApiKey();
         modelBuilder.ConfigureIdentityV2();
+        modelBuilder.ConfigurePermissionManagementV2();
 
         /* Configure your own tables/entities inside here */
 
