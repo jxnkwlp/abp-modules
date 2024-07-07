@@ -29,7 +29,7 @@ public class AccountExternalAppService : AccountAppBaseService, IAccountExternal
 {
     protected HttpContext? HttpContext { get; }
     protected IJsonSerializer JsonSerializer { get; }
-    protected SignInManager<IdentityUser> SignInManager { get; }
+    protected SignInManager SignInManager { get; }
     protected IOptions<IdentityOptions> IdentityOptions { get; }
     protected IdentitySecurityLogManager IdentitySecurityLogManager { get; }
     protected IdentityUserManager UserManager { get; }
@@ -38,7 +38,7 @@ public class AccountExternalAppService : AccountAppBaseService, IAccountExternal
     protected ILocalEventBus LocalEventBus { get; }
 
     public AccountExternalAppService(
-        SignInManager<IdentityUser> signInManager,
+        SignInManager signInManager,
         IHttpContextAccessor httpContextAccessor,
         IOptions<IdentityOptions> identityOptions,
         IdentitySecurityLogManager identitySecurityLogManager,
@@ -102,9 +102,6 @@ public class AccountExternalAppService : AccountAppBaseService, IAccountExternal
             Logger.LogDebug("Received external login principal claims: \n{LogClaimsString}", logClaimsString);
         }
 
-        // TODO: Check Tenant ???
-        // 
-
         var result = await ExternalLoginSignInAsync(loginInfo);
 
         if (result.ToString() != SignInResult.Failed.ToString())
@@ -122,23 +119,18 @@ public class AccountExternalAppService : AccountAppBaseService, IAccountExternal
             throw new BusinessException(AccountErrorCodes.ExternalLoginUserNotFound);
         }
 
-        // TODO: two-factory check!
-        // sign in
-        await SignInManager.SignInAsync(user, false);
+        // try login again
+        result = await ExternalLoginSignInAsync(loginInfo);
 
-        await IdentitySecurityLogManager.SaveAsync(new IdentitySecurityLogContext()
+        if (result.ToString() != SignInResult.Failed.ToString())
         {
-            Identity = IdentitySecurityLogIdentityConsts.IdentityExternal,
-            Action = IdentitySecurityLogActionConsts.LoginSucceeded,
-            UserName = user.Name
-        });
+            return new AccountExternalLoginResultDto(GetAccountLoginResultType(result))
+            {
+                RedirectUrl = input.ReturnUrl,
+            };
+        }
 
-        await LocalEventBus.PublishAsync(new UserLoginEvent(user.Id, UserLoginEvent.ExternalLogin), onUnitOfWorkComplete: true);
-
-        return new AccountExternalLoginResultDto(AccountLoginResultType.Success)
-        {
-            RedirectUrl = input.ReturnUrl,
-        };
+        throw new BusinessException(AccountErrorCodes.ExternalLoginUserNotFound);
     }
 
     protected virtual async Task<SignInResult> ExternalLoginSignInAsync(ExternalLoginInfo loginInfo)
@@ -164,6 +156,7 @@ public class AccountExternalAppService : AccountAppBaseService, IAccountExternal
             {
                 Identity = IdentitySecurityLogIdentityConsts.IdentityExternal,
                 Action = result.ToIdentitySecurityLogAction(),
+                UserName = user.UserName,
             });
         }
 

@@ -20,7 +20,7 @@ public class AccountSecurityLogsController : AbpControllerBase, IAccountSecurity
     }
 
     [HttpGet]
-    public virtual Task<PagedResultDto<IdentitySecurityLogDto>> GetListAsync([FromQuery] AccountSecurityLogPagedListRequestDto input)
+    public virtual Task<PagedResultDto<IdentitySecurityLogsDto>> GetListAsync([FromQuery] AccountSecurityLogsPagedListRequestDto input)
     {
         return _service.GetListAsync(input);
     }

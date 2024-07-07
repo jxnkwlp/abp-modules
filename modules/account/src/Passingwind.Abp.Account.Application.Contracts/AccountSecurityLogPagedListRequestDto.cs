@@ -3,7 +3,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace Passingwind.Abp.Account;
 
-public class AccountSecurityLogPagedListRequestDto : PagedAndSortedResultRequestDto
+public class AccountSecurityLogsPagedListRequestDto : PagedAndSortedResultRequestDto
 {
     public string? ApplicationName { get; set; }
     public string? Identity { get; set; }

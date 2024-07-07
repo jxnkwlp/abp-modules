@@ -22,7 +22,7 @@ public class IdentityApplicationAutoMapperProfile : Profile
         CreateMap<OrganizationUnit, OrganizationUnitDto>()
             .ForMember(x => x.RoleIds, x => x.MapFrom(r => r.Roles.Select(s => s.RoleId)));
 
-        CreateMap<IdentitySecurityLog, IdentitySecurityLogDto>();
+        CreateMap<IdentitySecurityLog, IdentitySecurityLogsDto>();
 
         CreateMap<IdentityUserSettings, IdentityUserSettingsDto>().ReverseMap();
         CreateMap<IdentityPasswordSettings, IdentityPasswordSettingsDto>().ReverseMap();
