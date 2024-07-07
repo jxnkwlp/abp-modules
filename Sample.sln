@@ -67,25 +67,25 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.DictionaryM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.DictionaryManagement.EntityFrameworkCore", "modules\dictionary-management\src\Passingwind.Abp.DictionaryManagement.EntityFrameworkCore\Passingwind.Abp.DictionaryManagement.EntityFrameworkCore.csproj", "{2DB157B1-1EF2-4548-A154-3F05263C338B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dynamic-permission-management", "dynamic-permission-management", "{0262B53C-3807-4ACC-B1E6-FCC0817B6971}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "permission-management", "permission-management", "{0262B53C-3807-4ACC-B1E6-FCC0817B6971}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E4E4978C-8541-4C36-B258-800A8B177769}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.DynamicPermissionManagement.Domain.Shared", "modules\dynamic-permission-management\src\Passingwind.Abp.DynamicPermissionManagement.Domain.Shared\Passingwind.Abp.DynamicPermissionManagement.Domain.Shared.csproj", "{41ED28CA-CB9A-446C-A63D-92D932195DD8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.PermissionManagement.Domain.Shared", "modules\permission-management\src\Passingwind.Abp.PermissionManagement.Domain.Shared\Passingwind.Abp.PermissionManagement.Domain.Shared.csproj", "{41ED28CA-CB9A-446C-A63D-92D932195DD8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.DynamicPermissionManagement.Domain", "modules\dynamic-permission-management\src\Passingwind.Abp.DynamicPermissionManagement.Domain\Passingwind.Abp.DynamicPermissionManagement.Domain.csproj", "{4C42EC8C-0DDE-48EB-A1A9-6B093A9E9666}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.PermissionManagement.Domain", "modules\permission-management\src\Passingwind.Abp.PermissionManagement.Domain\Passingwind.Abp.PermissionManagement.Domain.csproj", "{4C42EC8C-0DDE-48EB-A1A9-6B093A9E9666}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.DynamicPermissionManagement.Application.Contracts", "modules\dynamic-permission-management\src\Passingwind.Abp.DynamicPermissionManagement.Application.Contracts\Passingwind.Abp.DynamicPermissionManagement.Application.Contracts.csproj", "{12F3145F-76B7-46AF-B168-2F9265997F0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.PermissionManagement.Application.Contracts", "modules\permission-management\src\Passingwind.Abp.PermissionManagement.Application.Contracts\Passingwind.Abp.PermissionManagement.Application.Contracts.csproj", "{12F3145F-76B7-46AF-B168-2F9265997F0A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.DynamicPermissionManagement.Application", "modules\dynamic-permission-management\src\Passingwind.Abp.DynamicPermissionManagement.Application\Passingwind.Abp.DynamicPermissionManagement.Application.csproj", "{50FBAE74-1A47-4F83-B3DC-CAADDF8BE11E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.PermissionManagement.Application", "modules\permission-management\src\Passingwind.Abp.PermissionManagement.Application\Passingwind.Abp.PermissionManagement.Application.csproj", "{50FBAE74-1A47-4F83-B3DC-CAADDF8BE11E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.DynamicPermissionManagement.EntityFrameworkCore", "modules\dynamic-permission-management\src\Passingwind.Abp.DynamicPermissionManagement.EntityFrameworkCore\Passingwind.Abp.DynamicPermissionManagement.EntityFrameworkCore.csproj", "{C96263B9-0FA9-4710-92D0-CDDD7400BD9B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.PermissionManagement.EntityFrameworkCore", "modules\permission-management\src\Passingwind.Abp.PermissionManagement.EntityFrameworkCore\Passingwind.Abp.PermissionManagement.EntityFrameworkCore.csproj", "{C96263B9-0FA9-4710-92D0-CDDD7400BD9B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.DynamicPermissionManagement.MongoDB", "modules\dynamic-permission-management\src\Passingwind.Abp.DynamicPermissionManagement.MongoDB\Passingwind.Abp.DynamicPermissionManagement.MongoDB.csproj", "{A4BE1B4C-D3FF-45BA-8CCD-807BAAE3A441}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.PermissionManagement.MongoDB", "modules\permission-management\src\Passingwind.Abp.PermissionManagement.MongoDB\Passingwind.Abp.PermissionManagement.MongoDB.csproj", "{A4BE1B4C-D3FF-45BA-8CCD-807BAAE3A441}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.DynamicPermissionManagement.HttpApi", "modules\dynamic-permission-management\src\Passingwind.Abp.DynamicPermissionManagement.HttpApi\Passingwind.Abp.DynamicPermissionManagement.HttpApi.csproj", "{18F8D5E8-54B4-4399-BC77-32A70DD286FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.PermissionManagement.HttpApi", "modules\permission-management\src\Passingwind.Abp.PermissionManagement.HttpApi\Passingwind.Abp.PermissionManagement.HttpApi.csproj", "{18F8D5E8-54B4-4399-BC77-32A70DD286FC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.DynamicPermissionManagement.HttpApi.Client", "modules\dynamic-permission-management\src\Passingwind.Abp.DynamicPermissionManagement.HttpApi.Client\Passingwind.Abp.DynamicPermissionManagement.HttpApi.Client.csproj", "{863B1141-4CAA-4AA1-8B5F-CD923AF67CD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.PermissionManagement.HttpApi.Client", "modules\permission-management\src\Passingwind.Abp.PermissionManagement.HttpApi.Client\Passingwind.Abp.PermissionManagement.HttpApi.Client.csproj", "{863B1141-4CAA-4AA1-8B5F-CD923AF67CD4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "identity", "identity", "{4A4FBA8F-3B0A-4709-81EA-0238F219BA9F}"
 EndProject
