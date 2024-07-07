@@ -6,9 +6,8 @@
     <Product>Passingwind.Abp.DynamicPermissionManagement</Product>
     <Description>an abp module that provider dynamic permission management service</Description>
     <PackageTags>abp-module</PackageTags>
-    <Version>1.1.0</Version>
-    <PackageVersion>1.1.0</PackageVersion>
-    <IsPackable>false</IsPackable>
+    <Version>1.2.0</Version>
+    <PackageVersion>1.2.0</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
