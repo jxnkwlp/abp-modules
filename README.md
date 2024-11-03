@@ -28,6 +28,6 @@ Implement and enhance identity users, roles, organizations, claim types, securit
 
 [![NuGet](https://img.shields.io/nuget/v/Passingwind.Abp.DictionaryManagement.Application?style=flat-square)](https://www.nuget.org/packages?q=Passingwind.Abp.DictionaryManagement)
 
-## [Dynamic Permission Management](/modules/dynamic-permission-management/README.md)
+## [Dynamic Permission Management](/modules/permission-management/README.md)
 
-[![NuGet](https://img.shields.io/nuget/v/Passingwind.Abp.DynamicPermissionManagement.Application?style=flat-square)](https://www.nuget.org/packages?q=Passingwind.Abp.DynamicPermissionManagement)
+[![NuGet](https://img.shields.io/nuget/v/Passingwind.Abp.PermissionManagement.Application?style=flat-square)](https://www.nuget.org/packages?q=Passingwind.Abp.PermissionManagement)
