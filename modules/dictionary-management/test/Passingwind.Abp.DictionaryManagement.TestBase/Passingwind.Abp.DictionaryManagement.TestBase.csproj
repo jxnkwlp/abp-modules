@@ -10,22 +10,15 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
     <PackageReference Include="NSubstitute" Version="5.1.0" />
-    <PackageReference Include="NSubstitute.Analyzers.CSharp" Version="1.0.17">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="NSubstitute.Analyzers.CSharp" Version="1.0.17" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers" />
     <PackageReference Include="Shouldly" Version="4.2.1" />
     <PackageReference Include="xunit" Version="2.8.0" />
     <PackageReference Include="xunit.extensibility.execution" Version="2.8.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.0" PrivateAssets="all" />
     <PackageReference Include="Volo.Abp.Autofac" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.Authorization" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.TestBase" Version="$(AbpVersion)" />
-    <ProjectReference
-      Include="..\..\src\Passingwind.Abp.DictionaryManagement.Domain\Passingwind.Abp.DictionaryManagement.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Passingwind.Abp.DictionaryManagement.Domain\Passingwind.Abp.DictionaryManagement.Domain.csproj" />
   </ItemGroup>
 
 </Project>

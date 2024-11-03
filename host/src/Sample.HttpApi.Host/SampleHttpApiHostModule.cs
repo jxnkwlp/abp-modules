@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using Hangfire;
 using Hangfire.MemoryStorage;
-using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
@@ -26,6 +25,7 @@ using Volo.Abp.Account;
 using Volo.Abp.AspNetCore.MultiTenancy;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.AntiForgery;
+using Volo.Abp.AspNetCore.Mvc.Libs;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Serilog;
@@ -115,6 +115,8 @@ public class SampleHttpApiHostModule : AbpModule
         });
 
         Configure<AbpAntiForgeryOptions>(options => options.TokenCookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Lax);
+
+        Configure<AbpMvcLibsOptions>(options => options.CheckLibs = false);
     }
 
     private void ConfigureAuthentication(ServiceConfigurationContext context)
@@ -276,11 +278,7 @@ public class SampleHttpApiHostModule : AbpModule
         app.UseSwagger();
         app.UseAbpSwaggerUI(c =>
         {
-            c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sample API");
-
-            var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
-            c.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-            c.OAuthScopes("Sample");
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sample API"); 
             c.DisplayOperationId();
             c.DisplayRequestDuration();
             c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
