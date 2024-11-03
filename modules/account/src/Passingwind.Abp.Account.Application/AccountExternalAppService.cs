@@ -94,7 +94,7 @@ public class AccountExternalAppService : AccountAppBaseService, IAccountExternal
             throw new AbpAuthorizationException("External login info is not available");
         }
 
-        Logger.LogInformation("Received external login callback. provider: {LoginProvider}, key: {ProviderKey}", loginInfo.LoginProvider, loginInfo.ProviderKey);
+        Logger.LogDebug("Received external login callback. provider: {LoginProvider}, key: {ProviderKey}", loginInfo.LoginProvider, loginInfo.ProviderKey);
 
         if (ExternalLoginOptions.Value.LogClaims)
         {
@@ -150,8 +150,6 @@ public class AccountExternalAppService : AccountAppBaseService, IAccountExternal
 
             await LocalEventBus.PublishAsync(new UserLoginEvent(user!.Id, UserLoginEvent.ExternalLogin), onUnitOfWorkComplete: true);
 
-            Logger.LogInformation("User use provider key '{ProviderKey}' logged in with '{LoginProvider}' provider.", loginInfo.ProviderKey, loginInfo.LoginProvider);
-
             await IdentitySecurityLogManager.SaveAsync(new IdentitySecurityLogContext()
             {
                 Identity = IdentitySecurityLogIdentityConsts.IdentityExternal,
@@ -181,8 +179,6 @@ public class AccountExternalAppService : AccountAppBaseService, IAccountExternal
                     providerKey: loginInfo.ProviderKey,
                     loginDisplayName: loginInfo.ProviderDisplayName,
                     generateUserName: true);
-
-                Logger.LogInformation("User with name '{UserName}' created by external login with '{LoginProvider}' provider.", user.UserName, loginInfo.LoginProvider);
 
                 await IdentitySecurityLogManager.SaveAsync(new IdentitySecurityLogContext()
                 {

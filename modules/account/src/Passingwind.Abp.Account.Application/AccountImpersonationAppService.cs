@@ -107,8 +107,6 @@ public class AccountImpersonationAppService : AccountAppBaseService, IAccountImp
 
         if (await LinkUserManager.IsLinkedAsync(source, target, true))
         {
-            Logger.LogInformation("User with id '{0}' has been link login by user id '{1}'", user.Id, source.UserId);
-
             await ImpersonateLoginAsync(user);
 
             await SecurityLogManager.SaveAsync(new IdentitySecurityLogContext()
@@ -140,8 +138,6 @@ public class AccountImpersonationAppService : AccountAppBaseService, IAccountImp
         // Get the delegation source user 
         var user = await UserManager.GetByIdAsync(delegation.SourceUserId);
 
-        Logger.LogInformation("User with id '{0}' has been delegation login by user id '{1}'", user.Id, CurrentUser.GetId());
-
         await ImpersonateLoginAsync(user);
 
         await SecurityLogManager.SaveAsync(new IdentitySecurityLogContext()
@@ -172,8 +168,6 @@ public class AccountImpersonationAppService : AccountAppBaseService, IAccountImp
         }
 
         await SignInManager.SignInWithClaimsAsync(user, false, cliams);
-
-        Logger.LogInformation("User with id '{0}' has been impersonate login by user id '{1}'", user.Id, CurrentUser.Id);
 
         await SecurityLogManager.SaveAsync(new IdentitySecurityLogContext()
         {
