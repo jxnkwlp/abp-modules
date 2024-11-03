@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -148,7 +149,12 @@ public class AccountExternalAppService : AccountAppBaseService, IAccountExternal
         {
             var user = await UserManager.FindByLoginAsync(loginInfo.LoginProvider, loginInfo.ProviderKey);
 
-            await LocalEventBus.PublishAsync(new UserLoginEvent(user!.Id, UserLoginEvent.ExternalLogin), onUnitOfWorkComplete: true);
+            var loginEventData = new Dictionary<string, object>
+            {
+                { "LoginProvider", loginInfo.LoginProvider },
+                { "ProviderKey", loginInfo.ProviderKey },
+            };
+            await LocalEventBus.PublishAsync(new UserLoginEvent(user!.Id, UserLoginEvent.ExternalLogin, loginEventData), onUnitOfWorkComplete: true);
 
             await IdentitySecurityLogManager.SaveAsync(new IdentitySecurityLogContext()
             {

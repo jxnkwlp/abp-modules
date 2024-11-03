@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -145,7 +146,12 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
             UserName = user.UserName,
         });
 
-        await LocalEventBus.PublishAsync(new UserLoginEvent(user.Id, UserLoginEvent.TwoFactorLogin), onUnitOfWorkComplete: true);
+        var loginEventData = new Dictionary<string, object>
+            {
+                { "ProviderName", provider! },
+            };
+
+        await LocalEventBus.PublishAsync(new UserLoginEvent(user.Id, UserLoginEvent.TwoFactorLogin, loginEventData), onUnitOfWorkComplete: true);
 
         return GetAccountLoginResult(signInResult);
     }
