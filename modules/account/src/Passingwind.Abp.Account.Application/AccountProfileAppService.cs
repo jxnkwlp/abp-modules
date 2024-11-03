@@ -66,8 +66,9 @@ public class AccountProfileAppService : ProfileAppService, IAccountProfileAppSer
 
         var token = await UserManager.GenerateEmailConfirmationTokenAsync(user);
 
-        Logger.LogInformation("User with id '{id}' has been generated new token '{token}' for email confirmation'.", user.Id, token);
-
+#if DEBUG
+        Logger.LogDebug("User with id '{id}' has been generated new token '{token}' for email confirmation'.", user.Id, token);
+#endif
         await AccountTwoFactorTokenSender.SendEmailConfirmationTokenAsync(user, token);
     }
 
@@ -81,8 +82,6 @@ public class AccountProfileAppService : ProfileAppService, IAccountProfileAppSer
             throw new AbpAuthorizationException();
 
         var result = await UserManager.ConfirmEmailAsync(user, input.Token);
-
-        Logger.LogInformation("User with id '{Id}' valid confirm email token result: {Valid}", user.Id, result.Succeeded);
 
         if (result.Succeeded)
         {
@@ -114,8 +113,6 @@ public class AccountProfileAppService : ProfileAppService, IAccountProfileAppSer
             purpose: IdentityUserManager.ConfirmEmailTokenPurpose,
             token: input.Token);
 
-        Logger.LogInformation("User with id '{Id}' valid confirm email token result: {Valid}", user.Id, valid);
-
         return new AccountVerifyTokenResultDto
         {
             Valid = valid,
@@ -132,9 +129,9 @@ public class AccountProfileAppService : ProfileAppService, IAccountProfileAppSer
             throw new AbpAuthorizationException();
 
         var token = await UserManager.GenerateChangePhoneNumberTokenAsync(user, input.PhoneNumber);
-
-        Logger.LogInformation("User with id '{id}' has been generated new token '{token}' for change phone number'.", user.Id, token);
-
+#if DEBUG
+        Logger.LogDebug("User with id '{id}' has been generated new token '{token}' for change phone number'.", user.Id, token);
+#endif
         await AccountTwoFactorTokenSender.SendChangePhoneNumberTokenAsync(user, input.PhoneNumber, token);
     }
 
@@ -151,8 +148,6 @@ public class AccountProfileAppService : ProfileAppService, IAccountProfileAppSer
             user: user,
             token: input.Token,
             phoneNumber: input.PhoneNumber);
-
-        Logger.LogInformation("User with id '{Id}' valid change phone number token result: {Valid}", user.Id, valid);
 
         return new AccountVerifyTokenResultDto
         {
@@ -173,8 +168,6 @@ public class AccountProfileAppService : ProfileAppService, IAccountProfileAppSer
             user: user,
             phoneNumber: input.PhoneNumber,
             token: input.Token);
-
-        Logger.LogInformation("User with id '{0}' valid change phone number token result: {1}", user.Id, result.Succeeded);
 
         if (result.Succeeded)
         {
@@ -202,8 +195,9 @@ public class AccountProfileAppService : ProfileAppService, IAccountProfileAppSer
 
         var token = await UserManager.GenerateChangeEmailTokenAsync(user, input.Email);
 
-        Logger.LogInformation("User with id '{id}' has been generated new token '{token}' for change email'.", user.Id, token);
-
+#if DEBUG
+        Logger.LogDebug("User with id '{id}' has been generated new token '{token}' for change email'.", user.Id, token);
+#endif
         await AccountTwoFactorTokenSender.SendChangeEmailTokenAsync(user, input.Email, token);
     }
 
@@ -217,8 +211,6 @@ public class AccountProfileAppService : ProfileAppService, IAccountProfileAppSer
             throw new AbpAuthorizationException();
 
         var valid = await UserManager.VerifyUserTokenAsync(user, IdentityOptions.Value.Tokens.ChangeEmailTokenProvider, IdentityUserManager.GetChangeEmailTokenPurpose(input.Email), input.Token);
-
-        Logger.LogInformation("User with id '{Id}' valid change email token result: {Valid}", user.Id, valid);
 
         return new AccountVerifyTokenResultDto
         {
@@ -236,8 +228,6 @@ public class AccountProfileAppService : ProfileAppService, IAccountProfileAppSer
             throw new AbpAuthorizationException();
 
         var result = await UserManager.ChangeEmailAsync(user, input.Email, input.Token);
-
-        Logger.LogInformation("User with id '{0}' valid change email token result: {1}", user.Id, result.Succeeded);
 
         if (result.Succeeded)
         {

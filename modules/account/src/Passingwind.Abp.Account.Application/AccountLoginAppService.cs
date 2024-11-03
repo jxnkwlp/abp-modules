@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -145,7 +146,12 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
             UserName = user.UserName,
         });
 
-        await LocalEventBus.PublishAsync(new UserLoginEvent(user.Id, UserLoginEvent.TwoFactorLogin), onUnitOfWorkComplete: true);
+        var loginEventData = new Dictionary<string, object>
+            {
+                { "ProviderName", provider! },
+            };
+
+        await LocalEventBus.PublishAsync(new UserLoginEvent(user.Id, UserLoginEvent.TwoFactorLogin, loginEventData), onUnitOfWorkComplete: true);
 
         return GetAccountLoginResult(signInResult);
     }
@@ -267,8 +273,9 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
 
         var token = await UserManager.GenerateTwoFactorTokenAsync(user, provider);
 
-        Logger.LogInformation("User with id '{id}' has been generated new token '{token}' for provider '{provider}'.", user.Id, token, provider);
-
+#if DEBUG
+        Logger.LogDebug("User with id '{id}' has been generated new token '{token}' for provider '{provider}'.", user.Id, token, provider);
+#endif
         await AccountTwoFactorTokenSender.SendAsync(user, provider, token);
     }
 
@@ -289,8 +296,6 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
         }
 
         var valid = await UserManager.VerifyTwoFactorTokenAsync(user, provider, input.Token);
-
-        Logger.LogInformation("User with id '{id}' use provider '{provider}' verify two-factor token '{token}' result: {valid}.", user.Id, input.Token, provider, valid);
 
         return new AccountVerifyTokenResultDto
         {
@@ -399,8 +404,6 @@ public class AccountLoginAppService : AccountAppBaseService, IAccountLoginAppSer
             await UserManager.SetTwoFactorEnabledAsync(user, true);
 
             await UserManager.GetUserIdAsync(user);
-
-            Logger.LogInformation("User with id '{id}' has enabled 2FA with an authenticator app.", user.Id);
 
             await SecurityLogManager.SaveAsync(new IdentitySecurityLogContext()
             {

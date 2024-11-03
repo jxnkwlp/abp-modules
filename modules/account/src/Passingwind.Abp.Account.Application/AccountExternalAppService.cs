@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -94,7 +95,7 @@ public class AccountExternalAppService : AccountAppBaseService, IAccountExternal
             throw new AbpAuthorizationException("External login info is not available");
         }
 
-        Logger.LogInformation("Received external login callback. provider: {LoginProvider}, key: {ProviderKey}", loginInfo.LoginProvider, loginInfo.ProviderKey);
+        Logger.LogDebug("Received external login callback. provider: {LoginProvider}, key: {ProviderKey}", loginInfo.LoginProvider, loginInfo.ProviderKey);
 
         if (ExternalLoginOptions.Value.LogClaims)
         {
@@ -148,9 +149,12 @@ public class AccountExternalAppService : AccountAppBaseService, IAccountExternal
         {
             var user = await UserManager.FindByLoginAsync(loginInfo.LoginProvider, loginInfo.ProviderKey);
 
-            await LocalEventBus.PublishAsync(new UserLoginEvent(user!.Id, UserLoginEvent.ExternalLogin), onUnitOfWorkComplete: true);
-
-            Logger.LogInformation("User use provider key '{ProviderKey}' logged in with '{LoginProvider}' provider.", loginInfo.ProviderKey, loginInfo.LoginProvider);
+            var loginEventData = new Dictionary<string, object>
+            {
+                { "LoginProvider", loginInfo.LoginProvider },
+                { "ProviderKey", loginInfo.ProviderKey },
+            };
+            await LocalEventBus.PublishAsync(new UserLoginEvent(user!.Id, UserLoginEvent.ExternalLogin, loginEventData), onUnitOfWorkComplete: true);
 
             await IdentitySecurityLogManager.SaveAsync(new IdentitySecurityLogContext()
             {
@@ -181,8 +185,6 @@ public class AccountExternalAppService : AccountAppBaseService, IAccountExternal
                     providerKey: loginInfo.ProviderKey,
                     loginDisplayName: loginInfo.ProviderDisplayName,
                     generateUserName: true);
-
-                Logger.LogInformation("User with name '{UserName}' created by external login with '{LoginProvider}' provider.", user.UserName, loginInfo.LoginProvider);
 
                 await IdentitySecurityLogManager.SaveAsync(new IdentitySecurityLogContext()
                 {

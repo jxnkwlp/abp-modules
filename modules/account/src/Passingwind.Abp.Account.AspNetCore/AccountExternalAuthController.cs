@@ -94,7 +94,7 @@ public class AccountExternalAuthController : AbpController
             throw new AbpAuthorizationException("External login info is not available");
         }
 
-        Logger.LogInformation("Received external login. provider: {LoginProvider}, key: {ProviderKey}", loginInfo.LoginProvider, loginInfo.ProviderKey);
+        Logger.LogDebug("Received external login. provider: {LoginProvider}, key: {ProviderKey}", loginInfo.LoginProvider, loginInfo.ProviderKey);
 
         if (ExternalLoginOptions.Value.LogClaims)
         {
@@ -168,7 +168,7 @@ public class AccountExternalAuthController : AbpController
             bypassTwoFactor: bypassTwofactor
         );
 
-        Logger.LogInformation("External login use provider key '{ProviderKey}', name '{LoginProvider}', signin result: {SignInResult}", loginInfo.ProviderKey, loginInfo.LoginProvider, signInResult);
+        Logger.LogDebug("External login use provider key '{ProviderKey}', name '{LoginProvider}', signin result: {SignInResult}", loginInfo.ProviderKey, loginInfo.LoginProvider, signInResult);
 
         return signInResult;
     }
@@ -193,8 +193,6 @@ public class AccountExternalAuthController : AbpController
                     providerKey: loginInfo.ProviderKey,
                     loginDisplayName: loginInfo.ProviderDisplayName,
                     generateUserName: true);
-
-                Logger.LogInformation("User with name '{UserName}' created by external login with '{LoginProvider}' provider.", user.UserName, loginInfo.LoginProvider);
 
                 await IdentitySecurityLogManager.SaveAsync(new IdentitySecurityLogContext()
                 {

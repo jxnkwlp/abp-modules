@@ -1,8 +1,8 @@
 ﻿<Project>
 
   <PropertyGroup>
-    <MicrosoftPackageVersion>8.0.4</MicrosoftPackageVersion>
-    <AbpVersion>8.2.0</AbpVersion>
+    <MicrosoftPackageVersion>8.0.6</MicrosoftPackageVersion>
+    <AbpVersion>8.3.0</AbpVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 

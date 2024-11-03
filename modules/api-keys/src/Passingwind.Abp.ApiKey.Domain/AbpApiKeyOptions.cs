@@ -16,6 +16,6 @@ public class AbpApiKeyOptions
 
     public AbpApiKeyOptions()
     {
-        Realm = Assembly.GetExecutingAssembly().GetName().Name;
+        Realm = Assembly.GetExecutingAssembly().GetName().Name!;
     }
 }

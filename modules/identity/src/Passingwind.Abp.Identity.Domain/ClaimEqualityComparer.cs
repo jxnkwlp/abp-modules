@@ -5,9 +5,9 @@ namespace Passingwind.Abp.Identity;
 
 public class ClaimEqualityComparer : IEqualityComparer<Claim>, System.Collections.IEqualityComparer
 {
-    public bool Equals(Claim x, Claim y)
+    public bool Equals(Claim? x, Claim? y)
     {
-        return x.Type == y.Type && x.Value == y.Value;
+        return x?.Type == y?.Type && x?.Value == y?.Value;
     }
 
     public int GetHashCode(Claim obj)
@@ -15,7 +15,7 @@ public class ClaimEqualityComparer : IEqualityComparer<Claim>, System.Collection
         return obj.Type.GetHashCode() & obj.Value.GetHashCode();
     }
 
-    new public bool Equals(object x, object y)
+    public new bool Equals(object? x, object? y)
     {
         if (x == y)
         {

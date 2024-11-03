@@ -4,7 +4,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Passingwind.Abp.Account.Events;
 using Passingwind.Abp.Identity;
@@ -84,11 +83,20 @@ public class AccountImpersonationAppService : AccountAppBaseService, IAccountImp
             throw new AbpAuthorizationException();
         }
 
+        var currentUserId = CurrentUser.Id;
+        var currentUserName = CurrentUser.Name;
+
         IdentityUser user = await UserManager.FindByIdAsync(userId.ToString()) ?? throw new UserNotFoundException();
 
         await ImpersonateLoginAsync(user);
 
-        await LocalEventBus.PublishAsync(new UserLoginEvent(user.Id, UserLoginEvent.ImpersonationLogout), onUnitOfWorkComplete: true);
+        var loginEventData = new Dictionary<string, object>
+            {
+                { "CurrentUserName", currentUserName! },
+                { "CurrentUserId", currentUserId! },
+            };
+
+        await LocalEventBus.PublishAsync(new UserLoginEvent(user.Id, UserLoginEvent.ImpersonationLogout, loginEventData), onUnitOfWorkComplete: true);
     }
 
     public virtual async Task LinkLoginAsync(Guid userId)
@@ -100,6 +108,9 @@ public class AccountImpersonationAppService : AccountAppBaseService, IAccountImp
         var source = new IdentityLinkUserInfo(CurrentUser.GetId(), CurrentUser.TenantId);
         var target = new IdentityLinkUserInfo(userId, user.TenantId);
 
+        var currentUserId = CurrentUser.Id;
+        var currentUserName = CurrentUser.Name;
+
         if (user.TenantId.HasValue && user.TenantId != CurrentUser.TenantId)
         {
             CurrentTenant.Change(user.TenantId.Value);
@@ -107,8 +118,6 @@ public class AccountImpersonationAppService : AccountAppBaseService, IAccountImp
 
         if (await LinkUserManager.IsLinkedAsync(source, target, true))
         {
-            Logger.LogInformation("User with id '{0}' has been link login by user id '{1}'", user.Id, source.UserId);
-
             await ImpersonateLoginAsync(user);
 
             await SecurityLogManager.SaveAsync(new IdentitySecurityLogContext()
@@ -119,7 +128,13 @@ public class AccountImpersonationAppService : AccountAppBaseService, IAccountImp
                 ExtraProperties = { { "SourceUserId", source.UserId } }
             });
 
-            await LocalEventBus.PublishAsync(new UserLoginEvent(user.Id, UserLoginEvent.LinkLogin), onUnitOfWorkComplete: true);
+            var loginEventData = new Dictionary<string, object>
+            {
+                { "CurrentUserName", currentUserName! },
+                { "CurrentUserId", currentUserId! },
+            };
+
+            await LocalEventBus.PublishAsync(new UserLoginEvent(user.Id, UserLoginEvent.LinkLogin, loginEventData), onUnitOfWorkComplete: true);
         }
         else
         {
@@ -137,10 +152,11 @@ public class AccountImpersonationAppService : AccountAppBaseService, IAccountImp
             throw new BusinessException(AccountErrorCodes.UserNotDelegated);
         }
 
+        var currentUserId = CurrentUser.Id;
+        var currentUserName = CurrentUser.Name;
+
         // Get the delegation source user 
         var user = await UserManager.GetByIdAsync(delegation.SourceUserId);
-
-        Logger.LogInformation("User with id '{0}' has been delegation login by user id '{1}'", user.Id, CurrentUser.GetId());
 
         await ImpersonateLoginAsync(user);
 
@@ -152,7 +168,13 @@ public class AccountImpersonationAppService : AccountAppBaseService, IAccountImp
             ExtraProperties = { { "SourceUserId", CurrentUser.GetId() } }
         });
 
-        await LocalEventBus.PublishAsync(new UserLoginEvent(user.Id, UserLoginEvent.DelegationLogin), onUnitOfWorkComplete: true);
+        var loginEventData = new Dictionary<string, object>
+            {
+                { "CurrentUserName", currentUserName! },
+                { "CurrentUserId", currentUserId! },
+            };
+
+        await LocalEventBus.PublishAsync(new UserLoginEvent(user.Id, UserLoginEvent.DelegationLogin, loginEventData), onUnitOfWorkComplete: true);
     }
 
     protected virtual async Task ImpersonateLoginAsync(IdentityUser user)
@@ -172,8 +194,6 @@ public class AccountImpersonationAppService : AccountAppBaseService, IAccountImp
         }
 
         await SignInManager.SignInWithClaimsAsync(user, false, cliams);
-
-        Logger.LogInformation("User with id '{0}' has been impersonate login by user id '{1}'", user.Id, CurrentUser.Id);
 
         await SecurityLogManager.SaveAsync(new IdentitySecurityLogContext()
         {

@@ -112,8 +112,6 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
                 UserName = CurrentUser.UserName,
             });
         }
-
-        Logger.LogInformation("User with id '{id}' has two-factor disabled", user.Id);
     }
 
     public virtual async Task EnabledAsync()
@@ -129,8 +127,6 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
         if (!await UserManager.GetTwoFactorEnabledAsync(user))
         {
             (await UserManager.SetTwoFactorEnabledAsync(user, true)).CheckErrors();
-
-            Logger.LogInformation("User with id '{id}' has two-factor enabled", user.Id);
 
             if (providers.Count == 0)
             {
@@ -205,8 +201,6 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
 
             await UserManager.GetUserIdAsync(user);
 
-            Logger.LogInformation("User with id '{id}' has enabled 2FA with an authenticator app.", user.Id);
-
             await SecurityLogManager.SaveAsync(new IdentitySecurityLogContext()
             {
                 Identity = IdentitySecurityLogIdentityConsts.IdentityTwoFactor,
@@ -254,8 +248,6 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
 
         var codes = await UserManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10);
 
-        Logger.LogInformation("User with id '{id}' has generated new 2FA recovery codes.", user.Id);
-
         await SecurityLogManager.SaveAsync(new IdentitySecurityLogContext()
         {
             Identity = IdentitySecurityLogIdentityConsts.IdentityTwoFactor,
@@ -298,8 +290,6 @@ public class AccountTfaAppService : AccountAppBaseService, IAccountTfaAppService
         }
 
         await UserManager.RemoveAuthenticatorAsync(user);
-
-        Logger.LogInformation("User with id '{id}' has reset their authentication app key.", user.Id);
 
         await SecurityLogManager.SaveAsync(new IdentitySecurityLogContext()
         {
