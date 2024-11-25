@@ -323,8 +323,6 @@ public class FileAppService : FileManagementAppService, IFileAppService
     /// <summary>
     ///  Check current identity can access this container
     /// </summary>
-    /// <param name="container"></param>
-    /// <param name="write"></param>
     protected override async Task<bool> CanAccessContainerAsync(FileContainer container, bool write = false)
     {
         bool isGranted = await AuthorizationService.IsGrantedAsync(FileManagementPermissions.FileContainer.Default);

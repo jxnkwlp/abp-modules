@@ -13,18 +13,15 @@ public interface IApiKeyRecordAppService : IApplicationService
     /// <summary>
     ///  Get ApiKeyRecord list by paged params
     /// </summary>
-    /// <param name="input"></param>
     Task<PagedResultDto<ApiKeyRecordDto>> GetListAsync(ApiKeyRecordListRequestDto input);
 
     /// <summary>
     ///  Create ApiKeyRecord
     /// </summary>
-    /// <param name="input"></param>
     Task<ApiKeyRecordDto> CreateAsync(ApiKeyRecordCreateOrUpdateDto input);
 
     /// <summary>
     ///  Delete ApiKeyRecord by id
     /// </summary>
-    /// <param name="id"></param>
     Task DeleteAsync(Guid id);
 }

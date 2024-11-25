@@ -69,7 +69,7 @@ public static class IdentityClientConfigurationHelper
                 originType = Nullable.GetUnderlyingType(property.PropertyType);
             }
 
-            var value = Convert.ChangeType(item.Value, originType);
+            var value = Convert.ChangeType(item.Value, originType!);
 
             property.SetValue(instance, value, null);
         }

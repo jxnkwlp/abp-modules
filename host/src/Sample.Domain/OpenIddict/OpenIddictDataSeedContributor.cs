@@ -82,7 +82,7 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
         var webClientId = configurationSection["Sample_Web:ClientId"];
         if (!webClientId.IsNullOrWhiteSpace())
         {
-            var webClientRootUrl = configurationSection["Sample_Web:RootUrl"].EnsureEndsWith('/');
+            var webClientRootUrl = configurationSection["Sample_Web:RootUrl"]!.EnsureEndsWith('/');
 
             /* Sample_Web client is only needed if you created a tiered
              * solution. Otherwise, you can delete this client. */
@@ -156,7 +156,7 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
         var blazorServerTieredClientId = configurationSection["Sample_BlazorServerTiered:ClientId"];
         if (!blazorServerTieredClientId.IsNullOrWhiteSpace())
         {
-            var blazorServerTieredRootUrl = configurationSection["Sample_BlazorServerTiered:RootUrl"].EnsureEndsWith('/');
+            var blazorServerTieredRootUrl = configurationSection["Sample_BlazorServerTiered:RootUrl"]!.EnsureEndsWith('/');
 
             await CreateApplicationAsync(
                 name: blazorServerTieredClientId!,

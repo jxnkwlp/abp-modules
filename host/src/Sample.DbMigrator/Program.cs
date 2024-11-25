@@ -1,4 +1,3 @@
-using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,7 +8,7 @@ using Serilog.Events;
 
 namespace Sample.DbMigrator;
 
-class Program
+static class Program
 {
     static async Task Main(string[] args)
     {
@@ -34,8 +33,5 @@ class Program
         Host.CreateDefaultBuilder(args)
             .AddAppSettingsSecretsJson()
             .ConfigureLogging((context, logging) => logging.ClearProviders())
-            .ConfigureServices((hostContext, services) =>
-            {
-                services.AddHostedService<DbMigratorHostedService>();
-            });
+            .ConfigureServices((hostContext, services) => services.AddHostedService<DbMigratorHostedService>());
 }

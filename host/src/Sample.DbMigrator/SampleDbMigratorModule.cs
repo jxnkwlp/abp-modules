@@ -11,5 +11,4 @@ namespace Sample.DbMigrator;
     )]
 public class SampleDbMigratorModule : AbpModule
 {
-
 }

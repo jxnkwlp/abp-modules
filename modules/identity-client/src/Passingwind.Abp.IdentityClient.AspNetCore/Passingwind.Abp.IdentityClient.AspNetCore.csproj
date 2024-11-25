@@ -3,7 +3,7 @@
   <Import Project="..\..\common.props" />
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>$(Tfw)</TargetFramework>
     <Nullable>enable</Nullable>
     <RootNamespace>Passingwind.Abp.IdentityClient</RootNamespace>
   </PropertyGroup>
@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="ITfoxtec.Identity.Saml2" Version="4.11.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="$(MicrosoftPackageVersion)" />
     <PackageReference Include="Passingwind.AspNetCore.Authentication.Saml2" Version="0.3.0" />
   </ItemGroup>
 

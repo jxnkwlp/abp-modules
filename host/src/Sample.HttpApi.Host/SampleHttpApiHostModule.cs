@@ -278,7 +278,7 @@ public class SampleHttpApiHostModule : AbpModule
         app.UseSwagger();
         app.UseAbpSwaggerUI(c =>
         {
-            c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sample API"); 
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sample API");
             c.DisplayOperationId();
             c.DisplayRequestDuration();
             c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);

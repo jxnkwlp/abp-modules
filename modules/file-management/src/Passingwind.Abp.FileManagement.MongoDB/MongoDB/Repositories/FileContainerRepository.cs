@@ -77,7 +77,7 @@ public class FileContainerRepository : MongoDbRepository<FileManagementMongoDbCo
             .ToListAsync(cancellationToken);
     }
 
-    public virtual async Task IncrementFileCountAsync(string name, int adjustment=1, CancellationToken cancellationToken = default)
+    public virtual async Task IncrementFileCountAsync(string name, int adjustment = 1, CancellationToken cancellationToken = default)
     {
         var dbContext = await GetDbContextAsync(cancellationToken);
         var collection = dbContext.Collection<FileContainer>();

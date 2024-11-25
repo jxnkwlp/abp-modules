@@ -25,8 +25,6 @@ public class EmailTokenProviderV2<TUser> : EmailTokenProvider<TUser> where TUser
     /// <summary>
     /// Checks if a two-factor authentication token can be generated for the specified <paramref name="user"/>.
     /// </summary>
-    /// <param name="manager"></param>
-    /// <param name="user"></param>
     /// <exception cref="ArgumentNullException"><paramref name="manager"/> is <c>null</c>.</exception>
     public override async Task<bool> CanGenerateTwoFactorTokenAsync(UserManager<TUser> manager, TUser user)
     {

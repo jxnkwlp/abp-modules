@@ -1,5 +1,4 @@
-﻿namespace Passingwind.Abp.FileManagement.Files;
-
+﻿
 //public class FileHashDuplicateDetectionProvider : IFileDuplicateDetectionProvider
 //{
 //    private readonly IFileRepository _fileRepository;

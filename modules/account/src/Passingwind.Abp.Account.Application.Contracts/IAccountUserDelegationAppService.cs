@@ -20,18 +20,15 @@ public interface IAccountUserDelegationAppService : IApplicationService
     /// <summary>
     ///  Create new delegation
     /// </summary>
-    /// <param name="input"></param>
     Task CreateAsync(AccountUserDelegationCreateDto input);
 
     /// <summary>
     ///  Delete delegation by id
     /// </summary>
-    /// <param name="id"></param>
     Task DeleteAsync(Guid id);
 
     /// <summary>
     ///  Search user
     /// </summary>
-    /// <param name="filter"></param>
     Task<ListResultDto<UserBasicDto>> UserLookupAsync(string? filter = null);
 }

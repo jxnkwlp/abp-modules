@@ -20,8 +20,6 @@ public abstract class FileManagementAppService : ApplicationService
     /// <summary>
     ///  Check current identity can access this container
     /// </summary>
-    /// <param name="container"></param>
-    /// <param name="write"></param>
     protected virtual async Task<bool> CanAccessContainerAsync(FileContainer container, bool write = false)
     {
         bool isGranted = await AuthorizationService.IsGrantedAsync(FileManagementPermissions.FileContainer.Default);
@@ -51,10 +49,6 @@ public abstract class FileManagementAppService : ApplicationService
     /// <summary>
     ///  Check current identity can access this container
     /// </summary>
-    /// <param name="fileContainerRepository"></param>
-    /// <param name="containerName"></param>
-    /// <param name="policyName"></param>
-    /// <param name="write"></param>
     /// <exception cref="AbpAuthorizationException"></exception>
     protected virtual async Task CheckContainerPermissionAsync(IFileContainerRepository fileContainerRepository, string containerName, string? policyName = null, bool write = false)
     {
@@ -70,9 +64,6 @@ public abstract class FileManagementAppService : ApplicationService
     /// <summary>
     ///  Check current identity can access this container
     /// </summary>
-    /// <param name="container"></param>
-    /// <param name="policyName"></param>
-    /// <param name="write"></param>
     /// <exception cref="AbpAuthorizationException"></exception>
     protected virtual async Task CheckContainerPermissionAsync(FileContainer container, string? policyName = null, bool write = false)
     {

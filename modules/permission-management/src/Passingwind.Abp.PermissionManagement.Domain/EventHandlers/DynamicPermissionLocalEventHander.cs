@@ -115,7 +115,7 @@ public class DynamicPermissionLocalEventHander :
             await _dynamicPermissionManager.CreateOrUpdatePermissionDefinitionAsync(
                 entity.TargetName,
                 entity.DisplayName,
-                group.TargetName,
+                group!.TargetName,
                 parent?.TargetName,
                 entity.IsEnabled);
 

@@ -66,8 +66,8 @@ public class ApiKeyRecordManager : DomainService, IApiKeyRecordManager
     {
         var user = await _userManager.GetByIdAsync(record.UserId);
 
-        record.Secret = await GenerateValueAsync(user.Id);
+        record.Secret = await GenerateValueAsync(user.Id, cancellationToken);
 
-        return await _apiKeyRecordRepository.UpdateAsync(record);
+        return await _apiKeyRecordRepository.UpdateAsync(record, cancellationToken: cancellationToken);
     }
 }

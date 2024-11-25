@@ -5,8 +5,8 @@
     <Product>Passingwind.Abp.FileManagement</Product>
     <Description>an abp module that provider file and file container management.</Description>
     <PackageTags>abp-module</PackageTags>
-    <Version>1.3.0</Version>
-    <PackageVersion>1.3.0</PackageVersion>
+    <Version>$(ModuleVersion)</Version>
+    <PackageVersion>$(ModuleVersion)</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>

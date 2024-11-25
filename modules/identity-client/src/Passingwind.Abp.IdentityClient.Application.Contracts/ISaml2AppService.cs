@@ -9,14 +9,11 @@ public interface ISaml2AppService : IApplicationService
     /// <summary>
     ///  Response metadata content
     /// </summary>
-    /// <param name="baseUri"></param>
-    /// <param name="name"></param>
     Task<string> GetMetadataDescriptorAsync(Uri baseUri, string name);
 
     /// <summary>
     ///  Receives a logout request and send a response.
     /// </summary>
-    /// <param name="name"></param>
     Task<string> LogoutAsync(string name);
 
     ///// <summary>

@@ -318,7 +318,7 @@ public class IdentityUserV2AppService : IdentityUserAppService, IIdentityUserV2A
 
         (await UserManager.UpdateAsync(user)).CheckErrors();
 
-        await CurrentUnitOfWork.SaveChangesAsync();
+        await CurrentUnitOfWork!.SaveChangesAsync();
 
         return ObjectMapper.Map<IdentityUser, IdentityUserV2Dto>(user);
     }
@@ -345,7 +345,7 @@ public class IdentityUserV2AppService : IdentityUserAppService, IIdentityUserV2A
             (await UserManager.AddPasswordAsync(user, input.Password!)).CheckErrors();
         }
 
-        await CurrentUnitOfWork.SaveChangesAsync();
+        await CurrentUnitOfWork!.SaveChangesAsync();
 
         return ObjectMapper.Map<IdentityUser, IdentityUserV2Dto>(user);
     }
