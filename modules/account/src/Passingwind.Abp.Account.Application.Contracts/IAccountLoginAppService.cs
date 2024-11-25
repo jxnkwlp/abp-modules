@@ -19,20 +19,16 @@ public interface IAccountLoginAppService : IApplicationService
     /// <summary>
     ///  Password login
     /// </summary>
-    /// <param name="input"></param>
     Task<AccountLoginResultDto> LoginAsync(AccountLoginRequestDto input);
 
     /// <summary>
     ///  Login with 2fa code
     /// </summary>
-    /// <param name="provider"></param>
-    /// <param name="input"></param>
     Task<AccountLoginResultDto> LoginWithTfaAsync(string provider, AccountLoginWithTfaRequestDto input);
 
     /// <summary>
     ///  Login with authenticator recovery code
     /// </summary>
-    /// <param name="input"></param>
     Task<AccountLoginResultDto> LoginWithAuthenticatorRecoveryCodeAsync(AccountLoginWithAuthenticatorRecoveryCodeRequestDto input);
 
     /// <summary>
@@ -43,7 +39,6 @@ public interface IAccountLoginAppService : IApplicationService
     /// <summary>
     ///  Check password
     /// </summary>
-    /// <param name="input"></param>
     Task<AccountLoginResultDto> CheckPasswordAsync(AccountLoginRequestDto input);
 
     #endregion Login
@@ -58,14 +53,11 @@ public interface IAccountLoginAppService : IApplicationService
     /// <summary>
     ///  Send 2fa token when requires 2fa
     /// </summary>
-    /// <param name="provider"></param>
     Task SendTfaTokenAsync(string provider);
 
     /// <summary>
     ///  verify 2fa token
     /// </summary>
-    /// <param name="provider"></param>
-    /// <param name="input"></param>
     Task<AccountVerifyTokenResultDto> VerifyTfaTokenAsync(string provider, AccountLoginVerifyTwoFactorTokenDto input);
 
     #endregion tfa
@@ -75,7 +67,6 @@ public interface IAccountLoginAppService : IApplicationService
     /// <summary>
     ///  Change password
     /// </summary>
-    /// <param name="input"></param>
     Task ChangePasswordAsync(AccountRequiredChangePasswordRequestDto input);
 
     #endregion ChangePassword
@@ -95,7 +86,6 @@ public interface IAccountLoginAppService : IApplicationService
     /// <summary>
     ///  Tfa authentication user verify authenticator code
     /// </summary>
-    /// <param name="input"></param>
     Task<AccountAuthenticatorRecoveryCodesResultDto> VerifyAuthenticatorToken(AccountAuthenticatorCodeVerifyRequestDto input);
 
     #endregion Authenticator

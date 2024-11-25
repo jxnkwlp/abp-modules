@@ -68,7 +68,7 @@ public class FileShareAppService : FileManagementAppService, IFileShareAppServic
 
         File file = validationResult.File;
 
-        FileContainer container = await FileContainerRepository.FindAsync(file.ContainerId);
+        FileContainer? container = await FileContainerRepository.FindAsync(file.ContainerId);
 
         return container == null
             ? throw new BusinessException(FileManagementErrorCodes.ShareFileNotExistsOrExpired)
@@ -95,7 +95,7 @@ public class FileShareAppService : FileManagementAppService, IFileShareAppServic
 
         File file = validationResult.File;
 
-        FileContainer container = await FileContainerRepository.FindAsync(file.ContainerId);
+        FileContainer? container = await FileContainerRepository.FindAsync(file.ContainerId);
 
         if (container == null)
         {
@@ -119,7 +119,7 @@ public class FileShareAppService : FileManagementAppService, IFileShareAppServic
 
         File file = validationResult.File;
 
-        FileContainer container = await FileContainerRepository.FindAsync(file.ContainerId);
+        FileContainer? container = await FileContainerRepository.FindAsync(file.ContainerId);
 
         return container == null
             ? throw new BusinessException(FileManagementErrorCodes.ShareFileNotExistsOrExpired)
@@ -138,7 +138,7 @@ public class FileShareAppService : FileManagementAppService, IFileShareAppServic
 
         File file = validationResult.File;
 
-        FileContainer container = await FileContainerRepository.FindAsync(file.ContainerId);
+        FileContainer? container = await FileContainerRepository.FindAsync(file.ContainerId);
 
         return container == null
             ? throw new BusinessException(FileManagementErrorCodes.ShareFileNotExistsOrExpired)

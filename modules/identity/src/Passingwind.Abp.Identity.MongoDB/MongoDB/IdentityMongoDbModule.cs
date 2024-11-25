@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Passingwind.Abp.Identity.MongoDB.Repositories;
 using Volo.Abp.Modularity;
 using Volo.Abp.MongoDB;
 

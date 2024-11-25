@@ -56,7 +56,7 @@ public class DictionaryManagerTests : DictionaryManagementDomainTestBase
     [InlineData("a1", "a2", null, false)]
     [InlineData("a1", "a2", "", false)]
     [InlineData("a2", "a3", null, true)]
-    public async Task GroupCreateTest(string name, string displayName, string parentName, bool isPublic)
+    public async Task GroupCreateTest(string name, string displayName, string? parentName, bool isPublic)
     {
         var item = await _dictionaryManager.CreateGroupAsync(name, displayName, parentName, isPublic: isPublic);
 
@@ -69,7 +69,7 @@ public class DictionaryManagerTests : DictionaryManagementDomainTestBase
     [Theory]
     [InlineData("a1", "a2", null, false)]
     [InlineData("a2", "a3", null, true)]
-    public async Task GroupPublicTest(string name, string displayName, string parentName, bool isPublic)
+    public async Task GroupPublicTest(string name, string displayName, string? parentName, bool isPublic)
     {
         await _dictionaryManager.CreateGroupAsync(name, displayName, parentName, isPublic: isPublic);
 
@@ -106,7 +106,7 @@ public class DictionaryManagerTests : DictionaryManagementDomainTestBase
     [InlineData("a1", "a2", null, false)]
     [InlineData("a1", "a2", "", false)]
     [InlineData("a2", "a3", null, true)]
-    public async Task ItemCreateTest(string name, string displayName, string parentName, bool isEnabled)
+    public async Task ItemCreateTest(string name, string displayName, string? parentName, bool isEnabled)
     {
         var item = await _dictionaryManager.CreateItemAsync(name, displayName, parentName, isEnabled: isEnabled);
 
@@ -118,7 +118,7 @@ public class DictionaryManagerTests : DictionaryManagementDomainTestBase
     [Theory]
     [InlineData("a1", "a2", null, false)]
     [InlineData("a2", "a3", null, true)]
-    public async Task ItemEnabledTest(string name, string displayName, string parentName, bool isEnabled)
+    public async Task ItemEnabledTest(string name, string displayName, string? parentName, bool isEnabled)
     {
         await _dictionaryManager.CreateItemAsync(name, displayName, parentName, isEnabled: isEnabled);
 
@@ -136,11 +136,11 @@ public class DictionaryManagerTests : DictionaryManagementDomainTestBase
     [InlineData("a2", "a2")]
     [InlineData("a3", "")]
     [InlineData("a4", null)]
-    public async Task ItemValueTest(string name, string value)
+    public async Task ItemValueTest(string name, string? value)
     {
         await _dictionaryManager.CreateItemAsync(name, name);
 
-        await _dictionaryManager.SetItemValueAsync(name, value);
+        await _dictionaryManager.SetItemValueAsync(name, value!);
 
         var item = await _dictionaryManager.GetItemAsync(name);
 

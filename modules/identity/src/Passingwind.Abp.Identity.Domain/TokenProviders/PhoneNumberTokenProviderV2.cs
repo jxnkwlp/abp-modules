@@ -26,8 +26,6 @@ public class PhoneNumberTokenProviderV2 : PhoneNumberTokenProvider<IdentityUser>
     /// Returns a flag indicating whether the token provider can generate a token suitable for two-factor authentication token for
     /// the specified <paramref name="user"/>.
     /// </summary>
-    /// <param name="manager"></param>
-    /// <param name="user"></param>
     /// <exception cref="ArgumentNullException"><paramref name="manager"/> is <c>null</c>.</exception>
     public override async Task<bool> CanGenerateTwoFactorTokenAsync(UserManager<IdentityUser> manager, IdentityUser user)
     {

@@ -1,8 +1,9 @@
 ﻿<Project>
 
   <PropertyGroup>
-    <MicrosoftPackageVersion>8.0.6</MicrosoftPackageVersion>
-    <AbpVersion>8.3.0</AbpVersion>
+    <Tfw>net9.0</Tfw>
+    <MicrosoftPackageVersion>9.0.0</MicrosoftPackageVersion>
+    <AbpVersion>9.0.0</AbpVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 

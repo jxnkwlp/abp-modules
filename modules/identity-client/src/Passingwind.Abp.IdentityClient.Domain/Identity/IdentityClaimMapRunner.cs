@@ -70,7 +70,7 @@ public class IdentityClaimMapRunner : IIdentityClaimMapRunner, ISingletonDepende
             var value = source.FirstOrDefault(x => x.Type == map.ValueFromType);
             if (!string.IsNullOrWhiteSpace(value?.Value))
             {
-                return new Claim(map.ClaimType, value?.Value);
+                return new Claim(map.ClaimType, value.Value);
             }
         }
         return null;

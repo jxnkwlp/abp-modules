@@ -12,8 +12,6 @@ public class AuthenticatorTokenProviderV2<TUser> : AuthenticatorTokenProvider<TU
     /// <summary>
     /// Checks if a two-factor authentication token can be generated for the specified <paramref name="user"/>.
     /// </summary>
-    /// <param name="manager"></param>
-    /// <param name="user"></param>
     public override async Task<bool> CanGenerateTwoFactorTokenAsync(UserManager<TUser> manager, TUser user)
     {
         var key = await manager.GetAuthenticatorKeyAsync(user);

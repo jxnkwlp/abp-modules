@@ -23,7 +23,7 @@ namespace Sample;
     typeof(AbpOpenIddictDomainSharedModule),
     typeof(AbpPermissionManagementDomainSharedModule),
     typeof(AbpSettingManagementDomainSharedModule),
-    typeof(AbpTenantManagementDomainSharedModule)    
+    typeof(AbpTenantManagementDomainSharedModule)
     )]
 public class SampleDomainSharedModule : AbpModule
 {
@@ -35,10 +35,7 @@ public class SampleDomainSharedModule : AbpModule
 
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        Configure<AbpVirtualFileSystemOptions>(options =>
-        {
-            options.FileSets.AddEmbedded<SampleDomainSharedModule>();
-        });
+        Configure<AbpVirtualFileSystemOptions>(options => options.FileSets.AddEmbedded<SampleDomainSharedModule>());
 
         Configure<AbpLocalizationOptions>(options =>
         {
@@ -50,9 +47,6 @@ public class SampleDomainSharedModule : AbpModule
             options.DefaultResourceType = typeof(SampleResource);
         });
 
-        Configure<AbpExceptionLocalizationOptions>(options =>
-        {
-            options.MapCodeNamespace("Sample", typeof(SampleResource));
-        });
+        Configure<AbpExceptionLocalizationOptions>(options => options.MapCodeNamespace("Sample", typeof(SampleResource)));
     }
 }

@@ -21,7 +21,7 @@ public class IdentityUserTwoFactorManager : DomainService, IUnitOfWorkEnabled
 
         entity.PreferredProvider = providerName;
 
-        await _identityUserTwoFactorRepository.UpdateAsync(entity, true);
+        await _identityUserTwoFactorRepository.UpdateAsync(entity, true, cancellationToken);
     }
 
     public virtual async Task<string?> GetPreferredProviderAsync(IdentityUser user, CancellationToken cancellationToken = default)
@@ -37,7 +37,7 @@ public class IdentityUserTwoFactorManager : DomainService, IUnitOfWorkEnabled
 
         entity.EmailToken = enabled;
 
-        await _identityUserTwoFactorRepository.UpdateAsync(entity, true);
+        await _identityUserTwoFactorRepository.UpdateAsync(entity, true, cancellationToken);
     }
 
     public virtual async Task SetPhoneNumberTokenEnabledAsync(IdentityUser user, bool enabled, CancellationToken cancellationToken = default)
@@ -46,7 +46,7 @@ public class IdentityUserTwoFactorManager : DomainService, IUnitOfWorkEnabled
 
         entity.PhoneNumberToken = enabled;
 
-        await _identityUserTwoFactorRepository.UpdateAsync(entity, true);
+        await _identityUserTwoFactorRepository.UpdateAsync(entity, true, cancellationToken);
     }
 
     public virtual async Task<bool> GetEmailTokenEnabledAsync(IdentityUser user, CancellationToken cancellationToken = default)
@@ -71,7 +71,7 @@ public class IdentityUserTwoFactorManager : DomainService, IUnitOfWorkEnabled
         {
             entity = new IdentityUserTwoFactor(user.Id, tenantId: user.TenantId);
 
-            await _identityUserTwoFactorRepository.InsertAsync(entity, true);
+            await _identityUserTwoFactorRepository.InsertAsync(entity, true, cancellationToken);
         }
 
         return entity;

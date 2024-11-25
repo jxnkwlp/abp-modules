@@ -38,12 +38,10 @@ public interface IAccountTfaAppService : IApplicationService
     /// <summary>
     ///  Update authenticator state
     /// </summary>
-    /// <param name="input"></param>
     Task<AccountAuthenticatorRecoveryCodesResultDto> UpdateAuthenticatorAsync(AccountAuthenticatorCodeVerifyRequestDto input);
     /// <summary>
     ///  Verify authenticator token
     /// </summary>
-    /// <param name="input"></param>
     Task<AccountVerifyTokenResultDto> VerifyAuthenticatorTokenAsync(AccountAuthenticatorCodeVerifyRequestDto input);
     /// <summary>
     ///  Regenerate authenticator recovery codes
@@ -58,7 +56,6 @@ public interface IAccountTfaAppService : IApplicationService
     /// <remarks>
     ///  remove your authenticator key your authenticator app will not work until you reconfigure it
     /// </remarks>
-    /// <param name="input"></param>
     Task RemoveAuthenticatorAsync(AccountAuthenticatorCodeVerifyRequestDto input);
 
     /// <summary>

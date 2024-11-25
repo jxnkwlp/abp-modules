@@ -14,14 +14,14 @@ public class IdentityPermissionDefinitionProvider : PermissionDefinitionProvider
         var identityGroup = context.GetGroup(IdentityPermissions.GroupName);
 
         var roleGroup = identityGroup.GetPermissionOrNull(IdentityPermissions.Roles.Default);
-        roleGroup.AddChild(IdentityPermissionNamesV2.Roles.ManageClaims, L("Permission:ManageClaims"));
+        roleGroup?.AddChild(IdentityPermissionNamesV2.Roles.ManageClaims, L("Permission:ManageClaims"));
         //roleGroup.AddChild(IdentityPermissionNamesV2.Roles.ChangeHistories, L("Permission:ChangeHistories"));
 
         var userGroup = identityGroup.GetPermissionOrNull(IdentityPermissions.Users.Default);
-        userGroup.AddChild(IdentityPermissionNamesV2.Users.ManageClaims, L("Permission:ManageClaims"));
-        userGroup.AddChild(IdentityPermissionNamesV2.Users.ManageRoles, L("Permission:ManageRoles"));
-        userGroup.AddChild(IdentityPermissionNamesV2.Users.ManageOrganizations, L("Permission:ManageOrganizations"));
-        userGroup.AddChild(IdentityPermissionNamesV2.Users.Impersonation, L("Permission:Users.Impersonation"));
+        userGroup?.AddChild(IdentityPermissionNamesV2.Users.ManageClaims, L("Permission:ManageClaims"));
+        userGroup?.AddChild(IdentityPermissionNamesV2.Users.ManageRoles, L("Permission:ManageRoles"));
+        userGroup?.AddChild(IdentityPermissionNamesV2.Users.ManageOrganizations, L("Permission:ManageOrganizations"));
+        userGroup?.AddChild(IdentityPermissionNamesV2.Users.Impersonation, L("Permission:Users.Impersonation"));
         //userGroup.AddChild(IdentityPermissionNamesV2.Users.Import, L("Permission:Import"));
         //userGroup.AddChild(IdentityPermissionNamesV2.Users.Export, L("Permission:Export"));
         //userGroup.AddChild(IdentityPermissionNamesV2.Users.ChangeHistories, L("Permission:ChangeHistories"));
