@@ -1,5 +1,20 @@
 ﻿<Project>
 
   <Import Project="..\common.props" />
+
+  <PropertyGroup>
+    <Product>Passingwind.Abp.AuditLogging</Product>
+    <Description></Description>
+    <PackageTags>abp-module, audit logging</PackageTags>
+    <Version>$(ModuleVersion)</Version>
+    <PackageVersion>$(ModuleVersion)</PackageVersion>
+  </PropertyGroup>
   
+  <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
 </Project>
