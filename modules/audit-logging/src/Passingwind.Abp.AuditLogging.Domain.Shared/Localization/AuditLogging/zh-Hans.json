@@ -1,0 +1,11 @@
+﻿{
+  "culture": "zh-Hans",
+  "texts": {
+    "Permission:Delete": "删除",
+    "Permission:Settings": "设置",
+    "Permission:Settings.Cleanup": "清理",
+    "Permission:AuditLogging": "审计日志管理",
+    "Permission:AuditLogging.AuditLogs": "审计日志",
+    "Permission:AuditLogging.EntityChanges": "实体修改日志"
+  }
+}

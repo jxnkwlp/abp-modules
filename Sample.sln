@@ -185,6 +185,22 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.DictionaryM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.Abp.DictionaryManagement.MongoDB.Tests", "modules\dictionary-management\test\Passingwind.Abp.DictionaryManagement.MongoDB.Tests\Passingwind.Abp.DictionaryManagement.MongoDB.Tests.csproj", "{F60E2974-A7C7-41EF-96E8-23E38619E98F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "audit-logging", "audit-logging", "{88AD1592-7C36-44AC-8E47-5CBE9AB69560}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2567C22F-1B70-4D19-83EE-CF6AA99A4554}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Passingwind.Abp.AuditLogging.Domain.Shared", "modules\audit-logging\src\Passingwind.Abp.AuditLogging.Domain.Shared\Passingwind.Abp.AuditLogging.Domain.Shared.csproj", "{AF753833-EA02-4D79-A7A1-B54E3519139D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Passingwind.Abp.AuditLogging.Domain", "modules\audit-logging\src\Passingwind.Abp.AuditLogging.Domain\Passingwind.Abp.AuditLogging.Domain.csproj", "{B192F772-5006-48F3-9971-1F4CAE552859}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Passingwind.Abp.AuditLogging.Application.Contracts", "modules\audit-logging\src\Passingwind.Abp.AuditLogging.Application.Contracts\Passingwind.Abp.AuditLogging.Application.Contracts.csproj", "{D20826A3-F38A-4AEA-A649-13BFA2569A37}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Passingwind.Abp.AuditLogging.Application", "modules\audit-logging\src\Passingwind.Abp.AuditLogging.Application\Passingwind.Abp.AuditLogging.Application.csproj", "{D19B5383-BDA1-4FBC-A9EB-A329F823F077}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Passingwind.Abp.AuditLogging.HttpApi.Client", "modules\audit-logging\src\Passingwind.Abp.AuditLogging.HttpApi.Client\Passingwind.Abp.AuditLogging.HttpApi.Client.csproj", "{CD71C1AF-8934-417F-B587-62546096E3D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Passingwind.Abp.AuditLogging.HttpApi", "modules\audit-logging\src\Passingwind.Abp.AuditLogging.HttpApi\Passingwind.Abp.AuditLogging.HttpApi.csproj", "{61E4167C-DE63-4749-AED8-D2B41011799F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -483,6 +499,30 @@ Global
 		{F60E2974-A7C7-41EF-96E8-23E38619E98F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F60E2974-A7C7-41EF-96E8-23E38619E98F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F60E2974-A7C7-41EF-96E8-23E38619E98F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF753833-EA02-4D79-A7A1-B54E3519139D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF753833-EA02-4D79-A7A1-B54E3519139D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF753833-EA02-4D79-A7A1-B54E3519139D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF753833-EA02-4D79-A7A1-B54E3519139D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B192F772-5006-48F3-9971-1F4CAE552859}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B192F772-5006-48F3-9971-1F4CAE552859}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B192F772-5006-48F3-9971-1F4CAE552859}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B192F772-5006-48F3-9971-1F4CAE552859}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D20826A3-F38A-4AEA-A649-13BFA2569A37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D20826A3-F38A-4AEA-A649-13BFA2569A37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D20826A3-F38A-4AEA-A649-13BFA2569A37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D20826A3-F38A-4AEA-A649-13BFA2569A37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D19B5383-BDA1-4FBC-A9EB-A329F823F077}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D19B5383-BDA1-4FBC-A9EB-A329F823F077}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D19B5383-BDA1-4FBC-A9EB-A329F823F077}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D19B5383-BDA1-4FBC-A9EB-A329F823F077}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD71C1AF-8934-417F-B587-62546096E3D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD71C1AF-8934-417F-B587-62546096E3D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD71C1AF-8934-417F-B587-62546096E3D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD71C1AF-8934-417F-B587-62546096E3D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61E4167C-DE63-4749-AED8-D2B41011799F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61E4167C-DE63-4749-AED8-D2B41011799F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61E4167C-DE63-4749-AED8-D2B41011799F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61E4167C-DE63-4749-AED8-D2B41011799F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -576,6 +616,14 @@ Global
 		{B401EA9D-2336-44AC-8D3E-FD7D2DAE7C97} = {A117DB50-D9B9-4590-BB62-15D87ABA19A8}
 		{DF459EDD-8E5D-4CE5-B879-8E7260E15E7F} = {A117DB50-D9B9-4590-BB62-15D87ABA19A8}
 		{F60E2974-A7C7-41EF-96E8-23E38619E98F} = {A117DB50-D9B9-4590-BB62-15D87ABA19A8}
+		{88AD1592-7C36-44AC-8E47-5CBE9AB69560} = {9EAC2FB6-A28A-4851-B809-BF8216AAAFE0}
+		{2567C22F-1B70-4D19-83EE-CF6AA99A4554} = {88AD1592-7C36-44AC-8E47-5CBE9AB69560}
+		{AF753833-EA02-4D79-A7A1-B54E3519139D} = {2567C22F-1B70-4D19-83EE-CF6AA99A4554}
+		{B192F772-5006-48F3-9971-1F4CAE552859} = {2567C22F-1B70-4D19-83EE-CF6AA99A4554}
+		{D20826A3-F38A-4AEA-A649-13BFA2569A37} = {2567C22F-1B70-4D19-83EE-CF6AA99A4554}
+		{D19B5383-BDA1-4FBC-A9EB-A329F823F077} = {2567C22F-1B70-4D19-83EE-CF6AA99A4554}
+		{CD71C1AF-8934-417F-B587-62546096E3D0} = {2567C22F-1B70-4D19-83EE-CF6AA99A4554}
+		{61E4167C-DE63-4749-AED8-D2B41011799F} = {2567C22F-1B70-4D19-83EE-CF6AA99A4554}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}

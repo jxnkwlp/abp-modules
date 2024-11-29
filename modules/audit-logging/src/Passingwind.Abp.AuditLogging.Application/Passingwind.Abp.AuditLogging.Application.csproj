@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>$(Tfw)</TargetFramework>
+    <RootNamespace>Passingwind.Abp.AuditLogging</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.AutoMapper" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Ddd.Application" Version="$(AbpVersion)" />
+    <ProjectReference Include="..\Passingwind.Abp.AuditLogging.Application.Contracts\Passingwind.Abp.AuditLogging.Application.Contracts.csproj" />
+    <ProjectReference Include="..\Passingwind.Abp.AuditLogging.Domain\Passingwind.Abp.AuditLogging.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
