@@ -1,0 +1,11 @@
+﻿{
+  "culture": "en",
+  "texts": {
+    "Permission:Delete": "Delete",
+    "Permission:Settings": "Settings",
+    "Permission:Settings.Cleanup": "Cleanup",
+    "Permission:AuditLogging": "Audit logging management",
+    "Permission:AuditLogging.AuditLogs": "Audit logs",
+    "Permission:AuditLogging.EntityChanges": "Entity change logs"
+  }
+}

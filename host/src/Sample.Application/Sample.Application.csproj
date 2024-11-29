@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\modules\account\src\Passingwind.Abp.Account.Application\Passingwind.Abp.Account.Application.csproj" />
     <ProjectReference Include="..\..\..\modules\api-keys\src\Passingwind.Abp.ApiKey.Application\Passingwind.Abp.ApiKey.Application.csproj" />
+    <ProjectReference Include="..\..\..\modules\audit-logging\src\Passingwind.Abp.AuditLogging.Application\Passingwind.Abp.AuditLogging.Application.csproj" />
     <ProjectReference Include="..\..\..\modules\file-management\src\Passingwind.Abp.FileManagement.Application\Passingwind.Abp.FileManagement.Application.csproj" />
     <ProjectReference Include="..\..\..\modules\identity-client\src\Passingwind.Abp.IdentityClient.Application\Passingwind.Abp.IdentityClient.Application.csproj" />
     <ProjectReference Include="..\..\..\modules\identity\src\Passingwind.Abp.Identity.Application\Passingwind.Abp.Identity.Application.csproj" />

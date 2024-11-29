@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Text;
 using Hangfire;
 using Hangfire.MemoryStorage;
 using Microsoft.AspNetCore.Builder;
@@ -9,6 +11,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Passingwind.Abp.Account;
@@ -20,6 +23,7 @@ using Passingwind.AspNetCore.Authentication.ApiKey;
 using Sample.EntityFrameworkCore;
 using Sample.MultiTenancy;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.AspNetCore.MultiTenancy;
@@ -34,6 +38,7 @@ using Volo.Abp.BackgroundJobs.Hangfire;
 using Volo.Abp.BackgroundWorkers.Hangfire;
 using Volo.Abp.BlobStoring;
 using Volo.Abp.BlobStoring.FileSystem;
+using Volo.Abp.DependencyInjection;
 using Volo.Abp.Modularity;
 using Volo.Abp.OpenIddict;
 using Volo.Abp.Swashbuckle;
@@ -117,6 +122,8 @@ public class SampleHttpApiHostModule : AbpModule
         Configure<AbpAntiForgeryOptions>(options => options.TokenCookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Lax);
 
         Configure<AbpMvcLibsOptions>(options => options.CheckLibs = false);
+
+        context.Services.Replace(ServiceDescriptor.Transient<ISwaggerHtmlResolver, SwaggerHtmlResolver>());
     }
 
     private void ConfigureAuthentication(ServiceConfigurationContext context)
@@ -259,7 +266,7 @@ public class SampleHttpApiHostModule : AbpModule
         }
 
         app.UseCorrelationId();
-        app.UseStaticFiles();
+        app.MapAbpStaticAssets();
         app.UseRouting();
         app.UseCors();
         app.UseAuthentication();
@@ -276,8 +283,14 @@ public class SampleHttpApiHostModule : AbpModule
         app.UseAuthorization();
 
         app.UseSwagger();
-        app.UseAbpSwaggerUI(c =>
+        var resolver = app.ApplicationServices.GetService<ISwaggerHtmlResolver>();
+        app.UseSwaggerUI(c =>
         {
+            c.InjectJavascript("ui/abp.js");
+            c.InjectJavascript("ui/abp.swagger.js");
+            // c.IndexStream = () => new MemoryStream(Encoding.UTF8.GetBytes(new StreamReader(resolver!!?.Resolver()).ReadToEnd().Replace("src=\"index.js\"", "src=\"ui/index.js\"")));
+            c.IndexStream = () => resolver?.Resolver();
+
             c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sample API");
             c.DisplayOperationId();
             c.DisplayRequestDuration();
@@ -288,5 +301,20 @@ public class SampleHttpApiHostModule : AbpModule
         app.UseAuditing();
         app.UseAbpSerilogEnrichers();
         app.UseConfiguredEndpoints();
+    }
+}
+
+public class SwaggerHtmlResolver : ISwaggerHtmlResolver, ITransientDependency
+{
+    public virtual Stream Resolver()
+    {
+        var stream = typeof(SwaggerUIOptions).GetTypeInfo().Assembly
+            .GetManifestResourceStream("Swashbuckle.AspNetCore.SwaggerUI.index.html");
+
+        var html = new StreamReader(stream!)
+            .ReadToEnd()
+            .Replace("src=\"index.js\"", "src=\"ui/index.js\"");
+
+        return new MemoryStream(Encoding.UTF8.GetBytes(html));
     }
 }
