@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Passingwind.Abp.FileManagement.Files;
 using Volo.Abp;
 using Volo.Abp.EntityFrameworkCore.Modeling;
 
@@ -18,37 +17,73 @@ public static class FileManagementDbContextModelCreatingExtensions
                 b.ToTable(FileManagementDbProperties.DbTablePrefix + "FileContainers", FileManagementDbProperties.DbSchema);
                 b.ConfigureByConvention();
 
-                b.Property(q => q.Name).IsRequired().HasMaxLength(FileManagementConsts.MaxFileContainerNameLength);
-                b.Property(q => q.Description).HasMaxLength(FileManagementConsts.MaxFileContainerDescriptionLength);
+                b.Property(x => x.Name).IsRequired().HasMaxLength(FileManagementConsts.MaxFileContainerNameLength);
+                b.Property(x => x.Description).HasMaxLength(FileManagementConsts.MaxFileContainerDescriptionLength);
 
-                b.HasIndex(q => q.Name);
+                b.HasMany(x => x.Accesses).WithOne().HasForeignKey(x => x.FileContainerId);
+
+                b.HasIndex(x => x.Name);
             })
-            .Entity<File>(b =>
+            .Entity<FileContainerAccess>(b =>
+            {
+                b.ToTable(FileManagementDbProperties.DbTablePrefix + "FileContainerAccesses", FileManagementDbProperties.DbSchema);
+                b.ConfigureByConvention();
+
+                b.Property(x => x.ProviderName).IsRequired().HasMaxLength(64);
+                b.Property(x => x.ProviderKey).IsRequired().HasMaxLength(64);
+
+                b.HasKey(x => new { x.FileContainerId, x.ProviderName, x.ProviderKey });
+            })
+            .Entity<FileItem>(b =>
             {
                 b.ToTable(FileManagementDbProperties.DbTablePrefix + "Files", FileManagementDbProperties.DbSchema);
                 b.ConfigureByConvention();
 
-                b.Property(q => q.FileName).IsRequired().HasMaxLength(FileManagementConsts.MaxFileItemFileNameLength);
-                b.Property(q => q.MimeType).HasMaxLength(FileManagementConsts.MaxFileItemMimeTypeLength);
-                b.Property(q => q.BlobName).IsRequired().HasMaxLength(FileManagementConsts.MaxFileItemBlobNameLength);
-                b.Property(q => q.Hash).HasMaxLength(FileManagementConsts.MaxFileItemHashLength);
-                b.Property(q => q.UniqueId).IsRequired().HasMaxLength(FileManagementConsts.MaxFileItemUniqueIdLength);
+                b.Property(x => x.FileName).IsRequired().HasMaxLength(FileManagementConsts.MaxFileItemFileNameLength);
+                b.Property(x => x.MimeType).HasMaxLength(FileManagementConsts.MaxFileItemMimeTypeLength);
+                b.Property(x => x.BlobName).IsRequired().HasMaxLength(FileManagementConsts.MaxFileItemBlobNameLength);
+                b.Property(x => x.Hash).HasMaxLength(FileManagementConsts.MaxFileItemHashLength);
+                b.Property(x => x.UniqueId).IsRequired().HasMaxLength(FileManagementConsts.MaxFileItemUniqueIdLength);
 
-                b.HasIndex(q => q.ContainerId);
-                b.HasIndex(q => q.FileName);
-                b.HasIndex(q => q.Hash);
-                b.HasIndex(q => q.UniqueId);
-                b.HasIndex(q => q.CreationTime).IsDescending();
+                b.HasMany(x => x.Tags).WithOne().HasForeignKey(x => x.FileId);
+                b.HasOne(x => x.Path).WithOne().HasForeignKey<FilePath>(x => x.FileId);
+
+                b.HasIndex(x => x.ContainerId);
+                b.HasIndex(x => x.FileName);
+                b.HasIndex(x => x.Hash);
+                b.HasIndex(x => x.UniqueId);
+                b.HasIndex(x => x.CreationTime).IsDescending();
+            })
+            .Entity<FileTags>(b =>
+            {
+                b.ToTable(FileManagementDbProperties.DbTablePrefix + "FileTags", FileManagementDbProperties.DbSchema);
+                b.ConfigureByConvention();
+
+                b.Property(x => x.Name).IsRequired().HasMaxLength(FileManagementConsts.MaxFileTagValueLength);
+
+                b.HasKey(x => new { x.FileId, x.Name });
+            })
+            .Entity<FilePath>(b =>
+            {
+                b.ToTable(FileManagementDbProperties.DbTablePrefix + "FilePaths", FileManagementDbProperties.DbSchema);
+                b.ConfigureByConvention();
+
+                b.Property(x => x.FullPath).IsRequired();
+
+                b.HasKey(x => new { x.FileId });
             })
             .Entity<FileAccessToken>(b =>
             {
                 b.ToTable(FileManagementDbProperties.DbTablePrefix + "FileAccessTokens", FileManagementDbProperties.DbSchema);
                 b.ConfigureByConvention();
 
-                b.Property(q => q.Token).IsRequired().HasMaxLength(FileManagementConsts.MaxFileAccessTokenTokenLength);
+                b.Property(x => x.Token).IsRequired().HasMaxLength(FileManagementConsts.MaxFileAccessTokenTokenLength);
 
-                b.HasIndex(q => q.Token);
-                b.HasIndex(q => q.FileId);
+                b.Property(x => x.FileName).IsRequired().HasMaxLength(FileManagementConsts.MaxFileItemFileNameLength);
+                b.Property(x => x.MimeType).HasMaxLength(FileManagementConsts.MaxFileItemMimeTypeLength);
+
+                b.HasIndex(x => x.Token);
+                b.HasIndex(x => x.FileId);
             });
     }
 }

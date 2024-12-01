@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Passingwind.Abp.FileManagement.Files;
 
 namespace Passingwind.Abp.FileManagement;
 
@@ -12,6 +11,6 @@ public class FileManagementApplicationAutoMapperProfile : Profile
          * into multiple profile classes for a better organization. */
 
         CreateMap<FileContainer, FileContainerDto>();
-        CreateMap<File, FileDto>();
+        CreateMap<FileItem, FileDto>();
     }
 }

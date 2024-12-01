@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Passingwind.Abp.FileManagement.Files;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Entities.Events;
 using Volo.Abp.EventBus;
@@ -8,8 +7,8 @@ using Volo.Abp.Uow;
 namespace Passingwind.Abp.FileManagement.EventHandler;
 
 public class FileEventHander :
-    ILocalEventHandler<EntityCreatedEventData<File>>,
-    ILocalEventHandler<EntityDeletedEventData<File>>,
+    ILocalEventHandler<EntityCreatedEventData<FileItem>>,
+    ILocalEventHandler<EntityDeletedEventData<FileItem>>,
     ITransientDependency
 {
     private readonly IFileContainerRepository _fileContainerRepository;
@@ -20,7 +19,7 @@ public class FileEventHander :
     }
 
     [UnitOfWork]
-    public virtual async Task HandleEventAsync(EntityCreatedEventData<File> eventData)
+    public virtual async Task HandleEventAsync(EntityCreatedEventData<FileItem> eventData)
     {
         var entity = eventData.Entity;
 
@@ -34,7 +33,7 @@ public class FileEventHander :
     }
 
     [UnitOfWork]
-    public virtual async Task HandleEventAsync(EntityDeletedEventData<File> eventData)
+    public virtual async Task HandleEventAsync(EntityDeletedEventData<FileItem> eventData)
     {
         var entity = eventData.Entity;
 

@@ -11,12 +11,12 @@
   <ItemGroup>
     <PackageReference Include="Volo.Abp.Ddd.Domain" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.BlobStoring" Version="$(AbpVersion)" />
-    <ProjectReference Include="..\Passingwind.Abp.FileManagement.Domain.Shared\Passingwind.Abp.FileManagement.Domain.Shared.csproj" />
+    <PackageReference Include="SharpCompress" Version="0.34.0" />
+    <PackageReference Include="MimeMapping" Version="3.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MimeTypesMap" Version="1.0.8" />
-    <!--<PackageReference Include="Nanoid" Version="2.1.0" />-->
+    <ProjectReference Include="..\Passingwind.Abp.FileManagement.Domain.Shared\Passingwind.Abp.FileManagement.Domain.Shared.csproj" />
   </ItemGroup>
 
 </Project>

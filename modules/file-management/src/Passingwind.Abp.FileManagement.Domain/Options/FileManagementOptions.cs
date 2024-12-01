@@ -1,12 +1,20 @@
-﻿using Passingwind.Abp.FileManagement.Files;
-
-namespace Passingwind.Abp.FileManagement.Options;
+﻿namespace Passingwind.Abp.FileManagement.Options;
 
 /// <summary>
 ///  File management options
 /// </summary>
 public class FileManagementOptions
 {
+    /// <summary>
+    ///  Default: true
+    /// </summary>
+    public bool AutoCreateDefaultContainer { get; set; } = true;
+
+    /// <summary>
+    ///  Default: true
+    /// </summary>
+    public bool AutoRefreshFullPath { get; set; } = true;
+
     /// <summary>
     ///  Default: 'default'
     /// </summary>
