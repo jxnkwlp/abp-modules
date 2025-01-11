@@ -10,10 +10,11 @@
     "FileManagement:Error:DirectoryExists": "文件夹'{name}'已经存在",
     "FileManagement:Error:DirectoryHasFiles": "文件夹'{name}'内存在文件",
     "FileManagement:Error:ShareFileNotExistsOrExpired": "下载文件不存在或者访问Token已过期",
+    "FileManagement:Error:BlobNotExists": "文件不存在",
 
     "Permission:FileManagement": "文件管理",
     "Permission:FileManagement.FileContainer": "文件容器",
-    "Permission:FileManagement.File": "文件", 
+    "Permission:FileManagement.File": "文件",
     "Permission:Create": "创建",
     "Permission:Update": "编辑",
     "Permission:Delete": "删除"

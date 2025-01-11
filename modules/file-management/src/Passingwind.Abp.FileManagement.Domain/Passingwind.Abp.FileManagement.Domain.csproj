@@ -11,6 +11,7 @@
   <ItemGroup>
     <PackageReference Include="Volo.Abp.Ddd.Domain" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.BlobStoring" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.BlobStoring.FileSystem" Version="$(AbpVersion)" />
     <PackageReference Include="SharpCompress" Version="0.34.0" />
     <PackageReference Include="MimeMapping" Version="3.0.1" />
   </ItemGroup>

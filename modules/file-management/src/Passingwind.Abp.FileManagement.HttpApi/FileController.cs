@@ -21,13 +21,13 @@ public class FileController : FileManagementController, IFileAppService
     }
 
     [HttpGet("{containerName}")]
-    public virtual Task<PagedResultDto<FileDto>> GetListAsync(string containerName, FilePagedListRequestDto input)
+    public virtual Task<PagedResultDto<FileItemDto>> GetListAsync(string containerName, FilePagedListRequestDto input)
     {
         return _service.GetListAsync(containerName, input);
     }
 
     [HttpGet("{containerName}/{id}")]
-    public virtual Task<FileDto> GetAsync(string containerName, Guid id)
+    public virtual Task<FileItemDto> GetAsync(string containerName, Guid id)
     {
         return _service.GetAsync(containerName, id);
     }
@@ -52,37 +52,37 @@ public class FileController : FileManagementController, IFileAppService
 
     [HttpPost("{containerName}")]
     [Consumes("multipart/form-data")]
-    public virtual Task<FileDto> CreateAsync(string containerName, [FromForm] FileCreateDto input)
+    public virtual Task<FileItemDto> CreateAsync(string containerName, [FromForm] FileCreateDto input)
     {
         return _service.CreateAsync(containerName, input);
     }
 
     [NonAction]
-    public virtual Task<FileDto> CreateByStreamAsync(string containerName, FileCreateByStreamDto input)
+    public virtual Task<FileItemDto> CreateByStreamAsync(string containerName, FileCreateByStreamDto input)
     {
         return _service.CreateByStreamAsync(containerName, input);
     }
 
     [NonAction]
-    public virtual Task<FileDto> CreateByBytesAsync(string containerName, FileCreateByBytesDto input)
+    public virtual Task<FileItemDto> CreateByBytesAsync(string containerName, FileCreateByBytesDto input)
     {
         return _service.CreateByBytesAsync(containerName, input);
     }
 
     [HttpPost("{containerName}/{id}/move")]
-    public virtual Task<FileDto> MoveAsync(string containerName, Guid id, FileMoveRequestDto input)
+    public virtual Task<FileItemDto> MoveAsync(string containerName, Guid id, FileMoveRequestDto input)
     {
         return _service.MoveAsync(containerName, id, input);
     }
 
     [HttpPut("{containerName}/{id}/rename")]
-    public virtual Task<FileDto> RenameAsync(string containerName, Guid id, FileUpdateDto input)
+    public virtual Task<FileItemDto> RenameAsync(string containerName, Guid id, FileUpdateDto input)
     {
         return _service.RenameAsync(containerName, id, input);
     }
 
     [HttpPost("{containerName}/directory")]
-    public virtual Task<FileDto> CreateDirectoryAsync(string containerName, FileDirectoryCreateDto input)
+    public virtual Task<FileItemDto> CreateDirectoryAsync(string containerName, FileDirectoryCreateDto input)
     {
         return _service.CreateDirectoryAsync(containerName, input);
     }

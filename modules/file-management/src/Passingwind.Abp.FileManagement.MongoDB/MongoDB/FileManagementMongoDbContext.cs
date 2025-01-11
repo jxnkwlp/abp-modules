@@ -5,7 +5,7 @@ using Volo.Abp.MongoDB;
 namespace Passingwind.Abp.FileManagement.MongoDB;
 
 [ConnectionStringName(FileManagementDbProperties.ConnectionStringName)]
-public class FileManagementMongoDbContext : AbpMongoDbContext, IJadeFileManagementMongoDbContext
+public class FileManagementMongoDbContext : AbpMongoDbContext, IFileManagementMongoDbContext
 {
     public IMongoCollection<FileContainer> FileContainers => Collection<FileContainer>();
     public IMongoCollection<FileItem> Files => Collection<FileItem>();

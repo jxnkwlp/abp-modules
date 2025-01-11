@@ -11,6 +11,6 @@ public class FileManagementApplicationAutoMapperProfile : Profile
          * into multiple profile classes for a better organization. */
 
         CreateMap<FileContainer, FileContainerDto>();
-        CreateMap<FileItem, FileDto>();
+        CreateMap<FileItem, FileItemDto>();
     }
 }

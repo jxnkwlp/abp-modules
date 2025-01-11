@@ -33,7 +33,7 @@ public class FileCompressionAppService : FileManagementAppService, IFileCompress
         _fileRenameProvider = fileRenameProvider;
     }
 
-    public virtual async Task<FileDto> CompressToFileAsync(string containerName, FileCompressRequestDto input)
+    public virtual async Task<FileItemDto> CompressToFileAsync(string containerName, FileCompressRequestDto input)
     {
         var container = await _fileContainerManager.GetByNameAsync(containerName);
 
@@ -49,7 +49,7 @@ public class FileCompressionAppService : FileManagementAppService, IFileCompress
 
         var file = await CreateFileAsync(container, input.FileName, resultStream);
 
-        return ObjectMapper.Map<FileItem, FileDto>(file);
+        return ObjectMapper.Map<FileItem, FileItemDto>(file);
     }
 
     public virtual async Task<Stream?> CompressToStreamAsync(string containerName, FileCompressRequestDto input)

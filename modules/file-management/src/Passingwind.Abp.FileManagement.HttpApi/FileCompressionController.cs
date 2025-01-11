@@ -28,7 +28,7 @@ public class FileCompressionController : FileManagementController, IFileCompress
 
     /// <inheritdoc/>
     [HttpPost("{containerName}/compress")]
-    public virtual Task<FileDto> CompressToFileAsync(string containerName, FileCompressRequestDto input)
+    public virtual Task<FileItemDto> CompressToFileAsync(string containerName, FileCompressRequestDto input)
     {
         return _service.CompressToFileAsync(containerName, input);
     }

@@ -12,19 +12,19 @@ namespace Passingwind.Abp.FileManagement;
 /// </summary>
 public interface IFileAdminAppService : IApplicationService
 {
-    Task<PagedResultDto<FileDto>> GetListAsync(Guid containerId, FilePagedListRequestDto input);
+    Task<PagedResultDto<FileItemDto>> GetListAsync(Guid containerId, FilePagedListRequestDto input);
 
-    Task<FileDto> GetAsync(Guid containerId, Guid id);
+    Task<FileItemDto> GetAsync(Guid containerId, Guid id);
 
-    Task<FileDto> CreateDirectoryAsync(Guid containerId, FileDirectoryCreateDto input);
+    Task<FileItemDto> CreateDirectoryAsync(Guid containerId, FileDirectoryCreateDto input);
 
-    Task<FileDto> CreateAsync(Guid containerId, FileCreateDto input);
-    Task<FileDto> CreateByStreamAsync(Guid containerId, FileCreateByStreamDto input);
-    Task<FileDto> CreateByBytesAsync(Guid containerId, FileCreateByBytesDto input);
+    Task<FileItemDto> CreateAsync(Guid containerId, FileCreateDto input);
+    Task<FileItemDto> CreateByStreamAsync(Guid containerId, FileCreateByStreamDto input);
+    Task<FileItemDto> CreateByBytesAsync(Guid containerId, FileCreateByBytesDto input);
 
-    Task<FileDto> UpdateAsync(Guid containerId, Guid id, FileUpdateDto input);
+    Task<FileItemDto> UpdateAsync(Guid containerId, Guid id, FileUpdateDto input);
 
-    Task<FileDto> MoveAsync(Guid containerId, Guid id, FileMoveAdminRequestDto input);
+    Task<FileItemDto> MoveAsync(Guid containerId, Guid id, FileMoveAdminRequestDto input);
 
     Task<IRemoteStreamContent?> GetBlobAsync(Guid containerId, Guid id);
     Task<Stream?> GeBlobStreamAsync(Guid containerId, Guid id);

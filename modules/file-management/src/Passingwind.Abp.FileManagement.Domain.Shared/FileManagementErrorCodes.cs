@@ -12,7 +12,8 @@ public static class FileManagementErrorCodes
     public const string DirectoryExists = "FileManagement:Error:DirectoryExists";
     public const string DirectoryHasFiles = "FileManagement:Error:DirectoryHasFiles";
     public const string ShareFileNotExistsOrExpired = "FileManagement:Error:ShareFileNotExistsOrExpired";
+    public const string BlobNotExists = "FileManagement:Error:BlobNotExists";
 
-    public const string FileCompressFailed = "JadeFileManagement:Error:FileCompressFailed";
-    public const string FileDecompressFailed = "JadeFileManagement:Error:FileDecompressFailed";
+    public const string FileCompressFailed = "FileManagement:Error:FileCompressFailed";
+    public const string FileDecompressFailed = "FileManagement:Error:FileDecompressFailed";
 }

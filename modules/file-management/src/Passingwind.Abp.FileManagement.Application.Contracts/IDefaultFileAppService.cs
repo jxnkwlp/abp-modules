@@ -11,11 +11,11 @@ namespace Passingwind.Abp.FileManagement;
 /// </summary>
 public interface IFileCompatibleAppService : IApplicationService
 {
-    Task<FileDto> CreateAsync(DefaultFileCreateDto input);
+    Task<FileItemDto> CreateAsync(DefaultFileCreateDto input);
 
-    Task<FileDto> CreatebyStreamAsync(DefaultFileCreateByStreamDto input);
+    Task<FileItemDto> CreatebyStreamAsync(DefaultFileCreateByStreamDto input);
 
-    Task<FileDto> CreatebyBytesAsync(DefaultFileCreateByBytesDto input);
+    Task<FileItemDto> CreatebyBytesAsync(DefaultFileCreateByBytesDto input);
 
     Task<IRemoteStreamContent> GetBlobAsync(Guid id);
 

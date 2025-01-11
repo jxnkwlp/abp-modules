@@ -1,7 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Passingwind.Abp.FileManagement.Options;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
@@ -17,32 +15,26 @@ public class FileManagementDataSeedContributor : IDataSeedContributor, ITransien
     private readonly IFileContainerRepository _fileContainerRepository;
     private readonly IFileItemRepository _fileRepository;
     private readonly IFileManager _fileManager;
-    private readonly IOptions<FileManagementOptions> _options;
 
     public FileManagementDataSeedContributor(
         ILogger<FileManagementDataSeedContributor> logger,
         IGuidGenerator guidGenerator,
         IFileContainerRepository fileContainerRepository,
         IFileItemRepository fileRepository,
-        IFileManager fileManager,
-        IOptions<FileManagementOptions> options)
+        IFileManager fileManager)
     {
         _logger = logger;
         _guidGenerator = guidGenerator;
         _fileContainerRepository = fileContainerRepository;
         _fileRepository = fileRepository;
         _fileManager = fileManager;
-        _options = options;
     }
 
     [UnitOfWork]
     public virtual async Task SeedAsync(DataSeedContext context)
     {
-        if (_options.Value.AutoCreateDefaultContainer)
-            await CreateDefaultContainer();
-
-        if (_options.Value.AutoRefreshFullPath)
-            await UpdateFullPathAsync();
+        await CreateDefaultContainer();
+        await UpdateFullPathAsync();
     }
 
     protected virtual async Task CreateDefaultContainer()

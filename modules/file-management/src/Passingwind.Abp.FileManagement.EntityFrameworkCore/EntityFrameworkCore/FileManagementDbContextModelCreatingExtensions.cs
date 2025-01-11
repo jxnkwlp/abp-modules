@@ -36,7 +36,7 @@ public static class FileManagementDbContextModelCreatingExtensions
             })
             .Entity<FileItem>(b =>
             {
-                b.ToTable(FileManagementDbProperties.DbTablePrefix + "Files", FileManagementDbProperties.DbSchema);
+                b.ToTable(FileManagementDbProperties.DbTablePrefix + "FileItems", FileManagementDbProperties.DbSchema);
                 b.ConfigureByConvention();
 
                 b.Property(x => x.FileName).IsRequired().HasMaxLength(FileManagementConsts.MaxFileItemFileNameLength);

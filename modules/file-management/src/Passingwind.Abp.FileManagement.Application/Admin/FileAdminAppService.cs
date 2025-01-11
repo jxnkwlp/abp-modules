@@ -37,7 +37,7 @@ public class FileAdminAppService : FileManagementAppService, IFileAdminAppServic
         FileMimeTypeProvider = fileMimeTypeProvider;
     }
 
-    public virtual async Task<PagedResultDto<FileDto>> GetListAsync(Guid containerId, FilePagedListRequestDto input)
+    public virtual async Task<PagedResultDto<FileItemDto>> GetListAsync(Guid containerId, FilePagedListRequestDto input)
     {
         var count = await FileRepository.GetCountAsync(
             filter: input.Filter,
@@ -53,18 +53,18 @@ public class FileAdminAppService : FileManagementAppService, IFileAdminAppServic
             isDirectory: input.IsDirectory,
             sorting: input.Sorting ?? $"{nameof(FileItem.IsDirectory)} desc,{nameof(FileItem.FileName)}");
 
-        return new PagedResultDto<FileDto>()
+        return new PagedResultDto<FileItemDto>()
         {
-            Items = ObjectMapper.Map<List<FileItem>, List<FileDto>>(list),
+            Items = ObjectMapper.Map<List<FileItem>, List<FileItemDto>>(list),
             TotalCount = count,
         };
     }
 
-    public virtual async Task<FileDto> GetAsync(Guid containerId, Guid id)
+    public virtual async Task<FileItemDto> GetAsync(Guid containerId, Guid id)
     {
         var entity = await FileRepository.GetAsync(id);
 
-        return containerId != entity.ContainerId ? throw new EntityNotFoundException() : ObjectMapper.Map<FileItem, FileDto>(entity);
+        return containerId != entity.ContainerId ? throw new EntityNotFoundException() : ObjectMapper.Map<FileItem, FileItemDto>(entity);
     }
 
     [Authorize(FileManagementPermissions.Files.Delete)]
@@ -119,7 +119,7 @@ public class FileAdminAppService : FileManagementAppService, IFileAdminAppServic
     }
 
     [Authorize(FileManagementPermissions.Files.Upload)]
-    public virtual async Task<FileDto> CreateAsync(Guid containerId, FileCreateDto input)
+    public virtual async Task<FileItemDto> CreateAsync(Guid containerId, FileCreateDto input)
     {
         var container = await FileContainerRepository.GetAsync(containerId);
 
@@ -127,11 +127,11 @@ public class FileAdminAppService : FileManagementAppService, IFileAdminAppServic
 
         var entity = await CreateFileAsync(container, fileName: input.File.FileName!, parentId: input.ParentId ?? Guid.Empty, mimeType: null, fileBytes: fileBytes, overExists: input.Override, extensibleObject: input);
 
-        return ObjectMapper.Map<FileItem, FileDto>(entity);
+        return ObjectMapper.Map<FileItem, FileItemDto>(entity);
     }
 
     [Authorize(FileManagementPermissions.Files.Upload)]
-    public virtual async Task<FileDto> CreateByStreamAsync(Guid containerId, FileCreateByStreamDto input)
+    public virtual async Task<FileItemDto> CreateByStreamAsync(Guid containerId, FileCreateByStreamDto input)
     {
         var container = await FileContainerRepository.GetAsync(containerId);
 
@@ -139,11 +139,11 @@ public class FileAdminAppService : FileManagementAppService, IFileAdminAppServic
 
         var entity = await CreateFileAsync(container, fileName: input.FileName, parentId: input.ParentId ?? Guid.Empty, mimeType: input.MimeType, fileBytes: bytes, overExists: input.Override, extensibleObject: input);
 
-        return ObjectMapper.Map<FileItem, FileDto>(entity);
+        return ObjectMapper.Map<FileItem, FileItemDto>(entity);
     }
 
     [Authorize(FileManagementPermissions.Files.Upload)]
-    public virtual async Task<FileDto> CreateByBytesAsync(Guid containerId, FileCreateByBytesDto input)
+    public virtual async Task<FileItemDto> CreateByBytesAsync(Guid containerId, FileCreateByBytesDto input)
     {
         var container = await FileContainerRepository.GetAsync(containerId);
 
@@ -151,11 +151,11 @@ public class FileAdminAppService : FileManagementAppService, IFileAdminAppServic
 
         var entity = await CreateFileAsync(container, fileName: input.FileName, parentId: input.ParentId ?? Guid.Empty, mimeType: input.MimeType, fileBytes: bytes, overExists: input.Override, extensibleObject: input);
 
-        return ObjectMapper.Map<FileItem, FileDto>(entity);
+        return ObjectMapper.Map<FileItem, FileItemDto>(entity);
     }
 
     [Authorize(FileManagementPermissions.Files.Update)]
-    public virtual async Task<FileDto> MoveAsync(Guid containerId, Guid id, FileMoveAdminRequestDto input)
+    public virtual async Task<FileItemDto> MoveAsync(Guid containerId, Guid id, FileMoveAdminRequestDto input)
     {
         var container = await FileContainerRepository.GetAsync(containerId);
 
@@ -165,11 +165,11 @@ public class FileAdminAppService : FileManagementAppService, IFileAdminAppServic
 
         await FileManager.MoveAsync(fileId: id, targetFileName: input.NewFileName ?? entity.FileName, targetParentId: input.TargetParentId);
 
-        return ObjectMapper.Map<FileItem, FileDto>(await FileRepository.GetAsync(id));
+        return ObjectMapper.Map<FileItem, FileItemDto>(await FileRepository.GetAsync(id));
     }
 
     [Authorize(FileManagementPermissions.Files.Update)]
-    public virtual async Task<FileDto> UpdateAsync(Guid containerId, Guid id, FileUpdateDto input)
+    public virtual async Task<FileItemDto> UpdateAsync(Guid containerId, Guid id, FileUpdateDto input)
     {
         var container = await FileContainerRepository.GetAsync(containerId);
 
@@ -188,10 +188,10 @@ public class FileAdminAppService : FileManagementAppService, IFileAdminAppServic
         input.MapExtraPropertiesTo(entity);
         await FileRepository.UpdateAsync(entity);
 
-        return ObjectMapper.Map<FileItem, FileDto>(await FileRepository.GetAsync(id));
+        return ObjectMapper.Map<FileItem, FileItemDto>(await FileRepository.GetAsync(id));
     }
 
-    public virtual async Task<FileDto> CreateDirectoryAsync(Guid containerId, FileDirectoryCreateDto input)
+    public virtual async Task<FileItemDto> CreateDirectoryAsync(Guid containerId, FileDirectoryCreateDto input)
     {
         await FileContainerRepository.GetAsync(containerId);
 
@@ -216,7 +216,7 @@ public class FileAdminAppService : FileManagementAppService, IFileAdminAppServic
 
         entity = await FileRepository.UpdateAsync(entity!);
 
-        return ObjectMapper.Map<FileItem, FileDto>(entity);
+        return ObjectMapper.Map<FileItem, FileItemDto>(entity);
     }
 
     protected virtual async Task<FileItem> CreateFileAsync(FileContainer container, string fileName, Guid parentId, string? mimeType, byte[] fileBytes, bool overExists = false, ExtensibleObject? extensibleObject = null)

@@ -3,7 +3,7 @@ using Volo.Abp.ExceptionHandling;
 
 namespace Passingwind.Abp.FileManagement;
 
-public class BlobNotFoundException : Exception, IHasHttpStatusCode
+public class BlobNotFoundException : Exception, IHasHttpStatusCode, IHasErrorCode
 {
     public BlobNotFoundException()
     {
@@ -18,4 +18,6 @@ public class BlobNotFoundException : Exception, IHasHttpStatusCode
     }
 
     public int HttpStatusCode => 404;
+
+    public string? Code => FileManagementErrorCodes.BlobNotExists;
 }

@@ -12,19 +12,19 @@ namespace Passingwind.Abp.FileManagement;
 /// </summary>
 public interface IFileAppService : IApplicationService
 {
-    Task<PagedResultDto<FileDto>> GetListAsync(string containerName, FilePagedListRequestDto input);
+    Task<PagedResultDto<FileItemDto>> GetListAsync(string containerName, FilePagedListRequestDto input);
 
-    Task<FileDto> GetAsync(string containerName, Guid id);
+    Task<FileItemDto> GetAsync(string containerName, Guid id);
 
-    Task<FileDto> CreateDirectoryAsync(string containerName, FileDirectoryCreateDto input);
+    Task<FileItemDto> CreateDirectoryAsync(string containerName, FileDirectoryCreateDto input);
 
-    Task<FileDto> CreateAsync(string containerName, FileCreateDto input);
-    Task<FileDto> CreateByStreamAsync(string containerName, FileCreateByStreamDto input);
-    Task<FileDto> CreateByBytesAsync(string containerName, FileCreateByBytesDto input);
+    Task<FileItemDto> CreateAsync(string containerName, FileCreateDto input);
+    Task<FileItemDto> CreateByStreamAsync(string containerName, FileCreateByStreamDto input);
+    Task<FileItemDto> CreateByBytesAsync(string containerName, FileCreateByBytesDto input);
 
-    Task<FileDto> RenameAsync(string containerName, Guid id, FileUpdateDto input);
+    Task<FileItemDto> RenameAsync(string containerName, Guid id, FileUpdateDto input);
 
-    Task<FileDto> MoveAsync(string containerName, Guid id, FileMoveRequestDto input);
+    Task<FileItemDto> MoveAsync(string containerName, Guid id, FileMoveRequestDto input);
 
     Task<IRemoteStreamContent?> GetBlobAsync(string containerName, Guid id);
     Task<Stream?> GeBlobStreamAsync(string containerName, Guid id);

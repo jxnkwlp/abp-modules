@@ -222,7 +222,6 @@ public class FileFluentManager : IFileFluentManager, IScopedDependency
             {
                 dir = await CreateDirectoryAsync(filePath.GetDirectory(), cancellationToken);
             }
-
             parentId = dir.Id;
         }
 

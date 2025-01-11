@@ -22,56 +22,56 @@ public class FileAdminController : FileManagementController, IFileAdminAppServic
 
     /// <inheritdoc/>
     [HttpGet]
-    public virtual Task<PagedResultDto<FileDto>> GetListAsync(Guid containerId, FilePagedListRequestDto input)
+    public virtual Task<PagedResultDto<FileItemDto>> GetListAsync(Guid containerId, FilePagedListRequestDto input)
     {
         return _service.GetListAsync(containerId, input);
     }
 
     /// <inheritdoc/>
     [HttpGet("{id}")]
-    public virtual Task<FileDto> GetAsync(Guid containerId, Guid id)
+    public virtual Task<FileItemDto> GetAsync(Guid containerId, Guid id)
     {
         return _service.GetAsync(containerId, id);
     }
 
     /// <inheritdoc/>
     [HttpPost("directories")]
-    public virtual Task<FileDto> CreateDirectoryAsync(Guid containerId, FileDirectoryCreateDto input)
+    public virtual Task<FileItemDto> CreateDirectoryAsync(Guid containerId, FileDirectoryCreateDto input)
     {
         return _service.CreateDirectoryAsync(containerId, input);
     }
 
     /// <inheritdoc/>
     [HttpPost]
-    public virtual Task<FileDto> CreateAsync(Guid containerId, [FromForm] FileCreateDto input)
+    public virtual Task<FileItemDto> CreateAsync(Guid containerId, [FromForm] FileCreateDto input)
     {
         return _service.CreateAsync(containerId, input);
     }
 
     /// <inheritdoc/>
     [NonAction]
-    public virtual Task<FileDto> CreateByStreamAsync(Guid containerId, FileCreateByStreamDto input)
+    public virtual Task<FileItemDto> CreateByStreamAsync(Guid containerId, FileCreateByStreamDto input)
     {
         return _service.CreateByStreamAsync(containerId, input);
     }
 
     /// <inheritdoc/>
     [NonAction]
-    public virtual Task<FileDto> CreateByBytesAsync(Guid containerId, FileCreateByBytesDto input)
+    public virtual Task<FileItemDto> CreateByBytesAsync(Guid containerId, FileCreateByBytesDto input)
     {
         return _service.CreateByBytesAsync(containerId, input);
     }
 
     /// <inheritdoc/>
     [HttpPut("{id}")]
-    public virtual Task<FileDto> UpdateAsync(Guid containerId, Guid id, FileUpdateDto input)
+    public virtual Task<FileItemDto> UpdateAsync(Guid containerId, Guid id, FileUpdateDto input)
     {
         return _service.UpdateAsync(containerId, id, input);
     }
 
     /// <inheritdoc/>
     [HttpPost("{id}/move")]
-    public virtual Task<FileDto> MoveAsync(Guid containerId, Guid id, FileMoveAdminRequestDto input)
+    public virtual Task<FileItemDto> MoveAsync(Guid containerId, Guid id, FileMoveAdminRequestDto input)
     {
         return _service.MoveAsync(containerId, id, input);
     }

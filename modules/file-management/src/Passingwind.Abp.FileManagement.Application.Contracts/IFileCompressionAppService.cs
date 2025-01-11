@@ -19,7 +19,7 @@ public interface IFileCompressionAppService : IApplicationService
     /// <summary>
     ///  Compress some files into specified file, and return file info
     /// </summary>
-    Task<FileDto> CompressToFileAsync(string containerName, FileCompressRequestDto input);
+    Task<FileItemDto> CompressToFileAsync(string containerName, FileCompressRequestDto input);
 
     /// <summary>
     ///  Compress some files into specified file, and return file info
