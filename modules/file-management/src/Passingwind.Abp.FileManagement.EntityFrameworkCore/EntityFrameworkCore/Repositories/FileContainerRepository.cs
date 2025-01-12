@@ -1,11 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Passingwind.Abp.FileManagement.Files;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
@@ -18,11 +17,13 @@ public class FileContainerRepository : EfCoreRepository<FileManagementDbContext,
     {
     }
 
-    public virtual async Task<bool> CheckExistsAsync(FileContainer fileContainer, CancellationToken cancellationToken = default)
+    public virtual async Task<bool> IsNameExistsAsync(string name, Guid[]? excludeIds = null, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
 
-        return await dbset.AnyAsync(x => x.Id != fileContainer.Id && x.Name == fileContainer.Name, cancellationToken);
+        return await dbset
+            .WhereIf(excludeIds?.Length > 0, x => !excludeIds!.Contains(x.Id))
+            .AnyAsync(x => x.Name == name, cancellationToken: cancellationToken);
     }
 
     public virtual async Task<long> GetCountAsync(string? filter = null, Guid? userId = null, CancellationToken cancellationToken = default)
@@ -51,6 +52,15 @@ public class FileContainerRepository : EfCoreRepository<FileManagementDbContext,
         return entity ?? throw new EntityNotFoundException();
     }
 
+    public virtual async Task<List<FileContainer>> GetListByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellationToken = default)
+    {
+        var dbset = await GetDbSetAsync();
+
+        return await dbset
+            .Where(x => ids.Contains(x.Id))
+            .ToListAsync(cancellationToken);
+    }
+
     public virtual async Task<List<FileContainer>> GetListAsync(string? filter = null, Guid? userId = null, bool includeDetails = false, CancellationToken cancellationToken = default)
     {
         var dbset = await GetDbSetAsync();
@@ -77,6 +87,8 @@ public class FileContainerRepository : EfCoreRepository<FileManagementDbContext,
     {
         var dbset = await GetDbSetAsync();
 
-        await dbset.Where(x => x.Name == name).ExecuteUpdateAsync(x => x.SetProperty(s => s.FilesCount, s => s.FilesCount + adjustment), cancellationToken: cancellationToken);
+        await dbset
+            .Where(x => x.Name == name)
+            .ExecuteUpdateAsync(x => x.SetProperty(s => s.FilesCount, s => s.FilesCount + adjustment), cancellationToken: cancellationToken);
     }
 }

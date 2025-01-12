@@ -6,7 +6,7 @@ public class FileManagementPermissions
 {
     public const string GroupName = "FileManagement";
 
-    public static class FileContainer
+    public static class FileContainers
     {
         public const string Default = GroupName + ".FileContainer";
         public const string Create = Default + ".Create";
@@ -14,9 +14,18 @@ public class FileManagementPermissions
         public const string Delete = Default + ".Delete";
     }
 
-    public static class File
+    public static class Files
     {
         public const string Default = GroupName + ".File";
+        public const string Update = GroupName + ".Update";
+        public const string Delete = Default + ".Delete";
+        public const string Upload = GroupName + ".Upload";
+        public const string Download = GroupName + ".Download";
+    }
+
+    public static class FileShares
+    {
+        public const string Default = GroupName + ".FileShares";
         public const string Delete = Default + ".Delete";
     }
 

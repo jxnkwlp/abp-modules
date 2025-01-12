@@ -6,7 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
-using Passingwind.Abp.FileManagement.Files;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories.MongoDB;
 using Volo.Abp.MongoDB;
@@ -19,11 +18,14 @@ public class FileContainerRepository : MongoDbRepository<FileManagementMongoDbCo
     {
     }
 
-    public virtual async Task<bool> CheckExistsAsync(FileContainer fileContainer, CancellationToken cancellationToken = default)
+    public virtual async Task<bool> IsNameExistsAsync(string name, Guid[]? excludeIds = null, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
 
-        return await query.AnyAsync(x => x.Id != fileContainer.Id && x.Name == fileContainer.Name, cancellationToken);
+        return await query
+            .WhereIf(excludeIds?.Any() == true, x => !excludeIds.Contains(x.Id))
+            .As<IMongoQueryable<FileContainer>>()
+            .AnyAsync(x => x.Name == name, cancellationToken: cancellationToken);
     }
 
     public virtual async Task<long> GetCountAsync(string? filter = null, Guid? userId = null, CancellationToken cancellationToken = default)
@@ -53,6 +55,16 @@ public class FileContainerRepository : MongoDbRepository<FileManagementMongoDbCo
         return entity ?? throw new EntityNotFoundException();
     }
 
+    public virtual async Task<List<FileContainer>> GetListByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellationToken = default)
+    {
+        var query = await GetMongoQueryableAsync();
+
+        return await query
+            .Where(x => ids.Contains(x.Id))
+            .As<IMongoQueryable<FileContainer>>()
+            .ToListAsync(cancellationToken);
+    }
+
     public virtual async Task<List<FileContainer>> GetListAsync(string? filter = null, Guid? userId = null, bool includeDetails = false, CancellationToken cancellationToken = default)
     {
         var query = await GetMongoQueryableAsync();
@@ -79,8 +91,7 @@ public class FileContainerRepository : MongoDbRepository<FileManagementMongoDbCo
 
     public virtual async Task IncrementFileCountAsync(string name, int adjustment = 1, CancellationToken cancellationToken = default)
     {
-        var dbContext = await GetDbContextAsync(cancellationToken);
-        var collection = dbContext.Collection<FileContainer>();
+        var collection = await GetCollectionAsync(cancellationToken);
 
         var update = new UpdateDefinitionBuilder<FileContainer>();
 

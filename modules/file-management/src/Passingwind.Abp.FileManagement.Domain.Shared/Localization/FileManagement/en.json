@@ -10,6 +10,7 @@
     "FileManagement:Error:DirectoryExists": "The file directory '{name}' already exists",
     "FileManagement:Error:DirectoryHasFiles": "The file directory '{name}' has files",
     "FileManagement:Error:ShareFileNotExistsOrExpired": "The file not exists or token expired",
+    "FileManagement:Error:BlobNotExists": "The file blob is not exists",
 
     "Permission:FileManagement": "File management",
     "Permission:FileManagement.FileContainer": "File containers",

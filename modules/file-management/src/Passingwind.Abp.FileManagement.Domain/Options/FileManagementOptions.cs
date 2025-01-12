@@ -1,6 +1,4 @@
-﻿using Passingwind.Abp.FileManagement.Files;
-
-namespace Passingwind.Abp.FileManagement.Options;
+﻿namespace Passingwind.Abp.FileManagement.Options;
 
 /// <summary>
 ///  File management options

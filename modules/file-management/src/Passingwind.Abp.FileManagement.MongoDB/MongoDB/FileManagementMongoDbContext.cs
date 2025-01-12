@@ -1,5 +1,4 @@
 ﻿using MongoDB.Driver;
-using Passingwind.Abp.FileManagement.Files;
 using Volo.Abp.Data;
 using Volo.Abp.MongoDB;
 
@@ -9,7 +8,7 @@ namespace Passingwind.Abp.FileManagement.MongoDB;
 public class FileManagementMongoDbContext : AbpMongoDbContext, IFileManagementMongoDbContext
 {
     public IMongoCollection<FileContainer> FileContainers => Collection<FileContainer>();
-    public IMongoCollection<File> Files => Collection<File>();
+    public IMongoCollection<FileItem> Files => Collection<FileItem>();
     public IMongoCollection<FileAccessToken> FileAccessTokens => Collection<FileAccessToken>();
 
     protected override void CreateModel(IMongoModelBuilder modelBuilder)

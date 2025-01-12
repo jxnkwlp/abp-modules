@@ -11,8 +11,7 @@
   <ItemGroup>
     <PackageReference Include="Volo.Abp.Ddd.Application.Contracts" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.Authorization" Version="$(AbpVersion)" />
-    <ProjectReference
-      Include="..\Passingwind.Abp.FileManagement.Domain.Shared\Passingwind.Abp.FileManagement.Domain.Shared.csproj" />
+    <ProjectReference Include="..\Passingwind.Abp.FileManagement.Domain.Shared\Passingwind.Abp.FileManagement.Domain.Shared.csproj" />
   </ItemGroup>
 
 </Project>

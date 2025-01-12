@@ -99,8 +99,8 @@ public class SampleHttpApiHostModule : AbpModule
 
         Configure<FileManagementOptions>(options =>
         {
-            options.DefaultOverrideBehavior = Passingwind.Abp.FileManagement.Files.FileOverrideBehavior.Rename;
-            options.DefaultContainerAccessMode = Passingwind.Abp.FileManagement.Files.FileAccessMode.Readonly;
+            options.DefaultOverrideBehavior = FileOverrideBehavior.Rename;
+            options.DefaultContainerAccessMode = FileAccessMode.Authorized;
         });
 
         context.Services.AddHangfire(config =>
