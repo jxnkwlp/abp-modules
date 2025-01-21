@@ -10,13 +10,13 @@ namespace Passingwind.Abp.FileManagement.Admin;
 [Authorize(FileManagementPermissions.FileShares.Default)]
 public class FileShareAdminAppService : FileManagementAppService, IFileShareAdminAppService
 {
-    protected IFileManager FileManager { get; }
+    protected IFileItemManager FileManager { get; }
     protected IFileItemRepository FileRepository { get; }
     protected IFileContainerRepository FileContainerRepository { get; }
     protected IFileAccessTokenRepository FileAccessTokenRepository { get; }
 
     public FileShareAdminAppService(
-        IFileManager fileManager,
+        IFileItemManager fileManager,
         IFileItemRepository fileRepository,
         IFileContainerRepository fileContainerRepository,
         IFileAccessTokenRepository fileAccessTokenRepository)

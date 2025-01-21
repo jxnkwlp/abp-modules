@@ -18,14 +18,14 @@ namespace Passingwind.Abp.FileManagement.Admin;
 public class FileAdminAppService : FileManagementAppService, IFileAdminAppService
 {
     protected FileManagementOptions FileManagementOptions { get; }
-    protected IFileManager FileManager { get; }
+    protected IFileItemManager FileManager { get; }
     protected IFileItemRepository FileRepository { get; }
     protected IFileContainerRepository FileContainerRepository { get; }
     protected IFileMimeTypeProvider FileMimeTypeProvider { get; }
 
     public FileAdminAppService(
         IOptions<FileManagementOptions> fileManagementOptions,
-        IFileManager fileManager,
+        IFileItemManager fileManager,
         IFileItemRepository fileRepository,
         IFileContainerRepository fileContainerRepository,
         IFileMimeTypeProvider fileMimeTypeProvider)
@@ -180,7 +180,7 @@ public class FileAdminAppService : FileManagementAppService, IFileAdminAppServic
             await FileManager.ChangeNameAsync(id, input.FileName);
         }
 
-        if (input.Tags?.Length > 0)
+        if (input.Tags != null)
         {
             await FileManager.AddTagsAsync(id, input.Tags);
         }
@@ -242,6 +242,6 @@ public class FileAdminAppService : FileManagementAppService, IFileAdminAppServic
 
         await CheckFileIsInContainerAsync(container, entity);
 
-        await FileManager.SetTagsAsync(id, input.Tags ?? Array.Empty<string>());
+        await FileManager.SetTagsAsync(id, input.Tags);
     }
 }

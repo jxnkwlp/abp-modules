@@ -7,10 +7,13 @@ using Volo.Abp.Domain.Services;
 
 namespace Passingwind.Abp.FileManagement;
 
+[Obsolete]
+public interface IFileManager : IFileItemManager;
+
 /// <summary>
 ///  The file (directory) manager service
 /// </summary>
-public interface IFileManager : IDomainService
+public interface IFileItemManager : IDomainService
 {
     #region Get & Find
 
@@ -217,13 +220,17 @@ public interface IFileManager : IDomainService
 
     #region Tags
 
-    Task<IReadOnlyList<string>> GetTagsAsync(string container, string fileName, Guid? parentId = null, CancellationToken cancellationToken = default);
-    Task<IReadOnlyList<string>> GetTagsAsync(Guid containerId, string fileName, Guid? parentId = null, CancellationToken cancellationToken = default);
-    Task<IReadOnlyList<string>> GetTagsAsync(Guid fileId, CancellationToken cancellationToken = default);
+    Task<Dictionary<string, string?>> GetTagsAsync(string container, string fileName, Guid? parentId = null, CancellationToken cancellationToken = default);
+    Task<Dictionary<string, string?>> GetTagsAsync(Guid containerId, string fileName, Guid? parentId = null, CancellationToken cancellationToken = default);
+    Task<Dictionary<string, string?>> GetTagsAsync(Guid fileId, CancellationToken cancellationToken = default);
 
-    Task<FileItem> SetTagsAsync(Guid fileId, IEnumerable<string> tags, CancellationToken cancellationToken = default);
+    Task<string?> GetTagAsync(Guid fileId, string name, CancellationToken cancellationToken = default);
 
-    Task<FileItem> AddTagsAsync(Guid fileId, IEnumerable<string> tags, CancellationToken cancellationToken = default);
+    Task<FileItem> SetTagsAsync(Guid fileId, Dictionary<string, string?> tags, CancellationToken cancellationToken = default);
+
+    Task<FileItem> AddTagsAsync(Guid fileId, Dictionary<string, string?> tags, CancellationToken cancellationToken = default);
+
+    Task<FileItem> AddTagAsync(Guid fileId, string name, string? value = null, CancellationToken cancellationToken = default);
 
     Task RemoveTagsAsync(Guid fileId, CancellationToken cancellationToken = default);
 

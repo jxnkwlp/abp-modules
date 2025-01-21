@@ -9,13 +9,22 @@ using Microsoft.Extensions.Options;
 using Passingwind.Abp.FileManagement.Options;
 using Volo.Abp;
 using Volo.Abp.BlobStoring;
+using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Services;
 
 namespace Passingwind.Abp.FileManagement;
 
+[Obsolete]
+public class FileManager : FileItemManager, IFileManager, IScopedDependency
+{
+    public FileManager(IOptions<FileManagementOptions> fileManagementOptions, IFileItemRepository fileRepository, IFileContainerRepository fileContainerRepository, IBlobContainerFactory blobContainerFactor, IFileBlobNameGenerator fileBlobNameGenerator, IFileHashCalculator fileHashCalculator, IFileMimeTypeProvider fileMimeTypeProvider, IFileUniqueIdGenerator fileUniqueIdGenerator, IFileBlobContainerProvider fileBlobContainerProvider, IFileInfoCheckProvider fileInfoCheckProvider, IFileRenameProvider fileRenameProvider, IFileAccessTokenRepository fileAccessTokenRepository) : base(fileManagementOptions, fileRepository, fileContainerRepository, blobContainerFactor, fileBlobNameGenerator, fileHashCalculator, fileMimeTypeProvider, fileUniqueIdGenerator, fileBlobContainerProvider, fileInfoCheckProvider, fileRenameProvider, fileAccessTokenRepository)
+    {
+    }
+}
+
 /// <inheritdoc/>
-public class FileManager : DomainService, IFileManager
+public class FileItemManager : DomainService, IFileItemManager
 {
     protected IBlobContainerFactory BlobContainerFactor { get; }
     protected IFileAccessTokenRepository FileAccessTokenRepository { get; }
@@ -30,7 +39,7 @@ public class FileManager : DomainService, IFileManager
     protected IFileItemRepository FileRepository { get; }
     protected IFileUniqueIdGenerator FileUniqueIdGenerator { get; }
 
-    public FileManager(
+    public FileItemManager(
         IOptions<FileManagementOptions> fileManagementOptions,
         IFileItemRepository fileRepository,
         IFileContainerRepository fileContainerRepository,
@@ -722,8 +731,8 @@ public class FileManager : DomainService, IFileManager
         if (fileExists)
         {
             entity = await FileRepository.GetByNameAsync(fileContainer.Id, fileName, parentId, false, cancellationToken);
-            entity.SetLength(length);
-            entity.SetHash(hash);
+            entity.SetLength(length)
+                .SetHash(hash);
 
             await FileRepository.UpdateAsync(entity, true, cancellationToken: cancellationToken);
         }
@@ -1087,7 +1096,7 @@ public class FileManager : DomainService, IFileManager
 
     #region Tags
 
-    public virtual async Task<IReadOnlyList<string>> GetTagsAsync(string container, string fileName, Guid? parentId = null, CancellationToken cancellationToken = default)
+    public virtual async Task<Dictionary<string, string?>> GetTagsAsync(string container, string fileName, Guid? parentId = null, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrEmpty(container))
         {
@@ -1101,10 +1110,10 @@ public class FileManager : DomainService, IFileManager
 
         var entity = await FindAsync(container, fileName, parentId, cancellationToken);
 
-        return entity == null ? throw new EntityNotFoundException(typeof(FileItem)) : entity.Tags.ConvertAll(x => x.Name);
+        return entity == null ? throw new EntityNotFoundException(typeof(FileItem)) : entity.Tags.ToDictionary(x => x.Name, x => x.Value, StringComparer.InvariantCultureIgnoreCase);
     }
 
-    public virtual async Task<IReadOnlyList<string>> GetTagsAsync(Guid containerId, string fileName, Guid? parentId = null, CancellationToken cancellationToken = default)
+    public virtual async Task<Dictionary<string, string?>> GetTagsAsync(Guid containerId, string fileName, Guid? parentId = null, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrEmpty(fileName))
         {
@@ -1113,17 +1122,23 @@ public class FileManager : DomainService, IFileManager
 
         var entity = await FindAsync(containerId, fileName, parentId, cancellationToken);
 
-        return entity == null ? throw new EntityNotFoundException(typeof(FileItem)) : entity.Tags.ConvertAll(x => x.Name);
+        return entity == null ? throw new EntityNotFoundException(typeof(FileItem)) : entity.Tags.ToDictionary(x => x.Name, x => x.Value, StringComparer.InvariantCultureIgnoreCase);
     }
 
-    public virtual async Task<IReadOnlyList<string>> GetTagsAsync(Guid fileId, CancellationToken cancellationToken = default)
+    public virtual async Task<Dictionary<string, string?>> GetTagsAsync(Guid fileId, CancellationToken cancellationToken = default)
     {
         var entity = await FileRepository.GetAsync(fileId, cancellationToken: cancellationToken);
 
-        return entity == null ? throw new EntityNotFoundException(typeof(FileItem)) : entity.Tags.ConvertAll(x => x.Name);
+        return entity == null ? throw new EntityNotFoundException(typeof(FileItem)) : entity.Tags.ToDictionary(x => x.Name, x => x.Value, StringComparer.InvariantCultureIgnoreCase);
     }
 
-    public virtual async Task<FileItem> AddTagsAsync(Guid fileId, IEnumerable<string> tags, CancellationToken cancellationToken = default)
+    public virtual async Task<string?> GetTagAsync(Guid fileId, string name, CancellationToken cancellationToken = default)
+    {
+        var entity = await FileRepository.GetAsync(fileId, cancellationToken: cancellationToken);
+        return entity.Tags.Find(x => x.Name == name)?.Value;
+    }
+
+    public virtual async Task<FileItem> AddTagsAsync(Guid fileId, Dictionary<string, string?> tags, CancellationToken cancellationToken = default)
     {
         if (tags == null)
         {
@@ -1132,12 +1147,21 @@ public class FileManager : DomainService, IFileManager
 
         var entity = await FileRepository.GetAsync(fileId, cancellationToken: cancellationToken);
 
-        entity.AddTags(tags.ToArray());
+        entity.AddTags(tags);
 
         return await FileRepository.UpdateAsync(entity, true, cancellationToken: cancellationToken);
     }
 
-    public virtual async Task<FileItem> SetTagsAsync(Guid fileId, IEnumerable<string> tags, CancellationToken cancellationToken = default)
+    public virtual async Task<FileItem> AddTagAsync(Guid fileId, string name, string? value = null, CancellationToken cancellationToken = default)
+    {
+        var entity = await FileRepository.GetAsync(fileId, cancellationToken: cancellationToken);
+
+        entity.AddTag(name, value);
+
+        return await FileRepository.UpdateAsync(entity, true, cancellationToken: cancellationToken);
+    }
+
+    public virtual async Task<FileItem> SetTagsAsync(Guid fileId, Dictionary<string, string?> tags, CancellationToken cancellationToken = default)
     {
         if (tags == null)
         {
@@ -1147,7 +1171,7 @@ public class FileManager : DomainService, IFileManager
         var entity = await FileRepository.GetAsync(fileId, cancellationToken: cancellationToken);
 
         entity.Tags.Clear();
-        entity.AddTags(tags.ToArray());
+        entity.AddTags(tags);
 
         return await FileRepository.UpdateAsync(entity, true, cancellationToken: cancellationToken);
     }
@@ -1381,8 +1405,8 @@ public class FileManager : DomainService, IFileManager
             await DeleteAsync(existsTarget.Id, cancellationToken: cancellationToken);
         }
 
-        file.SetFileName(targetFileName);
-        file.ChangeParentId(targetParentId ?? Guid.Empty);
+        file.SetFileName(targetFileName)
+            .ChangeParentId(targetParentId ?? Guid.Empty);
 
         await RefreshFullPathAsync(file);
 

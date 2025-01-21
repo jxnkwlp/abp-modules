@@ -18,14 +18,14 @@ public class FileContainerAdminAppService : FileManagementAppService, IFileConta
     protected IFileContainerManager FileContainerManager { get; }
     protected IFileContainerRepository FileContainerRepository { get; }
     protected IFileItemRepository FileRepository { get; }
-    protected IFileManager FileManager { get; }
+    protected IFileItemManager FileManager { get; }
 
     public FileContainerAdminAppService(
         IOptions<FileManagementOptions> fileManagementOptions,
         IFileContainerManager fileContainerManager,
         IFileContainerRepository fileContainerRepository,
         IFileItemRepository fileRepository,
-        IFileManager fileManager)
+        IFileItemManager fileManager)
     {
         FileManagementOptions = fileManagementOptions.Value;
         FileContainerManager = fileContainerManager;
