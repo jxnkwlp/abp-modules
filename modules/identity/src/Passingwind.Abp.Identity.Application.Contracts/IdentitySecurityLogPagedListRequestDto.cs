@@ -14,4 +14,5 @@ public class IdentitySecurityLogPagedListRequestDto : PagedAndSortedResultReques
     public string? CorrelationId { get; set; }
     public DateTime? StartTime { get; set; }
     public DateTime? EndTime { get; set; }
+    public string? ClientIpAddress { get; set; }
 }

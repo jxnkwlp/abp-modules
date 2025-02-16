@@ -33,29 +33,31 @@ public class IdentitySecurityLogAppService : IdentityAppBaseService, IIdentitySe
     public virtual async Task<PagedResultDto<IdentitySecurityLogsDto>> GetListAsync(IdentitySecurityLogPagedListRequestDto input)
     {
         var count = await SecurityLogRepository.GetCountAsync(
-            input.StartTime,
-            input.EndTime,
-            input.ApplicationName,
-            input.Identity,
-            input.Action,
-            input.UserId,
-            input.UserName,
-            input.ClientId,
-            input.CorrelationId);
+            startTime: input.StartTime,
+            endTime: input.EndTime,
+            applicationName: input.ApplicationName,
+            identity: input.Identity,
+            action: input.Action,
+            userId: input.UserId,
+            userName: input.UserName,
+            clientId: input.ClientId,
+            correlationId: input.CorrelationId,
+            clientIpAddress: input.ClientIpAddress);
 
         var list = await SecurityLogRepository.GetListAsync(
-            input.Sorting ?? nameof(IdentitySecurityLog.CreationTime) + " desc",
-            input.MaxResultCount,
-            input.SkipCount,
-            input.StartTime,
-            input.EndTime,
-            input.ApplicationName,
-            input.Identity,
-            input.Action,
-            input.UserId,
-            input.UserName,
-            input.ClientId,
-            input.CorrelationId);
+            sorting: input.Sorting ?? nameof(IdentitySecurityLog.CreationTime) + " desc",
+            maxResultCount: input.MaxResultCount,
+            skipCount: input.SkipCount,
+            startTime: input.StartTime,
+            endTime: input.EndTime,
+            applicationName: input.ApplicationName,
+            identity: input.Identity,
+            action: input.Action,
+            userId: input.UserId,
+            userName: input.UserName,
+            clientId: input.ClientId,
+            correlationId: input.CorrelationId,
+            clientIpAddress: input.ClientIpAddress);
 
         return new PagedResultDto<IdentitySecurityLogsDto>(count, ObjectMapper.Map<List<IdentitySecurityLog>, List<IdentitySecurityLogsDto>>(list));
     }
