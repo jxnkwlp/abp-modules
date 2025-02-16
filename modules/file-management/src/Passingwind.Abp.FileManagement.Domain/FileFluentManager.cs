@@ -13,10 +13,10 @@ public class FileFluentManager : IFileFluentManager, IScopedDependency
 {
     protected ILogger<FileFluentManager> Logger { get; }
     protected IFileItemRepository FileRepository { get; }
-    protected IFileManager FileManager { get; }
+    protected IFileItemManager FileManager { get; }
     protected IFileContainerRepository FileContainerRepository { get; }
 
-    public FileFluentManager(ILogger<FileFluentManager> logger, IFileItemRepository fileRepository, IFileManager fileManager, IFileContainerRepository fileContainerRepository)
+    public FileFluentManager(ILogger<FileFluentManager> logger, IFileItemRepository fileRepository, IFileItemManager fileManager, IFileContainerRepository fileContainerRepository)
     {
         Logger = logger;
         FileRepository = fileRepository;

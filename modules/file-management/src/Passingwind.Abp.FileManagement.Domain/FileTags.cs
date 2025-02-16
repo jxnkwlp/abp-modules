@@ -6,7 +6,9 @@ namespace Passingwind.Abp.FileManagement;
 public class FileTags : Entity
 {
     public Guid FileId { get; set; }
+
     public string Name { get; set; } = null!;
+    public string? Value { get; set; }
 
     public override object[] GetKeys()
     {

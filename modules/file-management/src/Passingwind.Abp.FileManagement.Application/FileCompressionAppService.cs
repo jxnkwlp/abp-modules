@@ -17,13 +17,13 @@ namespace Passingwind.Abp.FileManagement;
 public class FileCompressionAppService : FileManagementAppService, IFileCompressionAppService
 {
     private readonly IFileItemRepository _fileRepository;
-    private readonly IFileManager _fileManager;
+    private readonly IFileItemManager _fileManager;
     private readonly FileContainerManager _fileContainerManager;
     private readonly IFileCompressionProvider _fileCompressionProvider;
     private readonly IFileMimeTypeProvider _fileMimeTypeProvider;
     private readonly IFileRenameProvider _fileRenameProvider;
 
-    public FileCompressionAppService(IFileItemRepository fileRepository, IFileManager fileManager, FileContainerManager fileContainerManager, IFileCompressionProvider fileCompressionProvider, IFileMimeTypeProvider fileMimeTypeProvider, IFileRenameProvider fileRenameProvider)
+    public FileCompressionAppService(IFileItemRepository fileRepository, IFileItemManager fileManager, FileContainerManager fileContainerManager, IFileCompressionProvider fileCompressionProvider, IFileMimeTypeProvider fileMimeTypeProvider, IFileRenameProvider fileRenameProvider)
     {
         _fileRepository = fileRepository;
         _fileManager = fileManager;

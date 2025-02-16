@@ -59,7 +59,8 @@ public static class FileManagementDbContextModelCreatingExtensions
                 b.ToTable(FileManagementDbProperties.DbTablePrefix + "FileTags", FileManagementDbProperties.DbSchema);
                 b.ConfigureByConvention();
 
-                b.Property(x => x.Name).IsRequired().HasMaxLength(FileManagementConsts.MaxFileTagValueLength);
+                b.Property(x => x.Name).IsRequired().HasMaxLength(FileManagementConsts.MaxFileTagNameLength);
+                b.Property(x => x.Value).HasMaxLength(FileManagementConsts.MaxFileTagValueLength);
 
                 b.HasKey(x => new { x.FileId, x.Name });
             })

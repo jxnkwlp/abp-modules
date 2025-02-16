@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.Modularity;
 
@@ -12,6 +13,11 @@ public class FileManagementEntityFrameworkCoreModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        context.Services.AddAbpDbContext<FileManagementDbContext>(options => options.AddDefaultRepositories());
+        context.Services.AddAbpDbContext<FileManagementDbContext>(options =>
+        {
+            options.AddDefaultRepositories();
+            options.Entity<FileItem>(c => c.DefaultWithDetailsFunc = d => d.IncludeAll());
+            options.Entity<FileContainer>(c => c.DefaultWithDetailsFunc = d => d.Include(x => x.Accesses));
+        });
     }
 }

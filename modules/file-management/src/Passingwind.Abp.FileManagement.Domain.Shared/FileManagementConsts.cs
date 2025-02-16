@@ -13,5 +13,6 @@ public static class FileManagementConsts
 
     public static int MaxFileAccessTokenTokenLength { get; set; } = 256;
 
-    public static int MaxFileTagValueLength { get; set; } = 64;
+    public static int MaxFileTagNameLength { get; set; } = 64;
+    public static int MaxFileTagValueLength { get; set; } = 512;
 }

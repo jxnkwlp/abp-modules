@@ -1,6 +1,8 @@
-﻿namespace Passingwind.Abp.FileManagement;
+﻿using System.Collections.Generic;
+
+namespace Passingwind.Abp.FileManagement;
 
 public class FileTagsUpdateDto
 {
-    public string[]? Tags { get; set; }
+    public Dictionary<string, string?> Tags { get; set; } = null!;
 }

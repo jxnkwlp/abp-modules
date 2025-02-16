@@ -6,7 +6,7 @@ namespace Passingwind.Abp.FileManagement;
 
 public static class FileManagerExtensions
 {
-    public static async Task EnsureDirectoryExistsAsync(this IFileManager fileManager, string container, string fileName, Guid? parentId = null, CancellationToken cancellationToken = default)
+    public static async Task EnsureDirectoryExistsAsync(this IFileItemManager fileManager, string container, string fileName, Guid? parentId = null, CancellationToken cancellationToken = default)
     {
         if (!await fileManager.IsDirectoryExistsAsync(container, fileName, parentId, cancellationToken: cancellationToken))
         {
@@ -14,7 +14,7 @@ public static class FileManagerExtensions
         }
     }
 
-    public static async Task EnsureDirectoryExistsAsync(this IFileManager fileManager, Guid containerId, string fileName, Guid? parentId = null, CancellationToken cancellationToken = default)
+    public static async Task EnsureDirectoryExistsAsync(this IFileItemManager fileManager, Guid containerId, string fileName, Guid? parentId = null, CancellationToken cancellationToken = default)
     {
         if (!await fileManager.IsDirectoryExistsAsync(containerId, fileName, parentId, cancellationToken: cancellationToken))
         {

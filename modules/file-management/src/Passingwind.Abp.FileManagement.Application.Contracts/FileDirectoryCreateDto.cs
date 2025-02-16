@@ -1,10 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Volo.Abp.ObjectExtending;
 
 namespace Passingwind.Abp.FileManagement;
 
-public class FileDirectoryCreateDto : ExtensibleObject
+public class FileDirectoryCreateDto
 {
     [Required]
     [MaxLength(128)]
