@@ -212,7 +212,7 @@ public class FileAdminAppService : FileManagementAppService, IFileAdminAppServic
             await CurrentUnitOfWork!.SaveChangesAsync();
         }
 
-        input.MapExtraPropertiesTo(entity);
+        // input.MapExtraPropertiesTo(entity);
 
         entity = await FileRepository.UpdateAsync(entity!);
 
@@ -227,7 +227,7 @@ public class FileAdminAppService : FileManagementAppService, IFileAdminAppServic
 
         await CurrentUnitOfWork!.SaveChangesAsync();
 
-        extensibleObject?.MapExtraPropertiesTo(entity);
+        // extensibleObject?.MapExtraPropertiesTo(entity);
 
         await FileRepository.UpdateAsync(entity);
 

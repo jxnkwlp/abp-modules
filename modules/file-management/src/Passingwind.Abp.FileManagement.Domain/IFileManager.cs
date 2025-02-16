@@ -139,19 +139,19 @@ public interface IFileItemManager : IDomainService
     /// <summary>
     ///  Save an file from stream and return the file record infomartion
     /// </summary>
-    Task<FileItem> SaveAsync(string container, string fileName, Stream stream, string? mimeType = null, Guid? parentId = null, bool ignoreCheck = false, bool overrideExisting = false, CancellationToken cancellationToken = default);
+    Task<FileItem> SaveAsync(string container, string fileName, Stream stream, string? mimeType = null, Guid? parentId = null, bool ignoreCheck = false, bool overrideExisting = false, Dictionary<string, string?>? tags = null, CancellationToken cancellationToken = default);
     /// <summary>
     ///  Save an file from bytes and return the file record infomartion
     /// </summary>
-    Task<FileItem> SaveAsync(string container, string fileName, byte[] bytes, string? mimeType = null, Guid? parentId = null, bool ignoreCheck = false, bool overrideExisting = false, CancellationToken cancellationToken = default);
+    Task<FileItem> SaveAsync(string container, string fileName, byte[] bytes, string? mimeType = null, Guid? parentId = null, bool ignoreCheck = false, bool overrideExisting = false, Dictionary<string, string?>? tags = null, CancellationToken cancellationToken = default);
     /// <summary>
     ///  Save an file from stream and return the file record infomartion
     /// </summary>
-    Task<FileItem> SaveAsync(Guid containerId, string fileName, Stream stream, string? mimeType = null, Guid? parentId = null, bool ignoreCheck = false, bool overrideExisting = false, CancellationToken cancellationToken = default);
+    Task<FileItem> SaveAsync(Guid containerId, string fileName, Stream stream, string? mimeType = null, Guid? parentId = null, bool ignoreCheck = false, bool overrideExisting = false, Dictionary<string, string?>? tags = null, CancellationToken cancellationToken = default);
     /// <summary>
     ///  Save an file from bytes and return the file record infomartion
     /// </summary>
-    Task<FileItem> SaveAsync(Guid containerId, string fileName, byte[] bytes, string? mimeType = null, Guid? parentId = null, bool ignoreCheck = false, bool overrideExisting = false, CancellationToken cancellationToken = default);
+    Task<FileItem> SaveAsync(Guid containerId, string fileName, byte[] bytes, string? mimeType = null, Guid? parentId = null, bool ignoreCheck = false, bool overrideExisting = false, Dictionary<string, string?>? tags = null, CancellationToken cancellationToken = default);
 
     #endregion Save
 

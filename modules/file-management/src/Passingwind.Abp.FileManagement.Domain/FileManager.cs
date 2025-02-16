@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -12,13 +13,14 @@ using Volo.Abp.BlobStoring;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Services;
+using Volo.Abp.Uow;
 
 namespace Passingwind.Abp.FileManagement;
 
 [Obsolete]
 public class FileManager : FileItemManager, IFileManager, IScopedDependency
 {
-    public FileManager(IOptions<FileManagementOptions> fileManagementOptions, IFileItemRepository fileRepository, IFileContainerRepository fileContainerRepository, IBlobContainerFactory blobContainerFactor, IFileBlobNameGenerator fileBlobNameGenerator, IFileHashCalculator fileHashCalculator, IFileMimeTypeProvider fileMimeTypeProvider, IFileUniqueIdGenerator fileUniqueIdGenerator, IFileBlobContainerProvider fileBlobContainerProvider, IFileInfoCheckProvider fileInfoCheckProvider, IFileRenameProvider fileRenameProvider, IFileAccessTokenRepository fileAccessTokenRepository) : base(fileManagementOptions, fileRepository, fileContainerRepository, blobContainerFactor, fileBlobNameGenerator, fileHashCalculator, fileMimeTypeProvider, fileUniqueIdGenerator, fileBlobContainerProvider, fileInfoCheckProvider, fileRenameProvider, fileAccessTokenRepository)
+    public FileManager(IOptions<FileManagementOptions> fileManagementOptions, IFileItemRepository fileRepository, IFileContainerRepository fileContainerRepository, IBlobContainerFactory blobContainerFactor, IFileBlobNameGenerator fileBlobNameGenerator, IFileHashCalculator fileHashCalculator, IFileMimeTypeProvider fileMimeTypeProvider, IFileUniqueIdGenerator fileUniqueIdGenerator, IFileBlobContainerProvider fileBlobContainerProvider, IFileInfoCheckProvider fileInfoCheckProvider, IFileRenameProvider fileRenameProvider, IFileAccessTokenRepository fileAccessTokenRepository, IUnitOfWorkManager unitOfWorkManager) : base(fileManagementOptions, fileRepository, fileContainerRepository, blobContainerFactor, fileBlobNameGenerator, fileHashCalculator, fileMimeTypeProvider, fileUniqueIdGenerator, fileBlobContainerProvider, fileInfoCheckProvider, fileRenameProvider, fileAccessTokenRepository, unitOfWorkManager)
     {
     }
 }
@@ -38,6 +40,7 @@ public class FileItemManager : DomainService, IFileItemManager
     protected IFileRenameProvider FileRenameProvider { get; }
     protected IFileItemRepository FileRepository { get; }
     protected IFileUniqueIdGenerator FileUniqueIdGenerator { get; }
+    protected IUnitOfWorkManager UnitOfWorkManager { get; }
 
     public FileItemManager(
         IOptions<FileManagementOptions> fileManagementOptions,
@@ -51,7 +54,8 @@ public class FileItemManager : DomainService, IFileItemManager
         IFileBlobContainerProvider fileBlobContainerProvider,
         IFileInfoCheckProvider fileInfoCheckProvider,
         IFileRenameProvider fileRenameProvider,
-        IFileAccessTokenRepository fileAccessTokenRepository)
+        IFileAccessTokenRepository fileAccessTokenRepository,
+        IUnitOfWorkManager unitOfWorkManager)
     {
         FileManagementOptions = fileManagementOptions.Value;
         FileRepository = fileRepository;
@@ -65,6 +69,7 @@ public class FileItemManager : DomainService, IFileItemManager
         FileInfoCheckProvider = fileInfoCheckProvider;
         FileRenameProvider = fileRenameProvider;
         FileAccessTokenRepository = fileAccessTokenRepository;
+        UnitOfWorkManager = unitOfWorkManager;
     }
 
     #region Find & Get
@@ -552,7 +557,7 @@ public class FileItemManager : DomainService, IFileItemManager
 
     #region Save
 
-    public virtual async Task<FileItem> SaveAsync(string container, string fileName, Stream stream, string? mimeType = null, Guid? parentId = null, bool ignoreCheck = false, bool overrideExisting = false, CancellationToken cancellationToken = default)
+    public virtual async Task<FileItem> SaveAsync(string container, string fileName, Stream stream, string? mimeType = null, Guid? parentId = null, bool ignoreCheck = false, bool overrideExisting = false, Dictionary<string, string?>? tags = null, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrEmpty(container))
         {
@@ -584,10 +589,11 @@ public class FileItemManager : DomainService, IFileItemManager
             parentId: parentId,
             ignoreCheck: ignoreCheck,
             overrideExisting: overrideExisting,
+            tags: tags,
             cancellationToken: cancellationToken);
     }
 
-    public virtual async Task<FileItem> SaveAsync(string container, string fileName, byte[] bytes, string? mimeType = null, Guid? parentId = null, bool ignoreCheck = false, bool overrideExisting = false, CancellationToken cancellationToken = default)
+    public virtual async Task<FileItem> SaveAsync(string container, string fileName, byte[] bytes, string? mimeType = null, Guid? parentId = null, bool ignoreCheck = false, bool overrideExisting = false, Dictionary<string, string?>? tags = null, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrEmpty(container))
         {
@@ -614,10 +620,11 @@ public class FileItemManager : DomainService, IFileItemManager
             parentId: parentId,
             ignoreCheck: ignoreCheck,
             overrideExisting: overrideExisting,
+            tags: tags,
             cancellationToken: cancellationToken);
     }
 
-    public virtual async Task<FileItem> SaveAsync(Guid containerId, string fileName, Stream stream, string? mimeType = null, Guid? parentId = null, bool ignoreCheck = false, bool overrideExisting = false, CancellationToken cancellationToken = default)
+    public virtual async Task<FileItem> SaveAsync(Guid containerId, string fileName, Stream stream, string? mimeType = null, Guid? parentId = null, bool ignoreCheck = false, bool overrideExisting = false, Dictionary<string, string?>? tags = null, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrEmpty(fileName))
         {
@@ -644,10 +651,11 @@ public class FileItemManager : DomainService, IFileItemManager
             parentId: parentId,
             ignoreCheck: ignoreCheck,
             overrideExisting: overrideExisting,
+            tags: tags,
             cancellationToken: cancellationToken);
     }
 
-    public virtual async Task<FileItem> SaveAsync(Guid containerId, string fileName, byte[] bytes, string? mimeType = null, Guid? parentId = null, bool ignoreCheck = false, bool overrideExisting = false, CancellationToken cancellationToken = default)
+    public virtual async Task<FileItem> SaveAsync(Guid containerId, string fileName, byte[] bytes, string? mimeType = null, Guid? parentId = null, bool ignoreCheck = false, bool overrideExisting = false, Dictionary<string, string?>? tags = null, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrEmpty(fileName))
         {
@@ -669,10 +677,11 @@ public class FileItemManager : DomainService, IFileItemManager
             parentId: parentId,
             ignoreCheck: ignoreCheck,
             overrideExisting: overrideExisting,
+            tags: tags,
             cancellationToken: cancellationToken);
     }
 
-    protected virtual async Task<FileItem> SaveAsync(FileContainer fileContainer, string fileName, byte[] bytes, string? mimeType = null, Guid? parentId = null, bool ignoreCheck = false, bool overrideExisting = false, CancellationToken cancellationToken = default)
+    protected virtual async Task<FileItem> SaveAsync(FileContainer fileContainer, string fileName, byte[] bytes, string? mimeType = null, Guid? parentId = null, bool ignoreCheck = false, bool overrideExisting = false, Dictionary<string, string?>? tags = null, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrEmpty(fileName))
         {
@@ -689,91 +698,102 @@ public class FileItemManager : DomainService, IFileItemManager
             throw new BusinessException(FileManagementErrorCodes.FileNameInvalid);
         }
 
-        var blobContainer = await FileBlobContainerProvider.GetAsync(fileContainer, cancellationToken);
-
-        string dirPath = "/";
-        if (parentId.HasValue && parentId.Value != Guid.Empty)
+        using (var uow = UnitOfWorkManager.Begin(requiresNew: true, true, isolationLevel: IsolationLevel.ReadCommitted))
         {
-            var parent = await FileRepository.GetAsync(parentId.Value, cancellationToken: cancellationToken);
-            dirPath = parent.Path.FullPath;
-        }
-        else
-        {
-            parentId = Guid.Empty;
-        }
+            var blobContainer = await FileBlobContainerProvider.GetAsync(fileContainer, cancellationToken);
 
-        var fileExists = await FileRepository.IsFileNameExistsAsync(
-            containerId: fileContainer.Id,
-            fileName: fileName,
-            parentId: parentId,
-            isDirectory: false,
-            cancellationToken: cancellationToken);
-
-        if (fileContainer.OverrideBehavior == FileOverrideBehavior.Override)
-        {
-            overrideExisting = true;
-        }
-        else if (fileContainer.OverrideBehavior == FileOverrideBehavior.Rename)
-        {
-            fileName = await FileRenameProvider.RenameAsync(fileContainer, fileName, parentId, isDirectory: false, cancellationToken: cancellationToken);
-            fileExists = false;
-        }
-
-        if (!overrideExisting && fileExists && fileContainer.OverrideBehavior == FileOverrideBehavior.None)
-        {
-            throw new BusinessException(FileManagementErrorCodes.FileExists);
-        }
-
-        var length = bytes.Length < 1024 ? 1 : bytes.Length / 1024; // KB
-        var hash = await FileHashCalculator.GetAsync(bytes, cancellationToken);
-
-        FileItem entity;
-        if (fileExists)
-        {
-            entity = await FileRepository.GetByNameAsync(fileContainer.Id, fileName, parentId, false, cancellationToken);
-            entity.SetLength(length)
-                .SetHash(hash);
-
-            await FileRepository.UpdateAsync(entity, true, cancellationToken: cancellationToken);
-        }
-        else
-        {
-            var fileId = GuidGenerator.Create();
-            var uniqueId = await FileUniqueIdGenerator.CreateAsync(fileContainer.Id, fileId, fileName, true, cancellationToken);
-            var blobName = await FileBlobNameGenerator.CreateAsync(fileContainer.Id, fileId, uniqueId, fileName, cancellationToken: cancellationToken);
-
-            if (string.IsNullOrWhiteSpace(mimeType))
+            string dirPath = "/";
+            if (parentId.HasValue && parentId.Value != Guid.Empty)
             {
-                mimeType = FileMimeTypeProvider.Get(fileName);
+                var parent = await FileRepository.GetAsync(parentId.Value, cancellationToken: cancellationToken);
+                dirPath = parent.Path.FullPath;
+            }
+            else
+            {
+                parentId = Guid.Empty;
             }
 
-            if (!ignoreCheck)
+            var fileExists = await FileRepository.IsFileNameExistsAsync(
+                containerId: fileContainer.Id,
+                fileName: fileName,
+                parentId: parentId,
+                isDirectory: false,
+                cancellationToken: cancellationToken);
+
+            if (fileContainer.OverrideBehavior == FileOverrideBehavior.Override)
             {
-                await FileInfoCheckProvider.CheckAsync(fileContainer, fileName, mimeType!, length, cancellationToken: cancellationToken);
+                overrideExisting = true;
+            }
+            else if (fileContainer.OverrideBehavior == FileOverrideBehavior.Rename)
+            {
+                fileName = await FileRenameProvider.RenameAsync(fileContainer, fileName, parentId, isDirectory: false, cancellationToken: cancellationToken);
+                fileExists = false;
             }
 
-            entity = new FileItem(
-                  fileId,
-                  fileContainer.Id,
-                  isDirectory: false,
-                  fileName: fileName,
-                  blobName: blobName,
-                  parentId: parentId ?? Guid.Empty,
-                  mimeType: mimeType,
-                  length: length,
-                  hash: hash,
-                  uniqueId: uniqueId,
-                  tenantId: CurrentTenant.Id);
+            if (!overrideExisting && fileExists && fileContainer.OverrideBehavior == FileOverrideBehavior.None)
+            {
+                throw new BusinessException(FileManagementErrorCodes.FileExists);
+            }
 
-            entity.SetFullPath(dirPath + fileName);
+            var length = bytes.Length < 1024 ? 1 : bytes.Length / 1024; // KB
+            var hash = await FileHashCalculator.GetAsync(bytes, cancellationToken);
 
-            await FileRepository.InsertAsync(entity, true, cancellationToken: cancellationToken);
+            FileItem entity;
+            if (fileExists)
+            {
+                entity = await FileRepository.GetByNameAsync(containerId: fileContainer.Id, fileName: fileName, parentId: parentId, isDirectory: false, cancellationToken: cancellationToken);
+                entity.SetLength(length)
+                    .SetHash(hash);
+
+                if (tags != null)
+                    entity.AddTags(tags);
+
+                await FileRepository.UpdateAsync(entity, true, cancellationToken: cancellationToken);
+            }
+            else
+            {
+                var fileId = GuidGenerator.Create();
+                var uniqueId = await FileUniqueIdGenerator.CreateAsync(fileContainer.Id, fileId, fileName, true, cancellationToken);
+                var blobName = await FileBlobNameGenerator.CreateAsync(fileContainer.Id, fileId, uniqueId, fileName, cancellationToken: cancellationToken);
+
+                if (string.IsNullOrWhiteSpace(mimeType))
+                {
+                    mimeType = FileMimeTypeProvider.Get(fileName);
+                }
+
+                if (!ignoreCheck)
+                {
+                    await FileInfoCheckProvider.CheckAsync(fileContainer, fileName, mimeType!, length, cancellationToken: cancellationToken);
+                }
+
+                entity = new FileItem(
+                      fileId,
+                      fileContainer.Id,
+                      isDirectory: false,
+                      fileName: fileName,
+                      blobName: blobName,
+                      parentId: parentId ?? Guid.Empty,
+                      mimeType: mimeType,
+                      length: length,
+                      hash: hash,
+                      uniqueId: uniqueId,
+                      tenantId: CurrentTenant.Id);
+
+                if (tags != null)
+                    entity.AddTags(tags);
+
+                entity.SetFullPath(dirPath + fileName);
+
+                await FileRepository.InsertAsync(entity, true, cancellationToken: cancellationToken);
+            }
+
+            // save blob
+            await blobContainer.SaveAsync(entity.BlobName, bytes, true, cancellationToken: cancellationToken);
+
+            await uow.CompleteAsync();
+
+            return entity;
         }
-
-        // save blob
-        await blobContainer.SaveAsync(entity.BlobName, bytes, true, cancellationToken: cancellationToken);
-
-        return entity;
     }
 
     #endregion Save
@@ -909,14 +929,13 @@ public class FileItemManager : DomainService, IFileItemManager
 
         file.SetFileName(name);
 
-        // await RefreshFullPathAsync(file);
-        var fullPath = file.Path.FullPath.TrimEnd('/');
-        fullPath = fullPath.Substring(0, fullPath.LastIndexOf("/")) + name;
-        if (file.IsDirectory)
-            fullPath += "/";
-        file.SetFullPath(fullPath);
-
         await FileRepository.UpdateAsync(file, true, cancellationToken: cancellationToken);
+
+        await UnitOfWorkManager.Current!.SaveChangesAsync();
+
+        await RefreshFullPathAsync(file.Id, cancellationToken);
+
+        await UnitOfWorkManager.Current!.SaveChangesAsync();
 
         return file;
     }

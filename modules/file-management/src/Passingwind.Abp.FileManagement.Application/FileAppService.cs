@@ -216,7 +216,7 @@ public class FileAppService : FileManagementAppService, IFileAppService
             await CurrentUnitOfWork!.SaveChangesAsync();
         }
 
-        input.MapExtraPropertiesTo(entity);
+        // input.MapExtraPropertiesTo(entity);
 
         entity = await FileRepository.UpdateAsync(entity);
 

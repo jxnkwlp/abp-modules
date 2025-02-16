@@ -56,25 +56,28 @@ public class DefaultFileRenameProvider : IFileRenameProvider, ITransientDependen
 
         bool fileExists = false;
 
-        do
+        using (FileRepository.DisableTracking())
         {
-            fileExists = await FileRepository.IsFileNameExistsAsync(containerId: container.Id, fileName: fileName, parentId: parentId, isDirectory: false, cancellationToken: cancellationToken);
-
-            if (!fileExists)
+            do
             {
-                break;
-            }
+                fileExists = await FileRepository.IsFileNameExistsAsync(containerId: container.Id, fileName: fileName, parentId: parentId, isDirectory: false, cancellationToken: cancellationToken);
 
-            name = $"{name} - renamed";
+                if (!fileExists)
+                {
+                    break;
+                }
 
-            var count = await FileRepository.CountAsync(x => x.ContainerId == container.Id
-                && x.IsDirectory == isDirectory
-                && x.ParentId == parentId
-                && x.FileName.StartsWith(name), cancellationToken: cancellationToken);
+                name = $"{name} - renamed";
 
-            fileName = $"{name}({count + 1}){ext}";
-        } while (fileExists);
+                var count = await FileRepository.CountAsync(x => x.ContainerId == container.Id
+                    && x.IsDirectory == isDirectory
+                    && x.ParentId == parentId
+                    && x.FileName.StartsWith(name), cancellationToken: cancellationToken);
 
-        return fileName;
+                fileName = $"{name}({count + 1}){ext}";
+            } while (fileExists);
+
+            return fileName;
+        }
     }
 }
