@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>$(Tfw)</TargetFramework>
+    <RootNamespace>Passingwind.Abp.AspNetCore.Mvc</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.Contracts" Version="$(MicrosoftPackageVersion)" />
+  </ItemGroup>
+
+</Project>

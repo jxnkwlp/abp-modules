@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Volo.Abp.Auditing;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
@@ -66,56 +67,116 @@ public class FileItem : FullAuditedAggregateRoot<Guid>, IMultiTenant, IHasEntity
         TenantId = tenantId;
     }
 
-    public void SetFileName(string fileName)
+    public FileItem SetFileName(string fileName)
     {
         if (FileName == fileName)
         {
-            return;
+            return this;
         }
 
         var oldName = FileName;
         FileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
 
         AddDistributedEvent(new FileNameChangedEvent(Id, ContainerId, ParentId, IsDirectory, UniqueId, fileName, oldName, TenantId));
+
+        return this;
     }
 
-    public void ChangeContainerId(Guid value)
+    public FileItem ChangeContainerId(Guid value)
     {
         ContainerId = value;
+        return this;
     }
 
-    public void ChangeParentId(Guid parentId)
+    public FileItem ChangeParentId(Guid parentId)
     {
         ParentId = parentId;
+        return this;
     }
 
-    public void SetMimeType(string mimeType)
+    public FileItem SetMimeType(string mimeType)
     {
         MimeType = mimeType;
+        return this;
     }
 
-    public void SetLength(long length)
+    public FileItem SetLength(long length)
     {
         Length = length;
+        return this;
     }
 
-    public void SetUniqueId(string uniqueId)
+    public FileItem SetUniqueId(string uniqueId)
     {
         UniqueId = uniqueId;
+        return this;
     }
 
-    public void SetHash(string hash)
+    public FileItem SetHash(string hash)
     {
         Hash = hash;
+        return this;
     }
 
-    public void AddTags(params string[] tags)
+    public FileItem AddTags(Dictionary<string, string?> tags)
     {
         foreach (var item in tags)
         {
-            Tags.AddIfNotContains(x => x.Name == item, () => new FileTags() { Name = item });
+            Tags.AddIfNotContains(x => x.Name == item.Key, () => new FileTags() { Name = item.Key, Value = item.Value });
         }
+        return this;
     }
 
-    public void SetFullPath(string value) => Path = new FilePath(Id, value);
+    public FileItem SetTags(Dictionary<string, string?> tags)
+    {
+        foreach (var item in tags)
+        {
+            if (Tags.Any(x => x.Name == item.Key))
+            {
+                Tags.First(x => x.Name == item.Key).Value = item.Value;
+            }
+            else
+            {
+                Tags.AddIfNotContains(x => x.Name == item.Key, () => new FileTags() { Name = item.Key, Value = item.Value });
+            }
+        }
+        return this;
+    }
+
+    public FileItem AddTag(string name, string? value)
+    {
+        Tags.AddIfNotContains(x => x.Name == name, () => new FileTags() { Name = name, Value = value });
+        return this;
+    }
+
+    public FileItem SetTag(string name, string? value)
+    {
+        if (Tags.Any(x => x.Name == name))
+        {
+            Tags.First(x => x.Name == name).Value = value;
+        }
+        else
+        {
+            AddTag(name, value);
+        }
+        return this;
+    }
+
+    public string? GetTag(string name)
+    {
+        return Tags.Find(x => x.Name == name)?.Value;
+    }
+
+    public FileItem ClearTags()
+    {
+        Tags.Clear();
+
+        return this;
+    }
+
+    public FileItem SetFullPath(string value)
+    {
+        Path = new FilePath(Id, value);
+        return this;
+    }
 }

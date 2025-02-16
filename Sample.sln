@@ -201,6 +201,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Passingwind.Abp.AuditLoggin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Passingwind.Abp.AuditLogging.HttpApi", "modules\audit-logging\src\Passingwind.Abp.AuditLogging.HttpApi\Passingwind.Abp.AuditLogging.HttpApi.csproj", "{61E4167C-DE63-4749-AED8-D2B41011799F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Passingwind.Abp.AspNetCore.Mvc.Contracts", "framework\src\Passingwind.Abp.AspNetCore.Mvc.Contracts\Passingwind.Abp.AspNetCore.Mvc.Contracts.csproj", "{DF6E53A6-8B21-AE0A-7F52-2C24613C4716}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Passingwind.Abp.AspNetCore.Mvc", "framework\src\Passingwind.Abp.AspNetCore.Mvc\Passingwind.Abp.AspNetCore.Mvc.csproj", "{DAD3E950-1E04-5DE5-0929-8F388C640D16}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -523,6 +529,14 @@ Global
 		{61E4167C-DE63-4749-AED8-D2B41011799F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61E4167C-DE63-4749-AED8-D2B41011799F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61E4167C-DE63-4749-AED8-D2B41011799F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF6E53A6-8B21-AE0A-7F52-2C24613C4716}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF6E53A6-8B21-AE0A-7F52-2C24613C4716}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF6E53A6-8B21-AE0A-7F52-2C24613C4716}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF6E53A6-8B21-AE0A-7F52-2C24613C4716}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAD3E950-1E04-5DE5-0929-8F388C640D16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAD3E950-1E04-5DE5-0929-8F388C640D16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAD3E950-1E04-5DE5-0929-8F388C640D16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAD3E950-1E04-5DE5-0929-8F388C640D16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -624,6 +638,9 @@ Global
 		{D19B5383-BDA1-4FBC-A9EB-A329F823F077} = {2567C22F-1B70-4D19-83EE-CF6AA99A4554}
 		{CD71C1AF-8934-417F-B587-62546096E3D0} = {2567C22F-1B70-4D19-83EE-CF6AA99A4554}
 		{61E4167C-DE63-4749-AED8-D2B41011799F} = {2567C22F-1B70-4D19-83EE-CF6AA99A4554}
+		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {AB54C52B-9250-4939-93E2-CCBBEC172AAA}
+		{DF6E53A6-8B21-AE0A-7F52-2C24613C4716} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{DAD3E950-1E04-5DE5-0929-8F388C640D16} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}

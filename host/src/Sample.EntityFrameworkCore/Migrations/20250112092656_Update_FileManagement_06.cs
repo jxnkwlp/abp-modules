@@ -12,10 +12,16 @@ public partial class Update_FileManagement_06 : Migration
     protected override void Up(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.DropTable(
+            name: "FmFileContainerAccesses");
+
+        migrationBuilder.DropTable(
             name: "FmFileAccessTokens");
 
         migrationBuilder.DropTable(
             name: "FmFileContainers");
+
+        migrationBuilder.DropTable(
+            name: "FmFileTags");
 
         migrationBuilder.DropTable(
             name: "FmFiles");

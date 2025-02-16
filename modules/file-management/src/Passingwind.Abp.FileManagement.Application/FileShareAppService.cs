@@ -15,7 +15,7 @@ namespace Passingwind.Abp.FileManagement;
 [Authorize]
 public class FileShareAppService : FileManagementAppService, IFileShareAppService
 {
-    protected IFileManager FileManager { get; }
+    protected IFileItemManager FileManager { get; }
     protected IFileItemRepository FileRepository { get; }
     protected IFileContainerRepository FileContainerRepository { get; }
     protected IFileAccessTokenProvider FileAccessTokenProvider { get; }
@@ -23,7 +23,7 @@ public class FileShareAppService : FileManagementAppService, IFileShareAppServic
     protected FileManagementOptions FileManagementOptions { get; }
 
     public FileShareAppService(
-        IFileManager fileManager,
+        IFileItemManager fileManager,
         IFileItemRepository fileRepository,
         IFileContainerRepository fileContainerRepository,
         IFileAccessTokenProvider fileAccessTokenProvider,

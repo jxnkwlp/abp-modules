@@ -14,14 +14,14 @@ public class FileManagementDataSeedContributor : IDataSeedContributor, ITransien
     private readonly IGuidGenerator _guidGenerator;
     private readonly IFileContainerRepository _fileContainerRepository;
     private readonly IFileItemRepository _fileRepository;
-    private readonly IFileManager _fileManager;
+    private readonly IFileItemManager _fileManager;
 
     public FileManagementDataSeedContributor(
         ILogger<FileManagementDataSeedContributor> logger,
         IGuidGenerator guidGenerator,
         IFileContainerRepository fileContainerRepository,
         IFileItemRepository fileRepository,
-        IFileManager fileManager)
+        IFileItemManager fileManager)
     {
         _logger = logger;
         _guidGenerator = guidGenerator;

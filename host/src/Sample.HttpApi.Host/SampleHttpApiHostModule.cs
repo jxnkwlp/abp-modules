@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -39,6 +39,7 @@ using Volo.Abp.Modularity;
 using Volo.Abp.OpenIddict;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.UI.Navigation.Urls;
+using Volo.Abp.Uow;
 using Volo.Abp.VirtualFileSystem;
 
 namespace Sample;
@@ -118,6 +119,23 @@ public class SampleHttpApiHostModule : AbpModule
         Configure<AbpAntiForgeryOptions>(options => options.TokenCookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Lax);
 
         Configure<AbpMvcLibsOptions>(options => options.CheckLibs = false);
+        
+        Configure<AbpUnitOfWorkDefaultOptions>(options =>
+        {
+            options.TransactionBehavior = UnitOfWorkTransactionBehavior.Auto;
+            // options.IsolationLevel = System.Data.IsolationLevel.ReadUncommitted;
+        });
+
+        Configure<AbpBlobStoringOptions>(options =>
+        {
+            options.Containers.ConfigureDefault(container =>
+            {
+                container.UseFileSystem(fileSystem =>
+                {
+                    fileSystem.BasePath = "./tmp/";
+                });
+            });
+        });
     }
 
     private void ConfigureAuthentication(ServiceConfigurationContext context)
