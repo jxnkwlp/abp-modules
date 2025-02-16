@@ -1,0 +1,6 @@
+﻿<Project>
+
+  <Import Project="..\modules\common.props" />
+
+  
+</Project>
