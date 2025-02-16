@@ -4,8 +4,8 @@
     <Nullable>enable</Nullable>
     <Tfw>net9.0</Tfw>
     <MicrosoftPackageVersion>9.0.0</MicrosoftPackageVersion>
-    <AbpVersion>9.0.0</AbpVersion>
-    <ModuleVersion>1.6.3-4</ModuleVersion>
+    <AbpVersion>9.0.5</AbpVersion>
+    <ModuleVersion>1.6.2</ModuleVersion>
   </PropertyGroup>
 
 </Project>
