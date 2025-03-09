@@ -746,9 +746,9 @@ public class FileItemManager : DomainService, IFileItemManager
                     .SetHash(hash);
 
                 if (tags != null)
-                    entity.AddTags(tags);
+                    entity.SetTags(tags);
 
-                await FileRepository.UpdateAsync(entity, true, cancellationToken: cancellationToken);
+                await FileRepository.UpdateAsync(entity, cancellationToken: cancellationToken);
             }
             else
             {
@@ -756,14 +756,14 @@ public class FileItemManager : DomainService, IFileItemManager
                 var uniqueId = await FileUniqueIdGenerator.CreateAsync(fileContainer.Id, fileId, fileName, true, cancellationToken);
                 var blobName = await FileBlobNameGenerator.CreateAsync(fileContainer.Id, fileId, uniqueId, fileName, cancellationToken: cancellationToken);
 
-                if (string.IsNullOrWhiteSpace(mimeType))
-                {
-                    mimeType = FileMimeTypeProvider.Get(fileName);
-                }
-
                 if (!ignoreCheck)
                 {
                     await FileInfoCheckProvider.CheckAsync(fileContainer, fileName, mimeType!, length, cancellationToken: cancellationToken);
+                }
+
+                if (string.IsNullOrWhiteSpace(mimeType))
+                {
+                    mimeType = FileMimeTypeProvider.Get(fileName);
                 }
 
                 entity = new FileItem(
@@ -784,8 +784,43 @@ public class FileItemManager : DomainService, IFileItemManager
 
                 entity.SetFullPath(dirPath + fileName);
 
-                await FileRepository.InsertAsync(entity, true, cancellationToken: cancellationToken);
+                await FileRepository.InsertAsync(entity, cancellationToken: cancellationToken);
             }
+
+            // save blob
+            await blobContainer.SaveAsync(entity.BlobName, bytes, true, cancellationToken: cancellationToken);
+
+            await uow.CompleteAsync();
+
+            return entity;
+        }
+    }
+
+    public virtual async Task<FileItem> SaveAsync(Guid fileId, byte[] bytes, Dictionary<string, string?>? tags = null, CancellationToken cancellationToken = default)
+    {
+        if (bytes is null)
+        {
+            throw new ArgumentNullException(nameof(bytes));
+        }
+
+        var entity = await FileRepository.GetAsync(fileId, cancellationToken: cancellationToken);
+
+        var fileContainer = await FileContainerRepository.GetAsync(entity.ContainerId, cancellationToken: cancellationToken);
+
+        using (var uow = UnitOfWorkManager.Begin(requiresNew: true, true, isolationLevel: IsolationLevel.ReadCommitted))
+        {
+            var blobContainer = await FileBlobContainerProvider.GetAsync(fileContainer, cancellationToken);
+
+            var length = bytes.Length < 1024 ? 1 : bytes.Length / 1024; // KB
+            var hash = await FileHashCalculator.GetAsync(bytes, cancellationToken);
+
+            entity.SetLength(length)
+                .SetHash(hash);
+
+            if (tags != null)
+                entity.SetTags(tags);
+
+            await FileRepository.UpdateAsync(entity, cancellationToken: cancellationToken);
 
             // save blob
             await blobContainer.SaveAsync(entity.BlobName, bytes, true, cancellationToken: cancellationToken);
@@ -1442,4 +1477,13 @@ public class FileItemManager : DomainService, IFileItemManager
     }
 
     #endregion File name
+
+    #region Others
+
+    public Task UpdateMimeTypeAsync(Guid fileId, string mimeType, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    #endregion Others
 }
