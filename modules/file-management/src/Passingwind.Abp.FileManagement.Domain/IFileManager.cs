@@ -7,7 +7,7 @@ using Volo.Abp.Domain.Services;
 
 namespace Passingwind.Abp.FileManagement;
 
-[Obsolete]
+[Obsolete("use IFileItemManager")]
 public interface IFileManager : IFileItemManager;
 
 /// <summary>
@@ -152,6 +152,11 @@ public interface IFileItemManager : IDomainService
     ///  Save an file from bytes and return the file record infomartion
     /// </summary>
     Task<FileItem> SaveAsync(Guid containerId, string fileName, byte[] bytes, string? mimeType = null, Guid? parentId = null, bool ignoreCheck = false, bool overrideExisting = false, Dictionary<string, string?>? tags = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    ///  Override existing file
+    /// </summary>
+    Task<FileItem> SaveAsync(Guid fileId, byte[] bytes, Dictionary<string, string?>? tags = null, CancellationToken cancellationToken = default);
 
     #endregion Save
 
@@ -300,4 +305,10 @@ public interface IFileItemManager : IDomainService
     Task<bool> IsFileNameValidAsync(string fileName, CancellationToken cancellationToken = default);
 
     #endregion File name
+
+    #region Others
+
+    Task UpdateMimeTypeAsync(Guid fileId, string mimeType, CancellationToken cancellationToken = default);
+
+    #endregion Others
 }
