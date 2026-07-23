@@ -268,6 +268,8 @@ public class IdentityUserV2AppService : IdentityUserAppService, IIdentityUserV2A
         (await UserManager.SetTwoFactorEnabledAsync(entity, input.Enabled)).CheckErrors();
     }
 
+    // Must use method-level [Authorize]: ABP skips class-level Authorize on non-public (explicit interface) methods.
+    [Authorize(IdentityPermissions.Users.Default)]
     async Task<IdentityUserV2Dto?> IIdentityUserV2AppService.FindByUsernameAsync(string userName)
     {
         var entity = await UserManager.FindByNameAsync(userName);
@@ -277,6 +279,7 @@ public class IdentityUserV2AppService : IdentityUserAppService, IIdentityUserV2A
         return ObjectMapper.Map<IdentityUser, IdentityUserV2Dto>(entity);
     }
 
+    [Authorize(IdentityPermissions.Users.Default)]
     async Task<IdentityUserV2Dto?> IIdentityUserV2AppService.FindByEmailAsync(string email)
     {
         var entity = await UserManager.FindByEmailAsync(email);
@@ -286,6 +289,7 @@ public class IdentityUserV2AppService : IdentityUserAppService, IIdentityUserV2A
         return ObjectMapper.Map<IdentityUser, IdentityUserV2Dto>(entity);
     }
 
+    [Authorize(IdentityPermissions.Users.Default)]
     async Task<IdentityUserV2Dto> IReadOnlyAppService<IdentityUserV2Dto, IdentityUserV2Dto, Guid, IdentityUserPagedListRequestDto>.GetAsync(Guid id)
     {
         return ObjectMapper.Map<IdentityUser, IdentityUserV2Dto>(
