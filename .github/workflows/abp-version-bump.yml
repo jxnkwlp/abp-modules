@@ -1,0 +1,119 @@
+name: abp version bump
+
+on:
+  schedule:
+    # Every Monday at 06:00 UTC
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: abp-version-bump
+  cancel-in-progress: false
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect ABP MINOR/MAJOR update
+        id: detect
+        run: |
+          set -euo pipefail
+          OUTPUT="$(./scripts/abp-version-bump.sh --dry-run)"
+          echo "$OUTPUT"
+          # Only KEY=VALUE lines for GITHUB_OUTPUT
+          echo "$OUTPUT" | grep -E '^[A-Z_]+=.' >> "$GITHUB_OUTPUT"
+
+          HAS_UPDATE="$(echo "$OUTPUT" | awk -F= '/^HAS_UPDATE=/{print $2; exit}')"
+          if [[ "$HAS_UPDATE" != "true" ]]; then
+            echo "No ABP MINOR/MAJOR update available."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Skip if branch or PR already exists
+        id: existing
+        if: steps.detect.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: ${{ steps.detect.outputs.BRANCH }}
+        run: |
+          set -euo pipefail
+          if git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null 2>&1; then
+            echo "Remote branch ${BRANCH} already exists; skipping."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if gh pr list --state open --head "$BRANCH" --json number --jq 'length' | grep -qv '^0$'; then
+            echo "Open PR for ${BRANCH} already exists; skipping."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+
+      - name: Apply version bump
+        if: steps.detect.outputs.skip != 'true' && steps.existing.outputs.skip != 'true'
+        run: ./scripts/abp-version-bump.sh
+
+      - name: Create pull request
+        if: steps.detect.outputs.skip != 'true' && steps.existing.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: ${{ steps.detect.outputs.BRANCH }}
+          CURRENT_ABP: ${{ steps.detect.outputs.CURRENT_ABP }}
+          TARGET_ABP: ${{ steps.detect.outputs.TARGET_ABP }}
+          CURRENT_MODULE_VERSION: ${{ steps.detect.outputs.CURRENT_MODULE_VERSION }}
+          NEW_MODULE_VERSION: ${{ steps.detect.outputs.NEW_MODULE_VERSION }}
+          BUMP_KIND: ${{ steps.detect.outputs.BUMP_KIND }}
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git checkout -b "$BRANCH"
+          git add common.props host/common.props
+          git commit -m "chore: bump ABP to ${TARGET_ABP} and module to ${NEW_MODULE_VERSION}"
+          git push -u origin "$BRANCH"
+
+          MAJOR_NOTE=""
+          if [[ "$BUMP_KIND" == "major" ]]; then
+            MAJOR_NOTE=$'\n> **Major upgrade:** review TFM (`Tfw`), `MicrosoftPackageVersion`, and breaking ABP API changes before merge.\n'
+          fi
+
+          BODY="$(cat <<EOF
+          ## ABP ${BUMP_KIND} version bump
+
+          | | From | To |
+          |---|---|---|
+          | ABP (\`AbpVersion\`) | \`${CURRENT_ABP}\` | \`${TARGET_ABP}\` |
+          | Module (\`ModuleVersion\`) | \`${CURRENT_MODULE_VERSION}\` | \`${NEW_MODULE_VERSION}\` |
+
+          - Branch: \`${BRANCH}\`
+          - Patch-only ABP updates are ignored by this automation.
+          - Host wildcard updated to \`${TARGET_ABP%.*}.*\` in \`host/common.props\`.
+          ${MAJOR_NOTE}
+          After merge, publish NuGet packages via **build and pack** (\`workflow_dispatch\` with NuGet push enabled).
+
+          ---
+          *Opened by \`.github/workflows/abp-version-bump.yml\`*
+          EOF
+          )"
+
+          # Trim leading indentation from heredoc
+          BODY="$(printf '%s\n' "$BODY" | sed 's/^          //')"
+
+          gh pr create \
+            --base "${{ github.event.repository.default_branch }}" \
+            --head "$BRANCH" \
+            --title "chore: bump ABP to ${TARGET_ABP} (module ${NEW_MODULE_VERSION})" \
+            --body "$BODY"
