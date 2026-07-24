@@ -5,7 +5,7 @@
     <Tfw>net9.0</Tfw>
     <MicrosoftPackageVersion>9.0.0</MicrosoftPackageVersion>
     <AbpVersion>9.0.5</AbpVersion>
-    <ModuleVersion>1.6.4</ModuleVersion>
+    <ModuleVersion>1.6.5</ModuleVersion>
   </PropertyGroup>
 
 </Project>
